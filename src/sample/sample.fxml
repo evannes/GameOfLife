@@ -77,25 +77,6 @@
             <Insets left="10.0" top="10.0" />
          </padding></VBox>
    </left>
-   <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="289.0" minWidth="10.0" prefWidth="227.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="447.0" minWidth="10.0" prefWidth="244.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="403.0" minWidth="10.0" prefWidth="238.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="254.0" minWidth="10.0" prefWidth="229.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="268.0" minHeight="10.0" prefHeight="194.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="418.0" minHeight="10.0" prefHeight="205.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="329.0" minHeight="10.0" prefHeight="194.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="205.0" minHeight="10.0" prefHeight="193.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Canvas height="705.0" width="943.0" GridPane.columnSpan="4" GridPane.rowSpan="4" />
-         </children>
-      </GridPane>
-   </center>
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -122,4 +103,7 @@
          </padding>
       </HBox>
    </bottom>
+   <center>
+      <Canvas height="699.0" width="939.0" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>
