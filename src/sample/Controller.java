@@ -20,6 +20,12 @@ public class Controller implements Initializable{
 
     GraphicsContext gc;
 
+
+    public void draw(){
+        gc = canvas.getGraphicsContext2D();
+        board.draw(gc);
+    }
+    /*
     private int cellSize = 100;
     // get-metode for cellsize
     private int korX = 0;
@@ -46,39 +52,20 @@ public class Controller implements Initializable{
                                 boardGrid[i][j] = 0;
 
                                 // x = kolonner, y = rad
-
-
-
-                                /*if(korX % 3 == 0){
-                                    korY += cellSize;
-                                    korX = 0;
-                                } else {
-                                    korX += cellSize;
-                                }*/
-
                             } else {
                                 gc.setFill(Color.WHITE);
                                 gc.fillRect(korX, korY, cellSize, cellSize);
                                 boardGrid[i][j] = 1;
-
-                                /*if(korX % 3 == 0){
-                                    korY += cellSize;
-                                    korX = 0;
-                                } else {
-                                    korX += cellSize;
-                                }*/
                             }
                         }
                     }
-
-
                 }
             }
         }.start();
-    }
+    }*/
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        gc = canvas.getGraphicsContext2D();
+
     }
 
 }
