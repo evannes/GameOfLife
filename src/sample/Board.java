@@ -23,7 +23,7 @@ public class Board {
     public void draw(GraphicsContext gc) {
         new AnimationTimer() {
             public void handle(long now) {
-                if ((now - tid) > 2500000000.0) {
+                if ((now - tid) > 200000000.0) {
                     for (int i = 0; i < boardGrid.length; i++) {
                         korX = i * cellSize;
                         for (int j = 0; j < boardGrid.length; j++) {
@@ -41,6 +41,7 @@ public class Board {
                             }
                         }
                     }
+                    tid = System.nanoTime();
                 }
             }
         }.start();
