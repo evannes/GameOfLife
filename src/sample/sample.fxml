@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.canvas.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <!--
@@ -18,17 +27,12 @@
    </rowConstraints>
    <children>
       <BorderPane prefHeight="500.0" prefWidth="450.0">
-         <center>
-            <Canvas id="kanvas" height="426.0" width="391.0" BorderPane.alignment="CENTER" />
-         </center>
-         <top>
-            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </top>
+
       </BorderPane>
    </children>
 </GridPane>-->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <left>
       <VBox prefHeight="800.0" prefWidth="260.0" BorderPane.alignment="CENTER">
          <children>
@@ -80,7 +84,7 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Start game" />
+            <Button fx:id="start" mnemonicParsing="false" onAction="#draw" text="Start game" />
             <Button mnemonicParsing="false" text="Pause">
                <HBox.margin>
                   <Insets left="10.0" />
@@ -104,6 +108,10 @@
       </HBox>
    </bottom>
    <center>
-      <Canvas height="699.0" width="939.0" BorderPane.alignment="CENTER" />
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <children>
+            <Canvas fx:id="canvas" height="400.0" width="400.0" BorderPane.alignment="CENTER" />
+         </children>
+      </Pane>
    </center>
 </BorderPane>
