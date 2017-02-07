@@ -32,9 +32,8 @@ public class Controller implements Initializable{
     private Slider changeCellSize;
 
     public void changeCellSize() {
-        if ((canvas.getHeight() / changeCellSize.getValue()) != (canvas.getHeight() / board.getCellSize())) {
-            board.setCellSize(canvas.getHeight() / changeCellSize.getValue());
-        }
+        gc = canvas.getGraphicsContext2D();
+        board.setCellSize(gc, changeCellSize);
     }
 
     /*
