@@ -81,7 +81,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="start" mnemonicParsing="false" onAction="#draw" text="Start game" />
-            <Button mnemonicParsing="false" text="Pause">
+            <Button mnemonicParsing="false" onAction="#pauseGame" text="Pause">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
@@ -92,7 +92,7 @@
                </HBox.margin>
             </Button>
             <Region prefHeight="100.0" prefWidth="749.0" />
-            <Button mnemonicParsing="false" text="Exit game">
+            <Button mnemonicParsing="false" onAction="#exitGame" text="Exit game">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>

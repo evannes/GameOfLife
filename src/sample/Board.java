@@ -15,25 +15,11 @@ public class Board {
     // get-metode for cellsize
     Slider slider;
 
-    protected void setCellSize(GraphicsContext gc, Slider slider) {
-        this.slider = slider;
-        slider.valueProperty().addListener(
-                (observable, oldValue, newValue) ->
-                {
-                    gc.setFill(Color.WHITE);
-                    gc.fillRect(0, 0, 400, 400);
-                    double nyCellSize = (double)newValue;
-                    cellSize = (400 / (int)nyCellSize);
-                    System.out.println(cellSize);
-                });
-    }
-
     private int korX = 0;
     private int korY = 0;
     private Color cellColor = Color.LIGHTSEAGREEN;
     private Color gridColor = Color.BLACK;
     private Color boardColor = Color.WHITE;
-
     private GraphicsContext gc;
 
 
@@ -55,8 +41,10 @@ public class Board {
                 if ((now - tid) > 200000000.0) {
                     gc.setFill(gridColor);
                     gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+
                     for (int i = 0; i < boardGrid.length; i++) {
                         korX = i * cellSize;
+
                         for (int j = 0; j < boardGrid.length; j++) {
                             korY = j * cellSize;
                             if (boardGrid[i][j] == 1) {
@@ -80,14 +68,27 @@ public class Board {
         drawTimer.start();
     }
 
-
+    protected void setCellSize(GraphicsContext gc, Slider slider) {
+        this.slider = slider;
+        slider.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                {
+                    gc.setFill(Color.WHITE);
+                    gc.fillRect(0, 0, 400, 400);
+                    double nyCellSize = (double)newValue;
+                    cellSize = (400 / (int)nyCellSize);
+                    System.out.println(cellSize);
+                });
+    }
 
     public void setCellColor(ColorPicker colorPicker){
         cellColor = colorPicker.getValue();
     }
+
     public void setGridColor(ColorPicker colorPicker) {
         gridColor = colorPicker.getValue();
     }
+
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
     }
