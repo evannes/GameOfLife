@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.*;
 
 import java.net.URL;
@@ -19,6 +20,20 @@ public class Controller implements Initializable{
     Board board = new Board();
 
     GraphicsContext gc;
+
+    @FXML
+    private ColorPicker colorPicker;
+
+    public void setCellColor(){
+        board.setCellColor(colorPicker);
+    }
+    public void setGridColor(){
+        board.setGridColor(colorPicker);
+    }
+    public void setBoardColor(){
+        board.setBoardColor(colorPicker);
+    }
+
 
 
     public void draw(){
