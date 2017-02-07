@@ -38,7 +38,7 @@ public class Controller implements Initializable{
 
     public void draw(){
         gc = canvas.getGraphicsContext2D();
-        board.draw(gc);
+        board.draw(gc, canvas);
     }
     /*
     private int cellSize = 100;
