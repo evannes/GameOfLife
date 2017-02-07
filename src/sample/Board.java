@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 
 /**
@@ -11,7 +12,22 @@ import javafx.scene.paint.Color;
  */
 public class Board {
     private int cellSize = 100;
+    Slider slider;
     // get-metode for cellsize
+
+    protected void setCellSize(GraphicsContext gc, Slider slider) {
+        this.slider = slider;
+        slider.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                {
+                    gc.setFill(Color.WHITE);
+                    gc.fillRect(0, 0, 400, 400);
+                    double nyCellSize = (double)newValue;
+                    cellSize = (400 / (int)nyCellSize);
+                    System.out.println(cellSize);
+                });
+    }
+
     private int korX = 0;
     private int korY = 0;
     private Color cellColor = Color.LIGHTSEAGREEN;
