@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.*;
 
 import java.net.URL;
@@ -25,6 +27,16 @@ public class Controller implements Initializable{
         gc = canvas.getGraphicsContext2D();
         board.draw(gc);
     }
+
+    @FXML
+    private Slider changeCellSize;
+
+    public void changeCellSize() {
+        if ((canvas.getHeight() / changeCellSize.getValue()) != (canvas.getHeight() / board.getCellSize())) {
+            board.setCellSize(canvas.getHeight() / changeCellSize.getValue());
+        }
+    }
+
     /*
     private int cellSize = 100;
     // get-metode for cellsize
@@ -67,5 +79,6 @@ public class Controller implements Initializable{
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 
     }
+
 
 }
