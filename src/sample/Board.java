@@ -12,8 +12,8 @@ import javafx.scene.paint.Color;
  */
 public class Board {
     private int cellSize = 100;
-    Slider slider;
     // get-metode for cellsize
+    Slider slider;
 
     protected void setCellSize(GraphicsContext gc, Slider slider) {
         this.slider = slider;
