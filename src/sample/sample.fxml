@@ -86,7 +86,7 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Clear board">
+            <Button mnemonicParsing="false" onAction="#clearBoard" text="Clear board">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>

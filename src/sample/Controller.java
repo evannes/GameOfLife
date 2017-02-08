@@ -19,9 +19,9 @@ public class Controller implements Initializable{
     @FXML
     private Canvas canvas;
 
-    Board board = new Board();
-
     GraphicsContext gc;
+
+    Board board = new Board(canvas);
 
     @FXML
     private ColorPicker colorPicker;
@@ -39,7 +39,7 @@ public class Controller implements Initializable{
     }
 
     public void draw(){
-        board.draw(gc, canvas);
+        board.draw(gc);
     }
 
     @FXML
@@ -49,7 +49,12 @@ public class Controller implements Initializable{
         board.setCellSize(gc, changeCellSize);
     }
 
+    public void clearBoard(){
+        board.clearBoard();
+    }
+
     public void pauseGame(){
+
         board.pauseGame();
     }
 
