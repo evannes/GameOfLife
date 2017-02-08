@@ -39,7 +39,7 @@ public class Board {
 
     public Board(Canvas canvas){
         this.canvas = canvas;
-        initBoard();
+
     }
 
     public void initBoard(){
@@ -54,7 +54,7 @@ public class Board {
     public void draw(GraphicsContext gc) {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
-
+                initBoard();
                 if ((now - tid) > 200000000.0) {
 
                     gc.setFill(gridColor);
@@ -110,7 +110,7 @@ public class Board {
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
     }
-
+/*
     public void clearBoard(){
         if(drawTimer != null){
             drawTimer.stop();
@@ -122,7 +122,7 @@ public class Board {
         }
 
         draw(gc);
-    }
+    }*/
 
     public void pauseGame(){
         drawTimer.stop();

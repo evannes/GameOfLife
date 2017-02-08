@@ -48,10 +48,10 @@ public class Controller implements Initializable{
     public void changeCellSize() {
         board.setCellSize(gc, changeCellSize);
     }
-
+    /*
     public void clearBoard(){
         board.clearBoard();
-    }
+    }*/
 
     public void pauseGame(){
 
