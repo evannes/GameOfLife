@@ -39,14 +39,12 @@ public class Board {
 
     public Board(Canvas canvas){
         this.canvas = canvas;
-
     }
 
     public void initBoard(){
         for(int i = 0; i < boardGrid.length; i++) {
             for(int j = 0; j < boardGrid.length; j++) {
                 boardGrid[i][j] = (byte)(Math.random()*2);
-                System.out.println(boardGrid[i][j]);
             }
         }
     }
@@ -54,9 +52,9 @@ public class Board {
     public void draw(GraphicsContext gc) {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
-                initBoard();
-                if ((now - tid) > 200000000.0) {
 
+                if ((now - tid) > 200000000.0) {
+                    initBoard();
                     gc.setFill(gridColor);
                     gc.fillRect(0,0, 400, 400);
 
@@ -66,7 +64,6 @@ public class Board {
                         for (int j = 0; j < boardGrid.length; j++) {
                             korY = j * cellSize;
                             if (boardGrid[i][j] == 1) {
-
                                 gc.setFill(cellColor);
                                 gc.fillRect(korX, korY, cellSize - 1, cellSize - 1);
                                 boardGrid[i][j] = 0;
@@ -110,7 +107,7 @@ public class Board {
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
     }
-/*
+    /*
     public void clearBoard(){
         if(drawTimer != null){
             drawTimer.stop();
@@ -120,7 +117,6 @@ public class Board {
                 boardGrid[i][j] = 0;
             }
         }
-
         draw(gc);
     }*/
 
