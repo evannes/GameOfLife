@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.ColorPicker;
@@ -24,6 +25,12 @@ public class Controller implements Initializable{
     Board board = new Board(canvas);
 
     @FXML
+    private Slider changeCellSize;
+
+    @FXML
+    private CheckBox randomColors;
+
+    @FXML
     private ColorPicker colorPicker;
 
     public void setCellColor(){
@@ -38,12 +45,13 @@ public class Controller implements Initializable{
         board.setBoardColor(colorPicker);
     }
 
-    public void draw(){
-        board.draw(gc);
+    public void setRandomColors(){
+        board.setRandomColors();
     }
 
-    @FXML
-    private Slider changeCellSize;
+    public void draw(){
+        board.draw(gc,randomColors);
+    }
 
     public void changeCellSize() {
         board.setCellSize(gc, changeCellSize);

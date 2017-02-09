@@ -3,6 +3,7 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
@@ -14,6 +15,7 @@ public class Board {
     private int cellSize = 100;
     // get-metode for cellsize
     Slider slider;
+    CheckBox randomColors;
 
     private int korX = 0;
     private int korY = 0;
@@ -22,14 +24,7 @@ public class Board {
     private Color boardColor = Color.WHITE;
     private GraphicsContext gc;
     private Canvas canvas;
-
-    /*
-    protected byte[][] boardGrid = {
-            {1,0,0,1},
-            {0,0,1,1},
-            {0,1,0,1},
-            {1,0,0,1}
-    };*/
+    private boolean isRandomColors = false;
 
     protected byte[][] boardGrid = new byte[16][16];
 
@@ -49,7 +44,7 @@ public class Board {
         }
     }
 
-    public void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc,CheckBox randomColors) {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
@@ -63,13 +58,16 @@ public class Board {
 
                         for (int j = 0; j < boardGrid.length; j++) {
                             korY = j * cellSize;
+                            int cellSizeWithGrid = cellSize - 1;
                             if (boardGrid[i][j] == 1) {
-                                //setRandomColors();
+                                if(randomColors.isSelected()) {
+                                    setRandomColors();
+                                }
                                 gc.setFill(cellColor);
-                                gc.fillRect(korX, korY, cellSize - 1, cellSize - 1);
+                                gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
                             } else {
                                 gc.setFill(boardColor);
-                                gc.fillRect(korX, korY, cellSize - 1, cellSize - 1);
+                                gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
                             }
                         }
                     }
@@ -100,6 +98,10 @@ public class Board {
 
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
+    }
+
+    public void setRandomColors(){
+        cellColor = new Color(Math.random(),Math.random(),Math.random(),1);
     }
     /*
     public void clearBoard(){
