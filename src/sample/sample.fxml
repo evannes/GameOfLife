@@ -65,7 +65,7 @@
                   <Insets top="20.0" />
                </padding>
             </Label>
-            <Slider fx:id="changeCellSize" blockIncrement="4.0" majorTickUnit="4.0" max="16.0" min="4.0" minorTickCount="0" onDragDetected="#changeCellSize" prefHeight="21.0" prefWidth="173.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="4.0" />
+            <Slider fx:id="changeCellSize" blockIncrement="4.0" majorTickUnit="4.0" max="16.0" min="4.0" minorTickCount="0" onDragDetected="#changeCellSize" prefHeight="21.0" prefWidth="173.0" showTickLabels="true" showTickMarks="true" value="4.0" />
             <Label text="Speed:">
                <padding>
                   <Insets top="5.0" />

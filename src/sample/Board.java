@@ -64,15 +64,12 @@ public class Board {
                         for (int j = 0; j < boardGrid.length; j++) {
                             korY = j * cellSize;
                             if (boardGrid[i][j] == 1) {
+                                //setRandomColors();
                                 gc.setFill(cellColor);
                                 gc.fillRect(korX, korY, cellSize - 1, cellSize - 1);
-                                boardGrid[i][j] = 0;
-
-                                // x = kolonner, y = rad
                             } else {
                                 gc.setFill(boardColor);
                                 gc.fillRect(korX, korY, cellSize - 1, cellSize - 1);
-                                boardGrid[i][j] = 1;
                             }
                         }
                     }
@@ -88,11 +85,8 @@ public class Board {
         slider.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {
-                    //gc.setFill(gridColor); // gridColor?
-                    gc.fillRect(0, 0, 400, 400); // canvas.getWidth(), canvas.getHeight()
                     double nyCellSize = (double)newValue;
                     cellSize = 400 / (int)nyCellSize;
-                    System.out.println(cellSize);
                 });
     }
 
