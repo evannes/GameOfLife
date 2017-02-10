@@ -49,17 +49,17 @@ public class Controller implements Initializable{
         board.setRandomColors();
     }
 
-    public void draw(){
-        board.draw(gc,randomColors);
+    public void start(){
+        board.start(gc,randomColors.isSelected());
     }
 
     public void changeCellSize() {
         board.setCellSize(gc, changeCellSize);
     }
-    /*
+
     public void clearBoard(){
-        board.clearBoard();
-    }*/
+        board.clearBoard(gc);
+    }
 
     public void pauseGame(){
 
