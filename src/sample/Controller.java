@@ -46,11 +46,11 @@ public class Controller implements Initializable{
     }
 
     public void setRandomColors(){
-        board.setRandomColors();
+        board.setDrawRandomColors(randomColors.isSelected());
     }
 
     public void start(){
-        board.start(gc,randomColors.isSelected());
+        board.start(gc);
     }
 
     public void changeCellSize() {

@@ -29,6 +29,12 @@ public class Board {
 
     private long tid = System.nanoTime();
 
+    private boolean drawRandomColors;
+
+    public void setDrawRandomColors(boolean value) {
+        drawRandomColors = value;
+    }
+
     public Board(Canvas canvas){
         this.canvas = canvas;
     }
@@ -41,14 +47,14 @@ public class Board {
         }
     }
 
-    public void start(GraphicsContext gc,boolean drawRandomColors) {
+    public void start(GraphicsContext gc) {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
                 if ((now - tid) > 200000000.0) {
                     initBoard();
                     // update
-                    draw(gc, drawRandomColors);
+                    draw(gc);
                     tid = System.nanoTime();
                 }
             }
@@ -56,7 +62,7 @@ public class Board {
         drawTimer.start();
     }
 
-    public void draw(GraphicsContext gc,boolean drawRandomColors) {
+    public void draw(GraphicsContext gc) {
         gc.setFill(gridColor);
         gc.fillRect(0,0, 400, 400);
 
@@ -68,9 +74,12 @@ public class Board {
                 int cellSizeWithGrid = cellSize - 1;
                 if (boardGrid[i][j] == 1) {
                     if(drawRandomColors) {
-                        setRandomColors();
+                        gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                     }
-                    gc.setFill(cellColor);
+                    else {
+                        gc.setFill(cellColor);
+                    }
+
                     gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
                 } else {
                     gc.setFill(boardColor);
@@ -102,10 +111,6 @@ public class Board {
         boardColor = colorPicker.getValue();
     }
 
-    public void setRandomColors(){
-        cellColor = new Color(Math.random(),Math.random(),Math.random(),1);
-    }
-
     public void clearBoard(GraphicsContext gc){
         if(drawTimer != null){
             drawTimer.stop();
@@ -115,7 +120,7 @@ public class Board {
                 boardGrid[i][j] = 0;
             }
         }
-        draw(gc, false);
+        draw(gc);
     }
 
     public void pauseGame(){
