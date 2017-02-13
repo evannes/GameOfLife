@@ -44,13 +44,13 @@ public class Controller implements Initializable{
     public void setBoardColor(){
         board.setBoardColor(colorPicker);
     }
-    /*
-    public void setRandomColors(){
-        board.setRandomColors();
-    }*/
 
-    public void draw(){
-        board.draw(gc,randomColors);
+    public void setRandomColors(){
+        board.setDrawRandomColors(randomColors.isSelected());
+    }
+
+    public void start(){
+        board.start(gc);
     }
 
     public void changeCellSize() {
@@ -58,7 +58,7 @@ public class Controller implements Initializable{
     }
 
     public void clearBoard(){
-        board.clearBoard();
+        board.clearBoard(gc);
     }
 
     public void pauseGame(){

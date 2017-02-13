@@ -22,9 +22,7 @@ public class Board {
     private Color cellColor = Color.LIGHTSEAGREEN;
     private Color gridColor = Color.BLACK;
     private Color boardColor = Color.WHITE;
-    private GraphicsContext gc;
     private Canvas canvas;
-    private boolean isRandomColors = false;
 
     protected byte[][] boardGrid = new byte[16][16];
 
@@ -32,9 +30,14 @@ public class Board {
 
     private long tid = System.nanoTime();
 
+    private boolean drawRandomColors;
+
+    public void setDrawRandomColors(boolean value) {
+        drawRandomColors = value;
+    }
+
     public Board(Canvas canvas){
         this.canvas = canvas;
-
     }
 
     public void initBoard(){
@@ -45,38 +48,46 @@ public class Board {
         }
     }
 
-    public void draw(GraphicsContext gc,CheckBox randomColors) {
+    public void start(GraphicsContext gc) {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
                 if ((now - tid) > 200000000.0) {
                     initBoard();
-                    gc.setFill(gridColor);
-                    gc.fillRect(0,0, 400, 400);
-
-                    for (int i = 0; i < boardGrid.length; i++) {
-                        korX = i * cellSize;
-
-                        for (int j = 0; j < boardGrid.length; j++) {
-                            korY = j * cellSize;
-                            int cellSizeWithGrid = cellSize - 1;
-                            if (boardGrid[i][j] == 1) {
-                                if(randomColors.isSelected()) {
-                                    setRandomColors();
-                                }
-                                gc.setFill(cellColor);
-                                gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
-                            } else {
-                                gc.setFill(boardColor);
-                                gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
-                            }
-                        }
-                    }
+                    // update
+                    draw(gc);
                     tid = System.nanoTime();
                 }
             }
         };
         drawTimer.start();
+    }
+
+    public void draw(GraphicsContext gc) {
+        gc.setFill(gridColor);
+        gc.fillRect(0,0, 400, 400);
+
+        for (int i = 0; i < boardGrid.length; i++) {
+            korX = i * cellSize;
+
+            for (int j = 0; j < boardGrid.length; j++) {
+                korY = j * cellSize;
+                int cellSizeWithGrid = cellSize - 1;
+                if (boardGrid[i][j] == 1) {
+                    if(drawRandomColors) {
+                        gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
+                    }
+                    else {
+                        gc.setFill(cellColor);
+                    }
+
+                    gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
+                } else {
+                    gc.setFill(boardColor);
+                    gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
+                }
+            }
+        }
     }
 
     protected void setCellSize(GraphicsContext gc, Slider slider) {
@@ -101,24 +112,16 @@ public class Board {
         boardColor = colorPicker.getValue();
     }
 
-    public void setRandomColors(){
-        cellColor = new Color(Math.random(),Math.random(),Math.random(),1);
-    }
-
-    public void clearBoard(){
-        if(drawTimer == null){
-            drawTimer.start();
+    public void clearBoard(GraphicsContext gc){
+        if(drawTimer != null){
+            drawTimer.stop();
         }
         for(int i = 0; i < boardGrid.length; i++) {
             for(int j = 0; j < boardGrid.length; j++) {
                 boardGrid[i][j] = 0;
             }
         }
-        draw(gc,randomColors);
-        if(drawTimer != null){
-            drawTimer.stop();
-        }
-
+        draw(gc);
     }
 
     public void pauseGame(){
