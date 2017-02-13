@@ -34,6 +34,7 @@ public class Board {
 
     public Board(Canvas canvas){
         this.canvas = canvas;
+
     }
 
     public void initBoard(){
@@ -103,18 +104,22 @@ public class Board {
     public void setRandomColors(){
         cellColor = new Color(Math.random(),Math.random(),Math.random(),1);
     }
-    /*
+
     public void clearBoard(){
-        if(drawTimer != null){
-            drawTimer.stop();
+        if(drawTimer == null){
+            drawTimer.start();
         }
         for(int i = 0; i < boardGrid.length; i++) {
             for(int j = 0; j < boardGrid.length; j++) {
                 boardGrid[i][j] = 0;
             }
         }
-        draw(gc);
-    }*/
+        draw(gc,randomColors);
+        if(drawTimer != null){
+            drawTimer.stop();
+        }
+
+    }
 
     public void pauseGame(){
         drawTimer.stop();

@@ -73,7 +73,7 @@
                </padding>
             </Label>
             <Slider />
-            <CheckBox fx:id="randomColors" mnemonicParsing="false" onAction="#setRandomColors" text="Random Colors" />
+            <CheckBox fx:id="randomColors" mnemonicParsing="false" text="Random Colors" />
          </children>
          <padding>
             <Insets left="10.0" top="10.0" />
@@ -88,7 +88,7 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Clear board">
+            <Button mnemonicParsing="false" onAction="#clearBoard" text="Clear board">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
