@@ -6,10 +6,8 @@ package sample;
 public class Rules {
     private boolean[][] board;
 
-    //Få inn brettet fra Board
-    public Rules(boolean[][] board) {
-        this.board = board;
-    }
+    //Sette brettet Rules skal jobbe med
+    public void setBoard(boolean[][] board) { this.board = board; }
 
     //Gi ut oppdatert brett
     public boolean[][] getBoard() {

@@ -61,11 +61,21 @@
                   <Insets />
                </VBox.margin>
             </ChoiceBox>
-            <Label text="Cellsize:">
-               <padding>
-                  <Insets top="20.0" />
-               </padding>
-            </Label>
+            <HBox>
+               <children>
+                  <Label text="Smaller">
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </Label>
+                  <Pane prefHeight="37.0" prefWidth="170.0" />
+                  <Label text="Larger">
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
             <Slider fx:id="changeCellSize" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="5.0" minorTickCount="0" onDragDetected="#changeCellSize" prefHeight="21.0" prefWidth="173.0" showTickLabels="false" showTickMarks="true" snapToTicks="true" value="12.0" />
             <Label text="Speed:">
                <padding>

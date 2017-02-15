@@ -24,7 +24,9 @@ public class Board {
     private Color boardColor = Color.WHITE;
     private Canvas canvas;
 
-    protected boolean[][] boardGrid = new boolean[40][40];
+    Rules rules = new Rules();
+
+    protected boolean[][] boardGrid = new boolean[100][100];
     protected boolean[][] updatedBoard;
 
 
@@ -60,9 +62,10 @@ public class Board {
         boardGrid[1][0] = true;
     }
 
-    Rules rules = new Rules(boardGrid);
+
 
     public void start(GraphicsContext gc) {
+        rules.setBoard(boardGrid);
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
