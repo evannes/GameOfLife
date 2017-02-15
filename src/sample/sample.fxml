@@ -108,7 +108,7 @@
    <center>
       <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-               <Canvas fx:id="canvas" height="400.0" width="400.0" BorderPane.alignment="CENTER" />
+               <Canvas fx:id="canvas" height="401.0" width="401.0" BorderPane.alignment="CENTER" />
          </children>
       </Pane>
    </center>

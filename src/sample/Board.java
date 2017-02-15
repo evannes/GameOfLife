@@ -65,13 +65,13 @@ public class Board {
 
     public void draw(GraphicsContext gc) {
         gc.setFill(gridColor);
-        gc.fillRect(0,0, 400, 400);
+        gc.fillRect(0,0, 401, 401);
 
         for (int i = 0; i < boardGrid.length; i++) {
-            korX = i * cellSize;
+            korX = 1 + (i * cellSize);
 
             for (int j = 0; j < boardGrid.length; j++) {
-                korY = j * cellSize;
+                korY = 1 + (j * cellSize);
                 int cellSizeWithGrid = cellSize - 1;
                 if (boardGrid[i][j] == 1) {
                     if(drawRandomColors) {
