@@ -12,8 +12,8 @@ import javafx.scene.paint.Color;
  * Created by Bruker on 03.02.2017.
  */
 public class Board {
-    private int cellSize = 100;
-    // get-metode for cellsize
+    private int cellSize = 1 + 15;
+
     Slider slider;
 
 
@@ -24,7 +24,7 @@ public class Board {
     private Color boardColor = Color.WHITE;
     private Canvas canvas;
 
-    protected boolean[][] boardGrid = new boolean[16][16];
+    protected boolean[][] boardGrid = new boolean[40][40];
     protected boolean[][] updatedBoard;
 
 
@@ -108,11 +108,12 @@ public class Board {
 
     protected void setCellSize(GraphicsContext gc, Slider slider) {
         this.slider = slider;
+        slider.setShowTickMarks(true);
         slider.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {
-                    double nyCellSize = (double)newValue;
-                    cellSize = 400 / (int)nyCellSize;
+                    double newCellSize = (double)newValue;
+                    cellSize = 1 + (int)newCellSize;
                 });
     }
 
