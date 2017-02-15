@@ -24,18 +24,10 @@ public class Board {
     private Color boardColor = Color.WHITE;
     private Canvas canvas;
 
-    protected boolean[][] boardGrid = {
-            {false,false,false,false,false,false,false},
-            {false,false,false,true,false,false,false},
-            {false,false,false,false,true,false,false},
-            {false,false,true,true,true,false,false},
-            {false,false,false,false,false,false,false},
-            {false,false,false,false,false,false,false},
-            {false,false,false,false,false,false,false},
-    };
+    protected boolean[][] boardGrid = new boolean[16][16];
     protected boolean[][] updatedBoard;
 
-    Rules rules = new Rules(boardGrid);
+
 
     AnimationTimer drawTimer;
 
@@ -59,12 +51,24 @@ public class Board {
         }
     }
 */
+
+    public void defaultStartBoard(){
+        boardGrid[0][2] = true;
+        boardGrid[1][2] = true;
+        boardGrid[2][2] = true;
+        boardGrid[2][1] = true;
+        boardGrid[1][0] = true;
+    }
+
+    Rules rules = new Rules(boardGrid);
+
     public void start(GraphicsContext gc) {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
                 if ((now - tid) > 200000000.0) {
                     //initBoard();
+                    defaultStartBoard();
                     draw(gc);
                     tid = System.nanoTime();
                 }
