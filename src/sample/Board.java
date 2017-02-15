@@ -16,6 +16,7 @@ public class Board {
     // get-metode for cellsize
     Slider slider;
 
+
     private int korX = 0;
     private int korY = 0;
     private Color cellColor = Color.LIGHTSEAGREEN;
@@ -23,7 +24,18 @@ public class Board {
     private Color boardColor = Color.WHITE;
     private Canvas canvas;
 
-    protected byte[][] boardGrid = new byte[16][16];
+    protected boolean[][] boardGrid = {
+            {false,false,false,false,false,false,false},
+            {false,false,false,true,false,false,false},
+            {false,false,false,false,true,false,false},
+            {false,false,true,true,true,false,false},
+            {false,false,false,false,false,false,false},
+            {false,false,false,false,false,false,false},
+            {false,false,false,false,false,false,false},
+    };
+    protected boolean[][] updatedBoard;
+
+    Rules rules = new Rules(boardGrid);
 
     AnimationTimer drawTimer;
 
@@ -38,7 +50,7 @@ public class Board {
     public Board(Canvas canvas){
         this.canvas = canvas;
     }
-
+/*
     public void initBoard(){
         for(int i = 0; i < boardGrid.length; i++) {
             for(int j = 0; j < boardGrid.length; j++) {
@@ -46,14 +58,13 @@ public class Board {
             }
         }
     }
-
+*/
     public void start(GraphicsContext gc) {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
                 if ((now - tid) > 200000000.0) {
-                    initBoard();
-                    // update
+                    //initBoard();
                     draw(gc);
                     tid = System.nanoTime();
                 }
@@ -63,16 +74,18 @@ public class Board {
     }
 
     public void draw(GraphicsContext gc) {
+        rules.nextGeneration();
+        updatedBoard = rules.getBoard();
         gc.setFill(gridColor);
         gc.fillRect(0,0, 400, 400);
 
-        for (int i = 0; i < boardGrid.length; i++) {
+        for (int i = 0; i < updatedBoard.length; i++) {
             korX = i * cellSize;
 
-            for (int j = 0; j < boardGrid.length; j++) {
+            for (int j = 0; j < updatedBoard.length; j++) {
                 korY = j * cellSize;
                 int cellSizeWithGrid = cellSize - 1;
-                if (boardGrid[i][j] == 1) {
+                if (updatedBoard[i][j] == true) {
                     if(drawRandomColors) {
                         gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                     }
@@ -115,9 +128,9 @@ public class Board {
         if(drawTimer != null){
             drawTimer.stop();
         }
-        for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid.length; j++) {
-                boardGrid[i][j] = 0;
+        for(int i = 0; i < updatedBoard.length; i++) {
+            for(int j = 0; j < updatedBoard.length; j++) {
+                updatedBoard[i][j] = false;
             }
         }
         draw(gc);
