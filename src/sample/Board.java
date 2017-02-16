@@ -14,18 +14,14 @@ import javafx.scene.paint.Color;
 public class Board {
     private boolean isRunning = false;
     private boolean isClearing = false;
-    private int cellSize;
     private int speed;
-    private int korX = 0;
-    private int korY = 0;
     private Color cellColor = Color.LIGHTSEAGREEN;
     private Color gridColor = Color.BLACK;
     private Color boardColor = Color.WHITE;
 
     Rules rules = new Rules();
 
-    protected boolean[][] boardGrid = new boolean[100][100];
-    protected boolean[][] updatedBoard;
+    protected boolean[][] boardGrid;
 
     AnimationTimer drawTimer;
 
@@ -47,17 +43,19 @@ public class Board {
     }
 */
 
-    public Board(GraphicsContext gc) {
+    public Board(int boardSize, Canvas canvas) {
+        boardGrid = new boolean[boardSize][boardSize];
+
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
             if (isRunning && (now - tid) > speed) {
-                draw(gc);
+                draw(canvas);
                 tid = System.nanoTime();
             }
 
             if (isClearing){
                 isClearing = false;
-                draw(gc);
+                draw(canvas);
             }
             }
         };
@@ -81,37 +79,54 @@ public class Board {
         isRunning = true;
     }
 
-    private void draw(GraphicsContext gc) {
+    private void draw(Canvas canvas) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         rules.nextGeneration();
-        updatedBoard = rules.getBoard();
+        boardGrid = rules.getBoard();
         gc.setFill(gridColor);
-        gc.fillRect(0,0, 401, 401);
+        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+        double cellWidth = (canvas.getWidth() - 1) / boardGrid.length;
+        double cellHeight = (canvas.getHeight() - 1) / boardGrid[0].length;
 
-        for (int i = 0; i < updatedBoard.length; i++) {
-            korX = 1 + (i * cellSize);
 
-            for (int j = 0; j < updatedBoard.length; j++) {
-                korY = 1 + (j * cellSize);
-                int cellSizeWithGrid = cellSize - 1;
-                if (updatedBoard[i][j] == true) {
-                    if(drawRandomColors) {
-                        gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
-                    }
-                    else {
-                        gc.setFill(cellColor);
-                    }
+        for (int i = 0; i < boardGrid.length; i++) {
+            for (int j = 0; j < boardGrid[0].length; j++) {
 
-                    gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
-                } else {
-                    gc.setFill(boardColor);
-                    gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
+                if(boardGrid[i][j] == true && drawRandomColors) {
+                    gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                 }
+                else if (boardGrid[i][j] == true) {
+                    gc.setFill(cellColor);
+                }
+                else {
+                    gc.setFill(boardColor);
+                }
+
+                double cellY = cellHeight * i;
+                double cellX = cellWidth * j;
+
+                gc.fillRect(cellX + 1, cellY + 1, cellWidth - 1, cellHeight - 1);
             }
         }
     }
 
     protected void setCellSize(int value) {
-        cellSize = value;
+        isRunning = false;
+        boardGrid = ConvertBoard(boardGrid, value);
+        rules.setBoard(boardGrid);
+        isRunning = true;
+    }
+
+    private boolean[][] ConvertBoard(boolean[][] oldBoard, int boardSize) {
+        boolean[][] newBoard = new boolean[boardSize][boardSize];
+
+        for (int i = 0; i < oldBoard.length && i < newBoard.length; i++) {
+            for (int j = 0; j < oldBoard[0].length && j < newBoard[0].length; j++) {
+                newBoard[i][j] = oldBoard[i][j];
+            }
+        }
+
+        return newBoard;
     }
 
     protected void setSpeed(int value) {
@@ -133,9 +148,9 @@ public class Board {
     public void clearBoard(){
         isRunning = false;
 
-        for(int i = 0; i < updatedBoard.length; i++) {
-            for(int j = 0; j < updatedBoard.length; j++) {
-                updatedBoard[i][j] = false;
+        for(int i = 0; i < boardGrid.length; i++) {
+            for(int j = 0; j < boardGrid.length; j++) {
+                boardGrid[i][j] = false;
             }
         }
 

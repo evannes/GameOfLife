@@ -68,7 +68,7 @@ public class Controller implements Initializable{
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        board = new Board(canvas.getGraphicsContext2D());
+        board = new Board((int)changeCellSize.getValue(), canvas);
 
         changeSpeed.valueProperty().addListener(
             (observable, oldValue, value) ->
@@ -83,6 +83,5 @@ public class Controller implements Initializable{
             });
 
         board.setSpeed((int)(changeSpeed.getValue() * 10000000));
-        board.setCellSize((int)changeCellSize.getValue());
     }
 }
