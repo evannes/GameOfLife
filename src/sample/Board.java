@@ -12,26 +12,20 @@ import javafx.scene.paint.Color;
  * Created by Bruker on 03.02.2017.
  */
 public class Board {
-    private int cellSize = 1 + 15;
-
-    Slider slider;
-    CheckBox randomColors;
-
-    private int speed = 300000000;
-
+    private boolean isRunning = false;
+    private boolean isClearing = false;
+    private int cellSize;
+    private int speed;
     private int korX = 0;
     private int korY = 0;
     private Color cellColor = Color.LIGHTSEAGREEN;
     private Color gridColor = Color.BLACK;
     private Color boardColor = Color.WHITE;
-    private Canvas canvas;
 
     Rules rules = new Rules();
 
     protected boolean[][] boardGrid = new boolean[100][100];
     protected boolean[][] updatedBoard;
-
-
 
     AnimationTimer drawTimer;
 
@@ -43,9 +37,6 @@ public class Board {
         drawRandomColors = value;
     }
 
-    public Board(Canvas canvas){
-        this.canvas = canvas;
-    }
 /*
     public void initBoard(){
         for(int i = 0; i < boardGrid.length; i++) {
@@ -55,6 +46,24 @@ public class Board {
         }
     }
 */
+
+    public Board(GraphicsContext gc) {
+        drawTimer = new AnimationTimer() {
+            public void handle(long now) {
+            if (isRunning && (now - tid) > speed) {
+                draw(gc);
+                tid = System.nanoTime();
+            }
+
+            if (isClearing){
+                isClearing = false;
+                draw(gc);
+            }
+            }
+        };
+
+        drawTimer.start();
+    }
 
     public void defaultStartBoard(){
         boardGrid[0][2] = true;
@@ -66,23 +75,13 @@ public class Board {
 
 
 
-    public void start(GraphicsContext gc) {
+    public void start() {
         rules.setBoard(boardGrid);
-        drawTimer = new AnimationTimer() {
-            public void handle(long now) {
-
-                if ((now - tid) > speed) {
-                    //initBoard();
-                    defaultStartBoard();
-                    draw(gc);
-                    tid = System.nanoTime();
-                }
-            }
-        };
-        drawTimer.start();
+        defaultStartBoard();
+        isRunning = true;
     }
 
-    public void draw(GraphicsContext gc) {
+    private void draw(GraphicsContext gc) {
         rules.nextGeneration();
         updatedBoard = rules.getBoard();
         gc.setFill(gridColor);
@@ -111,25 +110,12 @@ public class Board {
         }
     }
 
-    protected void setCellSize(GraphicsContext gc, Slider slider) {
-        this.slider = slider;
-        slider.setShowTickMarks(true);
-        slider.valueProperty().addListener(
-                (observable, oldValue, newValue) ->
-                {
-                    double newCellSize = (double)newValue;
-                    cellSize = 1 + (int)newCellSize;
-                });
+    protected void setCellSize(int value) {
+        cellSize = value;
     }
 
-    protected void setSpeed(Slider slider) {
-        this.slider = slider;
-        slider.valueProperty().addListener(
-                (observable, oldValue, newValue) ->
-                {
-                    double nySpeed = (double)newValue;
-                    speed = (int)nySpeed;
-                });
+    protected void setSpeed(int value) {
+        speed = value;
     }
 
     public void setCellColor(ColorPicker colorPicker){
@@ -144,20 +130,20 @@ public class Board {
         boardColor = colorPicker.getValue();
     }
 
-    public void clearBoard(GraphicsContext gc){
-        if(drawTimer != null){
-            drawTimer.stop();
-        }
+    public void clearBoard(){
+        isRunning = false;
+
         for(int i = 0; i < updatedBoard.length; i++) {
             for(int j = 0; j < updatedBoard.length; j++) {
                 updatedBoard[i][j] = false;
             }
         }
-        draw(gc);
+
+        isClearing = true;
     }
 
     public void pauseGame(){
-        drawTimer.stop();
+        isRunning = false;
     }
 
     public void exitGame(){

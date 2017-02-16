@@ -20,9 +20,7 @@ public class Controller implements Initializable{
     @FXML
     private Canvas canvas;
 
-    GraphicsContext gc;
-
-    Board board = new Board(canvas);
+    Board board;
 
     @FXML
     private Slider changeCellSize;
@@ -53,19 +51,11 @@ public class Controller implements Initializable{
     }
 
     public void start(){
-        board.start(gc);
-    }
-
-    public void changeCellSize() {
-        board.setCellSize(gc, changeCellSize);
-    }
-
-    public void changeSpeed() {
-        board.setSpeed(changeSpeed);
+        board.start();
     }
 
     public void clearBoard(){
-        board.clearBoard(gc);
+        board.clearBoard();
     }
 
     public void pauseGame(){
@@ -78,6 +68,21 @@ public class Controller implements Initializable{
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        gc = canvas.getGraphicsContext2D();
+        board = new Board(canvas.getGraphicsContext2D());
+
+        changeSpeed.valueProperty().addListener(
+            (observable, oldValue, value) ->
+            {
+                board.setSpeed((int)((double)value * 10000000));
+            });
+
+        changeCellSize.valueProperty().addListener(
+            (observable, oldValue, value) ->
+            {
+                board.setCellSize((int)(double)value);
+            });
+
+        board.setSpeed((int)(changeSpeed.getValue() * 10000000));
+        board.setCellSize((int)changeCellSize.getValue());
     }
 }
