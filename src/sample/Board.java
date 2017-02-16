@@ -15,7 +15,9 @@ public class Board {
     private int cellSize = 1 + 15;
 
     Slider slider;
+    CheckBox randomColors;
 
+    private int speed = 300000000;
 
     private int korX = 0;
     private int korY = 0;
@@ -69,7 +71,7 @@ public class Board {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
-                if ((now - tid) > 200000000.0) {
+                if ((now - tid) > speed) {
                     //initBoard();
                     defaultStartBoard();
                     draw(gc);
@@ -84,13 +86,13 @@ public class Board {
         rules.nextGeneration();
         updatedBoard = rules.getBoard();
         gc.setFill(gridColor);
-        gc.fillRect(0,0, 400, 400);
+        gc.fillRect(0,0, 401, 401);
 
         for (int i = 0; i < updatedBoard.length; i++) {
-            korX = i * cellSize;
+            korX = 1 + (i * cellSize);
 
             for (int j = 0; j < updatedBoard.length; j++) {
-                korY = j * cellSize;
+                korY = 1 + (j * cellSize);
                 int cellSizeWithGrid = cellSize - 1;
                 if (updatedBoard[i][j] == true) {
                     if(drawRandomColors) {
@@ -117,6 +119,16 @@ public class Board {
                 {
                     double newCellSize = (double)newValue;
                     cellSize = 1 + (int)newCellSize;
+                });
+    }
+
+    protected void setSpeed(Slider slider) {
+        this.slider = slider;
+        slider.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                {
+                    double nySpeed = (double)newValue;
+                    speed = (int)nySpeed;
                 });
     }
 
