@@ -17,6 +17,8 @@ public class Board {
     Slider slider;
     CheckBox randomColors;
 
+    private int speed = 300000000;
+
     private int korX = 0;
     private int korY = 0;
     private Color cellColor = Color.LIGHTSEAGREEN;
@@ -52,7 +54,7 @@ public class Board {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
-                if ((now - tid) > 200000000.0) {
+                if ((now - tid) > speed) {
                     initBoard();
                     // update
                     draw(gc);
@@ -97,6 +99,16 @@ public class Board {
                 {
                     double nyCellSize = (double)newValue;
                     cellSize = 400 / (int)nyCellSize;
+                });
+    }
+
+    protected void setSpeed(Slider slider) {
+        this.slider = slider;
+        slider.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                {
+                    double nySpeed = (double)newValue;
+                    speed = (int)nySpeed;
                 });
     }
 

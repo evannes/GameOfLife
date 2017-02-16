@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -29,7 +30,7 @@
    </children>
 </GridPane>-->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <left>
       <VBox prefHeight="800.0" prefWidth="260.0" BorderPane.alignment="CENTER">
          <children>
@@ -72,7 +73,10 @@
                   <Insets top="5.0" />
                </padding>
             </Label>
-            <Slider />
+            <Slider fx:id="changeSpeed" max="8.0E8" min="5.0E7" onDragDetected="#changeSpeed" rotate="180.0" value="3.0E8">
+               <rotationAxis>
+                  <Point3D y="1.0" />
+               </rotationAxis></Slider>
             <CheckBox fx:id="randomColors" mnemonicParsing="false" onAction="#setRandomColors" text="Random Colors" />
          </children>
          <padding>

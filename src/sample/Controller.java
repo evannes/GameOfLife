@@ -28,6 +28,9 @@ public class Controller implements Initializable{
     private Slider changeCellSize;
 
     @FXML
+    private Slider changeSpeed;
+
+    @FXML
     private CheckBox randomColors;
 
     @FXML
@@ -55,6 +58,10 @@ public class Controller implements Initializable{
 
     public void changeCellSize() {
         board.setCellSize(gc, changeCellSize);
+    }
+
+    public void changeSpeed() {
+        board.setSpeed(changeSpeed);
     }
 
     public void clearBoard(){
