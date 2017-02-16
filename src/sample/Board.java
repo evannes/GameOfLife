@@ -12,10 +12,11 @@ import javafx.scene.paint.Color;
  * Created by Bruker on 03.02.2017.
  */
 public class Board {
-    private int cellSize = 100;
-    // get-metode for cellsize
+    private int cellSize = 1 + 15;
+
     Slider slider;
     CheckBox randomColors;
+
 
     private int korX = 0;
     private int korY = 0;
@@ -24,7 +25,12 @@ public class Board {
     private Color boardColor = Color.WHITE;
     private Canvas canvas;
 
-    protected byte[][] boardGrid = new byte[16][16];
+    Rules rules = new Rules();
+
+    protected boolean[][] boardGrid = new boolean[100][100];
+    protected boolean[][] updatedBoard;
+
+
 
     AnimationTimer drawTimer;
 
@@ -39,7 +45,7 @@ public class Board {
     public Board(Canvas canvas){
         this.canvas = canvas;
     }
-
+/*
     public void initBoard(){
         for(int i = 0; i < boardGrid.length; i++) {
             for(int j = 0; j < boardGrid.length; j++) {
@@ -47,14 +53,26 @@ public class Board {
             }
         }
     }
+*/
+
+    public void defaultStartBoard(){
+        boardGrid[0][2] = true;
+        boardGrid[1][2] = true;
+        boardGrid[2][2] = true;
+        boardGrid[2][1] = true;
+        boardGrid[1][0] = true;
+    }
+
+
 
     public void start(GraphicsContext gc) {
+        rules.setBoard(boardGrid);
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
 
                 if ((now - tid) > 200000000.0) {
-                    initBoard();
-                    // update
+                    //initBoard();
+                    defaultStartBoard();
                     draw(gc);
                     tid = System.nanoTime();
                 }
@@ -64,16 +82,18 @@ public class Board {
     }
 
     public void draw(GraphicsContext gc) {
+        rules.nextGeneration();
+        updatedBoard = rules.getBoard();
         gc.setFill(gridColor);
         gc.fillRect(0,0, 400, 400);
 
-        for (int i = 0; i < boardGrid.length; i++) {
+        for (int i = 0; i < updatedBoard.length; i++) {
             korX = i * cellSize;
 
-            for (int j = 0; j < boardGrid.length; j++) {
+            for (int j = 0; j < updatedBoard.length; j++) {
                 korY = j * cellSize;
                 int cellSizeWithGrid = cellSize - 1;
-                if (boardGrid[i][j] == 1) {
+                if (updatedBoard[i][j] == true) {
                     if(drawRandomColors) {
                         gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                     }
@@ -92,11 +112,12 @@ public class Board {
 
     protected void setCellSize(GraphicsContext gc, Slider slider) {
         this.slider = slider;
+        slider.setShowTickMarks(true);
         slider.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {
-                    double nyCellSize = (double)newValue;
-                    cellSize = 400 / (int)nyCellSize;
+                    double newCellSize = (double)newValue;
+                    cellSize = 1 + (int)newCellSize;
                 });
     }
 
@@ -116,9 +137,9 @@ public class Board {
         if(drawTimer != null){
             drawTimer.stop();
         }
-        for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid.length; j++) {
-                boardGrid[i][j] = 0;
+        for(int i = 0; i < updatedBoard.length; i++) {
+            for(int j = 0; j < updatedBoard.length; j++) {
+                updatedBoard[i][j] = false;
             }
         }
         draw(gc);
