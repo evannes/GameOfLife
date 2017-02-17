@@ -59,7 +59,6 @@ public class Controller implements Initializable{
     }
 
     public void pauseGame(){
-
         board.pauseGame();
     }
 
@@ -68,7 +67,7 @@ public class Controller implements Initializable{
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        board = new Board((int)changeCellSize.getValue(), canvas);
+        board = new Board(canvas);
 
         changeSpeed.valueProperty().addListener(
             (observable, oldValue, value) ->
@@ -79,7 +78,7 @@ public class Controller implements Initializable{
         changeCellSize.valueProperty().addListener(
             (observable, oldValue, value) ->
             {
-                board.setCellSize((int)(double)value);
+                board.setDrawScale((double)value);
             });
 
         board.setSpeed((int)(changeSpeed.getValue() * 10000000));
