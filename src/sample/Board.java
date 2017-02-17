@@ -73,7 +73,6 @@ public class Board {
     }
 
 
-
     public void start() {
         rules.setBoard(boardGrid);
         defaultStartBoard();
