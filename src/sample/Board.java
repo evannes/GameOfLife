@@ -12,25 +12,16 @@ import javafx.scene.paint.Color;
  * Created by Bruker on 03.02.2017.
  */
 public class Board {
-    private int cellSize = 1 + 15;
-
-    Slider slider;
-    CheckBox randomColors;
-
-
-    private int korX = 0;
-    private int korY = 0;
+    private boolean isRunning = false;
+    private boolean isClearing = false;
+    private int speed;
     private Color cellColor = Color.LIGHTSEAGREEN;
     private Color gridColor = Color.BLACK;
     private Color boardColor = Color.WHITE;
-    private Canvas canvas;
 
     Rules rules = new Rules();
 
-    protected boolean[][] boardGrid = new boolean[100][100];
-    protected boolean[][] updatedBoard;
-
-
+    protected boolean[][] boardGrid;
 
     AnimationTimer drawTimer;
 
@@ -42,9 +33,6 @@ public class Board {
         drawRandomColors = value;
     }
 
-    public Board(Canvas canvas){
-        this.canvas = canvas;
-    }
 /*
     public void initBoard(){
         for(int i = 0; i < boardGrid.length; i++) {
@@ -54,6 +42,26 @@ public class Board {
         }
     }
 */
+
+    public Board(int boardSize, Canvas canvas) {
+        boardGrid = new boolean[boardSize][boardSize];
+
+        drawTimer = new AnimationTimer() {
+            public void handle(long now) {
+            if (isRunning && (now - tid) > speed) {
+                draw(canvas);
+                tid = System.nanoTime();
+            }
+
+            if (isClearing){
+                isClearing = false;
+                draw(canvas);
+            }
+            }
+        };
+
+        drawTimer.start();
+    }
 
     public void defaultStartBoard(){
         boardGrid[0][2] = true;
@@ -65,60 +73,64 @@ public class Board {
 
 
 
-    public void start(GraphicsContext gc) {
+    public void start() {
         rules.setBoard(boardGrid);
-        drawTimer = new AnimationTimer() {
-            public void handle(long now) {
-
-                if ((now - tid) > 200000000.0) {
-                    //initBoard();
-                    defaultStartBoard();
-                    draw(gc);
-                    tid = System.nanoTime();
-                }
-            }
-        };
-        drawTimer.start();
+        defaultStartBoard();
+        isRunning = true;
     }
 
-    public void draw(GraphicsContext gc) {
+    private void draw(Canvas canvas) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         rules.nextGeneration();
-        updatedBoard = rules.getBoard();
+        boardGrid = rules.getBoard();
         gc.setFill(gridColor);
-        gc.fillRect(0,0, 400, 400);
+        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+        double cellWidth = (canvas.getWidth() - 1) / boardGrid.length;
+        double cellHeight = (canvas.getHeight() - 1) / boardGrid[0].length;
 
-        for (int i = 0; i < updatedBoard.length; i++) {
-            korX = i * cellSize;
 
-            for (int j = 0; j < updatedBoard.length; j++) {
-                korY = j * cellSize;
-                int cellSizeWithGrid = cellSize - 1;
-                if (updatedBoard[i][j] == true) {
-                    if(drawRandomColors) {
-                        gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
-                    }
-                    else {
-                        gc.setFill(cellColor);
-                    }
+        for (int i = 0; i < boardGrid.length; i++) {
+            for (int j = 0; j < boardGrid[0].length; j++) {
 
-                    gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
-                } else {
-                    gc.setFill(boardColor);
-                    gc.fillRect(korX, korY, cellSizeWithGrid, cellSizeWithGrid);
+                if(boardGrid[i][j] == true && drawRandomColors) {
+                    gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                 }
+                else if (boardGrid[i][j] == true) {
+                    gc.setFill(cellColor);
+                }
+                else {
+                    gc.setFill(boardColor);
+                }
+
+                double cellY = cellHeight * i;
+                double cellX = cellWidth * j;
+
+                gc.fillRect(cellX + 1, cellY + 1, cellWidth - 1, cellHeight - 1);
             }
         }
     }
 
-    protected void setCellSize(GraphicsContext gc, Slider slider) {
-        this.slider = slider;
-        slider.setShowTickMarks(true);
-        slider.valueProperty().addListener(
-                (observable, oldValue, newValue) ->
-                {
-                    double newCellSize = (double)newValue;
-                    cellSize = 1 + (int)newCellSize;
-                });
+    protected void setCellSize(int value) {
+        isRunning = false;
+        boardGrid = ConvertBoard(boardGrid, value);
+        rules.setBoard(boardGrid);
+        isRunning = true;
+    }
+
+    private boolean[][] ConvertBoard(boolean[][] oldBoard, int boardSize) {
+        boolean[][] newBoard = new boolean[boardSize][boardSize];
+
+        for (int i = 0; i < oldBoard.length && i < newBoard.length; i++) {
+            for (int j = 0; j < oldBoard[0].length && j < newBoard[0].length; j++) {
+                newBoard[i][j] = oldBoard[i][j];
+            }
+        }
+
+        return newBoard;
+    }
+
+    protected void setSpeed(int value) {
+        speed = value;
     }
 
     public void setCellColor(ColorPicker colorPicker){
@@ -133,20 +145,20 @@ public class Board {
         boardColor = colorPicker.getValue();
     }
 
-    public void clearBoard(GraphicsContext gc){
-        if(drawTimer != null){
-            drawTimer.stop();
-        }
-        for(int i = 0; i < updatedBoard.length; i++) {
-            for(int j = 0; j < updatedBoard.length; j++) {
-                updatedBoard[i][j] = false;
+    public void clearBoard(){
+        isRunning = false;
+
+        for(int i = 0; i < boardGrid.length; i++) {
+            for(int j = 0; j < boardGrid.length; j++) {
+                boardGrid[i][j] = false;
             }
         }
-        draw(gc);
+
+        isClearing = true;
     }
 
     public void pauseGame(){
-        drawTimer.stop();
+        isRunning = false;
     }
 
     public void exitGame(){
