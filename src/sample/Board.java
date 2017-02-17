@@ -21,7 +21,7 @@ public class Board {
     private long tid = System.nanoTime();
     private boolean drawRandomColors;
     private double drawScale = 1;
-    private int gridSize = 5;
+    private double gridSize = 0.1;
 
 
     Rules rules = new Rules();
@@ -90,8 +90,8 @@ public class Board {
         gc.setFill(gridColor);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
 
-        double cellWidth = (canvas.getWidth()*drawScale - 1) / boardGrid.length;
-        double cellHeight = (canvas.getHeight()*drawScale - 1) / boardGrid[0].length;
+        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / boardGrid.length;
+        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / boardGrid[0].length;
 
 
 
@@ -112,13 +112,14 @@ public class Board {
                 double cellX = cellHeight * i;
                 double cellY = cellWidth * j;
 
-                gc.fillRect(cellX + 1, cellY + 1, cellWidth - 1, cellHeight - 1);
+                gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
             }
         }
     }
 
     protected void setDrawScale(double value) {
         drawScale = value;
+        gridSize = 0.1 * value;
     }
 
 
