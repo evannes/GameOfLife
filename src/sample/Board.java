@@ -39,6 +39,7 @@ public class Board {
             for(int j = 0; j < boardGrid.length; j++) {
                 boardGrid[i][j] = (byte)(Math.random()*2);
             }
+
         }
     }
 */
