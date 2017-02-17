@@ -130,6 +130,10 @@ public class Board {
         return newBoard;
     }
 
+    public boolean getIsRunning(){
+        return isRunning;
+    }
+
     protected void setSpeed(int value) {
         speed = value;
     }
@@ -160,6 +164,10 @@ public class Board {
 
     public void pauseGame(){
         isRunning = false;
+    }
+
+    public void resumeGame(){
+        isRunning = true;
     }
 
     public void exitGame(){

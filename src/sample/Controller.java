@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
@@ -34,6 +35,9 @@ public class Controller implements Initializable{
     @FXML
     private ColorPicker colorPicker;
 
+    @FXML
+    private Button pauseButton;
+
     public void setCellColor(){
         board.setCellColor(colorPicker);
     }
@@ -59,8 +63,13 @@ public class Controller implements Initializable{
     }
 
     public void pauseGame(){
-
-        board.pauseGame();
+        if(board.getIsRunning()) {
+            board.pauseGame();
+            pauseButton.setText("Resume");
+        } else {
+            board.resumeGame();
+            pauseButton.setText("Pause");
+        }
     }
 
     public void exitGame(){

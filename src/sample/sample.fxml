@@ -93,7 +93,7 @@
                   </Label>
                </children>
             </HBox>
-            <Slider fx:id="changeSpeed" value="7" min="1" max="15" majorTickUnit="1.0" minorTickCount="0" rotate="180.0" showTickMarks="true">
+            <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15" min="1" minorTickCount="0" rotate="180.0" showTickMarks="true" value="7">
                <rotationAxis>
                   <Point3D y="1.0" />
                </rotationAxis></Slider>
@@ -106,8 +106,8 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="start" mnemonicParsing="false" onAction="#start" text="Start game" />
-            <Button mnemonicParsing="false" onAction="#pauseGame" text="Pause">
+            <Button fx:id="start" mnemonicParsing="false" onAction="#start" text="New game" />
+            <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseGame" prefWidth="70.0" text="Pause">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
