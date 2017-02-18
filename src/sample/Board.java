@@ -18,16 +18,20 @@ public class Board {
     private Color cellColor = Color.LIGHTSEAGREEN;
     private Color gridColor = Color.BLACK;
     private Color boardColor = Color.WHITE;
+    private long tid = System.nanoTime();
+    private boolean drawRandomColors;
+    private double drawScale = 1;
+    private double gridSize = 0.1;
+
 
     Rules rules = new Rules();
 
-    protected boolean[][] boardGrid;
+ // canvas er 800 x 500, så for å få kvadratiske celler må arrayet også følge en lignende ratio
+    protected boolean[][] boardGrid = new boolean[160][100];
 
     AnimationTimer drawTimer;
 
-    private long tid = System.nanoTime();
 
-    private boolean drawRandomColors;
 
     public void setDrawRandomColors(boolean value) {
         drawRandomColors = value;
@@ -39,13 +43,12 @@ public class Board {
             for(int j = 0; j < boardGrid.length; j++) {
                 boardGrid[i][j] = (byte)(Math.random()*2);
             }
-
         }
     }
 */
 
-    public Board(int boardSize, Canvas canvas) {
-        boardGrid = new boolean[boardSize][boardSize];
+    public Board(Canvas canvas) {
+        //boardGrid = new boolean[boardSize][boardSize];
 
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
@@ -73,6 +76,7 @@ public class Board {
     }
 
 
+
     public void start() {
         rules.setBoard(boardGrid);
         defaultStartBoard();
@@ -85,8 +89,11 @@ public class Board {
         boardGrid = rules.getBoard();
         gc.setFill(gridColor);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        double cellWidth = (canvas.getWidth() - 1) / boardGrid.length;
-        double cellHeight = (canvas.getHeight() - 1) / boardGrid[0].length;
+
+        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / boardGrid.length;
+        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / boardGrid[0].length;
+
+
 
 
         for (int i = 0; i < boardGrid.length; i++) {
@@ -102,17 +109,26 @@ public class Board {
                     gc.setFill(boardColor);
                 }
 
-                double cellY = cellHeight * i;
-                double cellX = cellWidth * j;
+                double cellX = cellHeight * i;
+                double cellY = cellWidth * j;
 
-                gc.fillRect(cellX + 1, cellY + 1, cellWidth - 1, cellHeight - 1);
+                gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
             }
         }
     }
 
+    protected void setDrawScale(double value) {
+        drawScale = value;
+        gridSize = 0.1 * value;
+    }
+
+
+    ///Her er koden som laget ny størrelse på arrayet istedenfor å zoome inn og ut.
+/*
     protected void setCellSize(int value) {
         isRunning = false;
-        boardGrid = ConvertBoard(boardGrid, value);
+       boardGrid = ConvertBoard(boardGrid, value);
+
         rules.setBoard(boardGrid);
         isRunning = true;
     }
@@ -128,6 +144,7 @@ public class Board {
 
         return newBoard;
     }
+*/
 
     public boolean getIsRunning(){
         return isRunning;
