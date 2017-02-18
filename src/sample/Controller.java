@@ -55,6 +55,7 @@ public class Controller implements Initializable{
     }
 
     public void start(){
+        pauseButton.setText("Pause");
         board.start();
     }
 
