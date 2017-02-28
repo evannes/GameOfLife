@@ -73,6 +73,7 @@ public class Controller implements Initializable{
         }
     }
 
+
     public void exitGame(){
         board.exitGame();
     }
