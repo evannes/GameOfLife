@@ -33,8 +33,6 @@ public class Board {
 
     AnimationTimer drawTimer;
 
-
-
     public void setDrawRandomColors(boolean value) {
         drawRandomColors = value;
     }
@@ -51,7 +49,6 @@ public class Board {
 
     public Board(Canvas canvas) {
         //boardGrid = new boolean[boardSize][boardSize];
-
         rules.setBoard(boardGrid);
         draw(canvas);
         drawTimer = new AnimationTimer() {
@@ -79,7 +76,6 @@ public class Board {
         boardGrid[2][1] = true;
         boardGrid[1][0] = true;
     }
-
 
 
     public void start() {
