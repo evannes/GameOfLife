@@ -165,6 +165,11 @@ public class Board {
         return newBoard;
     }
 */
+
+    public boolean getIsRunning(){
+        return isRunning;
+    }
+
     protected void setSpeed(int value) {
         speed = value;
     }
