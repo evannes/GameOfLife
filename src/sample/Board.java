@@ -25,7 +25,6 @@ public class Board {
     private double cellWidth;
     private double cellHeight;
 
-
     Rules rules = new Rules();
 
  // canvas er 800 x 500, så for å få kvadratiske celler må arrayet også følge en lignende ratio
