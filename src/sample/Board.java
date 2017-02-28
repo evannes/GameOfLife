@@ -170,7 +170,7 @@ public class Board {
         isRunning = false;
 
         for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid.length; j++) {
+            for(int j = 0; j < boardGrid[0].length; j++) {
                 boardGrid[i][j] = false;
             }
         }
