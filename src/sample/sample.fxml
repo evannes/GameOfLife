@@ -107,7 +107,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="start" mnemonicParsing="false" onAction="#start" text="Start game" />
-            <Button mnemonicParsing="false" onAction="#pauseGame" text="Pause">
+            <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseGame" prefWidth="70.0" text="Pause">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
