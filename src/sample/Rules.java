@@ -6,14 +6,25 @@ package sample;
 public class Rules {
     private boolean[][] board;
 
-    //Sette brettet Rules skal jobbe med
-    public void setBoard(boolean[][] board) { this.board = board; }
+    /**
+     * The method setting the board the methods in this class should work with.
+     * @param board     The board to work on.
+     */
+    public void setBoard(boolean[][] board) {
+        this.board = board;
+    }
 
-    //Gi ut oppdatert brett
+    /**
+     * The method returning the updated board from this class
+     * @return      the updated board
+     */
     public boolean[][] getBoard() {
         return board;
     }
 
+    /**
+     * The method creating the next generation of cells to be drawn or removed
+     */
     public void nextGeneration(){
         boolean[][] newBoard = new boolean[board.length][board[0].length];
 
@@ -32,60 +43,89 @@ public class Rules {
         board = newBoard;
     }
 
+    /**
+     * The method counting the alive cells surrounding the appointed cell
+     * @param i     the first column index of the array
+     * @param j     the second collumn index of the array
+     * @param board the board we are working on
+     * @return      the number of alive neighboring cells
+     */
     private static int countNeighbor(int i, int j, boolean[][] board){
         int count = 0;
 
-        //sjekke topp
+        //check top
         if (isActiveCell(i, j-1, board))
             count++;
 
-        //sjekke topp-venstre
+        //check top-left
         if (isActiveCell(i-1, j-1, board))
             count++;
 
-        //sjekke topp-høyre
+        //check top-right
         if (isActiveCell(i+1, j-1, board))
             count++;
 
-        //sjekke venstre
+        //check left
         if (isActiveCell(i-1, j, board))
             count++;
 
-        //sjekke høyre
+        //check right
         if (isActiveCell(i+1, j, board))
             count++;
 
-        //sjekke under
+        //check bottom
         if (isActiveCell(i, j+1, board))
             count++;
 
-        //sjekke under-høyre
+        //check bottom-right
         if (isActiveCell(i+1, j+1, board))
             count++;
 
-        //sjekke under-venstre
+        //check bottom-left
         if (isActiveCell(i-1, j+1, board))
             count++;
 
         return count;
     }
 
-    //hvis plassen er død skal den sjekke om den skal bli født
+    /**
+     * The method checking if a dead cell should be born.
+     * @param counter   the amount of alive neighbors to the cell
+     * @return          <code>true</code> if the cell has exactly 3 neighbors
+     */
     private static boolean shouldSpawnActiveCell(int counter) {
         return counter == 3;
     }
 
-    //hvis plassen har en levende celle skal den sjekke om den skal leve videre eller dø
+    /**
+     * The method checking if an alive cell should stay alive or die.
+     * @param counter   the amount of alive neighboring cells
+     * @return          <code>true</code> if the amount of neighboring
+     *                  cells is 2 or 3
+     */
     private static boolean shouldStayAlive(int counter) {
         return counter == 2 || counter == 3;
     }
 
-    //finne ut om cellen er levende OG om den er innafor brettet
+    /**
+     * The method checking if the cell is alive.
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @param board     the board we are working on
+     * @return          <code>true</code> if the cell is alive(true)
+     *                  and not exceeding the board array
+     */
     private static boolean isActiveCell(int i, int j, boolean[][] board) {
         return inBounds(i, j, board) && board[i][j] == true;
     }
 
-    //sjekke om man er utenfor brettet
+    /**
+     * The method checking if the appointed position is within the board array
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @param board     the board we are working on
+     * @return          <code>false</code> if the position is exceeding the board array
+     */
     private static boolean inBounds(int i, int j, boolean[][] board){
         if(i == -1 || j == -1){
             return false;
