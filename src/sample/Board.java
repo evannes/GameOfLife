@@ -24,10 +24,12 @@ public class Board {
     private double gridSize = 0.1;
 
 
-    Rules rules = new Rules();
+    // Ble satt til public for å få test til å virke
+    public Rules rules = new Rules();
 
  // canvas er 800 x 500, så for å få kvadratiske celler må arrayet også følge en lignende ratio
-    protected boolean[][] boardGrid = new boolean[160][100];
+    // Ble også satt til public for å få test til å virke
+ public boolean[][] boardGrid = new boolean[160][100];
 
     AnimationTimer drawTimer;
 
@@ -188,5 +190,22 @@ public class Board {
 
     public void exitGame(){
         System.exit(0);
+    }
+
+    @Override
+    public String toString(){
+
+        String brettOutput = "";
+
+        for(int i = 0; i < boardGrid.length; i++) {
+            for(int j = 0; j < boardGrid[0].length; j++) {
+                if (boardGrid[i][j]) {
+                    brettOutput += "1";
+                } else {
+                    brettOutput += "0";
+                }
+            }
+        }
+        return brettOutput;
     }
 }
