@@ -22,7 +22,8 @@ public class Board {
     private boolean drawRandomColors;
     private double drawScale = 1;
     private double gridSize = 0.1;
-
+    private double cellWidth;
+    private double cellHeight;
 
     Rules rules = new Rules();
 
@@ -30,8 +31,6 @@ public class Board {
     protected boolean[][] boardGrid = new boolean[160][100];
 
     AnimationTimer drawTimer;
-
-
 
     public void setDrawRandomColors(boolean value) {
         drawRandomColors = value;
@@ -49,11 +48,13 @@ public class Board {
 
     public Board(Canvas canvas) {
         //boardGrid = new boolean[boardSize][boardSize];
-
+        rules.setBoard(boardGrid);
+        draw(canvas);
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
             if (isRunning && (now - tid) > speed) {
                 draw(canvas);
+                rules.nextGeneration();
                 tid = System.nanoTime();
             }
 
@@ -76,7 +77,6 @@ public class Board {
     }
 
 
-
     public void start() {
         rules.setBoard(boardGrid);
         defaultStartBoard();
@@ -85,16 +85,12 @@ public class Board {
 
     private void draw(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        rules.nextGeneration();
+        //rules.nextGeneration();
         boardGrid = rules.getBoard();
         gc.setFill(gridColor);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-
-        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / boardGrid.length;
-        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / boardGrid[0].length;
-
-
-
+        cellWidth = (canvas.getWidth()*drawScale - gridSize) / boardGrid.length;
+        cellHeight = (canvas.getHeight()*drawScale - gridSize) / boardGrid[0].length;
 
         for (int i = 0; i < boardGrid.length; i++) {
             for (int j = 0; j < boardGrid[0].length; j++) {
@@ -120,6 +116,29 @@ public class Board {
     protected void setDrawScale(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
+    }
+
+    public void userDrawCell(Canvas canvas){
+        canvas.setOnMouseClicked(e -> {
+            cellWidth = (canvas.getWidth()*drawScale + gridSize) / boardGrid.length;
+            cellHeight = (canvas.getHeight()*drawScale + gridSize) / boardGrid[0].length;
+            int korX = (int)e.getX();
+            int korY = (int)e.getY();
+            System.out.println("X: " + korX);
+            System.out.println("Y: " + korY);
+            int arrayX = (int)Math.floor(korX/(int)cellWidth);
+            System.out.println("Array X:" + arrayX);
+            int arrayY = (int)Math.floor(korY/(int)cellHeight);
+            System.out.println("Array Y:" + arrayY);
+
+            if(boardGrid[arrayX][arrayY] == false) {
+                boardGrid[arrayX][arrayY] = true;
+            } else {
+                boardGrid[arrayX][arrayY] = false;
+            }
+            rules.setBoard(boardGrid);
+            draw(canvas);
+        });
     }
 
 
@@ -189,4 +208,6 @@ public class Board {
     public void exitGame(){
         System.exit(0);
     }
+
+
 }

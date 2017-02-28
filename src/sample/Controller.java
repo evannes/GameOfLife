@@ -80,6 +80,8 @@ public class Controller implements Initializable{
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         board = new Board(canvas);
 
+        board.userDrawCell(canvas);
+
         changeSpeed.valueProperty().addListener(
             (observable, oldValue, value) ->
             {
