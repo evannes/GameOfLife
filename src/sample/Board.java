@@ -209,9 +209,5 @@ public class Board {
         System.exit(0);
     }
 
-    public boolean getIsRunning(){
-        return isRunning;
-    }
-
 
 }
