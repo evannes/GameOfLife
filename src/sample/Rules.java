@@ -8,7 +8,7 @@ public class Rules {
 
     /**
      * The method setting the board the methods in this class should work with.
-     * @param board     The board to work on.
+     * @param board     The board to work with.
      */
     public void setBoard(boolean[][] board) {
         this.board = board;
@@ -23,7 +23,7 @@ public class Rules {
     }
 
     /**
-     * The method creating the next generation of cells to be drawn or removed
+     * The method creating the next generation of cells to be drawn or removed.
      */
     public void nextGeneration(){
         boolean[][] newBoard = new boolean[board.length][board[0].length];
@@ -32,7 +32,6 @@ public class Rules {
             for(int j = 0; j < board[0].length; j++){
 
                 int neighbors = countNeighbor(i, j, board);
-                //System.out.print(neighbors);
                 if(board[i][j] == false) {
                     newBoard[i][j] = shouldSpawnActiveCell(neighbors) ? true : false;
                 } else {
@@ -46,8 +45,8 @@ public class Rules {
     /**
      * The method counting the alive cells surrounding the appointed cell
      * @param i     the first column index of the array
-     * @param j     the second collumn index of the array
-     * @param board the board we are working on
+     * @param j     the second column index of the array
+     * @param board the board which contains the assigned coordinates
      * @return      the number of alive neighboring cells
      */
     private static int countNeighbor(int i, int j, boolean[][] board){
@@ -89,7 +88,7 @@ public class Rules {
     }
 
     /**
-     * The method checking if a dead cell should be born.
+     * The method checking if a cell should be born.
      * @param counter   the amount of alive neighbors to the cell
      * @return          <code>true</code> if the cell has exactly 3 neighbors
      */
@@ -111,8 +110,8 @@ public class Rules {
      * The method checking if the cell is alive.
      * @param i         the first column index of the array
      * @param j         the second column index of the array
-     * @param board     the board we are working on
-     * @return          <code>true</code> if the cell is alive(true)
+     * @param board     the board which contains the assigned coordinates
+     * @return          <code>true</code> if the cell is alive
      *                  and not exceeding the board array
      */
     private static boolean isActiveCell(int i, int j, boolean[][] board) {
@@ -123,7 +122,7 @@ public class Rules {
      * The method checking if the appointed position is within the board array
      * @param i         the first column index of the array
      * @param j         the second column index of the array
-     * @param board     the board we are working on
+     * @param board     the board which contains the assigned coordinates
      * @return          <code>false</code> if the position is exceeding the board array
      */
     private static boolean inBounds(int i, int j, boolean[][] board){
