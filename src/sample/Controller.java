@@ -105,9 +105,10 @@ public class Controller implements Initializable{
         board.exitGame();
     }
 
+    protected boolean[][] boardGrid = new boolean[160][100];
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        board = new Board(canvas);
+        board = new Board(canvas, boardGrid);
 
         board.userDrawCell(canvas);
 

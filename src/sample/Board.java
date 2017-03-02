@@ -27,10 +27,10 @@ public class Board {
     private double cellWidth;
     private double cellHeight;
 
-    private Rules rules = new Rules();
+    public Rules rules = new Rules();
 
     //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
-    protected boolean[][] boardGrid = new boolean[160][100];
+    protected boolean[][] boardGrid;// = new boolean[160][100];
 
     AnimationTimer drawTimer;
 
@@ -39,10 +39,11 @@ public class Board {
      * Constructs and initiates the visible playing board.
      * @param canvas        the canvas the board is to be painted on
      */
-    public Board(Canvas canvas) {
+    public Board(Canvas canvas, boolean[][] board) {
         //boardGrid = new boolean[boardSize][boardSize];
-        rules.setBoard(boardGrid);
-        draw(canvas);
+        rules.setBoard(board);
+        this.boardGrid = board;
+        //draw(canvas);
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - tid) > speed) {
@@ -234,8 +235,10 @@ public class Board {
     public void clearBoard(){
         isRunning = false;
 
-        for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid[0].length; j++) {
+        /*for(int i = 0; i < boardGrid.length; i++) {
+            for(int j = 0; j < boardGrid[0].length; j++) {*/
+        for(int i = 0; i < this.boardGrid.length; i++) {
+            for(int j = 0; j < this.boardGrid[0].length; j++) {
                 boardGrid[i][j] = false;
             }
         }
@@ -264,5 +267,19 @@ public class Board {
         System.exit(0);
     }
 
+    @Override
+    public String toString(){
+        String brettOutput = "";
+        for(int i = 0; i < boardGrid.length; i++) {
+            for(int j = 0; j < boardGrid[0].length; j++) {
+                if (boardGrid[i][j]) {
+                    brettOutput += "1";
+                    } else {
+                    brettOutput += "0";
+                    }
+                }
+            }
+        return brettOutput;
+    }
 
 }
