@@ -8,11 +8,10 @@ import sample.Rules;
 /**
  * Created by Alex on 22.02.2017.
  */
-public class testClassPatternTwo {
+public class testNextGenerationPatternTwo {
 
     private boolean[][] testBoardGrid = new boolean[4][4];
     private Board testBoard = new Board(testBoardGrid);
-
 
     /**
      * Applies a given default pattern to the board being tested.
@@ -29,15 +28,14 @@ public class testClassPatternTwo {
      * Used to set up the board again after running {@link Rules#nextGeneration()}
      * @param testBoard     the board used for testing
      */
-    private void settBrett(Board testBoard) {
+    private void setBoard(Board testBoard) {
         testBoard.boardGrid = testBoard.rules.getBoard();
     }
-
-
 
     @Test
     public void testInitialBoard() {
         defaultBoard(testBoardGrid);
+
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "1000110010000000");
     }
 
@@ -45,7 +43,8 @@ public class testClassPatternTwo {
     public void testNextGenerationFirstRun() {
         defaultBoard(testBoardGrid);
         testBoard.rules.nextGeneration();
-        settBrett(testBoard);
+        setBoard(testBoard);
+
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "1100110011000000");
     }
 
@@ -54,7 +53,8 @@ public class testClassPatternTwo {
         defaultBoard(testBoardGrid);
         testBoard.rules.nextGeneration();
         testBoard.rules.nextGeneration();
-        settBrett(testBoard);
+        setBoard(testBoard);
+
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "1100001011000000");
     }
 
@@ -64,7 +64,8 @@ public class testClassPatternTwo {
         testBoard.rules.nextGeneration();
         testBoard.rules.nextGeneration();
         testBoard.rules.nextGeneration();
-        settBrett(testBoard);
+        setBoard(testBoard);
+
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "0100001001000000");
     }
 
@@ -75,7 +76,8 @@ public class testClassPatternTwo {
         testBoard.rules.nextGeneration();
         testBoard.rules.nextGeneration();
         testBoard.rules.nextGeneration();
-        settBrett(testBoard);
+        setBoard(testBoard);
+
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "0000011000000000");
     }
 
@@ -87,7 +89,8 @@ public class testClassPatternTwo {
         testBoard.rules.nextGeneration();
         testBoard.rules.nextGeneration();
         testBoard.rules.nextGeneration();
-        settBrett(testBoard);
+        setBoard(testBoard);
+
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "0000000000000000");
     }
 }

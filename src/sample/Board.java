@@ -276,19 +276,23 @@ public class Board {
         System.exit(0);
     }
 
+    /**
+     * Method used to unit test {@link Rules#nextGeneration()}
+     * @return  The board array in an easy to read String format
+     */
     @Override
     public String toString(){
-        String brettOutput = "";
+        String boardStringOutput = "";
         for(int i = 0; i < boardGrid.length; i++) {
             for(int j = 0; j < boardGrid[0].length; j++) {
                 if (boardGrid[i][j]) {
-                    brettOutput += "1";
+                    boardStringOutput += "1";
                     } else {
-                    brettOutput += "0";
+                    boardStringOutput += "0";
                     }
                 }
             }
-        return brettOutput;
+        return boardStringOutput;
     }
 
 }

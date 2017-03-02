@@ -8,11 +8,10 @@ import sample.Rules;
 /**
  * Created by Alex on 22.02.2017.
  */
-public class testClassPatternOne {
+public class testNextGenerationPatternOne {
 
     private boolean[][] testBoardGrid = new boolean[4][4];
     private Board testBoard = new Board(testBoardGrid);
-
 
     /**
      * Applies a given default pattern to the board being tested.
@@ -33,27 +32,23 @@ public class testClassPatternOne {
      * Used to set up the board again after running {@link Rules#nextGeneration()}
      * @param testBoard     the board used for testing
      */
-    private void settBrett(Board testBoard) {
+    private void setBoard(Board testBoard) {
         testBoard.boardGrid = testBoard.rules.getBoard();
     }
-
-
 
     @Test
     public void testInitialBoard() {
         defaultBoard(testBoardGrid);
+
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "1001011001101001");
-        //System.out.println("Første assert riktig, default brett: " + testBoard.toString());
     }
 
     @Test
     public void testNextGeneration() {
         defaultBoard(testBoardGrid);
         testBoard.rules.nextGeneration();
-        settBrett(testBoard);
+        setBoard(testBoard);
 
-        //System.out.println("nextGen kjørt, tostring er: " + testBoard.toString());
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "0110100110010110");
-        //System.out.println("Andre assert riktig, Første nextGeneration kjørt: " + testBoard.toString());
     }
 }
