@@ -9,7 +9,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Bruker on 03.02.2017.
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
 public class Board {
     private boolean isRunning = false;
@@ -22,53 +24,55 @@ public class Board {
     private boolean drawRandomColors;
     private double drawScale = 1;
     private double gridSize = 0.1;
+    private double cellWidth;
+    private double cellHeight;
 
+    private Rules rules = new Rules();
 
-    // Ble satt til public for å få test til å virke
-    public Rules rules = new Rules();
-
- // canvas er 800 x 500, så for å få kvadratiske celler må arrayet også følge en lignende ratio
-    // Ble også satt til public for å få test til å virke
- public boolean[][] boardGrid = new boolean[160][100];
+    //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
+    protected boolean[][] boardGrid = new boolean[160][100];
 
     AnimationTimer drawTimer;
 
 
-
-    public void setDrawRandomColors(boolean value) {
-        drawRandomColors = value;
-    }
-
-/*
-    public void initBoard(){
-        for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid.length; j++) {
-                boardGrid[i][j] = (byte)(Math.random()*2);
-            }
-        }
-    }
-*/
-
+    /**
+     * Constructs and initiates the visible playing board.
+     * @param canvas        the canvas the board is to be painted on
+     */
     public Board(Canvas canvas) {
         //boardGrid = new boolean[boardSize][boardSize];
-
+        rules.setBoard(boardGrid);
+        draw(canvas);
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
-            if (isRunning && (now - tid) > speed) {
-                draw(canvas);
-                tid = System.nanoTime();
-            }
+                if (isRunning && (now - tid) > speed) {
+                    draw(canvas);
+                    rules.nextGeneration();
+                    tid = System.nanoTime();
+                }
 
-            if (isClearing){
-                isClearing = false;
-                draw(canvas);
-            }
+                if (isClearing){
+                    isClearing = false;
+                    draw(canvas);
+                }
             }
         };
 
         drawTimer.start();
     }
 
+
+    /**
+     * The method used for setting random colors to the cells.
+     * @param value     <code>true</code> if drawRandomColors is to be turned on
+     */
+    public void setDrawRandomColors(boolean value) {
+        drawRandomColors = value;
+    }
+
+    /**
+     * The method applying a default pattern of cells to the board.
+     */
     public void defaultStartBoard(){
         boardGrid[0][2] = true;
         boardGrid[1][2] = true;
@@ -77,26 +81,28 @@ public class Board {
         boardGrid[1][0] = true;
     }
 
-
-
-    public void start() {
+    /**
+     * The method starting the game over again with the preset pattern.
+     */
+    public void newGame() {
+        clearBoard();
         rules.setBoard(boardGrid);
         defaultStartBoard();
         isRunning = true;
     }
 
+    /**
+     * The method drawing the board with alive cells, background
+     * and grid. The method will draw the board according to the array applied in the <code>rules</code> class.
+     * @param canvas    the canvas to be drawn on.
+     */
     private void draw(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        rules.nextGeneration();
         boardGrid = rules.getBoard();
         gc.setFill(gridColor);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-
-        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / boardGrid.length;
-        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / boardGrid[0].length;
-
-
-
+        cellWidth = (canvas.getWidth()*drawScale - gridSize) / boardGrid.length;
+        cellHeight = (canvas.getHeight()*drawScale - gridSize) / boardGrid[0].length;
 
         for (int i = 0; i < boardGrid.length; i++) {
             for (int j = 0; j < boardGrid[0].length; j++) {
@@ -119,9 +125,41 @@ public class Board {
         }
     }
 
+    /**
+     * The method scaling the board.
+     * The higher the value passed in the larger the board will become.
+     * @param value     the value used to change the size of the board.
+     */
     protected void setDrawScale(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
+    }
+
+    public void start() {
+        isRunning = true;
+    }
+
+    /**
+     * The method which lets the user set or remove cells manually from the board.
+     * @param canvas        the canvas to get the coordinates from
+     */
+    public void userDrawCell(Canvas canvas){
+        canvas.setOnMouseClicked(e -> {
+            cellWidth = (canvas.getWidth()*drawScale + gridSize) / boardGrid.length;
+            cellHeight = (canvas.getHeight()*drawScale + gridSize) / boardGrid[0].length;
+            int korX = (int)e.getX();
+            int korY = (int)e.getY();
+            int arrayX = (int)Math.floor(korX/(int)cellWidth);
+            int arrayY = (int)Math.floor(korY/(int)cellHeight);
+
+            if(boardGrid[arrayX][arrayY] == false) {
+                boardGrid[arrayX][arrayY] = true;
+            } else {
+                boardGrid[arrayX][arrayY] = false;
+            }
+            rules.setBoard(boardGrid);
+            draw(canvas);
+        });
     }
 
 
@@ -148,64 +186,83 @@ public class Board {
     }
 */
 
+
+    /**
+     * The method return whether the animation is running or not.
+     * @return      <code>true</code> if the animation
+     *              is running.
+     */
     public boolean getIsRunning(){
         return isRunning;
     }
 
+    /**
+     * The method setting the speed of the animation.
+     * @param value     the value used to set the speed of the animation
+     */
     protected void setSpeed(int value) {
         speed = value;
     }
 
+    /**
+     * The method setting color to the alive cells
+     * @param colorPicker       the input color to set on the cell
+     */
     public void setCellColor(ColorPicker colorPicker){
         cellColor = colorPicker.getValue();
     }
 
+    /**
+     * The method setting color to the grid
+     * @param colorPicker       the input color to set on the grid
+     */
     public void setGridColor(ColorPicker colorPicker) {
         gridColor = colorPicker.getValue();
     }
 
+    /**
+     * The method setting color to the boards background
+     * @param colorPicker       the input color to set on the boards background
+     */
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
     }
 
+    /**
+     * The method clearing the board.
+     */
     public void clearBoard(){
         isRunning = false;
 
         for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid.length; j++) {
+            for(int j = 0; j < boardGrid[0].length; j++) {
                 boardGrid[i][j] = false;
             }
         }
-
+        rules.setBoard(boardGrid);
         isClearing = true;
     }
 
+    /**
+     * The method pausing the game by stopping the animation.
+     */
     public void pauseGame(){
         isRunning = false;
     }
 
+    /**
+     * The method resuming the game by starting the animation again.
+     */
     public void resumeGame(){
         isRunning = true;
     }
 
+    /**
+     * The method exiting the game.
+     */
     public void exitGame(){
         System.exit(0);
     }
 
-    @Override
-    public String toString(){
 
-        String brettOutput = "";
-
-        for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid[0].length; j++) {
-                if (boardGrid[i][j]) {
-                    brettOutput += "1";
-                } else {
-                    brettOutput += "0";
-                }
-            }
-        }
-        return brettOutput;
-    }
 }

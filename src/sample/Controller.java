@@ -38,31 +38,56 @@ public class Controller implements Initializable{
     @FXML
     private Button pauseButton;
 
+    /**
+     * Assigns color to the cells.
+     */
     public void setCellColor(){
         board.setCellColor(colorPicker);
     }
 
+    /**
+     * Assigns color to the grid.
+     */
     public void setGridColor(){
         board.setGridColor(colorPicker);
     }
 
+    /**
+     * Assigns color to the boards background.
+     */
     public void setBoardColor(){
         board.setBoardColor(colorPicker);
     }
 
+    /**
+     * Assigns random colors to the cells.
+     */
     public void setRandomColors(){
         board.setDrawRandomColors(randomColors.isSelected());
     }
 
-    public void start(){
+    /**
+     * Starts a new game from the beginning.
+     */
+    public void newGame(){
         pauseButton.setText("Pause");
-        board.start();
+        board.newGame();
     }
 
+    /**
+     * Clears the board.
+     */
     public void clearBoard(){
         board.clearBoard();
     }
 
+    public void start() {
+        board.start();
+    }
+
+    /**
+     * Pauses the game.
+     */
     public void pauseGame(){
         if(board.getIsRunning()) {
             board.pauseGame();
@@ -73,12 +98,18 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Exits the game.
+     */
     public void exitGame(){
         board.exitGame();
     }
 
+
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         board = new Board(canvas);
+
+        board.userDrawCell(canvas);
 
         changeSpeed.valueProperty().addListener(
             (observable, oldValue, value) ->
