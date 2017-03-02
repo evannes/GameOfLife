@@ -30,7 +30,9 @@ public class Board {
     public Rules rules = new Rules();
 
     //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
-    protected boolean[][] boardGrid;// = new boolean[160][100];
+    //public boolean[][] boardGrid;// = new boolean[160][100];
+
+    public boolean[][] boardGrid = new boolean[160][100];
 
     AnimationTimer drawTimer;
 
@@ -39,11 +41,9 @@ public class Board {
      * Constructs and initiates the visible playing board.
      * @param canvas        the canvas the board is to be painted on
      */
-    public Board(Canvas canvas, boolean[][] board) {
-        //boardGrid = new boolean[boardSize][boardSize];
-        rules.setBoard(board);
-        this.boardGrid = board;
-        //draw(canvas);
+    public Board(Canvas canvas) {
+        rules.setBoard(boardGrid);
+        draw(canvas);
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - tid) > speed) {
@@ -60,6 +60,15 @@ public class Board {
         };
 
         drawTimer.start();
+    }
+
+    /**
+     * Constructs and initiates the playing board used for unit testing.
+     * @param board     the board used instead of the default board
+     */
+    public Board(boolean[][] board) {
+        rules.setBoard(board);
+        this.boardGrid = board;
     }
 
 
