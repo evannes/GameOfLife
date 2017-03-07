@@ -135,6 +135,7 @@ public class Board {
     protected void setDrawScale(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
+        draw(canvas);
     }
 
     public void start() {
