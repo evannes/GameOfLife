@@ -43,6 +43,7 @@ public class Controller implements Initializable{
      */
     public void setCellColor(){
         board.setCellColor(colorPicker);
+        board.draw(canvas);
     }
 
     /**
@@ -50,6 +51,7 @@ public class Controller implements Initializable{
      */
     public void setGridColor(){
         board.setGridColor(colorPicker);
+        board.draw(canvas);
     }
 
     /**
@@ -57,6 +59,7 @@ public class Controller implements Initializable{
      */
     public void setBoardColor(){
         board.setBoardColor(colorPicker);
+        board.draw(canvas);
     }
 
     /**
@@ -82,6 +85,8 @@ public class Controller implements Initializable{
     }
 
     public void start() {
+
+        pauseButton.setText("Pause");
         board.start();
     }
 
@@ -115,12 +120,14 @@ public class Controller implements Initializable{
             (observable, oldValue, value) ->
             {
                 board.setSpeed((int)((double)value * 10000000));
+                board.draw(canvas);
             });
 
         changeCellSize.valueProperty().addListener(
             (observable, oldValue, value) ->
             {
                 board.setDrawScale((double)value);
+                board.draw(canvas);
             });
 
         board.setSpeed((int)(changeSpeed.getValue() * 10000000));

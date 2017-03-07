@@ -96,7 +96,7 @@ public class Board {
      * and grid. The method will draw the board according to the array applied in the <code>rules</code> class.
      * @param canvas    the canvas to be drawn on.
      */
-    private void draw(Canvas canvas) {
+    public void draw(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         boardGrid = rules.getBoard();
         gc.setFill(gridColor);
