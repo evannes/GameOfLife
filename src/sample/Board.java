@@ -26,6 +26,7 @@ public class Board {
     private double gridSize = 0.1;
     private double cellWidth;
     private double cellHeight;
+    private Canvas canvas;
 
     private Rules rules = new Rules();
 
@@ -41,6 +42,7 @@ public class Board {
      */
     public Board(Canvas canvas) {
         //boardGrid = new boolean[boardSize][boardSize];
+        this.canvas = canvas;
         rules.setBoard(boardGrid);
         draw(canvas);
         drawTimer = new AnimationTimer() {
@@ -202,6 +204,7 @@ public class Board {
      */
     protected void setSpeed(int value) {
         speed = value;
+        draw(canvas);
     }
 
     /**
@@ -210,6 +213,7 @@ public class Board {
      */
     public void setCellColor(ColorPicker colorPicker){
         cellColor = colorPicker.getValue();
+        draw(canvas);
     }
 
     /**
@@ -218,6 +222,7 @@ public class Board {
      */
     public void setGridColor(ColorPicker colorPicker) {
         gridColor = colorPicker.getValue();
+        draw(canvas);
     }
 
     /**
@@ -226,6 +231,7 @@ public class Board {
      */
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
+        draw(canvas);
     }
 
     /**
