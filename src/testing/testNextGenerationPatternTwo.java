@@ -93,4 +93,5 @@ public class testNextGenerationPatternTwo {
 
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "0000000000000000");
     }
+
 }

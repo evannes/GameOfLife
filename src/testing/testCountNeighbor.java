@@ -173,4 +173,5 @@ public class testCountNeighbor {
         int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 8);
     }
+
 }

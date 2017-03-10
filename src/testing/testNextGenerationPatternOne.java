@@ -51,4 +51,5 @@ public class testNextGenerationPatternOne {
 
         org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "0110100110010110");
     }
+
 }

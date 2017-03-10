@@ -129,4 +129,5 @@ public class Controller implements Initializable{
 
         board.setSpeed((int)(changeSpeed.getValue() * 10000000));
     }
+
 }
