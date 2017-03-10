@@ -26,6 +26,7 @@ public class Board {
     private double gridSize = 0.1;
     private double cellWidth;
     private double cellHeight;
+    private Canvas canvas;
 
     private Rules rules = new Rules();
 
@@ -41,6 +42,7 @@ public class Board {
      */
     public Board(Canvas canvas) {
         //boardGrid = new boolean[boardSize][boardSize];
+        this.canvas = canvas;
         rules.setBoard(boardGrid);
         draw(canvas);
         drawTimer = new AnimationTimer() {
@@ -96,7 +98,7 @@ public class Board {
      * and grid. The method will draw the board according to the array applied in the <code>rules</code> class.
      * @param canvas    the canvas to be drawn on.
      */
-    private void draw(Canvas canvas) {
+    public void draw(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         boardGrid = rules.getBoard();
         gc.setFill(gridColor);
@@ -133,6 +135,7 @@ public class Board {
     protected void setDrawScale(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
+        draw(canvas);
     }
 
     public void start() {
@@ -202,6 +205,7 @@ public class Board {
      */
     protected void setSpeed(int value) {
         speed = value;
+        draw(canvas);
     }
 
     /**
@@ -210,6 +214,7 @@ public class Board {
      */
     public void setCellColor(ColorPicker colorPicker){
         cellColor = colorPicker.getValue();
+        draw(canvas);
     }
 
     /**
@@ -218,6 +223,7 @@ public class Board {
      */
     public void setGridColor(ColorPicker colorPicker) {
         gridColor = colorPicker.getValue();
+        draw(canvas);
     }
 
     /**
@@ -226,6 +232,7 @@ public class Board {
      */
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
+        draw(canvas);
     }
 
     /**
