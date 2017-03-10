@@ -12,7 +12,7 @@ public class testCountNeighbor {
     private Board testBoard = new Board(testBoardGrid);
 
     /**
-     * Used to set up the board again after running {@link Rules#nextGeneration()}
+     * Used to set up the board again after running {@link Rules#nextGeneration()}.
      * @param testBoard     the board used for testing
      */
     private void setBoard(Board testBoard) {
