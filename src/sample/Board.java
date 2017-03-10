@@ -28,10 +28,12 @@ public class Board {
     private double cellHeight;
     private Canvas canvas;
 
-    private Rules rules = new Rules();
+    public Rules rules = new Rules();
 
     //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
-    protected boolean[][] boardGrid = new boolean[160][100];
+    //public boolean[][] boardGrid;// = new boolean[160][100];
+
+    public boolean[][] boardGrid = new boolean[160][100];
 
     AnimationTimer drawTimer;
 
@@ -61,6 +63,15 @@ public class Board {
         };
 
         drawTimer.start();
+    }
+
+    /**
+     * Constructs and initiates the playing board used for unit testing.
+     * @param board     the board used instead of the default board
+     */
+    public Board(boolean[][] board) {
+        rules.setBoard(board);
+        this.boardGrid = board;
     }
 
 
@@ -241,8 +252,10 @@ public class Board {
     public void clearBoard(){
         isRunning = false;
 
-        for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid[0].length; j++) {
+        /*for(int i = 0; i < boardGrid.length; i++) {
+            for(int j = 0; j < boardGrid[0].length; j++) {*/
+        for(int i = 0; i < this.boardGrid.length; i++) {
+            for(int j = 0; j < this.boardGrid[0].length; j++) {
                 boardGrid[i][j] = false;
             }
         }
@@ -271,5 +284,23 @@ public class Board {
         System.exit(0);
     }
 
+    /**
+     * Method used to unit test {@link Rules#nextGeneration()}
+     * @return  The board array in an easy to read String format
+     */
+    @Override
+    public String toString(){
+        String boardStringOutput = "";
+        for(int i = 0; i < boardGrid.length; i++) {
+            for(int j = 0; j < boardGrid[0].length; j++) {
+                if (boardGrid[i][j]) {
+                    boardStringOutput += "1";
+                    } else {
+                    boardStringOutput += "0";
+                    }
+                }
+            }
+        return boardStringOutput;
+    }
 
 }

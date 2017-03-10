@@ -49,7 +49,9 @@ public class Rules {
      * @param board the board which contains the assigned coordinates
      * @return      the number of alive neighboring cells
      */
-    private static int countNeighbor(int i, int j, boolean[][] board){
+
+    // Was private
+    public static int countNeighbor(int i, int j, boolean[][] board){
         int count = 0;
 
         //check top
