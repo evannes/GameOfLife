@@ -6,7 +6,9 @@ import sample.Board;
 import sample.Rules;
 
 /**
- * Created by Alex on 22.02.2017.
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
 public class testNextGenerationPatternTwo {
 

@@ -5,7 +5,9 @@ import sample.Board;
 import sample.Rules;
 
 /**
- * Created by Alex on 02.03.2017.
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
 public class testCountNeighbor {
     boolean[][] testBoardGrid = new boolean[3][3];

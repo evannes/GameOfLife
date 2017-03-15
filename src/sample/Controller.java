@@ -6,14 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.*;
+import javafx.stage.FileChooser;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -22,6 +22,7 @@ public class Controller implements Initializable{
     private Canvas canvas;
 
     Board board;
+    FileHandling fileHandling = new FileHandling();
 
     @FXML
     private Slider changeCellSize;
@@ -37,6 +38,18 @@ public class Controller implements Initializable{
 
     @FXML
     private Button pauseButton;
+
+    @FXML
+    private ChoiceBox selectPattern;
+
+    public void selectPattern() {
+        if (Objects.equals(selectPattern.getValue(), "Disk")) {
+            fileHandling.readPatternFromDisk();
+        } else {
+            fileHandling.readPatternFromURL();
+        }
+        //System.out.println(selectPattern.getValue());
+    }
 
     /**
      * Assigns color to the cells.
@@ -128,6 +141,8 @@ public class Controller implements Initializable{
             });
 
         board.setSpeed((int)(changeSpeed.getValue() * 10000000));
+
+        //readPattern
     }
 
 }

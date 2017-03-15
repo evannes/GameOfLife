@@ -105,7 +105,7 @@ public class Board {
     }
 
     /**
-     * The method drawing the board with alive cells, background
+     * The method drawing the board with alive cells, background.
      * and grid. The method will draw the board according to the array applied in the <code>rules</code> class.
      * @param canvas    the canvas to be drawn on.
      */
@@ -220,7 +220,7 @@ public class Board {
     }
 
     /**
-     * The method setting color to the alive cells
+     * The method setting color to the alive cells.
      * @param colorPicker       the input color to set on the cell
      */
     public void setCellColor(ColorPicker colorPicker){
@@ -229,7 +229,7 @@ public class Board {
     }
 
     /**
-     * The method setting color to the grid
+     * The method setting color to the grid.
      * @param colorPicker       the input color to set on the grid
      */
     public void setGridColor(ColorPicker colorPicker) {
@@ -238,7 +238,7 @@ public class Board {
     }
 
     /**
-     * The method setting color to the boards background
+     * The method setting color to the boards background.
      * @param colorPicker       the input color to set on the boards background
      */
     public void setBoardColor(ColorPicker colorPicker) {
@@ -285,7 +285,7 @@ public class Board {
     }
 
     /**
-     * Method used to unit test {@link Rules#nextGeneration()}
+     * Method used to unit test {@link Rules#nextGeneration()}.
      * @return  The board array in an easy to read String format
      */
     @Override
