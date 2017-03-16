@@ -87,7 +87,7 @@ public class FileHandling {
     /**
      * Method for reading pattern files from URL.
      */
-    public void readPatternFromURL() {
+    public boolean[][] readPatternFromURL() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Enter URL");
         dialog.setHeaderText(null);
@@ -117,15 +117,15 @@ public class FileHandling {
             int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
             int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
             String expandedCode = expand(code);
-            boolean[][] array = createArray(expandedCode, x, y);
-            //rules.setBoard(array);
-            //board.draw(canvas);
+            array = createArray(expandedCode, x, y);
+
 
 
             }
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
         }
+        return array;
     }
 
     private String getCode(String fileContent) {
@@ -181,14 +181,12 @@ public class FileHandling {
     private boolean[][] createArray(String input, int x, int y) {
         ///HER ER BRETTSTØRRELSE SATT!!!!! Putt x i første og y i andre!!////////////////////////////////////////////////////////
         boolean[][] result = new boolean[160][100];
-        int xIndex = 0;
-        int yIndex = 0;
+        int xIndex = (int)Math.floor((160-x)/2);
+        int yIndex = (int)Math.floor((100-y)/2);
         char[] charArray = input.toCharArray();
-        //System.out.println(input);
-
         for(char charOutput : charArray) {
             if (charOutput == '$') {
-                xIndex = 0;
+                xIndex = (int)Math.floor((160-x)/2);
                 yIndex++;
             }
             else if (charOutput == 'o') {

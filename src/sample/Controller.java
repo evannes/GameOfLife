@@ -42,14 +42,13 @@ public class Controller implements Initializable{
 
     public void selectPatternFromDisk() {
         boolean array[][] = fileHandling.readPatternFromDisk();
-
         board.rules.setBoard(array);
-        boolean array2[][] = board.rules.getBoard();
         board.draw(canvas);
     }
 
     public void selectPatternFromURL() {
-        fileHandling.readPatternFromURL();
+        boolean array[][] = fileHandling.readPatternFromURL();
+        board.rules.setBoard(array);
         board.draw(canvas);
     }
 
