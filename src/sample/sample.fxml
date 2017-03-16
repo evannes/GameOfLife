@@ -8,31 +8,16 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.collections.*?>
 
-<!--
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <BorderPane prefHeight="500.0" prefWidth="450.0">
-
-      </BorderPane>
-   </children>
-</GridPane>-->
-
-<?import java.lang.String?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <left>
       <VBox prefHeight="800.0" prefWidth="260.0" BorderPane.alignment="CENTER">
          <children>
@@ -54,22 +39,17 @@
                </padding>
             </Label>
             <ChoiceBox prefWidth="150.0" />
-            <Label text="Select pattern from:">
+            <Label text="Pattern:">
                <padding>
                   <Insets top="5.0" />
                </padding>
             </Label>
-            <ChoiceBox fx:id="selectPattern" prefWidth="150.0" onAction="#selectPattern">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Disk"/>
-                     <String fx:value="URL"/>
-                  </FXCollections>
-               </items>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </ChoiceBox>
+            <MenuButton mnemonicParsing="false" text="Load from:" prefWidth="150.0" fx:id="patternButton">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Disk" onAction="#selectPatternFromDisk" style="-fx-pref-width: 138px"/>
+                <MenuItem mnemonicParsing="false" text="URL" onAction="#selectPatternFromURL" style="-fx-pref-width: 138px"/>
+              </items>
+            </MenuButton>
             <HBox>
                <children>
                   <Label text="Smaller">
