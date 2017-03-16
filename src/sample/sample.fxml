@@ -44,10 +44,10 @@
                   <Insets top="5.0" />
                </padding>
             </Label>
-            <MenuButton mnemonicParsing="false" text="Load from:" prefWidth="150.0" fx:id="patternButton">
+            <MenuButton fx:id="patternButton" mnemonicParsing="false" prefWidth="150.0" text="Load from:">
               <items>
-                <MenuItem mnemonicParsing="false" text="Disk" onAction="#selectPatternFromDisk" style="-fx-pref-width: 138px"/>
-                <MenuItem mnemonicParsing="false" text="URL" onAction="#selectPatternFromURL" style="-fx-pref-width: 138px"/>
+                <MenuItem mnemonicParsing="false" onAction="#selectPatternFromDisk" style="-fx-pref-width: 138px" text="Computer" />
+                <MenuItem mnemonicParsing="false" onAction="#selectPatternFromURL" style="-fx-pref-width: 138px" text="URL" />
               </items>
             </MenuButton>
             <HBox>
