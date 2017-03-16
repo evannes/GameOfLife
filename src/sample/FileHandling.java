@@ -3,6 +3,7 @@ package sample;
 
 
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
@@ -14,6 +15,9 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * @author Miina Lervik
@@ -21,8 +25,13 @@ import java.util.Optional;
  * @author Alexander Kingdon
  */
 public class FileHandling {
-
+    private Canvas canvas;
+    Rules rules = new Rules();
     Charset charset = Charset.forName("US-ASCII");
+
+    public FileHandling() {
+    }
+
 
     public void readGameBoard(Reader r) throws IOException {
 
@@ -53,7 +62,23 @@ public class FileHandling {
                     patternString += currentLine + "\n";
                 }
 
-                System.out.println(patternString);
+                String code = getCode(patternString);
+                int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
+                int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
+                String expandedCode = expand(code);
+                boolean[][] array = createArray(expandedCode, x, y);
+
+                for(boolean[] b : array) {
+                    for(boolean c : b) {
+                        System.out.print(c ? "■" : "□");
+                    }
+                    System.out.println("");
+                }
+
+                rules.setBoard(array);
+                //board.draw(canvas);
+
+
             } else {
                 throw new FileNotFoundException("");
             }
@@ -92,11 +117,93 @@ public class FileHandling {
                 patternString += currentLine + "\n";
             }
 
-            System.out.println(patternString);
+            String code = getCode(patternString);
+            int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
+            int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
+            String expandedCode = expand(code);
+            boolean[][] array = createArray(expandedCode, x, y);
+            //rules.setBoard(array);
+            //board.draw(canvas);
+
 
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
         }
+    }
+
+    private String getCode(String fileContent) {
+        //System.out.println(path);
+        String regex = "(\\$*[ob0-9]+\\$)+([ob0-9]+[\\$!]*)+";
+        //System.out.println(content);
+        Pattern pattern = Pattern.compile(regex);
+        StringBuilder cellPositionCode = new StringBuilder();
+
+
+        Scanner scan = new Scanner(fileContent);
+        while(scan.hasNext()){
+            String content = scan.nextLine();
+            Matcher match = pattern.matcher(content);
+            if(match.find()){
+                cellPositionCode.append(match.group());
+                //System.out.println(match.group());
+            }
+        }
+
+        //System.out.println(cellPositionCode);
+        return cellPositionCode.toString();
+    }
+
+    private String expand(String input) {
+
+        String regex = "([0-9]+)([$bo])";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher match = pattern.matcher(input);
+        StringBuffer result = new StringBuffer();
+        while (match.find())
+        {
+            //holder på tegnet vi skal ekspandere
+            String tmp = "";
+            // i group 1 finnes et tall som angir antallet av tegnet i group 2
+            for (int i = 0; i < Integer.parseInt(match.group(1)); i++) {
+                tmp += match.group(2);
+            }
+
+            match.appendReplacement(result, Matcher.quoteReplacement(tmp));
+        }
+        match.appendTail(result);
+        return result.toString();
+    }
+
+    private String getMatchGroup(String input, String regex, int group) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher match = pattern.matcher(input);
+        match.find();
+        return match.group(group);
+    }
+
+    private boolean[][] createArray(String input, int x, int y) {
+        boolean[][] result = new boolean[160][100];
+        int xIndex = 0;
+        int yIndex = 0;
+        char[] charArray = input.toCharArray();
+        //System.out.println(input);
+
+        for(char charOutput : charArray) {
+            if (charOutput == '$') {
+                yIndex = 0;
+                xIndex++;
+            }
+            else if (charOutput == 'o') {
+                //System.out.println(xIndex + ", " + yIndex);
+                result[xIndex][yIndex] = true;
+                yIndex++;
+            }
+            else if (charOutput == 'b') {
+                yIndex++;
+            }
+        }
+
+        return result;
     }
 
     /**
