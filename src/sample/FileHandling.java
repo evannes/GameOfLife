@@ -25,8 +25,10 @@ import java.util.regex.Matcher;
  * @author Alexander Kingdon
  */
 public class FileHandling {
+    Rules rules = new Rules();
 
     Charset charset = Charset.forName("US-ASCII");
+    private boolean[][] array;
 
     public FileHandling() {
     }
@@ -39,7 +41,7 @@ public class FileHandling {
     /**
      * Method for reading pattern files from disk.
      */
-    public void readPatternFromDisk() {
+    public boolean[][] readPatternFromDisk() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile;
 
@@ -65,17 +67,11 @@ public class FileHandling {
                 int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
                 int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
                 String expandedCode = expand(code);
-                boolean[][] array = createArray(expandedCode, x, y);
+                array = createArray(expandedCode, x, y);
 
-                for(boolean[] b : array) {
-                    for(boolean c : b) {
-                        System.out.print(c ? "■" : "□");
-                    }
-                    System.out.println("");
-                }
 
-                rules.setBoard(array);
-                //board.draw(canvas);
+
+
 
 
             } else {
@@ -85,6 +81,7 @@ public class FileHandling {
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the pattern file", ioe);
         }
+        return array;
     }
 
     /**
@@ -125,6 +122,7 @@ public class FileHandling {
             //board.draw(canvas);
 
 
+            }
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
         }
@@ -181,6 +179,7 @@ public class FileHandling {
     }
 
     private boolean[][] createArray(String input, int x, int y) {
+        ///HER ER BRETTSTØRRELSE SATT!!!!! Putt x i første og y i andre!!////////////////////////////////////////////////////////
         boolean[][] result = new boolean[160][100];
         int xIndex = 0;
         int yIndex = 0;
@@ -189,16 +188,16 @@ public class FileHandling {
 
         for(char charOutput : charArray) {
             if (charOutput == '$') {
-                yIndex = 0;
-                xIndex++;
+                xIndex = 0;
+                yIndex++;
             }
             else if (charOutput == 'o') {
                 //System.out.println(xIndex + ", " + yIndex);
                 result[xIndex][yIndex] = true;
-                yIndex++;
+                xIndex++;
             }
             else if (charOutput == 'b') {
-                yIndex++;
+                xIndex++;
             }
         }
 

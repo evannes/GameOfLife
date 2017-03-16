@@ -22,6 +22,7 @@ public class Controller implements Initializable{
     private Canvas canvas;
 
     Board board;
+    Rules rules = new Rules();
     FileHandling fileHandling = new FileHandling();
 
     @FXML
@@ -40,11 +41,16 @@ public class Controller implements Initializable{
     private Button pauseButton;
 
     public void selectPatternFromDisk() {
-        fileHandling.readPatternFromDisk();
+        boolean array[][] = fileHandling.readPatternFromDisk();
+
+        board.rules.setBoard(array);
+        boolean array2[][] = board.rules.getBoard();
+        board.draw(canvas);
     }
 
     public void selectPatternFromURL() {
         fileHandling.readPatternFromURL();
+        board.draw(canvas);
     }
 
     /**
