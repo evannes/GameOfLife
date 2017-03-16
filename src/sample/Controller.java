@@ -39,16 +39,12 @@ public class Controller implements Initializable{
     @FXML
     private Button pauseButton;
 
-    @FXML
-    private ChoiceBox selectPattern;
+    public void selectPatternFromDisk() {
+        fileHandling.readPatternFromDisk();
+    }
 
-    public void selectPattern() {
-        if (Objects.equals(selectPattern.getValue(), "Disk")) {
-            fileHandling.readPatternFromDisk();
-        } else {
-            fileHandling.readPatternFromURL();
-        }
-        //System.out.println(selectPattern.getValue());
+    public void selectPatternFromURL() {
+        fileHandling.readPatternFromURL();
     }
 
     /**

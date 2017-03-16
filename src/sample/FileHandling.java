@@ -31,7 +31,7 @@ public class FileHandling {
     /**
      * Method for reading pattern files from disk.
      */
-    public void readPatternFromDisk() /*throws IOException */ {
+    public void readPatternFromDisk() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile;
 
@@ -54,8 +54,6 @@ public class FileHandling {
                 }
 
                 System.out.println(patternString);
-            } else {
-                throw new FileNotFoundException("");
             }
 
         } catch (IOException ioe) {
@@ -66,7 +64,7 @@ public class FileHandling {
     /**
      * Method for reading pattern files from URL.
      */
-    public void readPatternFromURL() /*throws IOException*/ {
+    public void readPatternFromURL() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Enter URL");
         dialog.setHeaderText(null);
@@ -77,23 +75,23 @@ public class FileHandling {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 enteredURL = result.get();
+                //}
+                System.out.println(enteredURL);
+
+                URL url = new URL(enteredURL);
+                URLConnection conn = url.openConnection();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                String currentLine = null;
+                String patternString = "";
+
+                while ((currentLine = reader.readLine()) != null) {
+                    patternString += currentLine + "\n";
+                }
+
+                System.out.println(patternString);
             }
-            System.out.println(enteredURL);
-
-            URL url = new URL(enteredURL);
-            URLConnection conn = url.openConnection();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            String currentLine = null;
-            String patternString = "";
-
-            while ((currentLine = reader.readLine()) != null) {
-                patternString += currentLine + "\n";
-            }
-
-            System.out.println(patternString);
-
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
         }
@@ -112,7 +110,7 @@ public class FileHandling {
         if (ioe.toString().contains("MalformedURLException")) {
             alert.setContentText("The URL entered was not valid.");
         } else if (ioe.toString().contains("FileNotFoundException")) {
-            alert.setContentText("The file could not be found at the entered URL.");
+            alert.setContentText("The file could not be found.");
         } else if (ioe.toString().contains("NoSuchFileException")) {
             alert.setContentText("The file could not be found.");
         } else {
