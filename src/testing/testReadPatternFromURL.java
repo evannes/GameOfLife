@@ -16,7 +16,7 @@ import java.net.URLConnection;
  */
 public class testReadPatternFromURL {
 
-    private boolean[][] array;
+    private boolean[][] gameBoardArray;
     private testReadPatternFunctions patterns = new testReadPatternFunctions();
 
     @Test
@@ -24,6 +24,8 @@ public class testReadPatternFromURL {
         try {
             URL url = new URL("http://www.conwaylife.com/patterns/rpentomino.rle");
             testPatternString(url);
+            org.junit.jupiter.api.Assertions.assertEquals(
+                    patterns.getBoundingBoxPattern(gameBoardArray), "010111100");
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }
@@ -32,8 +34,10 @@ public class testReadPatternFromURL {
     @Test
     public void testSecondPattern() {
         try {
-            URL url = new URL("http://www.conwaylife.com/patterns/coesp8.rle");
+            URL url = new URL("http://www.conwaylife.com/patterns/prebeehive.rle");
             testPatternString(url);
+            org.junit.jupiter.api.Assertions.assertEquals(
+                    patterns.getBoundingBoxPattern(gameBoardArray), "111111");
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }
@@ -42,8 +46,10 @@ public class testReadPatternFromURL {
     @Test
     public void testThirdPattern() {
         try {
-            URL url = new URL("http://www.conwaylife.com/patterns/halfmax.rle");
+            URL url = new URL("http://www.conwaylife.com/patterns/thunderbird.rle");
             testPatternString(url);
+            org.junit.jupiter.api.Assertions.assertEquals(
+                    patterns.getBoundingBoxPattern(gameBoardArray), "100001011110000");
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }
@@ -52,8 +58,10 @@ public class testReadPatternFromURL {
     @Test
     public void testFourthPattern() {
         try {
-            URL url = new URL("http://www.conwaylife.com/patterns/blinkerpuffer2.rle");
+            URL url = new URL("http://www.conwaylife.com/patterns/stairstephexomino.rle");
             testPatternString(url);
+            org.junit.jupiter.api.Assertions.assertEquals(
+                    patterns.getBoundingBoxPattern(gameBoardArray), "100110011001");
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }
@@ -62,8 +70,10 @@ public class testReadPatternFromURL {
     @Test
     public void testFifthPattern() {
         try {
-            URL url = new URL("http://www.conwaylife.com/patterns/eaterblockfrob.rle");
+            URL url = new URL("http://www.conwaylife.com/patterns/aircraftcarrier.rle");
             testPatternString(url);
+            org.junit.jupiter.api.Assertions.assertEquals(
+                    patterns.getBoundingBoxPattern(gameBoardArray), "110100001011");
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }
@@ -87,16 +97,11 @@ public class testReadPatternFromURL {
                 patternString += currentLine + "\n";
             }
 
-            array = patterns.parsePattern(patternString);
-            String boardStringOutput = patterns.boardStringOutput(array);
-
-            System.out.println("Board size: " + boardStringOutput.length() + ", Bounding box size: " +
-                    patterns.getBoundingBoxPattern(array).length());
-            System.out.println("Content of getBoundingBoxPattern: " + patterns.getBoundingBoxPattern(array) + "\n");
+            gameBoardArray = patterns.parsePattern(patternString);
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }
-        return array;
+        return gameBoardArray;
     }
 
 }

@@ -17,16 +17,16 @@ class testReadPatternFunctions {
 
     /**
      * Method used to get the bounding box for the pattern provided.
-     * @param array     The pattern array in a ready-to-be-applied format for the game board.
+     * @param gameBoardArray     The pattern array in a ready-to-be-applied format for the game board.
      * @return          The string representation of the game board.
      */
-    String getBoundingBoxPattern(boolean[][] array) {
-        if(array.length == 0) return "";
-        int[] boundingBox = getBoundingBox(array);
+    String getBoundingBoxPattern(boolean[][] gameBoardArray) {
+        if(gameBoardArray.length == 0) return "";
+        int[] boundingBox = getBoundingBox(gameBoardArray);
         String str = "";
         for(int i = boundingBox[0]; i <= boundingBox[1]; i++) {
             for(int j = boundingBox[2]; j <= boundingBox[3]; j++) {
-                if(array[i][j]) {
+                if(gameBoardArray[i][j]) {
                     str = str + "1";
                 } else {
                     str = str + "0";
@@ -39,18 +39,18 @@ class testReadPatternFunctions {
     /**
      * A helping method for {@link testReadPatternFunctions#getBoundingBoxPattern(boolean[][])}.
      * It provides the int array needed to complete the toString-operation.
-     * @param array     The pattern array in a ready-to-be-applied format for the game board.
+     * @param gameBoardArray     The pattern array in a ready-to-be-applied format for the game board.
      * @return          The int array used in {@link testReadPatternFunctions#getBoundingBoxPattern(boolean[][])}.
      */
-    private int[] getBoundingBox(boolean[][] array) {
+    private int[] getBoundingBox(boolean[][] gameBoardArray) {
         int[] boundingBox = new int[4]; // minrow maxrow mincolumn maxcolumn
-        boundingBox[0] = array.length;
+        boundingBox[0] = gameBoardArray.length;
         boundingBox[1] = 0;
-        boundingBox[2] = array[0].length;
+        boundingBox[2] = gameBoardArray[0].length;
         boundingBox[3] = 0;
-        for(int i = 0; i < array.length; i++) {
-            for(int j = 0; j < array[i].length; j++) {
-                if(!array[i][j]) continue;
+        for(int i = 0; i < gameBoardArray.length; i++) {
+            for(int j = 0; j < gameBoardArray[i].length; j++) {
+                if(!gameBoardArray[i][j]) continue;
                 if(i < boundingBox[0]) {
                     boundingBox[0] = i;
                 }
@@ -71,13 +71,13 @@ class testReadPatternFunctions {
     /**
      * Simple method that mimics a toString-method. It gives a representation of the game board in a format that
      * programmers or users can read.
-     * @param array     The pattern array in a ready-to-be-applied format for the game board.
+     * @param gameBoardArray     The pattern array in a ready-to-be-applied format for the game board.
      * @return          A string representation of the game board.
      */
-    String boardStringOutput(boolean[][] array) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
-                if (array[i][j]) {
+    String boardStringOutput(boolean[][] gameBoardArray) {
+        for (int i = 0; i < gameBoardArray.length; i++) {
+            for (int j = 0; j < gameBoardArray[0].length; j++) {
+                if (gameBoardArray[i][j]) {
                     boardStringOutput += "1";
                 } else {
                     boardStringOutput += "0";
@@ -98,8 +98,8 @@ class testReadPatternFunctions {
         int x = Integer.parseInt(fileHandling.getMatchGroup(patternString, "x = (\\d+)", 1));
         int y = Integer.parseInt(fileHandling.getMatchGroup(patternString, "y = (\\d+)", 1));
         String expandedCode = fileHandling.expand(code);
-        boolean[][] array = fileHandling.createArray(expandedCode, x, y);
+        boolean[][] gameBoardArray = fileHandling.createArray(expandedCode, x, y);
 
-        return array;
+        return gameBoardArray;
     }
 }
