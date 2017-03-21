@@ -125,7 +125,7 @@ public class FileHandling {
         return array;
     }
 
-    private String getCode(String fileContent) {
+    public String getCode(String fileContent) {
         //System.out.println(path);
         String regex = "(\\$*[ob0-9]+\\$)+([ob0-9]+[\\$!]*)+";
         //System.out.println(content);
@@ -147,7 +147,7 @@ public class FileHandling {
         return cellPositionCode.toString();
     }
 
-    private String expand(String input) {
+    public String expand(String input) {
 
         String regex = "([0-9]+)([$bo])";
         Pattern pattern = Pattern.compile(regex);
@@ -168,14 +168,14 @@ public class FileHandling {
         return result.toString();
     }
 
-    private String getMatchGroup(String input, String regex, int group) {
+    public String getMatchGroup(String input, String regex, int group) {
         Pattern pattern = Pattern.compile(regex);
         Matcher match = pattern.matcher(input);
         match.find();
         return match.group(group);
     }
 
-    private boolean[][] createArray(String input, int x, int y) {
+    public boolean[][] createArray(String input, int x, int y) {
         ///HER ER BRETTSTØRRELSE SATT!!!!! Putt x i første og y i andre!!////////////////////////////////////////////////////////
         boolean[][] result = new boolean[160][100];
         int xIndex = (int)Math.floor((160-x)/2);
