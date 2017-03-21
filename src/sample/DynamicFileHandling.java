@@ -140,7 +140,6 @@ public class DynamicFileHandling {
                 //System.out.println(match.group());
             }
         }
-
         //System.out.println(cellPositionCode);
         return cellPositionCode.toString();
     }
