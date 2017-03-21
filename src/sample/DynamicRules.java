@@ -4,16 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by miinael on 15.02.2017.
+ * Created by Bruker on 17.03.2017.
  */
-public class Rules {
-    private boolean[][] board;
+public class DynamicRules {
+    //private boolean[][] board;
+    private List<List<Boolean>> board;
+    private List<List<Boolean>> newBoard;
+    private int outerListSize;
+    private int innerListSize;
 
     /**
      * The method setting the board the methods in this class should work with.
      * @param board     The board to work with.
      */
-    public void setBoard(boolean[][] board) {
+    public void setBoard(List<List<Boolean>> board) {
+        outerListSize = board.size();
+        innerListSize = board.get(0).size();
         this.board = board;
     }
 
@@ -33,7 +39,7 @@ public class Rules {
 
 
     }*/
-    public boolean[][] getBoard() {
+    public List<List<Boolean>> getBoard() {
         return board;
     }
 
@@ -41,16 +47,29 @@ public class Rules {
      * The method creating the next generation of cells to be drawn or removed.
      */
     public void nextGeneration(){
-        boolean[][] newBoard = new boolean[board.length][board[0].length];
+        newBoard = new ArrayList<List<Boolean>>(board.size());
+        for(int i = 0; i < 160; i++) {
+            newBoard.add(i, new ArrayList<Boolean>(100));
+        }
 
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board[0].length; j++){
+        for(int i = 0; i < 160; i++){
+            for(int j = 0; j < 100; j++){
+                newBoard.get(i).add(j,false);
+            }
+        }
+        //boolean[][] newBoard = new boolean[board.length][board[0].length];
+
+        System.out.println("Outerlistsize: " + outerListSize);
+        System.out.println("Innerlistsize: " + innerListSize);
+
+        for(int i = 0; i < outerListSize; i++){
+            for(int j = 0; j < innerListSize; j++){
 
                 int neighbors = countNeighbor(i, j, board);
-                if(board[i][j] == false) {
-                    newBoard[i][j] = shouldSpawnActiveCell(neighbors) ? true : false;
+                if(board.get(i).get(j) == false) {
+                    newBoard.get(i).set(j,shouldSpawnActiveCell(neighbors) ? true : false);
                 } else {
-                    newBoard[i][j] = shouldStayAlive(neighbors) ? true : false;
+                    newBoard.get(i).set(j,shouldStayAlive(neighbors) ? true : false);
                 }
             }
         }
@@ -65,8 +84,8 @@ public class Rules {
      * @return      the number of alive neighboring cells
      */
 
-    // Was private
-    public static int countNeighbor(int i, int j, boolean[][] board){
+    // Was private, ikke lenger static
+    public int countNeighbor(int i, int j, List<List<Boolean>> board){
         int count = 0;
 
         //check top
@@ -131,8 +150,9 @@ public class Rules {
      * @return          <code>true</code> if the cell is alive
      *                  and not exceeding the board array
      */
-    private static boolean isActiveCell(int i, int j, boolean[][] board) {
-        return inBounds(i, j, board) && board[i][j] == true;
+    // endret disse 2 fra statisk til ikke-statiske metoder
+    private boolean isActiveCell(int i, int j, List<List<Boolean>> board) {
+        return inBounds(i, j, board) && board.get(i).get(j) == true;
     }
 
     /**
@@ -142,17 +162,35 @@ public class Rules {
      * @param board     the board which contains the assigned coordinates
      * @return          <code>false</code> if the position is exceeding the board array
      */
-    private static boolean inBounds(int i, int j, boolean[][] board){
+    private boolean inBounds(int i, int j, List<List<Boolean>> board){
         if(i == -1 || j == -1){
             return false;
         }
 
-        if(i >= board.length || j >= board[0].length){
+        if(i >= outerListSize || j >= innerListSize){
+            //newBoard.get(i).add(j,false);
+           newBoard.add(new ArrayList<Boolean>(160));
+            for(int k = 0; k < 160; k++) {
+                for(int m = 0; m < 100; m++) {
+                    newBoard.get(k).add(k, false);
+                }
+            }
+
+            /*
+            for(int i = 0; i < 160; i++) {
+                newBoard.add(i, new ArrayList<Boolean>(100));
+            }
+            for(int i = 0; i < 160; i++){
+                for(int j = 0; j < 100; j++){
+                    newBoard.get(i).add(j,false);
+                }
+            }*/
             return false;
         }
 
         return true;
     }
 }
+
 
 

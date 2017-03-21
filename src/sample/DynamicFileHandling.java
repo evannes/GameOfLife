@@ -1,9 +1,5 @@
 package sample;
 
-
-
-
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
@@ -14,34 +10,43 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * @author Miina Lervik
- * @author Elise Vannes
- * @author Alexander Kingdon
+ * Created by Bruker on 20.03.2017.
  */
-public class FileHandling {
+public class DynamicFileHandling {
     Rules rules = new Rules();
 
     Charset charset = Charset.forName("US-ASCII");
-    private boolean[][] array;
+    List<List<Boolean>> array = new ArrayList<List<Boolean>>(160);
 
-    public FileHandling() {
+    public DynamicFileHandling() {
     }
-
 
     public void readGameBoard(Reader r) throws IOException {
 
     }
 
+    public void initBoard(List<List<Boolean>> board) {
+        for (int i = 0; i < 160; i++) {
+            board.add(i, new ArrayList<Boolean>(100));
+        }
+        for(int i = 0; i < 160; i++){
+            for(int j = 0; j < 100; j++){
+                board.get(i).add(j,false);
+            }
+        }
+    }
     /**
      * Method for reading pattern files from disk.
      */
-    public boolean[][] readPatternFromDisk() {
+    public List<List<Boolean>> readPatternFromDisk() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile;
 
@@ -68,12 +73,6 @@ public class FileHandling {
                 int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
                 String expandedCode = expand(code);
                 array = createArray(expandedCode, x, y);
-
-
-
-
-
-
             } else {
                 throw new FileNotFoundException("");
             }
@@ -87,7 +86,7 @@ public class FileHandling {
     /**
      * Method for reading pattern files from URL.
      */
-    public boolean[][] readPatternFromURL() {
+    public List<List<Boolean>> readPatternFromURL() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Enter URL");
         dialog.setHeaderText(null);
@@ -113,11 +112,11 @@ public class FileHandling {
                     patternString += currentLine + "\n";
                 }
 
-            String code = getCode(patternString);
-            int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
-            int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
-            String expandedCode = expand(code);
-            array = createArray(expandedCode, x, y);
+                String code = getCode(patternString);
+                int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
+                int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
+                String expandedCode = expand(code);
+                array = createArray(expandedCode, x, y);
             }
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
@@ -131,7 +130,6 @@ public class FileHandling {
         //System.out.println(content);
         Pattern pattern = Pattern.compile(regex);
         StringBuilder cellPositionCode = new StringBuilder();
-
 
         Scanner scan = new Scanner(fileContent);
         while(scan.hasNext()){
@@ -175,9 +173,10 @@ public class FileHandling {
         return match.group(group);
     }
 
-    private boolean[][] createArray(String input, int x, int y) {
+    private List<List<Boolean>> createArray(String input, int x, int y) {
         ///HER ER BRETTSTØRRELSE SATT!!!!! Putt x i første og y i andre!!////////////////////////////////////////////////////////
-        boolean[][] result = new boolean[160][100];
+        List<List<Boolean>> result = new ArrayList<List<Boolean>>(160);
+        initBoard(result);
         int xIndex = (int)Math.floor((160-x)/2);
         int yIndex = (int)Math.floor((100-y)/2);
         char[] charArray = input.toCharArray();
@@ -188,14 +187,13 @@ public class FileHandling {
             }
             else if (charOutput == 'o') {
                 //System.out.println(xIndex + ", " + yIndex);
-                result[xIndex][yIndex] = true;
+                result.get(xIndex).set(yIndex,true);
                 xIndex++;
             }
             else if (charOutput == 'b') {
                 xIndex++;
             }
         }
-
         return result;
     }
 

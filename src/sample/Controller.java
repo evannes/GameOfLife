@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -21,9 +22,12 @@ public class Controller implements Initializable{
     @FXML
     private Canvas canvas;
 
-    Board board;
-    Rules rules = new Rules();
-    FileHandling fileHandling = new FileHandling();
+    //Board board;
+    //Rules rules = new Rules();
+    //FileHandling fileHandling = new FileHandling();
+    DynamicFileHandling dynamicFileHandling = new DynamicFileHandling();
+    DynamicBoard board;
+    DynamicRules rules;
 
     @FXML
     private Slider changeCellSize;
@@ -41,13 +45,17 @@ public class Controller implements Initializable{
     private Button pauseButton;
 
     public void selectPatternFromDisk() {
-        boolean array[][] = fileHandling.readPatternFromDisk();
+        //boolean array[][] = fileHandling.readPatternFromDisk();
+        //board.rules.setBoard(array);
+        List<List<Boolean>> array = dynamicFileHandling.readPatternFromDisk();
         board.rules.setBoard(array);
         board.draw(canvas);
     }
 
     public void selectPatternFromURL() {
-        boolean array[][] = fileHandling.readPatternFromURL();
+        //boolean array[][] = fileHandling.readPatternFromURL();
+        //board.rules.setBoard(array);
+        List<List<Boolean>> array = dynamicFileHandling.readPatternFromURL();
         board.rules.setBoard(array);
         board.draw(canvas);
     }
@@ -125,7 +133,8 @@ public class Controller implements Initializable{
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         //board = new Board(canvas, boardGrid);
-        board = new Board(canvas);
+        // denne er vanlig: board = new Board(canvas);
+        board = new DynamicBoard(canvas);
 
         board.userDrawCell(canvas);
 
