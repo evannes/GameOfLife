@@ -3,7 +3,6 @@ package sample;
 
 
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
@@ -25,7 +24,7 @@ import java.util.regex.Matcher;
  * @author Alexander Kingdon
  */
 public class FileHandling {
-    Rules rules = new Rules();
+    Rules staticRules = new Rules();
 
     Charset charset = Charset.forName("US-ASCII");
     private boolean[][] array;
@@ -176,14 +175,13 @@ public class FileHandling {
     }
 
     public boolean[][] createArray(String input, int x, int y) {
-        ///HER ER BRETTSTØRRELSE SATT!!!!! Putt x i første og y i andre!!////////////////////////////////////////////////////////
         boolean[][] result = new boolean[160][100];
-        int xIndex = (int)Math.floor((160-x)/2);
-        int yIndex = (int)Math.floor((100-y)/2);
+        int xIndex = (160-x)/2;
+        int yIndex = (100-y)/2;
         char[] charArray = input.toCharArray();
         for(char charOutput : charArray) {
             if (charOutput == '$') {
-                xIndex = (int)Math.floor((160-x)/2);
+                xIndex = (160-x)/2;
                 yIndex++;
             }
             else if (charOutput == 'o') {

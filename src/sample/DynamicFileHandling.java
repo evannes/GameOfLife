@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * Created by Bruker on 20.03.2017.
  */
 public class DynamicFileHandling {
-    Rules rules = new Rules();
+    Rules staticRules = new Rules();
 
     Charset charset = Charset.forName("US-ASCII");
     List<List<Boolean>> array = new ArrayList<List<Boolean>>(160);

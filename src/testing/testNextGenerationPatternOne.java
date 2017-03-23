@@ -1,8 +1,7 @@
 package testing;
 
-import javafx.scene.canvas.Canvas;
 import org.junit.jupiter.api.Test;
-import sample.Board;
+import sample.StaticBoard;
 import sample.Rules;
 
 /**
@@ -13,7 +12,7 @@ import sample.Rules;
 public class testNextGenerationPatternOne {
 
     private boolean[][] testBoardGrid = new boolean[4][4];
-    private Board testBoard = new Board(testBoardGrid);
+    private StaticBoard testStaticBoard = new StaticBoard(testBoardGrid);
 
     /**
      * Applies a given default pattern to the board being tested.
@@ -32,26 +31,26 @@ public class testNextGenerationPatternOne {
 
     /**
      * Used to set up the board again after running {@link Rules#nextGeneration()}
-     * @param testBoard     the board used for testing
+     * @param testStaticBoard     the board used for testing
      */
-    private void setBoard(Board testBoard) {
-        testBoard.boardGrid = testBoard.rules.getBoard();
+    private void setBoard(StaticBoard testStaticBoard) {
+        testStaticBoard.boardGrid = testStaticBoard.staticRules.getBoard();
     }
 
     @Test
     public void testInitialBoard() {
         defaultBoard(testBoardGrid);
 
-        org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "1001011001101001");
+        org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "1001011001101001");
     }
 
     @Test
     public void testNextGeneration() {
         defaultBoard(testBoardGrid);
-        testBoard.rules.nextGeneration();
-        setBoard(testBoard);
+        testStaticBoard.staticRules.nextGeneration();
+        setBoard(testStaticBoard);
 
-        org.junit.jupiter.api.Assertions.assertEquals(testBoard.toString(), "0110100110010110");
+        org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "0110100110010110");
     }
 
 }

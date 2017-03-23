@@ -169,12 +169,7 @@ public class DynamicRules {
 
         if(i >= outerListSize || j >= innerListSize){
             //newBoard.get(i).add(j,false);
-           newBoard.add(new ArrayList<Boolean>(160));
-            for(int k = 0; k < 160; k++) {
-                for(int m = 0; m < 100; m++) {
-                    newBoard.get(k).add(k, false);
-                }
-            }
+
 
             /*
             for(int i = 0; i < 160; i++) {

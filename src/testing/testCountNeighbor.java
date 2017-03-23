@@ -1,7 +1,7 @@
 package testing;
 
 import org.junit.jupiter.api.Test;
-import sample.Board;
+import sample.StaticBoard;
 import sample.Rules;
 
 /**
@@ -11,84 +11,84 @@ import sample.Rules;
  */
 public class testCountNeighbor {
     boolean[][] testBoardGrid = new boolean[3][3];
-    private Board testBoard = new Board(testBoardGrid);
+    private StaticBoard testStaticBoard = new StaticBoard(testBoardGrid);
 
     /**
      * Used to set up the board again after running {@link Rules#nextGeneration()}.
-     * @param testBoard     the board used for testing
+     * @param testStaticBoard     the board used for testing
      */
-    private void setBoard(Board testBoard) {
-        testBoard.boardGrid = testBoard.rules.getBoard();
+    private void setBoard(StaticBoard testStaticBoard) {
+        testStaticBoard.boardGrid = testStaticBoard.staticRules.getBoard();
     }
 
     @Test
     public void testCountNeighborTop() {
         testBoardGrid[0][1] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborTopLeft() {
         testBoardGrid[0][0] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborTopRight() {
         testBoardGrid[0][2] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborLeft() {
         testBoardGrid[1][0] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborRight() {
         testBoardGrid[0][2] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborBottom() {
         testBoardGrid[2][1] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborBottomRight() {
         testBoardGrid[2][2] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborBottomLeft() {
         testBoardGrid[2][0] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 1);
     }
 
     @Test
     public void testCountNeighborZeroNeighbors() {
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 0);
     }
 
@@ -96,8 +96,8 @@ public class testCountNeighbor {
     public void testCountNeighborTwoNeighbors() {
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 2);
     }
 
@@ -106,8 +106,8 @@ public class testCountNeighbor {
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
         testBoardGrid[0][2] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 3);
     }
 
@@ -117,8 +117,8 @@ public class testCountNeighbor {
         testBoardGrid[0][1] = true;
         testBoardGrid[0][2] = true;
         testBoardGrid[1][0] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 4);
     }
 
@@ -129,8 +129,8 @@ public class testCountNeighbor {
         testBoardGrid[0][2] = true;
         testBoardGrid[1][0] = true;
         testBoardGrid[1][2] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 5);
     }
 
@@ -142,8 +142,8 @@ public class testCountNeighbor {
         testBoardGrid[1][0] = true;
         testBoardGrid[1][2] = true;
         testBoardGrid[2][0] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 6);
     }
 
@@ -156,8 +156,8 @@ public class testCountNeighbor {
         testBoardGrid[1][2] = true;
         testBoardGrid[2][0] = true;
         testBoardGrid[2][1] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 7);
     }
 
@@ -171,8 +171,8 @@ public class testCountNeighbor {
         testBoardGrid[2][0] = true;
         testBoardGrid[2][1] = true;
         testBoardGrid[2][2] = true;
-        setBoard(testBoard);
-        int testCountNeighbor = testBoard.rules.countNeighbor(1, 1, testBoardGrid);
+        setBoard(testStaticBoard);
+        int testCountNeighbor = testStaticBoard.staticRules.countNeighbor(1, 1, testBoardGrid);
         org.junit.jupiter.api.Assertions.assertEquals(testCountNeighbor, 8);
     }
 

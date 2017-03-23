@@ -22,12 +22,12 @@ public class Controller implements Initializable{
     @FXML
     private Canvas canvas;
 
-    //Board board;
-    //Rules rules = new Rules();
+    //StaticBoard board;
+    //Rules staticRules = new Rules();
     //FileHandling fileHandling = new FileHandling();
     DynamicFileHandling dynamicFileHandling = new DynamicFileHandling();
     DynamicBoard board;
-    DynamicRules rules;
+    Rules rules;
 
     @FXML
     private Slider changeCellSize;
@@ -45,19 +45,21 @@ public class Controller implements Initializable{
     private Button pauseButton;
 
     public void selectPatternFromDisk() {
+        board.selectPatternFromDisk();
         //boolean array[][] = fileHandling.readPatternFromDisk();
+        //board.staticRules.setBoard(array);
+        //List<List<Boolean>> array = dynamicFileHandling.readPatternFromDisk();
         //board.rules.setBoard(array);
-        List<List<Boolean>> array = dynamicFileHandling.readPatternFromDisk();
-        board.rules.setBoard(array);
-        board.draw(canvas);
+        //board.draw(canvas);
     }
 
     public void selectPatternFromURL() {
+        board.selectPatternFromURL();
         //boolean array[][] = fileHandling.readPatternFromURL();
+        //board.staticRules.setBoard(array);
+        //List<List<Boolean>> array = dynamicFileHandling.readPatternFromURL();
         //board.rules.setBoard(array);
-        List<List<Boolean>> array = dynamicFileHandling.readPatternFromURL();
-        board.rules.setBoard(array);
-        board.draw(canvas);
+       // board.draw(canvas);
     }
 
     /**
@@ -132,8 +134,7 @@ public class Controller implements Initializable{
     //protected boolean[][] boardGrid = new boolean[160][100];
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        //board = new Board(canvas, boardGrid);
-        // denne er vanlig: board = new Board(canvas);
+        //board = new StaticBoard(canvas);
         board = new DynamicBoard(canvas);
 
         board.userDrawCell(canvas);

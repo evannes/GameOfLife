@@ -8,6 +8,10 @@ import java.util.List;
  */
 public class Rules {
     private boolean[][] board;
+    private List<List<Boolean>> listBoard;
+    private List<List<Boolean>> newListBoard;
+    private int outerListSize;
+    private int innerListSize;
 
     /**
      * The method setting the board the methods in this class should work with.
@@ -15,6 +19,16 @@ public class Rules {
      */
     public void setBoard(boolean[][] board) {
         this.board = board;
+    }
+
+    /**
+     * The method setting the board the methods in this class should work with.
+     * @param board     The board to work with.
+     */
+    public void setBoard(List<List<Boolean>> board) {
+        outerListSize = board.size();
+        innerListSize = board.get(0).size();
+        this.listBoard = board;
     }
 
     /**
@@ -35,6 +49,10 @@ public class Rules {
     }*/
     public boolean[][] getBoard() {
         return board;
+    }
+
+    public List<List<Boolean>> getListBoard() {
+        return listBoard;
     }
 
     /**
@@ -58,6 +76,35 @@ public class Rules {
     }
 
     /**
+     * The method creating the next generation of cells to be drawn or removed.
+     */
+    public void nextListGeneration(){
+        newListBoard = new ArrayList<List<Boolean>>(listBoard.size());
+        for(int i = 0; i < 160; i++) {
+            newListBoard.add(i, new ArrayList<Boolean>(100));
+        }
+
+        for(int i = 0; i < 160; i++){
+            for(int j = 0; j < 100; j++){
+                newListBoard.get(i).add(j,false);
+            }
+        }
+
+        for(int i = 0; i < outerListSize; i++){
+            for(int j = 0; j < innerListSize; j++){
+
+                int neighbors = countNeighbor(i, j, listBoard);
+                if(listBoard.get(i).get(j) == false) {
+                    newListBoard.get(i).set(j,shouldSpawnActiveCell(neighbors) ? true : false);
+                } else {
+                    newListBoard.get(i).set(j,shouldStayAlive(neighbors) ? true : false);
+                }
+            }
+        }
+        listBoard = newListBoard;
+    }
+
+    /**
      * The method counting the alive cells surrounding the appointed cell
      * @param i     the first column index of the array
      * @param j     the second column index of the array
@@ -67,6 +114,51 @@ public class Rules {
 
     // Was private
     public static int countNeighbor(int i, int j, boolean[][] board){
+        int count = 0;
+
+        //check top
+        if (isActiveCell(i, j-1, board))
+            count++;
+
+        //check top-left
+        if (isActiveCell(i-1, j-1, board))
+            count++;
+
+        //check top-right
+        if (isActiveCell(i+1, j-1, board))
+            count++;
+
+        //check left
+        if (isActiveCell(i-1, j, board))
+            count++;
+
+        //check right
+        if (isActiveCell(i+1, j, board))
+            count++;
+
+        //check bottom
+        if (isActiveCell(i, j+1, board))
+            count++;
+
+        //check bottom-right
+        if (isActiveCell(i+1, j+1, board))
+            count++;
+
+        //check bottom-left
+        if (isActiveCell(i-1, j+1, board))
+            count++;
+
+        return count;
+    }
+    /**
+     * The method counting the alive cells surrounding the appointed cell
+     * @param i     the first column index of the array
+     * @param j     the second column index of the array
+     * @param board the board which contains the assigned coordinates
+     * @return      the number of alive neighboring cells
+     */
+
+    public int countNeighbor(int i, int j, List<List<Boolean>> board){
         int count = 0;
 
         //check top
@@ -136,6 +228,19 @@ public class Rules {
     }
 
     /**
+     * The method checking if the cell is alive.
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @param board     the board which contains the assigned coordinates
+     * @return          <code>true</code> if the cell is alive
+     *                  and not exceeding the board array
+     */
+    // endret disse 2 fra statisk til ikke-statiske metoder
+    private boolean isActiveCell(int i, int j, List<List<Boolean>> board) {
+        return inBounds(i, j) && board.get(i).get(j) == true;
+    }
+
+    /**
      * The method checking if the appointed position is within the board array
      * @param i         the first column index of the array
      * @param j         the second column index of the array
@@ -148,6 +253,26 @@ public class Rules {
         }
 
         if(i >= board.length || j >= board[0].length){
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * The method checking if the appointed position is within the board array
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @return          <code>false</code> if the position is exceeding the board array
+     */
+
+    private boolean inBounds(int i, int j){
+        if(i == -1 || j == -1){
+            return false;
+        }
+
+        if(i >= outerListSize || j >= innerListSize){
+
             return false;
         }
 

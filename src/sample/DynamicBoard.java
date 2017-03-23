@@ -1,12 +1,13 @@
 package sample;
 
 
+import com.sun.deploy.util.ArrayUtil;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,31 +16,10 @@ import java.util.List;
  * @author Alexander Kingdon
  */
 
-public class DynamicBoard {
+public class DynamicBoard extends Board {
 
-
-    private boolean isRunning = false;
-    private boolean isClearing = false;
-    private int speed;
-    private Color cellColor = Color.LIGHTSEAGREEN;
-    private Color gridColor = Color.BLACK;
-    private Color boardColor = Color.WHITE;
-    private long tid = System.nanoTime();
-    private boolean drawRandomColors;
-    private double drawScale = 1;
-    private double gridSize = 0.1;
-    private double cellWidth;
-    private double cellHeight;
-    int outerListSize;
-    int innerListSize;
-    private Canvas canvas;
-
-    public DynamicRules rules = new DynamicRules();
-
-    //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
-    //public boolean[][] boardGrid;// = new boolean[160][100];
-
-    //public boolean[][] boardGrid = new boolean[160][100];
+    public Rules rules = new Rules();
+    public FileHandling fileHandling = new FileHandling();
 
     private List<List<Boolean>> dynamicBoard = new ArrayList<List<Boolean>>(160);
     AnimationTimer drawTimer;
@@ -50,8 +30,7 @@ public class DynamicBoard {
      * @param canvas        the canvas the board is to be painted on
      */
     public DynamicBoard(Canvas canvas) {
-        //boardGrid = new boolean[boardSize][boardSize];
-        this.canvas = canvas;
+        super(canvas);
         initStartBoard();
         rules.setBoard(dynamicBoard);
         draw(canvas);
@@ -59,7 +38,7 @@ public class DynamicBoard {
             public void handle(long now) {
                 if (isRunning && (now - tid) > speed) {
                     draw(canvas);
-                    rules.nextGeneration();
+                    rules.nextListGeneration();
                     tid = System.nanoTime();
                 }
 
@@ -83,66 +62,34 @@ public class DynamicBoard {
     }
 
 
-    /**
-     * The method used for setting random colors to the cells.
-     * @param value     <code>true</code> if drawRandomColors is to be turned on
-     */
-    public void setDrawRandomColors(boolean value) {
-        drawRandomColors = value;
-    }
-
     public void initStartBoard(){
-        for(int i = 0; i < 160; i++) {
-            dynamicBoard.add(i, new ArrayList<Boolean>(100));
+        for(int i = 0; i < x; i++) {
+            dynamicBoard.add(i, new ArrayList<Boolean>(y));
         }
 
-        for(int i = 0; i < 160; i++){
-            for(int j = 0; j < 100; j++){
+        for(int i = 0; i < x; i++){
+            for(int j = 0; j < y; j++){
                 dynamicBoard.get(i).add(j,false);
             }
         }
-
-        dynamicBoard.get(0).set(2,true);
-        dynamicBoard.get(1).set(2,true);
-        dynamicBoard.get(2).set(2,true);
-        dynamicBoard.get(2).set(1,true);
-        dynamicBoard.get(1).set(0,true);
-        /*boardGrid[0][2] = true;
-        boardGrid[1][2] = true;
-        boardGrid[2][2] = true;
-        boardGrid[2][1] = true;
-        boardGrid[1][0] = true;*/
     }
 
     /**
      * The method applying a default pattern of cells to the board.
      */
+    @Override
     public void defaultStartBoard(){
-        for(int i = 0; i < 160; i++) {
-            dynamicBoard.add(i, new ArrayList<Boolean>(100));
-        }
-
-        for(int i = 0; i < 160; i++){
-            for(int j = 0; j < 100; j++){
-                dynamicBoard.get(i).add(j,false);
-            }
-        }
-
         dynamicBoard.get(0).set(2,true);
         dynamicBoard.get(1).set(2,true);
         dynamicBoard.get(2).set(2,true);
         dynamicBoard.get(2).set(1,true);
         dynamicBoard.get(1).set(0,true);
-        /*boardGrid[0][2] = true;
-        boardGrid[1][2] = true;
-        boardGrid[2][2] = true;
-        boardGrid[2][1] = true;
-        boardGrid[1][0] = true;*/
     }
 
     /**
      * The method starting the game over again with the preset pattern.
      */
+    @Override
     public void newGame() {
         clearBoard();
         rules.setBoard(dynamicBoard);
@@ -152,22 +99,23 @@ public class DynamicBoard {
 
     /**
      * The method drawing the board with alive cells, background.
-     * and grid. The method will draw the board according to the array applied in the <code>rules</code> class.
+     * and grid. The method will draw the board according to the array applied in the <code>Rules</code> class.
      * @param canvas    the canvas to be drawn on.
      */
+    @Override
     public void draw(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        dynamicBoard = rules.getBoard();
+        dynamicBoard = rules.getListBoard();
         gc.setFill(gridColor);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
         cellWidth = (canvas.getWidth()*drawScale - gridSize) / dynamicBoard.size();
         cellHeight = (canvas.getHeight()*drawScale - gridSize) / dynamicBoard.get(0).size();
 
-        outerListSize = dynamicBoard.size();
-        innerListSize = dynamicBoard.get(0).size();
+        x = dynamicBoard.size();
+        y = dynamicBoard.get(0).size();
 
-        for (int i = 0; i < outerListSize; i++) {
-            for (int j = 0; j < innerListSize; j++) {
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
 
                 if(dynamicBoard.get(i).get(j) == true && drawRandomColors) {
                     gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
@@ -188,28 +136,14 @@ public class DynamicBoard {
     }
 
     /**
-     * The method scaling the board.
-     * The higher the value passed in the larger the board will become.
-     * @param value     the value used to change the size of the board.
-     */
-    protected void setDrawScale(double value) {
-        drawScale = value;
-        gridSize = 0.1 * value;
-        draw(canvas);
-    }
-
-    public void start() {
-        isRunning = true;
-    }
-
-    /**
      * The method which lets the user set or remove cells manually from the board.
      * @param canvas        the canvas to get the coordinates from
      */
+    @Override
     public void userDrawCell(Canvas canvas){
         canvas.setOnMouseClicked(e -> {
-            cellWidth = (canvas.getWidth()*drawScale + gridSize) / outerListSize;
-            cellHeight = (canvas.getHeight()*drawScale + gridSize) / innerListSize;
+            cellWidth = (canvas.getWidth()*drawScale + gridSize) / x;
+            cellHeight = (canvas.getHeight()*drawScale + gridSize) / y;
             int korX = (int)e.getX();
             int korY = (int)e.getY();
             int arrayX = (int)Math.floor(korX/(int)cellWidth);
@@ -225,84 +159,15 @@ public class DynamicBoard {
         });
     }
 
-
-    ///Her er koden som laget ny størrelse på arrayet istedenfor å zoome inn og ut.
-/*
-    protected void setCellSize(int value) {
-        isRunning = false;
-       boardGrid = ConvertBoard(boardGrid, value);
-
-        rules.setBoard(boardGrid);
-        isRunning = true;
-    }
-
-    private boolean[][] ConvertBoard(boolean[][] oldBoard, int boardSize) {
-        boolean[][] newBoard = new boolean[boardSize][boardSize];
-
-        for (int i = 0; i < oldBoard.length && i < newBoard.length; i++) {
-            for (int j = 0; j < oldBoard[0].length && j < newBoard[0].length; j++) {
-                newBoard[i][j] = oldBoard[i][j];
-            }
-        }
-
-        return newBoard;
-    }
-*/
-
-
-    /**
-     * The method return whether the animation is running or not.
-     * @return      <code>true</code> if the animation
-     *              is running.
-     */
-    public boolean getIsRunning(){
-        return isRunning;
-    }
-
-    /**
-     * The method setting the speed of the animation.
-     * @param value     the value used to set the speed of the animation
-     */
-    protected void setSpeed(int value) {
-        speed = value;
-        draw(canvas);
-    }
-
-    /**
-     * The method setting color to the alive cells.
-     * @param colorPicker       the input color to set on the cell
-     */
-    public void setCellColor(ColorPicker colorPicker){
-        cellColor = colorPicker.getValue();
-        draw(canvas);
-    }
-
-    /**
-     * The method setting color to the grid.
-     * @param colorPicker       the input color to set on the grid
-     */
-    public void setGridColor(ColorPicker colorPicker) {
-        gridColor = colorPicker.getValue();
-        draw(canvas);
-    }
-
-    /**
-     * The method setting color to the boards background.
-     * @param colorPicker       the input color to set on the boards background
-     */
-    public void setBoardColor(ColorPicker colorPicker) {
-        boardColor = colorPicker.getValue();
-        draw(canvas);
-    }
-
     /**
      * The method clearing the board.
      */
+    @Override
     public void clearBoard(){
         isRunning = false;
 
-        for(int i = 0; i < outerListSize; i++) {
-            for(int j = 0; j < innerListSize; j++) {
+        for(int i = 0; i < x; i++) {
+            for(int j = 0; j < y; j++) {
                 dynamicBoard.get(i).set(j,false);
             }
         }
@@ -311,35 +176,14 @@ public class DynamicBoard {
     }
 
     /**
-     * The method pausing the game by stopping the animation.
-     */
-    public void pauseGame(){
-        isRunning = false;
-    }
-
-    /**
-     * The method resuming the game by starting the animation again.
-     */
-    public void resumeGame(){
-        isRunning = true;
-    }
-
-    /**
-     * The method exiting the game.
-     */
-    public void exitGame(){
-        System.exit(0);
-    }
-
-    /**
-     * Method used to unit test {@link Rules#nextGeneration()}.
+     * Method used to unit test {@link Rules#nextListGeneration()}.
      * @return  The board array in an easy to read String format
      */
     @Override
     public String toString(){
         String boardStringOutput = "";
-        for(int i = 0; i < outerListSize; i++) {
-            for(int j = 0; j < innerListSize; j++) {
+        for(int i = 0; i < x; i++) {
+            for(int j = 0; j < y; j++) {
                 if (dynamicBoard.get(i).get(j)) {
                     boardStringOutput += "1";
                 } else {
@@ -348,6 +192,46 @@ public class DynamicBoard {
             }
         }
         return boardStringOutput;
+    }
+
+    public void selectPatternFromDisk() {
+        boolean[][] array = fileHandling.readPatternFromDisk();
+        List<List<Boolean>> listArray = new ArrayList<List<Boolean>>();
+
+
+        for(int i = 0; i < array.length; i++){
+            listArray.add(new ArrayList<>());
+            for(int j = 0; j < array[0].length; j++){
+                Boolean b = array[i][j];
+                listArray.get(i).add(b);
+                System.out.print(listArray.get(i).get(j));
+            }
+            System.out.println("");
+        }
+
+
+        rules.setBoard(listArray);
+        draw(canvas);
+    }
+
+    public void selectPatternFromURL() {
+        boolean[][] array = fileHandling.readPatternFromURL();
+        List<List<Boolean>> listArray = new ArrayList<List<Boolean>>();
+
+
+        for(int i = 0; i < array.length; i++){
+            listArray.add(new ArrayList<>());
+            for(int j = 0; j < array[0].length; j++){
+                Boolean b = array[i][j];
+                listArray.get(i).add(b);
+                System.out.print(listArray.get(i).get(j));
+            }
+            System.out.println("");
+        }
+
+
+        rules.setBoard(listArray);
+        draw(canvas);
     }
 
 
