@@ -13,6 +13,8 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -218,5 +220,19 @@ public class FileHandling {
         }
         //System.err.format("IOException: %s%n", ioe);
         alert.showAndWait();
+    }
+
+    protected List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
+        List<List<Boolean>> listArray = new ArrayList<>();
+        for(int i = 0; i < array.length; i++){
+            listArray.add(new ArrayList<>());
+            for(int j = 0; j < array[0].length; j++){
+                Boolean b = array[i][j];
+                listArray.get(i).add(b);
+                System.out.print(listArray.get(i).get(j));
+            }
+            System.out.println("");
+        }
+        return listArray;
     }
 }

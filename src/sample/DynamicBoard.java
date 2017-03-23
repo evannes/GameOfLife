@@ -196,10 +196,10 @@ public class DynamicBoard extends Board {
 
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
-        List<List<Boolean>> listArray = new ArrayList<List<Boolean>>();
+        List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
 
 
-        for(int i = 0; i < array.length; i++){
+        /*for(int i = 0; i < array.length; i++){
             listArray.add(new ArrayList<>());
             for(int j = 0; j < array[0].length; j++){
                 Boolean b = array[i][j];
@@ -207,7 +207,7 @@ public class DynamicBoard extends Board {
                 System.out.print(listArray.get(i).get(j));
             }
             System.out.println("");
-        }
+        }*/
 
 
         rules.setBoard(listArray);
@@ -216,10 +216,10 @@ public class DynamicBoard extends Board {
 
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
-        List<List<Boolean>> listArray = new ArrayList<List<Boolean>>();
+        List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
 
 
-        for(int i = 0; i < array.length; i++){
+        /*for(int i = 0; i < array.length; i++){
             listArray.add(new ArrayList<>());
             for(int j = 0; j < array[0].length; j++){
                 Boolean b = array[i][j];
@@ -227,7 +227,7 @@ public class DynamicBoard extends Board {
                 System.out.print(listArray.get(i).get(j));
             }
             System.out.println("");
-        }
+        }*/
 
 
         rules.setBoard(listArray);
