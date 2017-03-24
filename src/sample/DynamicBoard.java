@@ -254,12 +254,12 @@ public class DynamicBoard extends Board {
 
 
         } else if(inputY > original_y_size) {
-            factor = diffY/y;
+            factor = (double)inputY/y;
             width_loop_count = (int)(factor*x)-x;
             enlarge(width_loop_count, diffY);
 
         } else if(inputX > original_x_size) {
-            factor = diffX/x;
+            factor = (double)inputX/x;
             height_loop_count = (int)(factor*y)-y;
             enlarge(diffX, height_loop_count);
 
