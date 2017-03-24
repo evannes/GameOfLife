@@ -175,7 +175,7 @@ public class FileHandling {
         match.find();
         return match.group(group);
     }
-
+/*
     public boolean[][] createArray(String input, int x, int y) {
         boolean[][] result = new boolean[160][100];
         int xIndex = (160-x)/2;
@@ -199,6 +199,44 @@ public class FileHandling {
         return result;
     }
 
+    */
+    public boolean[][] createArray(String input, int x, int y) {
+        boolean[][] result = new boolean[x][y];
+        int xIndex = 0;
+        int yIndex = 0;
+        char[] charArray = input.toCharArray();
+        for(char charOutput : charArray) {
+            if (charOutput == '$') {
+                xIndex = 0;
+                yIndex++;
+            }
+            else if (charOutput == 'o') {
+                //System.out.println(xIndex + ", " + yIndex);
+                result[xIndex][yIndex] = true;
+                xIndex++;
+            }
+            else if (charOutput == 'b') {
+                xIndex++;
+            }
+        }
+
+        return result;
+    }
+
+    protected List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
+        List<List<Boolean>> listArray = new ArrayList<>();
+        for(int i = 0; i < array.length; i++){
+            listArray.add(new ArrayList<>());
+            for(int j = 0; j < array[0].length; j++){
+                Boolean b = array[i][j];
+                listArray.get(i).add(b);
+                System.out.print(listArray.get(i).get(j));
+            }
+            System.out.println("");
+        }
+        return listArray;
+    }
+
     /**
      * Method used to generate the error message box.
      * @param HeaderText    The text displayed in the error message box.
@@ -220,19 +258,5 @@ public class FileHandling {
         }
         //System.err.format("IOException: %s%n", ioe);
         alert.showAndWait();
-    }
-
-    protected List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
-        List<List<Boolean>> listArray = new ArrayList<>();
-        for(int i = 0; i < array.length; i++){
-            listArray.add(new ArrayList<>());
-            for(int j = 0; j < array[0].length; j++){
-                Boolean b = array[i][j];
-                listArray.get(i).add(b);
-                System.out.print(listArray.get(i).get(j));
-            }
-            System.out.println("");
-        }
-        return listArray;
     }
 }

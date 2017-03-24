@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Miina Lervik
@@ -20,6 +21,8 @@ public class DynamicBoard extends Board {
 
     public Rules rules = new Rules();
     public FileHandling fileHandling = new FileHandling();
+    int originalX;
+    int originalY;
 
     private List<List<Boolean>> dynamicBoard = new ArrayList<List<Boolean>>(160);
     AnimationTimer drawTimer;
@@ -197,41 +200,92 @@ public class DynamicBoard extends Board {
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
         List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
-
-
-        /*for(int i = 0; i < array.length; i++){
-            listArray.add(new ArrayList<>());
-            for(int j = 0; j < array[0].length; j++){
-                Boolean b = array[i][j];
-                listArray.get(i).add(b);
-                System.out.print(listArray.get(i).get(j));
-            }
-            System.out.println("");
-        }*/
-
-
-        rules.setBoard(listArray);
+        setDynamicBoard(listArray);
+        rules.setBoard(dynamicBoard);
         draw(canvas);
     }
 
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
         List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
+        setDynamicBoard(listArray);
 
-
-        /*for(int i = 0; i < array.length; i++){
-            listArray.add(new ArrayList<>());
-            for(int j = 0; j < array[0].length; j++){
-                Boolean b = array[i][j];
-                listArray.get(i).add(b);
-                System.out.print(listArray.get(i).get(j));
-            }
-            System.out.println("");
-        }*/
-
-
-        rules.setBoard(listArray);
+        rules.setBoard(dynamicBoard);
         draw(canvas);
+    }
+
+    private void setDynamicBoard(List<List<Boolean>> listArray) {
+        //se om listArray er større enn dynamicBoard
+        //sjekk høyde først, så bredde
+        int inputX = listArray.size();
+        int inputY = listArray.get(0).size();
+        originalX = dynamicBoard.size();
+        originalY = dynamicBoard.get(0).size();
+        int diffX = inputX - originalX;
+        int diffY = inputY - originalY;
+
+        if( inputX > originalX && inputY > originalY){
+            //finn ut hvilken differanse som er størst
+            int largestDiff = diffX >= diffY ? diffX : diffY;
+
+            //gjør den større med antall til den største differansen
+            for(int k = 0; k < largestDiff; k++){
+                enlarge();
+            }
+
+        } else if(inputY > originalY) {
+            for(int k = 0; k < diffY; k++){
+                enlarge();
+            }
+
+        } else if(inputX > originalX) {
+            for(int k = 0; k < diffX; k++){
+                enlarge();
+            }
+        }
+
+        //midtstille og overføre til brett
+        int xStartIndex = (dynamicBoard.size() - listArray.size())/2;
+        int yStartIndex = (dynamicBoard.get(0).size() - listArray.get(0).size())/2;
+        int xIndex = 0;
+
+        /* ///INTSTREAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        IntStream.range(0,10).forEach(e -> System.out.println(e));
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i);
+        }
+        dynamicBoard.forEach(e-> e.forEach()));
+
+        */
+
+        for (int i = xStartIndex; i < listArray.size()+xStartIndex; i++){
+            int yIndex = 0;
+            for(int j = yStartIndex; j < listArray.get(0).size()+yStartIndex; j++){
+                Boolean value = listArray.get(xIndex).get(yIndex);
+                dynamicBoard.get(i).set(j, value);
+                yIndex++;
+            }
+            xIndex++;
+        }
+
+
+
+
+    }
+
+    //gjør brettet større
+    private void enlarge() {
+        for(int i = 0; i < originalX; i++){
+            dynamicBoard.get(i).add( Boolean.FALSE);
+        }
+        originalY++;
+        dynamicBoard.add(new ArrayList());
+        for(int i = 0; i < originalY; i++){
+            dynamicBoard.get(originalX).add(i, Boolean.FALSE);
+        }
+        originalX++;
+
+        System.out.println(dynamicBoard.size()+" "+ dynamicBoard.get(0).size());
     }
 
 
