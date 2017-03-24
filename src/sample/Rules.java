@@ -80,12 +80,12 @@ public class Rules {
      */
     public void nextListGeneration(){
         newListBoard = new ArrayList<List<Boolean>>(listBoard.size());
-        for(int i = 0; i < 160; i++) {
+        for(int i = 0; i < listBoard.size(); i++) {
             newListBoard.add(i, new ArrayList<Boolean>(100));
         }
 
-        for(int i = 0; i < 160; i++){
-            for(int j = 0; j < 100; j++){
+        for(int i = 0; i < listBoard.size(); i++){
+            for(int j = 0; j < listBoard.get(0).size(); j++){
                 newListBoard.get(i).add(j,false);
             }
         }
