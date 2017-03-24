@@ -70,11 +70,6 @@ public class FileHandling {
                 String expandedCode = expand(code);
                 array = createArray(expandedCode, x, y);
 
-
-
-
-
-
             } else {
                 throw new FileNotFoundException("");
             }

@@ -134,7 +134,11 @@ public class Controller implements Initializable{
     //protected boolean[][] boardGrid = new boolean[160][100];
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+<<<<<<< Updated upstream
         //board = new StaticBoard(canvas);
+=======
+        // board = new Board(canvas);
+>>>>>>> Stashed changes
         board = new DynamicBoard(canvas);
 
         board.userDrawCell(canvas);
@@ -152,8 +156,6 @@ public class Controller implements Initializable{
             });
 
         board.setSpeed((int)(changeSpeed.getValue() * 10000000));
-
-        //readPattern
     }
 
 }
