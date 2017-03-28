@@ -13,7 +13,6 @@ import java.util.List;
  */
 
 public class DynamicBoard extends Board {
-    public FileHandling fileHandling = new FileHandling();
     private int original_x_size;
     private int original_y_size;
     public List<List<Boolean>> dynamicBoardArray = new ArrayList<List<Boolean>>(160);

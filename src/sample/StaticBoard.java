@@ -92,7 +92,21 @@ public class StaticBoard extends Board{
         return boardStringOutput;
     }
 
-    public void selectPatternFromDisk(){}
-    public void selectPatternFromURL(){}
+    public void selectPatternFromDisk(){
+        boolean[][] array = fileHandling.readPatternFromDisk();
+        transferPatternToBoard(array);
+    }
+    public void selectPatternFromURL(){
+        boolean[][] array = fileHandling.readPatternFromURL();
+        transferPatternToBoard(array);
+    }
+
+    private void transferPatternToBoard(boolean[][] array) {
+        for(int i = 0; i < array.length; i++) {
+            for(int j = 0; j < array[0].length; j++) {
+                staticBoardArray[i][j] = array[i][j];
+            }
+        }
+    }
 
 }

@@ -17,6 +17,7 @@ public abstract class Board {
     public BoardGraphics boardGraphics;
     protected int x = 160;
     protected int y = 100;
+    public FileHandling fileHandling = new FileHandling();
 
     public Rules rules = Rules.getInstance();
     public Board(){}
