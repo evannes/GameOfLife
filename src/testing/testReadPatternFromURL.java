@@ -1,11 +1,13 @@
 package testing;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sample.FileHandling;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -74,6 +76,36 @@ public class testReadPatternFromURL {
             testPatternString(url);
             org.junit.jupiter.api.Assertions.assertEquals(
                     patterns.getBoundingBoxPattern(gameBoardArray), "110100001011");
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe);
+        }
+    }
+
+    @Test
+    public void testMalformedURLException() {
+        try {
+            URL url = new URL("bjarne");
+            testPatternString(url);
+            Throwable exception =
+            Assertions.assertThrows(MalformedURLException.class, () -> {
+                throw new IOException("The URL entered was not valid.");
+            });
+            Assertions.assertEquals("The URL entered was not valid.", exception.getMessage());
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe);
+        }
+    }
+
+    @Test
+    public void testPressedCancel() {
+        try {
+            URL url = new URL("");
+            testPatternString(url);
+            Throwable exception =
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                throw new NullPointerException("Cancel was pressed");
+            });
+            Assertions.assertEquals("Cancel was pressed", exception.getMessage());
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }

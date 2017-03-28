@@ -2,7 +2,6 @@ package sample;
 
 
 import javafx.animation.AnimationTimer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,19 +115,23 @@ public class DynamicBoard extends Board {
 
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
-        List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
-        setDynamicBoardArray(listArray);
-        rules.setBoard(dynamicBoardArray);
-        boardGraphics.drawDynamic();
+        selectPatternLogic(array);
     }
 
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
-        List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
-        setDynamicBoardArray(listArray);
+        selectPatternLogic(array);
+    }
 
-        rules.setBoard(dynamicBoardArray);
-        boardGraphics.drawDynamic();
+    private void selectPatternLogic(boolean[][] array) {
+        try {
+            List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
+            setDynamicBoardArray(listArray);
+
+            rules.setBoard(dynamicBoardArray);
+            boardGraphics.drawDynamic();
+        } catch (NullPointerException cancelException) {
+        }
     }
 
     private void setDynamicBoardArray(List<List<Boolean>> listArray) {
