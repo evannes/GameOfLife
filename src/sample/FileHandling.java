@@ -26,10 +26,10 @@ import java.util.regex.Matcher;
  * @author Alexander Kingdon
  */
 public class FileHandling {
-    Rules staticRules = new Rules();
-
-    Charset charset = Charset.forName("US-ASCII");
+    private Rules rules = new Rules();
     private boolean[][] array;
+    Charset charset = Charset.forName("US-ASCII");
+
 
     public FileHandling() {
     }
@@ -63,18 +63,11 @@ public class FileHandling {
                 while ((currentLine = reader.readLine()) != null) {
                     patternString += currentLine + "\n";
                 }
-
                 String code = getCode(patternString);
                 int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
                 int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
                 String expandedCode = expand(code);
                 array = createArray(expandedCode, x, y);
-
-
-
-
-
-
             } else {
                 throw new FileNotFoundException("");
             }
@@ -147,6 +140,7 @@ public class FileHandling {
         //System.out.println(cellPositionCode);
         return cellPositionCode.toString();
     }
+
 
     public String expand(String input) {
 
@@ -223,16 +217,20 @@ public class FileHandling {
         return result;
     }
 
-    protected List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
+    /**
+     * The method creating an ArrayList our of an array.
+     * @param array     the two-dimensional array to be converted
+     * @return          a two-dimensional ArrayList with the same content as the input array
+     */
+    public List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
         List<List<Boolean>> listArray = new ArrayList<>();
         for(int i = 0; i < array.length; i++){
             listArray.add(new ArrayList<>());
             for(int j = 0; j < array[0].length; j++){
                 Boolean b = array[i][j];
                 listArray.get(i).add(b);
-                System.out.print(listArray.get(i).get(j));
             }
-            System.out.println("");
+
         }
         return listArray;
     }

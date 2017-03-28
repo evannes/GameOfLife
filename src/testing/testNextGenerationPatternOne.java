@@ -34,7 +34,7 @@ public class testNextGenerationPatternOne {
      * @param testStaticBoard     the board used for testing
      */
     private void setBoard(StaticBoard testStaticBoard) {
-        testStaticBoard.boardGrid = testStaticBoard.staticRules.getBoard();
+        testStaticBoard.staticBoardArray = testStaticBoard.rules.getStaticBoard();
     }
 
     @Test
@@ -47,7 +47,7 @@ public class testNextGenerationPatternOne {
     @Test
     public void testNextGeneration() {
         defaultBoard(testBoardGrid);
-        testStaticBoard.staticRules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
         setBoard(testStaticBoard);
 
         org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "0110100110010110");

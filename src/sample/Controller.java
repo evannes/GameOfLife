@@ -21,13 +21,8 @@ public class Controller implements Initializable{
 
     @FXML
     private Canvas canvas;
-
-    //StaticBoard board;
-    //Rules staticRules = new Rules();
-    //FileHandling fileHandling = new FileHandling();
-    DynamicFileHandling dynamicFileHandling = new DynamicFileHandling();
     DynamicBoard board;
-    Rules rules;
+    BoardGraphics boardGraphics;
 
     @FXML
     private Slider changeCellSize;
@@ -44,50 +39,49 @@ public class Controller implements Initializable{
     @FXML
     private Button pauseButton;
 
+    /**
+     * The method allowing the user to select a pattern from disk
+     */
     public void selectPatternFromDisk() {
         board.selectPatternFromDisk();
-        //boolean array[][] = fileHandling.readPatternFromDisk();
-        //board.staticRules.setBoard(array);
-        //List<List<Boolean>> array = dynamicFileHandling.readPatternFromDisk();
-        //board.rules.setBoard(array);
-        //board.draw(canvas);
     }
 
+    /**
+     * The method allowing the user to select a pattern from a URL
+     */
     public void selectPatternFromURL() {
         board.selectPatternFromURL();
-        //boolean array[][] = fileHandling.readPatternFromURL();
-        //board.staticRules.setBoard(array);
-        //List<List<Boolean>> array = dynamicFileHandling.readPatternFromURL();
-        //board.rules.setBoard(array);
-       // board.draw(canvas);
     }
 
     /**
      * Assigns color to the cells.
      */
     public void setCellColor(){
-        board.setCellColor(colorPicker);
+        boardGraphics.setCellColor(colorPicker);
+        boardGraphics.drawDynamic();
     }
 
     /**
      * Assigns color to the grid.
      */
     public void setGridColor(){
-        board.setGridColor(colorPicker);
+        boardGraphics.setGridColor(colorPicker);
+        boardGraphics.drawDynamic();
     }
 
     /**
      * Assigns color to the boards background.
      */
     public void setBoardColor(){
-        board.setBoardColor(colorPicker);
+        boardGraphics.setBoardColor(colorPicker);
+        boardGraphics.drawDynamic();
     }
 
     /**
      * Assigns random colors to the cells.
      */
     public void setRandomColors(){
-        board.setDrawRandomColors(randomColors.isSelected());
+        boardGraphics.setDrawRandomColors(randomColors.isSelected());
     }
 
     /**
@@ -105,8 +99,10 @@ public class Controller implements Initializable{
         board.clearBoard();
     }
 
+    /**
+     * The method starting the animation of the game.
+     */
     public void start() {
-
         pauseButton.setText("Pause");
         board.start();
     }
@@ -131,29 +127,29 @@ public class Controller implements Initializable{
         board.exitGame();
     }
 
-    //protected boolean[][] boardGrid = new boolean[160][100];
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         //board = new StaticBoard(canvas);
-        board = new DynamicBoard(canvas);
-
-        board.userDrawCell(canvas);
+        boardGraphics = new BoardGraphics(canvas);
+        board = new DynamicBoard(boardGraphics);
+        boardGraphics.userDrawCell();
 
         changeSpeed.valueProperty().addListener(
             (observable, oldValue, value) ->
             {
-                board.setSpeed((int)((double)value * 10000000));
+                boardGraphics.setSpeed((int)((double)value * 10000000));
+                boardGraphics.drawDynamic();
             });
 
         changeCellSize.valueProperty().addListener(
             (observable, oldValue, value) ->
             {
-                board.setDrawScale((double)value);
+                boardGraphics.setDrawScale((double)value);
+                boardGraphics.drawDynamic();
             });
 
-        board.setSpeed((int)(changeSpeed.getValue() * 10000000));
-
-        //readPattern
+        boardGraphics.setSpeed((int)(changeSpeed.getValue() * 10000000));
+        //boardGraphics.drawDynamic();
     }
 
 }

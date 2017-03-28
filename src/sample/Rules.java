@@ -7,12 +7,19 @@ import java.util.List;
  * Created by miinael on 15.02.2017.
  */
 public class Rules {
+    private static Rules rules = null;
     private boolean[][] board;
     private List<List<Boolean>> listBoard;
     private List<List<Boolean>> newListBoard;
     private int outerListSize;
     private int innerListSize;
 
+    public static Rules getInstance() {
+        if(rules == null) {
+            rules = new Rules();
+        }
+        return rules;
+    }
     /**
      * The method setting the board the methods in this class should work with.
      * @param board     The board to work with.
@@ -47,9 +54,14 @@ public class Rules {
 
 
     }*/
-    public boolean[][] getBoard() {
+    public boolean[][] getStaticBoard() {
         return board;
     }
+
+    /**
+     * The method returning the ListArray the Rules class is working with.
+     * @return      The ListArray the class is working with
+     */
 
     public List<List<Boolean>> getListBoard() {
         return listBoard;
@@ -111,8 +123,6 @@ public class Rules {
      * @param board the board which contains the assigned coordinates
      * @return      the number of alive neighboring cells
      */
-
-    // Was private
     public static int countNeighbor(int i, int j, boolean[][] board){
         int count = 0;
 
@@ -150,6 +160,7 @@ public class Rules {
 
         return count;
     }
+
     /**
      * The method counting the alive cells surrounding the appointed cell
      * @param i     the first column index of the array
@@ -157,7 +168,6 @@ public class Rules {
      * @param board the board which contains the assigned coordinates
      * @return      the number of alive neighboring cells
      */
-
     public int countNeighbor(int i, int j, List<List<Boolean>> board){
         int count = 0;
 
@@ -265,7 +275,6 @@ public class Rules {
      * @param j         the second column index of the array
      * @return          <code>false</code> if the position is exceeding the board array
      */
-
     private boolean inBounds(int i, int j){
         if(i == -1 || j == -1){
             return false;
