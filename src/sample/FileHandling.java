@@ -69,7 +69,7 @@ public class FileHandling {
                 String expandedCode = expand(code);
                 array = createArray(expandedCode, x, y);
             } else {
-                throw new FileNotFoundException("");
+                throw new FileNotFoundException("Cancel was pressed - File");
             }
 
         } catch (IOException ioe) {
@@ -112,9 +112,12 @@ public class FileHandling {
             int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
             String expandedCode = expand(code);
             array = createArray(expandedCode, x, y);
+            } else {
+                throw new NullPointerException("Cancel was pressed");
             }
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
+        } catch (NullPointerException npe) {
         }
         return array;
     }
@@ -247,14 +250,20 @@ public class FileHandling {
 
         if (ioe.toString().contains("MalformedURLException")) {
             alert.setContentText("The URL entered was not valid.");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("Cancel")) {
+            return;
         } else if (ioe.toString().contains("FileNotFoundException")) {
             alert.setContentText("The file could not be found.");
+            alert.showAndWait();
         } else if (ioe.toString().contains("NoSuchFileException")) {
             alert.setContentText("The file could not be found.");
+            alert.showAndWait();
         } else {
             alert.setContentText("Caught IOException: " + ioe);
+            alert.showAndWait();
         }
         //System.err.format("IOException: %s%n", ioe);
-        alert.showAndWait();
+
     }
 }
