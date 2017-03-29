@@ -6,9 +6,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 
-import java.util.List;
-import java.util.stream.IntStream;
-
 /**
  * Created by miinael on 28.03.2017.
  */
@@ -35,13 +32,12 @@ public class BoardManager {
     public BoardManager(Canvas canvas, Board board) {
         this.canvas = canvas;
         this.board = board;
-
-        board.initStartBoard();
         draw();
+
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board.nextGeneration();
+                    board.nextGeneration(Rules.getInstance());
                     draw();
 
                     time = System.nanoTime();
@@ -67,16 +63,16 @@ public class BoardManager {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(gridColor);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / board.getWidth();
-        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / board.getHeight();
+        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / board.getGrid().getWidth();
+        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / board.getGrid().getHeight();
 
-        for (int i = 0; i < board.getWidth(); i++) {
-            for (int j = 0; j < board.getHeight(); j++) {
+        for (int i = 0; i < board.getGrid().getWidth(); i++) {
+            for (int j = 0; j < board.getGrid().getHeight(); j++) {
 
-                if(board.getValue(i, j) == true && drawRandomColors) {
+                if(board.getGrid().getValue(i, j) == true && drawRandomColors) {
                     gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                 }
-                else if (board.getValue(i, j) == true) {
+                else if (board.getGrid().getValue(i, j) == true) {
                     gc.setFill(cellColor);
                 }
                 else {
@@ -97,14 +93,14 @@ public class BoardManager {
      */
     public void userDrawCell(){
         canvas.setOnMouseClicked(e -> {
-            double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
-            double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
+            double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getGrid().getWidth();
+            double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getGrid().getHeight();
             int korX = (int)e.getX();
             int korY = (int)e.getY();
             int arrayX = (int)Math.floor(korX/cellWidth);
             int arrayY = (int)Math.floor(korY/cellHeight);
 
-            board.toggleValue(arrayX, arrayY);
+            board.getGrid().toggleValue(arrayX, arrayY);
             draw();
         });
     }
@@ -191,8 +187,8 @@ public class BoardManager {
      */
    public void clearBoard(){
         isRunning = false;
-       ((DynamicBoard)board).resetBoard();
-
+        board.getGrid().clear();
+       ((DynamicGrid)board.getGrid()).resize(160, 100);
         isClearing = true;
     }
 
