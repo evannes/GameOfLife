@@ -2,8 +2,12 @@ package sample;
 
 
 import javafx.animation.AnimationTimer;
+import sun.plugin.javascript.navig.Array;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Miina Lervik
@@ -15,33 +19,9 @@ public class DynamicBoard extends Board {
     private int original_x_size;
     private int original_y_size;
     public List<List<Boolean>> dynamicBoardArray = new ArrayList<List<Boolean>>(160);
-    AnimationTimer drawTimer;
+    public List<List<Boolean>> clone;
 
-    /**
-     * Constructs and initiates the visible playing board.
-     */
-    public DynamicBoard(BoardGraphics boardGraphics) {
-        super(boardGraphics);
-        initStartBoard();
-        rules.setBoard(dynamicBoardArray);
-        boardGraphics.drawDynamic();
-        drawTimer = new AnimationTimer() {
-            public void handle(long now) {
-                if (isRunning && (now - tid) > boardGraphics.getSpeed()) {
-                    rules.nextListGeneration();
-                    boardGraphics.drawDynamic();
-
-                    tid = System.nanoTime();
-                }
-
-                if (isClearing){
-                    isClearing = false;
-                    boardGraphics.drawDynamic();
-                }
-            }
-        };
-
-        drawTimer.start();
+    public DynamicBoard() {
     }
 
     /**
@@ -49,13 +29,13 @@ public class DynamicBoard extends Board {
      * @param board     the board used instead of the default board
      */
     public DynamicBoard(List<List<Boolean>> board) {
-        rules.setBoard(dynamicBoardArray);
         this.dynamicBoardArray = board;
     }
 
     /**
      * The method initializing the board with all values set to false
      */
+    @Override
     public void initStartBoard(){
         for(int i = 0; i < x; i++) {
             dynamicBoardArray.add(i, new ArrayList<Boolean>(y));
@@ -78,25 +58,62 @@ public class DynamicBoard extends Board {
     }
 
     @Override
-    public void newGame() {
-        clearBoard();
-        rules.setBoard(dynamicBoardArray);
-        defaultStartBoard();
-        isRunning = true;
+    public void setValue(int x, int y, boolean value) {
+        dynamicBoardArray.get(x).set(y, value);
     }
 
     @Override
-    public void clearBoard(){
-        isRunning = false;
+    public boolean getValue(int x, int y) {
+        return dynamicBoardArray.get(x).get(y);
+    }
 
-        for(int i = 0; i < dynamicBoardArray.size(); i++) {
-            for(int j = 0; j < dynamicBoardArray.get(0).size(); j++) {
-                dynamicBoardArray.get(i).set(j,false);
+    @Override
+    public void toggleValue(int x, int y) {
+        dynamicBoardArray.get(x).set(y, !dynamicBoardArray.get(x).get(y));
+    }
+
+    @Override
+    public int getWidth() {
+        return dynamicBoardArray.size();
+    }
+
+    @Override
+    public int getHeight() {
+        return dynamicBoardArray.get(0).size();
+    }
+
+    @Override
+    public void createClone() {
+        clone = new ArrayList<List<Boolean>>(getWidth());
+
+        for(int i = 0; i < getWidth(); i++) {
+            clone.add(new ArrayList<>(getHeight()));
+
+            for(int j = 0; j < getHeight(); j++) {
+                clone.get(i).add(j, getValue(i, j));
             }
         }
-        rules.setBoard(dynamicBoardArray);
-        isClearing = true;
     }
+
+    @Override
+    public void setCloneValue(int x, int y, boolean value) {
+        clone.get(x).set(y, value);
+    }
+
+    @Override
+    public void toggleBoards() {
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                setValue(i, j, clone.get(i).get(j));
+            }
+        }
+    }
+
+    public void resetBoard() {
+
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
+    }
+
 
     @Override
     public String toString(){
@@ -113,30 +130,29 @@ public class DynamicBoard extends Board {
         return boardStringOutput;
     }
 
-    public void selectPatternFromDisk() {
-        boolean[][] array = fileHandling.readPatternFromDisk();
-        selectPatternLogic(array);
-    }
+    /**
+     * The method creating an ArrayList our of an array.
+     * @param array     the two-dimensional array to be converted
+     * @return          a two-dimensional ArrayList with the same content as the input array
+     */
+    public List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
+        List<List<Boolean>> listArray = new ArrayList<>();
+        for(int i = 0; i < array.length; i++){
+            listArray.add(new ArrayList<>());
+            for(int j = 0; j < array[0].length; j++){
+                Boolean b = array[i][j];
+                listArray.get(i).add(b);
+            }
 
-    public void selectPatternFromURL() {
-        boolean[][] array = fileHandling.readPatternFromURL();
-        selectPatternLogic(array);
-    }
-
-    private void selectPatternLogic(boolean[][] array) {
-        try {
-            List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
-            setDynamicBoardArray(listArray);
-
-            rules.setBoard(dynamicBoardArray);
-            boardGraphics.drawDynamic();
-        } catch (NullPointerException cancelException) {
         }
+        return listArray;
     }
 
-    private void setDynamicBoardArray(List<List<Boolean>> listArray) {
-        int inputX = listArray.size();
-        int inputY = listArray.get(0).size();
+
+
+    public void set_input_in_board(List<List<Boolean>> inputArray) {
+        int inputX = inputArray.size();
+        int inputY = inputArray.get(0).size();
         original_x_size = dynamicBoardArray.size();
         original_y_size = dynamicBoardArray.get(0).size();
         int diffX = inputX - original_x_size;
@@ -182,11 +198,11 @@ public class DynamicBoard extends Board {
         }
 
         //place the input array in the middle of dynamicBoardArray and transfer all values
-        System.out.println("dynamic size: "+ dynamicBoardArray.size() +"  " +listArray.size());
-        System.out.println("dynamic get0: "+ dynamicBoardArray.get(0).size() +"  "+ listArray.get(0).size());
-        int xStartIndex = (dynamicBoardArray.size() - listArray.size())/2;
+        System.out.println("dynamic size: "+ dynamicBoardArray.size() +"  " +inputArray.size());
+        System.out.println("dynamic get0: "+ dynamicBoardArray.get(0).size() +"  "+ inputArray.get(0).size());
+        int xStartIndex = (dynamicBoardArray.size() - inputArray.size())/2;
         System.out.println("startindex X: " + xStartIndex);
-        int yStartIndex = (dynamicBoardArray.get(0).size() - listArray.get(0).size())/2;
+        int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size())/2;
         System.out.println("startindex y: " + yStartIndex);
         int xIndex = 0;
 
@@ -199,10 +215,10 @@ public class DynamicBoard extends Board {
 
         */
 
-        for (int i = xStartIndex; i < listArray.size()+xStartIndex; i++){
+        for (int i = xStartIndex; i < inputArray.size()+xStartIndex; i++){
             int yIndex = 0;
-            for(int j = yStartIndex; j < listArray.get(0).size()+yStartIndex; j++){
-                Boolean value = listArray.get(xIndex).get(yIndex);
+            for(int j = yStartIndex; j < inputArray.get(0).size()+yStartIndex; j++){
+                Boolean value = inputArray.get(xIndex).get(yIndex);
                 dynamicBoardArray.get(i).set(j, value);
                 yIndex++;
             }
@@ -230,6 +246,18 @@ public class DynamicBoard extends Board {
             System.out.println(dynamicBoardArray.size()+" "+ dynamicBoardArray.get(0).size());
         }
 
+    }
+
+    ////////////////////////   KUN FOR Å TESTE!
+    public void print(List<List<Boolean>> array) {
+        for(int i = 0; i < array.size(); i++) {
+            for(int j = 0; j < array.get(0).size(); j++) {
+                System.out.print(array.get(i).get(j) == true ? "■" : "□");
+            }
+            System.out.println("");
+        }
+        System.out.println("");
+        System.out.println("");
     }
 
 

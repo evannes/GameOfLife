@@ -9,31 +9,11 @@ import javafx.animation.AnimationTimer;
  */
 public class StaticBoard extends Board{
     //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
-    public boolean[][] staticBoardArray = new boolean[x][y];
-    AnimationTimer drawTimer;
+    public boolean[][] staticBoardArray;
+    public boolean[][] clone;
 
-    /**
-     * Constructs and initiates the visible playing board.
-     */
+
     public StaticBoard() {
-        rules.setBoard(staticBoardArray);
-        boardGraphics.drawStatic();
-        drawTimer = new AnimationTimer() {
-            public void handle(long now) {
-                if (isRunning && (now - tid) > boardGraphics.getSpeed()) {
-                    boardGraphics.drawStatic();
-                    rules.nextGeneration();
-                    tid = System.nanoTime();
-                }
-
-                if (isClearing){
-                    isClearing = false;
-                    boardGraphics.drawStatic();
-                }
-            }
-        };
-
-        drawTimer.start();
     }
 
     /**
@@ -41,8 +21,52 @@ public class StaticBoard extends Board{
      * @param board     the board used instead of the default board
      */
     public StaticBoard(boolean[][] board) {
-        rules.setBoard(board);
         this.staticBoardArray = board;
+    }
+
+    @Override
+    public void initStartBoard(){
+        staticBoardArray = new boolean[x][y];
+    }
+
+    @Override
+    public void setValue(int x, int y, boolean value) {
+        staticBoardArray[x][y] = value;
+    }
+
+    @Override
+    public boolean getValue(int x, int y) {
+        return staticBoardArray[x][y];
+    }
+
+    @Override
+    public void toggleValue(int x, int y) {
+        staticBoardArray[x][y] = !staticBoardArray[x][y];
+    }
+
+    @Override
+    public int getWidth() {
+        return staticBoardArray.length;
+    }
+
+    @Override
+    public int getHeight() {
+        return staticBoardArray[0].length;
+    }
+
+    @Override
+    public void createClone() {
+        clone = staticBoardArray;
+    }
+
+    @Override
+    public void toggleBoards() {
+        staticBoardArray = clone;
+    }
+
+    @Override
+    public void setCloneValue(int x, int y, boolean value) {
+        clone[x][y] = value;
     }
 
     @Override
@@ -54,28 +78,7 @@ public class StaticBoard extends Board{
         staticBoardArray[1][0] = true;
     }
 
-    @Override
-    public void newGame() {
-        clearBoard();
-        rules.setBoard(staticBoardArray);
-        defaultStartBoard();
-        isRunning = true;
-    }
 
-    @Override
-    public void clearBoard(){
-        isRunning = false;
-
-        /*for(int i = 0; i < staticBoardArray.length; i++) {
-            for(int j = 0; j < staticBoardArray[0].length; j++) {*/
-        for(int i = 0; i < this.staticBoardArray.length; i++) {
-            for(int j = 0; j < this.staticBoardArray[0].length; j++) {
-                staticBoardArray[i][j] = false;
-            }
-        }
-        rules.setBoard(staticBoardArray);
-        isClearing = true;
-    }
 
     @Override
     public String toString(){
@@ -92,14 +95,6 @@ public class StaticBoard extends Board{
         return boardStringOutput;
     }
 
-    public void selectPatternFromDisk(){
-        boolean[][] array = fileHandling.readPatternFromDisk();
-        transferPatternToBoard(array);
-    }
-    public void selectPatternFromURL(){
-        boolean[][] array = fileHandling.readPatternFromURL();
-        transferPatternToBoard(array);
-    }
 
     private void transferPatternToBoard(boolean[][] array) {
         for(int i = 0; i < array.length; i++) {

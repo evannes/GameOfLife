@@ -1,9 +1,5 @@
 package sample;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.paint.Color;
-
 /**
  * @author Miina Lervik
  * @author Elise Vannes
@@ -11,95 +7,136 @@ import javafx.scene.paint.Color;
  */
 
 public abstract class Board {
-    protected boolean isRunning = false;
-    protected boolean isClearing = false;
-    protected long tid = System.nanoTime();
-    public BoardGraphics boardGraphics;
     protected int x = 160;
     protected int y = 100;
-    public FileHandling fileHandling = new FileHandling();
-
     public Rules rules = Rules.getInstance();
+
     public Board(){}
 
-    /**
-     * Constructor setting the BoardGraphics variable.
-     * @param boardGraphics
-     */
-    public Board(BoardGraphics boardGraphics) {
-        this.boardGraphics = boardGraphics;
-    }
 
     /**
      * The method applying a default pattern of cells to the board.
      */
     abstract void defaultStartBoard();
 
-    /**
-     * The method starting the game over again with the preset pattern.
-     */
-    public abstract void newGame();
+    abstract void initStartBoard();
 
+    abstract int getWidth();
+
+    abstract int getHeight();
+
+    abstract void setValue(int x, int y, boolean value);
+
+    abstract boolean getValue(int x, int y);
+
+    abstract void toggleValue(int x, int y);
+
+    abstract void createClone();
+
+    abstract void toggleBoards();
+
+    abstract void setCloneValue(int x, int y, boolean value);
 
     /**
-     * The method starting the animation of the board
+     * The method creating the next generation of cells to be drawn or removed.
      */
-    public void start() {
-        isRunning = true;
+    public void nextGeneration() {
+        createClone();
+
+        for(int i = 0; i < getWidth(); i++){
+            for(int j = 0; j < getHeight(); j++){
+                int neighbors = countNeighbor(i, j);
+                boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                setCloneValue(i, j, value );
+            }
+        }
+        toggleBoards();
     }
 
 
     /**
-     * The method return whether the animation is running or not.
-     * @return      <code>true</code> if the animation
-     *              is running.
+     * The method counting the alive cells surrounding the appointed cell
+     * @param i     the first column index of the array
+     * @param j     the second column index of the array
+     * @return      the number of alive neighboring cells
      */
-    public boolean getIsRunning(){
-        return isRunning;
+    public int countNeighbor(int i, int j){
+        int count = 0;
+
+        //check top
+        if (isActiveCell(i, j-1))
+            count++;
+
+        //check top-left
+        if (isActiveCell(i-1, j-1))
+            count++;
+
+        //check top-right
+        if (isActiveCell(i+1, j-1))
+            count++;
+
+        //check left
+        if (isActiveCell(i-1, j))
+            count++;
+
+        //check right
+        if (isActiveCell(i+1, j))
+            count++;
+
+        //check bottom
+        if (isActiveCell(i, j+1))
+            count++;
+
+        //check bottom-right
+        if (isActiveCell(i+1, j+1))
+            count++;
+
+        //check bottom-left
+        if (isActiveCell(i-1, j+1))
+            count++;
+
+        return count;
     }
 
     /**
-     * The method clearing the board.
+     * The method checking if the cell is alive.
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @return          <code>true</code> if the cell is alive
+     *                  and not exceeding the board array
      */
-    public abstract void clearBoard();
-
-    /**
-     * The method pausing the game by stopping the animation.
-     */
-    public void pauseGame(){
-        isRunning = false;
+    private boolean isActiveCell(int i, int j) {
+        return inBounds(i, j) && getValue(i,j) == true;
     }
 
     /**
-     * The method resuming the game by starting the animation again.
+     * The method checking if the appointed position is within the board array
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @return          <code>false</code> if the position is exceeding the board array
      */
-    public void resumeGame(){
-        isRunning = true;
+    private boolean inBounds(int i, int j){
+        if(i == -1 || j == -1){
+            return false;
+        }
+
+        if(i >= getWidth() || j >= getHeight()){
+            return false;
+        }
+
+        return true;
     }
 
-    /**
-     * The method exiting the game.
-     */
-    public void exitGame(){
-        System.exit(0);
-    }
+
 
     /**
-     * Method used to unit test {@link Rules#nextGeneration()}.
+     * Method used to unit test {@link #nextGeneration()}.
      * @return  The board array in an easy to read String format
      */
     @Override
     public abstract String toString();
 
-    /**
-     * The method allowing the user to select a pattern from disk
-     */
-    public abstract void selectPatternFromDisk();
 
-    /**
-     * The method allowing the user to select a pattern from a URL
-     */
-    public abstract void selectPatternFromURL();
 
 
 

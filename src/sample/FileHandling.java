@@ -220,23 +220,7 @@ public class FileHandling {
         return result;
     }
 
-    /**
-     * The method creating an ArrayList our of an array.
-     * @param array     the two-dimensional array to be converted
-     * @return          a two-dimensional ArrayList with the same content as the input array
-     */
-    public List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
-        List<List<Boolean>> listArray = new ArrayList<>();
-        for(int i = 0; i < array.length; i++){
-            listArray.add(new ArrayList<>());
-            for(int j = 0; j < array[0].length; j++){
-                Boolean b = array[i][j];
-                listArray.get(i).add(b);
-            }
 
-        }
-        return listArray;
-    }
 
     /**
      * Method used to generate the error message box.

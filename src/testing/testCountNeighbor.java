@@ -1,25 +1,30 @@
+/*
 package testing;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sample.StaticBoard;
-import sample.Rules;
+import sample.Board;
 
+*/
 /**
  * @author Miina Lervik
  * @author Elise Vannes
  * @author Alexander Kingdon
- */
+ *//*
+
 public class testCountNeighbor {
     boolean[][] testBoardGrid = new boolean[3][3];
     private StaticBoard testStaticBoard = new StaticBoard(testBoardGrid);
 
-    /**
-     * Used to set up the board again after running {@link Rules#nextGeneration()}.
+    */
+/**
+     * Used to set up the board again after running {@link Board#nextGeneration()}.
      * @param testStaticBoard     the board used for testing
-     */
+     *//*
+
     private void setBoard(StaticBoard testStaticBoard) {
-        testStaticBoard.staticBoardArray = testStaticBoard.rules.getStaticBoard();
+        //testStaticBoard.staticBoardArray = testStaticBoard.rules.getStaticBoard();
     }
 
     @Test
@@ -178,3 +183,4 @@ public class testCountNeighbor {
     }
 
 }
+*/
