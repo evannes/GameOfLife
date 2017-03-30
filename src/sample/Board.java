@@ -7,50 +7,50 @@ package sample;
  */
 
 public abstract class Board {
-    protected int x;
-    protected int y;
-    protected IGrid grid;
+    protected int x = 160;
+    protected int y = 100;
+    public Rules rules = Rules.getInstance();
 
-    public Board() {
-        // The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
-        x = 160;
-        y = 100;
-        grid = new Grid(x, y);
-    }
+    public Board(){}
 
-    public Board(IGrid grid) {
-        x = grid.getWidth();
-        y = grid.getHeight();
-        this.grid = grid;
-    }
 
-    public IGrid getGrid() {
-        return grid;
-    }
+    /**
+     * The method applying a default pattern of cells to the board.
+     */
+    abstract void defaultStartBoard();
 
-    public void defaultStartBoard(){
-        grid.setValue(0,2,true);
-        grid.setValue(1,2,true);
-        grid.setValue(2,2,true);
-        grid.setValue(2,1,true);
-        grid.setValue(1,0,true);
-    }
+    abstract void initStartBoard();
+
+    abstract int getWidth();
+
+    abstract int getHeight();
+
+    abstract void setValue(int x, int y, boolean value);
+
+    abstract boolean getValue(int x, int y);
+
+    abstract void toggleValue(int x, int y);
+
+    abstract void createClone();
+
+    abstract void toggleBoards();
+
+    abstract void setCloneValue(int x, int y, boolean value);
 
     /**
      * The method creating the next generation of cells to be drawn or removed.
      */
-    public void nextGeneration(Rules rules) {
-        IGrid clone = grid.getClone();
+    public void nextGeneration() {
+        createClone();
 
-        for (int x = 0; x < clone.getWidth(); x++) {
-            for (int y = 0; y < clone.getHeight(); y++) {
-                int neighbors = countNeighbor(x, y);
-                boolean value = grid.getValue(x, y) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
-                clone.setValue(x, y, value);
+        for(int i = 0; i < getWidth(); i++){
+            for(int j = 0; j < getHeight(); j++){
+                int neighbors = countNeighbor(i, j);
+                boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                setCloneValue(i, j, value );
             }
         }
-
-        grid = clone;
+        toggleBoards();
     }
 
 
@@ -106,7 +106,7 @@ public abstract class Board {
      *                  and not exceeding the board array
      */
     private boolean isActiveCell(int i, int j) {
-        return inBounds(i, j) && grid.getValue(i,j) == true;
+        return inBounds(i, j) && getValue(i,j) == true;
     }
 
     /**
@@ -120,10 +120,24 @@ public abstract class Board {
             return false;
         }
 
-        if(i >= grid.getWidth() || j >= grid.getHeight()){
+        if(i >= getWidth() || j >= getHeight()){
             return false;
         }
 
         return true;
     }
+
+
+
+    /**
+     * Method used to unit test {@link #nextGeneration()}.
+     * @return  The board array in an easy to read String format
+     */
+    @Override
+    public abstract String toString();
+
+
+
+
+
 }
