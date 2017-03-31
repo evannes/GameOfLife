@@ -1,12 +1,31 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 /**
@@ -239,5 +258,73 @@ public class BoardManager {
      */
     public void setDrawRandomColors(boolean value) {
         drawRandomColors = value;
+    }
+
+    public void ruleWindow() {
+        isRunning = false;
+        Alert ruleWindow = new Alert(Alert.AlertType.INFORMATION);
+        ruleWindow.setTitle("Select ruleset");
+        ruleWindow.setHeaderText("Here you can change the rules of the game.");
+
+        BorderPane ruleWindowBorderPane = new BorderPane();
+
+        // Left side of the window
+        VBox ruleVBox = new VBox();
+        ruleVBox.setMaxWidth(100);
+        ListView<String> ruleList = new ListView<>();
+        ObservableList<String> ruleItems = FXCollections.observableArrayList ("Default (Life)", "Seeds");
+        ruleList.setItems(ruleItems);
+        ruleVBox.getChildren().add(ruleList);
+        ruleWindowBorderPane.setLeft(ruleVBox);
+
+        // Center part of the window
+        Pane rulesPane = new Pane();
+        rulesPane.setPrefWidth(500);
+        Insets centerPadding = new Insets(0, 10, 10, 10);
+        Insets descriptionPadding = new Insets(25, 10, 10, 10);
+        ruleWindowBorderPane.setCenter(rulesPane);
+        Label ruleDescriptionHeader = new Label("Description of the rules:");
+        ruleDescriptionHeader.setPadding(centerPadding);
+        Label ruleDescriptionText = new Label();
+        ruleDescriptionText.setPadding(descriptionPadding);
+        rulesPane.getChildren().addAll(ruleDescriptionHeader, ruleDescriptionText);
+
+        ruleWindow.getDialogPane().setContent(ruleWindowBorderPane);
+
+        // Event handling
+        ruleList.setOnMouseClicked(event -> {
+            setSelectedRules(ruleList);
+            ruleDescriptionText.setText(getRuleDescription(ruleList));
+        });
+
+        if (ruleWindow.showAndWait().isPresent()) {
+            Rules.ruleSet = setSelectedRules(ruleList);
+        } else {
+            ruleWindow.close();
+        }
+
+        isRunning = true;
+    }
+
+    private String setSelectedRules(ListView selectedRules) {
+        String ruleSetString = (String) selectedRules.getSelectionModel().getSelectedItem();
+        if (ruleSetString != null) {
+            return ruleSetString;
+        } else {
+            return "Default (Life)";
+        }
+    }
+
+    private String getRuleDescription(ListView selectedRules) {
+        String ruleDescription = (String) selectedRules.getSelectionModel().getSelectedItem();
+
+        if (Objects.equals(ruleDescription, "Seeds")) {
+            ruleDescription = "B2/S \n - A cell is born when it has two neighbors. \n " +
+                    "- A cell will never survive to the next generation.";
+        } else {
+            ruleDescription = "B3/S23 \n - A cell is born when it has three neighbors. \n " +
+                    "- A cell will survive when it has two or three neighbors.";
+        }
+        return ruleDescription;
     }
 }

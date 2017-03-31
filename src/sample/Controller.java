@@ -117,6 +117,9 @@ public class Controller implements Initializable{
         boardManager.exitGame();
     }
 
+    public void selectRules() {
+        boardManager.ruleWindow();
+    }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         //board = new StaticBoard(canvas);

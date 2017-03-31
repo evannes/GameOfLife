@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Rules {
     private static Rules rules = null;
+    protected static String ruleSet = "Default (Life)";
 
 
     public static Rules getInstance() {
@@ -25,8 +26,13 @@ public class Rules {
      * @param counter   the amount of alive neighbors to the cell
      * @return          <code>true</code> if the cell has exactly 3 neighbors
      */
-    public boolean shouldSpawnActiveCell(int counter) {
-        return counter == 3;
+    protected boolean shouldSpawnActiveCell(int counter) {
+        switch (ruleSet) {
+            case "Default (Life)" : return counter == 3;
+            case "Seeds" : return counter == 2;
+            default : return counter == 3;
+        }
+        //return counter == 3;
     }
 
     /**
@@ -35,8 +41,12 @@ public class Rules {
      * @return          <code>true</code> if the amount of neighboring
      *                  cells is 2 or 3
      */
-    public boolean shouldStayAlive(int counter) {
-        return counter == 2 || counter == 3;
+    protected static boolean shouldStayAlive(int counter) {
+        switch (ruleSet) {
+            case "Default (Life)" : return counter == 2 || counter == 3;
+            case "Seeds" : return false;
+            default : return counter == 2 || counter == 3;
+        }
     }
 
 
