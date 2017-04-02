@@ -19,22 +19,62 @@ public abstract class Board {
      */
     public abstract void defaultStartBoard();
 
+    /**
+     * The method initiating the board.
+     */
     public abstract void initStartBoard();
 
+    /**
+     * The method returning the width of the board.
+     * @return  the height of the board
+     */
     public abstract int getWidth();
 
+    /**
+     * The method returning the height of the board.
+     * @return the height of the board
+     */
     public abstract int getHeight();
 
+    /**
+     * The method setting values to the board.
+     * @param x the first collumn index
+     * @param y the second collumn index
+     * @param value the value to be set
+     */
     public abstract void setValue(int x, int y, boolean value);
 
+    /**
+     * The method returning the value of the appointed position
+     * @param x the first collumn index
+     * @param y the second collumn index
+     * @return the value in this index
+     */
     public abstract boolean getValue(int x, int y);
 
+    /**
+     * The method toggling the value at the appointed index.
+     * @param x the first collumn index
+     * @param y the second collumn index
+     */
     public abstract void toggleValue(int x, int y);
 
+    /**
+     * Creating a clone of the board.
+     */
     public abstract void createClone();
 
+    /**
+     * The method making the board equals to the clone.
+     */
     public abstract void toggleBoards();
 
+    /**
+     * The method setting values to the clone at the appointed index.
+     * @param x the first collumn index
+     * @param y the second collumn index
+     * @param value the value to be set
+     */
     public abstract void setCloneValue(int x, int y, boolean value);
 
     /**
@@ -126,8 +166,6 @@ public abstract class Board {
 
         return true;
     }
-
-
 
     /**
      * Method used to unit test {@link #nextGeneration()}.

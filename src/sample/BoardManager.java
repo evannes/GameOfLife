@@ -3,30 +3,19 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 /**
  * Created by miinael on 28.03.2017.
@@ -189,7 +178,7 @@ public class BoardManager {
 
     public void selectPatternLogic(boolean[][] array) {
         try {
-            ((DynamicBoard)board).set_input_in_board(((DynamicBoard)board).createArrayListFromArray(array));
+            ((DynamicBoard)board).setInputInBoard(((DynamicBoard)board).createArrayListFromArray(array));
             draw();
         } catch (NullPointerException cancelException) {
         }

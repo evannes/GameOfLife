@@ -109,6 +109,9 @@ public class DynamicBoard extends Board {
         }
     }
 
+    /**
+     * The method resetting all values of the board to false
+     */
     public void resetBoard() {
         
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
@@ -149,8 +152,11 @@ public class DynamicBoard extends Board {
     }
 
 
-
-    public void set_input_in_board(List<List<Boolean>> inputArray) {
+    /**
+     * The method placing the input array from filehandler into the board.
+     * @param inputArray    the array loaded from file or URL
+     */
+    public void setInputInBoard(List<List<Boolean>> inputArray) {
         int inputX = inputArray.size();
         int inputY = inputArray.get(0).size();
         original_x_size = dynamicBoardArray.size();
@@ -227,6 +233,11 @@ public class DynamicBoard extends Board {
 
     }
 
+    /**
+     * The method enlarging the board
+     * @param width_factor  the factor to enlarge the boards width
+     * @param height_factor the factor to enlarge the boards height
+     */
     private void enlarge(int width_factor, int height_factor) {
         for(int f = 0; f < height_factor; f++) {
             for (int i = 0; i < original_x_size; i++) {
