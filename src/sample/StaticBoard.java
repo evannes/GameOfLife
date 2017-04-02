@@ -56,12 +56,21 @@ public class StaticBoard extends Board {
 
     @Override
     public void createClone() {
-        clone = staticBoardArray;
+        clone = new boolean[getWidth()][getHeight()];
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                clone[i][j] = getValue(i, j);
+            }
+        }
     }
 
     @Override
     public void toggleBoards() {
-        staticBoardArray = clone;
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                setValue(i, j, clone[i][j]);
+            }
+        }
     }
 
     @Override

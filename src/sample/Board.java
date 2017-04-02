@@ -17,25 +17,25 @@ public abstract class Board {
     /**
      * The method applying a default pattern of cells to the board.
      */
-    abstract void defaultStartBoard();
+    public abstract void defaultStartBoard();
 
-    abstract void initStartBoard();
+    public abstract void initStartBoard();
 
-    abstract int getWidth();
+    public abstract int getWidth();
 
-    abstract int getHeight();
+    public abstract int getHeight();
 
-    abstract void setValue(int x, int y, boolean value);
+    public abstract void setValue(int x, int y, boolean value);
 
-    abstract boolean getValue(int x, int y);
+    public abstract boolean getValue(int x, int y);
 
-    abstract void toggleValue(int x, int y);
+    public abstract void toggleValue(int x, int y);
 
-    abstract void createClone();
+    public abstract void createClone();
 
-    abstract void toggleBoards();
+    public abstract void toggleBoards();
 
-    abstract void setCloneValue(int x, int y, boolean value);
+    public abstract void setCloneValue(int x, int y, boolean value);
 
     /**
      * The method creating the next generation of cells to be drawn or removed.
