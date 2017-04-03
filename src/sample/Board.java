@@ -23,13 +23,6 @@ public abstract class Board {
     public abstract void defaultStartBoard();
 
     /**
-     * The method initiating the board.
-     */
-
-    //////////////////////////////////////////////Se om denne skal fjernes og legges i konstruktøren istedet
-    public abstract void initStartBoard();
-
-    /**
      * The method returning the width of the board.
      * @return  the height of the board
      */

@@ -44,8 +44,6 @@ public class BoardManager {
     public BoardManager(Canvas canvas, Board board) {
         this.canvas = canvas;
         this.board = board;
-
-        board.initStartBoard();
         draw();
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
@@ -65,8 +63,6 @@ public class BoardManager {
 
         drawTimer.start();
     }
-
-
 
     /**
      * The method drawing the board with alive cells, background.
@@ -118,7 +114,6 @@ public class BoardManager {
         });
     }
 
-
     /**
      * The method scaling the board.
      * The higher the value passed in the larger the board will become.
@@ -128,7 +123,6 @@ public class BoardManager {
         drawScale = value;
         gridSize = 0.1 * value;
     }
-
 
     /**
      * The method starting the animation of the board
@@ -180,8 +174,15 @@ public class BoardManager {
     public void selectPatternLogic(boolean[][] array) {
         try {
             ////////lag en if-else som sjekker om instansen er Dynamic eller Static
-            ((DynamicBoard)board).setInputInBoard(((DynamicBoard)board).createArrayListFromArray(array));
-            draw();
+            if(board instanceof DynamicBoard) {
+                System.out.println("DynamicBoard");
+                ((DynamicBoard) board).setInputInBoard(((DynamicBoard) board).createArrayListFromArray(array));
+                draw();
+            } else {
+                System.out.println("StaticBoard");
+                ((StaticBoard) board).transferPatternToBoard(array);
+                draw();
+            }
         } catch (NullPointerException cancelException) {
         }
     }

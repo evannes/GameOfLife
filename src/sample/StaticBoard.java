@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.control.Alert;
+
 /**
  * @author Miina Lervik
  * @author Elise Vannes
@@ -13,11 +15,6 @@ public class StaticBoard extends Board {
 
     public StaticBoard(int width, int height) {
         super(width, height);
-        staticBoardArray = new boolean[defaultWidth][defaultHeight];
-    }
-
-    @Override
-    public void initStartBoard(){
         staticBoardArray = new boolean[defaultWidth][defaultHeight];
     }
 
@@ -106,10 +103,19 @@ public class StaticBoard extends Board {
     }
 
 
-    private void transferPatternToBoard(boolean[][] array) {
-        for(int i = 0; i < array.length; i++) {
-            for(int j = 0; j < array[0].length; j++) {
-                staticBoardArray[i][j] = array[i][j];
+    public void transferPatternToBoard(boolean[][] array) {
+        // show alert if pattern is too big
+        if(array.length > staticBoardArray.length || array[0].length > staticBoardArray[0].length){
+            Alert transferErrorAlert = new Alert(Alert.AlertType.INFORMATION);
+            transferErrorAlert.setTitle("Error transfering pattern to board");
+            transferErrorAlert.setHeaderText("The pattern you chose was too big for the board");
+            transferErrorAlert.showAndWait();
+        } else {
+            System.out.println("transfering pattern");
+            for(int i = 0; i < array.length; i++) {
+                for(int j = 0; j < array[0].length; j++) {
+                    staticBoardArray[i][j] = array[i][j];
+                }
             }
         }
     }
