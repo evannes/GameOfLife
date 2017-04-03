@@ -1,17 +1,28 @@
 package sample;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
+ */
 public class Controller implements Initializable{
 
     @FXML
     private Canvas canvas;
-    DynamicBoard board;
+    Board board;
     BoardManager boardManager;
 
     @FXML
@@ -28,6 +39,9 @@ public class Controller implements Initializable{
 
     @FXML
     private Button pauseButton;
+
+    @FXML
+    private Button selectRules;
 
     /**
      * The method allowing the user to select a pattern from disk
@@ -118,12 +132,32 @@ public class Controller implements Initializable{
     }
 
     public void selectRules() {
-        boardManager.ruleWindow();
+        try {
+            if (boardManager.isRunning) {
+                pauseGame();
+            }
+            Stage ruleWindowStage = new Stage();
+            ruleWindowStage.initModality(Modality.WINDOW_MODAL);
+            ruleWindowStage.initOwner(selectRules.getScene().getWindow());
+
+            FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("ruleWindow.fxml"));
+            BorderPane ruleWindowBorderPane = ruleWindowLoader.load();
+
+            Scene ruleWindowScene = new Scene(ruleWindowBorderPane, 600, 400);
+
+            ruleWindowStage.setScene(ruleWindowScene);
+            ruleWindowStage.setTitle("Rule selection");
+            ruleWindowStage.showAndWait();
+            pauseGame();
+        } catch (IOException ioe) {
+            System.out.println("IOException: " + ioe.getMessage());
+        }
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        //board = new StaticBoard(canvas);
+        //board = new StaticBoard(160, 100);
         board = new DynamicBoard(160, 100);
+
         boardManager = new BoardManager(canvas, board);
 
         boardManager.userDrawCell();
@@ -143,7 +177,6 @@ public class Controller implements Initializable{
             });
 
         boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
-        //boardManager.drawDynamic();
     }
 
 }

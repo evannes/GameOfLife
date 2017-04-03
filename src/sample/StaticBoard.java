@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.control.Alert;
+
 /**
  * @author Miina Lervik
  * @author Elise Vannes
@@ -10,14 +12,13 @@ public class StaticBoard extends Board {
     public boolean[][] staticBoardArray;
     public boolean[][] clone;
 
-
+    /**
+     * Constructs and initiates the board.
+     * @param width     the width of the board
+     * @param height    the height of the board
+     */
     public StaticBoard(int width, int height) {
         super(width, height);
-        staticBoardArray = new boolean[defaultWidth][defaultHeight];
-    }
-
-    @Override
-    public void initStartBoard(){
         staticBoardArray = new boolean[defaultWidth][defaultHeight];
     }
 
@@ -57,7 +58,7 @@ public class StaticBoard extends Board {
     }
 
     @Override
-    public void toggleBoards() {
+    public void switchBoard() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
                 setValue(i, j, clone[i][j]);
@@ -88,8 +89,6 @@ public class StaticBoard extends Board {
         staticBoardArray[1][0] = true;
     }
 
-
-
     @Override
     public String toString(){
         String boardStringOutput = "";
@@ -105,11 +104,25 @@ public class StaticBoard extends Board {
         return boardStringOutput;
     }
 
-
-    private void transferPatternToBoard(boolean[][] array) {
-        for(int i = 0; i < array.length; i++) {
-            for(int j = 0; j < array[0].length; j++) {
-                staticBoardArray[i][j] = array[i][j];
+    /**
+     * The method transfering a pattern to the board.
+     * This methos will only allow a pattern with smaller or equal size as the board.
+     * In case of a larger pattern this method will give an alert letting the user know the pattern is too large.
+     * @param array     the array with the desired pattern to be placed on the board.
+     */
+    public void transferPatternToBoard(boolean[][] array) {
+        // show alert if pattern is too big
+        if(array.length > staticBoardArray.length || array[0].length > staticBoardArray[0].length){
+            Alert transferErrorAlert = new Alert(Alert.AlertType.INFORMATION);
+            transferErrorAlert.setTitle("Error transfering pattern to board");
+            transferErrorAlert.setHeaderText("The pattern you chose was too big for the board");
+            transferErrorAlert.showAndWait();
+        } else {
+            System.out.println("transfering pattern");
+            for(int i = 0; i < array.length; i++) {
+                for(int j = 0; j < array[0].length; j++) {
+                    staticBoardArray[i][j] = array[i][j];
+                }
             }
         }
     }

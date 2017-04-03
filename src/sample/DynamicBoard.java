@@ -1,6 +1,9 @@
 package sample;
 
 
+import javafx.scene.control.Alert;
+import sun.plugin.javascript.navig.Array;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -17,14 +20,19 @@ public class DynamicBoard extends Board {
     public List<List<Boolean>> dynamicBoardArray = new ArrayList<List<Boolean>>(160);
     public List<List<Boolean>> clone;
 
+    /**
+     * Constructs and initiates the board to be used.
+     * @param width     the width of the board.
+     * @param height    the height of the board.
+     */
     public DynamicBoard(int width, int height) {
         super(width, height);
+        initStartBoard();
     }
 
     /**
-     * The method initializing the board with all values set to false
+     * The method initializing the board with all values set to false.
      */
-    @Override
     public void initStartBoard(){
         for(int i = 0; i < defaultWidth; i++) {
             dynamicBoardArray.add(i, new ArrayList<Boolean>(defaultHeight));
@@ -90,7 +98,7 @@ public class DynamicBoard extends Board {
     }
 
     @Override
-    public void toggleBoards() {
+    public void switchBoard() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
                 setValue(i, j, clone.get(i).get(j));
@@ -123,7 +131,7 @@ public class DynamicBoard extends Board {
     }
 
     /**
-     * The method creating an ArrayList our of an array.
+     * The method creating a two-dimensional ArrayList our of a boolean two-dimensional array.
      * @param array     the two-dimensional array to be converted
      * @return          a two-dimensional ArrayList with the same content as the input array
      */
@@ -146,108 +154,74 @@ public class DynamicBoard extends Board {
      * @param inputArray    the array loaded from file or URL
      */
     public void setInputInBoard(List<List<Boolean>> inputArray) {
-        ///denne skal resize både opp og ned til 160x100
-        int inputX = inputArray.size();
-        int inputY = inputArray.get(0).size();
-        original_x_size = dynamicBoardArray.size();
-        original_y_size = dynamicBoardArray.get(0).size();
-        int diffX = inputX - original_x_size;
-        int diffY = inputY - original_y_size;
-        int width_loop_count;
-        int height_loop_count;
-        double factor;
+        // check if the input array is too large (doesn't look good anymore...)
+        if(inputArray.size() > 640 || inputArray.get(0).size() > 400) {
+            Alert sizeErrorAlert = new Alert(Alert.AlertType.INFORMATION);
+            sizeErrorAlert.setTitle("Error with size of pattern");
+            sizeErrorAlert.setHeaderText("The pattern is too large for the board");
+            sizeErrorAlert.showAndWait();
+        } else {
+            resize(inputArray.size(), inputArray.get(0).size());
 
-        System.out.println(inputY);
-        System.out.println(original_y_size);
-        System.out.println(inputX);
-        System.out.println(original_x_size);
+            //clear previous pattern
+            clearBoard();
 
-        //check is the input array is bigger than dynamicBoardArray on both the defaultWidth and defaultHeight coordinates
-        if( inputX > original_x_size && inputY > original_y_size){
-            //check which of the factors is the largest
-            if(inputX/ defaultWidth > inputY/original_y_size ){
-                factor = (double)inputX/original_x_size;
-                height_loop_count = (int)(factor*original_y_size)-original_y_size ;
-                System.out.println("height loop: "+ height_loop_count);
-                System.out.println("diffX: " + diffX);
-                enlarge(diffX, height_loop_count);
-            } else {
-                factor = (double)inputY/original_y_size ;
-                System.out.println(factor);
-                width_loop_count = (int)(factor*original_x_size)-original_x_size;
-                System.out.println("width loop: "+ width_loop_count);
-                System.out.println("defaultHeight = " + original_y_size);
-                System.out.println("diffY: " + diffY);
-                enlarge(width_loop_count, diffY);
+            //find the corner to start placing the pattern
+            int xStartIndex = (dynamicBoardArray.size() - inputArray.size()) / 2;
+            int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size()) / 2;
+
+            // set new pattern in middle of board
+            for (int i = 0; i < inputArray.size(); i++) {
+                for (int j = 0; j < inputArray.get(0).size(); j++) {
+                    Boolean value = inputArray.get(i).get(j);
+                    setValue(i + xStartIndex, j + yStartIndex, value);
+                }
             }
-        //check if the input array is larger on the defaultHeight coordinate
-        } else if(inputY > original_y_size) {
-            factor = (double)inputY/ defaultHeight;
-            width_loop_count = (int)(factor*original_x_size)-original_x_size;
-            enlarge(width_loop_count, diffY);
-        //check if the input array is larger on the defaultWidth coordinate
-        } else if(inputX > original_x_size) {
-            factor = (double)inputX/original_x_size;
-            height_loop_count = (int)(factor*original_y_size)-original_y_size ;
-            enlarge(diffX, height_loop_count);
-
         }
-
-        //place the input array in the middle of dynamicBoardArray and transfer all values
-        System.out.println("dynamic size: "+ dynamicBoardArray.size() +"  " +inputArray.size());
-        System.out.println("dynamic get0: "+ dynamicBoardArray.get(0).size() +"  "+ inputArray.get(0).size());
-        int xStartIndex = (dynamicBoardArray.size() - inputArray.size())/2;
-        System.out.println("startindex X: " + xStartIndex);
-        int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size())/2;
-        System.out.println("startindex defaultHeight: " + yStartIndex);
-        int xIndex = 0;
-
-        /* ///INTSTREAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        IntStream.range(0,10).forEach(e -> System.out.println(e));
-        for (int i = 0; i < 10; i++) {
-            System.out.println(i);
-        }
-        dynamicBoardArray.forEach(e-> e.forEach()));
-
-        */
-
-        for (int i = xStartIndex; i < inputArray.size()+xStartIndex; i++){
-            int yIndex = 0;
-            for(int j = yStartIndex; j < inputArray.get(0).size()+yStartIndex; j++){
-                Boolean value = inputArray.get(xIndex).get(yIndex);
-                dynamicBoardArray.get(i).set(j, value);
-                yIndex++;
-            }
-            xIndex++;
-        }
-
     }
 
     /**
-     * The method enlarging the board
-     * @param width_factor  the factor to enlarge the boards width
-     * @param height_factor the factor to enlarge the boards height
+     * The method resizing the board. This method will either enlarge or decrease the size of the board.
+     * The minimum size will be equal to the default size set in the constructor of the board.
+     * @param width  the new width we wish to resize to
+     * @param height the new height we wish to resize to
      */
-    private void enlarge(int width_factor, int height_factor) {
-        /////// ha max-størrelse! og en alert som sier ifra hvis den er for stor.
-        for(int f = 0; f < height_factor; f++) {
-            for (int i = 0; i < original_x_size; i++) {
-                dynamicBoardArray.get(i).add(Boolean.FALSE);
-            }
-            original_y_size++;
-            System.out.println(dynamicBoardArray.size()+" "+ dynamicBoardArray.get(0).size());
+    private void resize(int width, int height) {
+        // finds the factor of width and height
+        float width_factor = 1.0f / getWidth() * width;
+        float height_factor = 1.0f / getHeight() * height;
+
+        //if the width factor is larger than the height factor:
+        if(width_factor > height_factor) {
+            height = (int)Math.ceil((float)height/height_factor * width_factor);
+        } else {
+            width = (int)Math.ceil((float)width/width_factor * height_factor);
         }
 
-        for(int f = 0; f < width_factor; f++) {
+        // if the new size is smaller than the default size we choose the default size
+        height = Math.max(height, defaultHeight);
+        width = Math.max(width, defaultWidth);
 
-            dynamicBoardArray.add(new ArrayList());
-            for (int i = 0; i < original_y_size; i++) {
-                dynamicBoardArray.get(original_x_size).add(i, Boolean.FALSE);
+        // create new board with new size
+        List<List<Boolean>> newArray = new ArrayList<List<Boolean>>(width);
+
+        for (int i = 0; i < width; i++) {
+            ArrayList<Boolean> column = new ArrayList<Boolean>(height);
+            for(int j = 0; j < height; j++) {
+                column.add(false);
             }
-            original_x_size++;
-            System.out.println(dynamicBoardArray.size()+" "+ dynamicBoardArray.get(0).size());
+            newArray.add(column);
         }
 
+        // sets value from dynamicBoard to the new array
+        for(int i = 0; i < newArray.size() && i < defaultWidth; i++) {
+            for(int j = 0; j < newArray.get(0).size() && j < defaultHeight; j++) {
+                newArray.get(i).set(j, getValue(i, j));
+            }
+        }
+
+        // switching the arrays
+        dynamicBoardArray = newArray;
     }
 
 
