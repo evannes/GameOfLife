@@ -18,28 +18,6 @@ public class RuleWindow {
     private ListView ruleList;
     String ruleDescription;
     String ruleIdentifier;
-    //BoardManager boardManager;
-
-    /*public RuleWindow() {
-        if (boardManager.getIsRunning()) {
-            boardManager.pauseGame();
-        }
-
-         Event handling
-        ruleList.setOnMouseClicked(event -> {
-            ruleDescriptionText.setText(getRuleDescription(ruleList));
-        });
-
-        if (ruleWindow.showAndWait().isPresent()) {
-            Rules.ruleSet = setSelectedRules(ruleList);
-        } else {
-            RuleWindow.close();
-        }
-
-        if (boardManager.getIsRunning()) {
-            boardManager.resumeGame();
-        }
-    }*/
 
     public RuleWindow(ListView ruleList) {
         this.ruleList = ruleList;

@@ -132,14 +132,10 @@ public class Controller implements Initializable{
     }
 
     public void selectRules() {
-        /*pauseGame();
-        if (pauseButton.getText().equals("Pause")) {
-            pauseButton.setText("Resume");
-        }
-        boardManager.ruleWindow();
-        pauseGame();*/
         try {
-            pauseGame();
+            if (boardManager.isRunning) {
+                pauseGame();
+            }
             Stage ruleWindowStage = new Stage();
             ruleWindowStage.initModality(Modality.WINDOW_MODAL);
             ruleWindowStage.initOwner(selectRules.getScene().getWindow());
@@ -154,7 +150,7 @@ public class Controller implements Initializable{
             ruleWindowStage.showAndWait();
             pauseGame();
         } catch (IOException ioe) {
-            System.out.println("Feil, bror!");
+            System.out.println("IOException: " + ioe.getMessage());
         }
     }
 
