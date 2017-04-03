@@ -7,11 +7,14 @@ package sample;
  */
 
 public abstract class Board {
-    protected final int DEFAULT_WIDTH = 160;
-    protected final int DEFAULT_HEIGHT = 100;
+    protected int defaultWidth = 160;
+    protected int defaultHeight = 100;
     public Rules rules = Rules.getInstance();
 
-    public Board(){}
+    public Board(int width, int height){
+        this.defaultWidth = width;
+        this.defaultHeight = height;
+    }
 
 
     /**
@@ -22,6 +25,8 @@ public abstract class Board {
     /**
      * The method initiating the board.
      */
+
+    //////////////////////////////////////////////Se om denne skal fjernes og legges i konstruktøren istedet
     public abstract void initStartBoard();
 
     /**

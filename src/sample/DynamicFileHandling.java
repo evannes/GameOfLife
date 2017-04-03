@@ -69,8 +69,8 @@ public class DynamicFileHandling {
                 }
 
                 String code = getCode(patternString);
-                int x = Integer.parseInt(getMatchGroup(patternString, "DEFAULT_WIDTH = (\\d+)", 1));
-                int y = Integer.parseInt(getMatchGroup(patternString, "DEFAULT_HEIGHT = (\\d+)", 1));
+                int x = Integer.parseInt(getMatchGroup(patternString, "defaultWidth = (\\d+)", 1));
+                int y = Integer.parseInt(getMatchGroup(patternString, "defaultHeight = (\\d+)", 1));
                 String expandedCode = expand(code);
                 array = createArray(expandedCode, x, y);
             } else {
@@ -113,8 +113,8 @@ public class DynamicFileHandling {
                 }
 
                 String code = getCode(patternString);
-                int x = Integer.parseInt(getMatchGroup(patternString, "DEFAULT_WIDTH = (\\d+)", 1));
-                int y = Integer.parseInt(getMatchGroup(patternString, "DEFAULT_HEIGHT = (\\d+)", 1));
+                int x = Integer.parseInt(getMatchGroup(patternString, "defaultWidth = (\\d+)", 1));
+                int y = Integer.parseInt(getMatchGroup(patternString, "defaultHeight = (\\d+)", 1));
                 String expandedCode = expand(code);
                 array = createArray(expandedCode, x, y);
             }
@@ -173,7 +173,7 @@ public class DynamicFileHandling {
     }
 
     private List<List<Boolean>> createArray(String input, int x, int y) {
-        ///HER ER BRETTSTØRRELSE SATT!!!!! Putt DEFAULT_WIDTH i første og DEFAULT_HEIGHT i andre!!////////////////////////////////////////////////////////
+        ///HER ER BRETTSTØRRELSE SATT!!!!! Putt defaultWidth i første og defaultHeight i andre!!////////////////////////////////////////////////////////
         List<List<Boolean>> result = new ArrayList<List<Boolean>>(160);
         initBoard(result);
         int xIndex = (int)Math.floor((160-x)/2);

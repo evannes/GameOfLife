@@ -17,15 +17,8 @@ public class DynamicBoard extends Board {
     public List<List<Boolean>> dynamicBoardArray = new ArrayList<List<Boolean>>(160);
     public List<List<Boolean>> clone;
 
-    public DynamicBoard() {
-    }
-
-    /**
-     * Constructs and initiates the playing board used for unit testing.
-     * @param board     the board used instead of the default board
-     */
-    public DynamicBoard(List<List<Boolean>> board) {
-        this.dynamicBoardArray = board;
+    public DynamicBoard(int width, int height) {
+        super(width, height);
     }
 
     /**
@@ -33,12 +26,12 @@ public class DynamicBoard extends Board {
      */
     @Override
     public void initStartBoard(){
-        for(int i = 0; i < DEFAULT_WIDTH; i++) {
-            dynamicBoardArray.add(i, new ArrayList<Boolean>(DEFAULT_HEIGHT));
+        for(int i = 0; i < defaultWidth; i++) {
+            dynamicBoardArray.add(i, new ArrayList<Boolean>(defaultHeight));
         }
 
-        for(int i = 0; i < DEFAULT_WIDTH; i++){
-            for(int j = 0; j < DEFAULT_HEIGHT; j++){
+        for(int i = 0; i < defaultWidth; i++){
+            for(int j = 0; j < defaultHeight; j++){
                 dynamicBoardArray.get(i).add(j,false);
             }
         }
@@ -117,8 +110,8 @@ public class DynamicBoard extends Board {
     @Override
     public String toString(){
         String boardStringOutput = "";
-        for(int i = 0; i < DEFAULT_WIDTH; i++) {
-            for(int j = 0; j < DEFAULT_HEIGHT; j++) {
+        for(int i = 0; i < defaultWidth; i++) {
+            for(int j = 0; j < defaultHeight; j++) {
                 if (dynamicBoardArray.get(i).get(j)) {
                     boardStringOutput += "1";
                 } else {
@@ -169,10 +162,10 @@ public class DynamicBoard extends Board {
         System.out.println(inputX);
         System.out.println(original_x_size);
 
-        //check is the input array is bigger than dynamicBoardArray on both the DEFAULT_WIDTH and DEFAULT_HEIGHT coordinates
+        //check is the input array is bigger than dynamicBoardArray on both the defaultWidth and defaultHeight coordinates
         if( inputX > original_x_size && inputY > original_y_size){
             //check which of the factors is the largest
-            if(inputX/ DEFAULT_WIDTH > inputY/original_y_size ){
+            if(inputX/ defaultWidth > inputY/original_y_size ){
                 factor = (double)inputX/original_x_size;
                 height_loop_count = (int)(factor*original_y_size)-original_y_size ;
                 System.out.println("height loop: "+ height_loop_count);
@@ -183,16 +176,16 @@ public class DynamicBoard extends Board {
                 System.out.println(factor);
                 width_loop_count = (int)(factor*original_x_size)-original_x_size;
                 System.out.println("width loop: "+ width_loop_count);
-                System.out.println("DEFAULT_HEIGHT = " + original_y_size);
+                System.out.println("defaultHeight = " + original_y_size);
                 System.out.println("diffY: " + diffY);
                 enlarge(width_loop_count, diffY);
             }
-        //check if the input array is larger on the DEFAULT_HEIGHT coordinate
+        //check if the input array is larger on the defaultHeight coordinate
         } else if(inputY > original_y_size) {
-            factor = (double)inputY/ DEFAULT_HEIGHT;
+            factor = (double)inputY/ defaultHeight;
             width_loop_count = (int)(factor*original_x_size)-original_x_size;
             enlarge(width_loop_count, diffY);
-        //check if the input array is larger on the DEFAULT_WIDTH coordinate
+        //check if the input array is larger on the defaultWidth coordinate
         } else if(inputX > original_x_size) {
             factor = (double)inputX/original_x_size;
             height_loop_count = (int)(factor*original_y_size)-original_y_size ;
@@ -206,7 +199,7 @@ public class DynamicBoard extends Board {
         int xStartIndex = (dynamicBoardArray.size() - inputArray.size())/2;
         System.out.println("startindex X: " + xStartIndex);
         int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size())/2;
-        System.out.println("startindex DEFAULT_HEIGHT: " + yStartIndex);
+        System.out.println("startindex defaultHeight: " + yStartIndex);
         int xIndex = 0;
 
         /* ///INTSTREAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

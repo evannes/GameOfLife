@@ -11,8 +11,7 @@ import sample.StaticBoard;
  */
 
 public class testCountNeighbor {
-    boolean[][] testBoardGrid = new boolean[3][3];
-    private Board testStaticBoard = new StaticBoard(testBoardGrid);
+    private Board testStaticBoard = new StaticBoard(3,3);
 
     /**
      * Used to set up the board again after running {@link Board#nextGeneration()}.
