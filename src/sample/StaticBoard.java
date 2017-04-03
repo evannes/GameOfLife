@@ -77,7 +77,7 @@ public class StaticBoard extends Board {
     }
 
     @Override
-    public void clearBoeard() {
+    public void clearBoard() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
                 staticBoardArray[i][j] = false;
