@@ -31,6 +31,7 @@ public class BoardManager {
     private Canvas canvas;
     private Board board;
     FileHandling fileHandling = new FileHandling();
+    Controller controller = new Controller();
     protected boolean isRunning = false;
     protected boolean isClearing = false;
     protected long time = System.nanoTime();
@@ -248,7 +249,9 @@ public class BoardManager {
     }
 
     public void ruleWindow() {
-        isRunning = false;
+        if (getIsRunning()) {
+            pauseGame();
+        }
         Alert ruleWindow = new Alert(Alert.AlertType.INFORMATION);
         ruleWindow.setTitle("Select ruleset");
         ruleWindow.setHeaderText("Here you can change the rules of the game.");
@@ -280,7 +283,6 @@ public class BoardManager {
 
         // Event handling
         ruleList.setOnMouseClicked(event -> {
-            setSelectedRules(ruleList);
             ruleDescriptionText.setText(getRuleDescription(ruleList));
         });
 
@@ -290,7 +292,9 @@ public class BoardManager {
             ruleWindow.close();
         }
 
-        isRunning = true;
+        if (getIsRunning()) {
+            resumeGame();
+        }
     }
 
     private String setSelectedRules(ListView selectedRules) {

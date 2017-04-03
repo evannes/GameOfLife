@@ -118,7 +118,12 @@ public class Controller implements Initializable{
     }
 
     public void selectRules() {
+        pauseGame();
+        if (pauseButton.getText().equals("Pause")) {
+            pauseButton.setText("Resume");
+        }
         boardManager.ruleWindow();
+        pauseGame();
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
