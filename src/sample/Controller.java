@@ -11,7 +11,7 @@ public class Controller implements Initializable{
 
     @FXML
     private Canvas canvas;
-    DynamicBoard board;
+    Board board;
     BoardManager boardManager;
 
     @FXML
@@ -127,8 +127,9 @@ public class Controller implements Initializable{
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        //board = new StaticBoard(canvas);
+        //board = new StaticBoard(160, 100);
         board = new DynamicBoard(160, 100);
+
         boardManager = new BoardManager(canvas, board);
 
         boardManager.userDrawCell();
@@ -148,7 +149,6 @@ public class Controller implements Initializable{
             });
 
         boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
-        //boardManager.drawDynamic();
     }
 
 }
