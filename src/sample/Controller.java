@@ -1,33 +1,18 @@
 package sample;
-import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.*;
-import javafx.stage.FileChooser;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
 
     @FXML
     private Canvas canvas;
-
-    //StaticBoard board;
-    //Rules staticRules = new Rules();
-    //FileHandling fileHandling = new FileHandling();
-    DynamicFileHandling dynamicFileHandling = new DynamicFileHandling();
     DynamicBoard board;
-    Rules rules;
+    BoardManager boardManager;
 
     @FXML
     private Slider changeCellSize;
@@ -44,50 +29,49 @@ public class Controller implements Initializable{
     @FXML
     private Button pauseButton;
 
+    /**
+     * The method allowing the user to select a pattern from disk
+     */
     public void selectPatternFromDisk() {
-        board.selectPatternFromDisk();
-        //boolean array[][] = fileHandling.readPatternFromDisk();
-        //board.staticRules.setBoard(array);
-        //List<List<Boolean>> array = dynamicFileHandling.readPatternFromDisk();
-        //board.rules.setBoard(array);
-        //board.draw(canvas);
+        boardManager.selectPatternFromDisk();
     }
 
+    /**
+     * The method allowing the user to select a pattern from a URL
+     */
     public void selectPatternFromURL() {
-        board.selectPatternFromURL();
-        //boolean array[][] = fileHandling.readPatternFromURL();
-        //board.staticRules.setBoard(array);
-        //List<List<Boolean>> array = dynamicFileHandling.readPatternFromURL();
-        //board.rules.setBoard(array);
-       // board.draw(canvas);
+        boardManager.selectPatternFromURL();
     }
 
     /**
      * Assigns color to the cells.
      */
     public void setCellColor(){
-        board.setCellColor(colorPicker);
+        boardManager.setCellColor(colorPicker);
+        boardManager.draw();
     }
 
     /**
      * Assigns color to the grid.
      */
     public void setGridColor(){
-        board.setGridColor(colorPicker);
+        boardManager.setGridColor(colorPicker);
+        boardManager.draw();
     }
 
     /**
      * Assigns color to the boards background.
      */
     public void setBoardColor(){
-        board.setBoardColor(colorPicker);
+        boardManager.setBoardColor(colorPicker);
+        boardManager.draw();
     }
 
     /**
      * Assigns random colors to the cells.
      */
     public void setRandomColors(){
-        board.setDrawRandomColors(randomColors.isSelected());
+        boardManager.setDrawRandomColors(randomColors.isSelected());
     }
 
     /**
@@ -95,31 +79,33 @@ public class Controller implements Initializable{
      */
     public void newGame(){
         pauseButton.setText("Pause");
-        board.newGame();
+        boardManager.newGame();
     }
 
     /**
      * Clears the board.
      */
     public void clearBoard(){
-        board.clearBoard();
+        boardManager.clearBoard();
     }
 
+    /**
+     * The method starting the animation of the game.
+     */
     public void start() {
-
         pauseButton.setText("Pause");
-        board.start();
+        boardManager.start();
     }
 
     /**
      * Pauses the game.
      */
     public void pauseGame(){
-        if(board.getIsRunning()) {
-            board.pauseGame();
+        if(boardManager.getIsRunning()) {
+            boardManager.pauseGame();
             pauseButton.setText("Resume");
         } else {
-            board.resumeGame();
+            boardManager.resumeGame();
             pauseButton.setText("Pause");
         }
     }
@@ -128,34 +114,36 @@ public class Controller implements Initializable{
      * Exits the game.
      */
     public void exitGame(){
-        board.exitGame();
+        boardManager.exitGame();
     }
 
-    //protected boolean[][] boardGrid = new boolean[160][100];
+    public void selectRules() {
+        boardManager.ruleWindow();
+    }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-<<<<<<< Updated upstream
         //board = new StaticBoard(canvas);
-=======
-        // board = new Board(canvas);
->>>>>>> Stashed changes
-        board = new DynamicBoard(canvas);
+        board = new DynamicBoard();
+        boardManager = new BoardManager(canvas, board);
 
-        board.userDrawCell(canvas);
+        boardManager.userDrawCell();
 
         changeSpeed.valueProperty().addListener(
             (observable, oldValue, value) ->
             {
-                board.setSpeed((int)((double)value * 10000000));
+                boardManager.setSpeed((int)((double)value * 10000000));
+                boardManager.draw();
             });
 
         changeCellSize.valueProperty().addListener(
             (observable, oldValue, value) ->
             {
-                board.setDrawScale((double)value);
+                boardManager.setDrawScale((double)value);
+                boardManager.draw();
             });
 
-        board.setSpeed((int)(changeSpeed.getValue() * 10000000));
+        boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
+        //boardManager.drawDynamic();
     }
 
 }

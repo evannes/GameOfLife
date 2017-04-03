@@ -1,171 +1,180 @@
 package sample;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.paint.Color;
-
 /**
- * Created by miinael on 23.03.2017.
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
+
 public abstract class Board {
-    protected boolean isRunning = false;
-    protected boolean isClearing = false;
-    protected int speed;
-    protected Color cellColor = Color.LIGHTSEAGREEN;
-    protected Color gridColor = Color.BLACK;
-    protected Color boardColor = Color.WHITE;
-    protected long tid = System.nanoTime();
-    protected boolean drawRandomColors;
-    protected double drawScale = 1;
-    protected double gridSize = 0.1;
-    protected double cellWidth;
-    protected double cellHeight;
-    protected Canvas canvas;
     protected int x = 160;
     protected int y = 100;
+    public Rules rules = Rules.getInstance();
 
-    public Rules staticRules = new Rules();
+    public Board(){}
 
-
-    /**
-     * Constructs and initiates the visible playing board.
-     * @param canvas        the canvas the board is to be painted on
-     */
-    public Board(Canvas canvas) {
-        this.canvas = canvas;
-    }
-
-    public Board() {
-    }
-
-
-    /**
-     * The method used for setting random colors to the cells.
-     * @param value     <code>true</code> if drawRandomColors is to be turned on
-     */
-    public void setDrawRandomColors(boolean value) {
-        drawRandomColors = value;
-    }
 
     /**
      * The method applying a default pattern of cells to the board.
      */
-    abstract void defaultStartBoard();
+    public abstract void defaultStartBoard();
 
     /**
-     * The method starting the game over again with the preset pattern.
+     * The method initiating the board.
      */
-    public abstract void newGame();
+    public abstract void initStartBoard();
 
     /**
-     * The method drawing the board with alive cells, background.
-     * and grid. The method will draw the board according to the array applied in the <code>staticRules</code> class.
-     * @param canvas    the canvas to be drawn on.
+     * The method returning the width of the board.
+     * @return  the height of the board
      */
-    abstract void draw(Canvas canvas);
+    public abstract int getWidth();
 
     /**
-     * The method scaling the board.
-     * The higher the value passed in the larger the board will become.
-     * @param value     the value used to change the size of the board.
+     * The method returning the height of the board.
+     * @return the height of the board
      */
-    protected void setDrawScale(double value) {
-        drawScale = value;
-        gridSize = 0.1 * value;
-        draw(canvas);
+    public abstract int getHeight();
+
+    /**
+     * The method setting values to the board.
+     * @param x the first collumn index
+     * @param y the second collumn index
+     * @param value the value to be set
+     */
+    public abstract void setValue(int x, int y, boolean value);
+
+    /**
+     * The method returning the value of the appointed position
+     * @param x the first collumn index
+     * @param y the second collumn index
+     * @return the value in this index
+     */
+    public abstract boolean getValue(int x, int y);
+
+    /**
+     * The method toggling the value at the appointed index.
+     * @param x the first collumn index
+     * @param y the second collumn index
+     */
+    public abstract void toggleValue(int x, int y);
+
+    /**
+     * Creating a clone of the board.
+     */
+    public abstract void createClone();
+
+    /**
+     * The method making the board equals to the clone.
+     */
+    public abstract void toggleBoards();
+
+    /**
+     * The method setting values to the clone at the appointed index.
+     * @param x the first collumn index
+     * @param y the second collumn index
+     * @param value the value to be set
+     */
+    public abstract void setCloneValue(int x, int y, boolean value);
+
+    /**
+     * The method creating the next generation of cells to be drawn or removed.
+     */
+    public void nextGeneration() {
+        createClone();
+
+        for(int i = 0; i < getWidth(); i++){
+            for(int j = 0; j < getHeight(); j++){
+                int neighbors = countNeighbor(i, j);
+                boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                setCloneValue(i, j, value );
+            }
+        }
+        toggleBoards();
     }
 
-    public void start() {
-        isRunning = true;
+
+    /**
+     * The method counting the alive cells surrounding the appointed cell
+     * @param i     the first column index of the array
+     * @param j     the second column index of the array
+     * @return      the number of alive neighboring cells
+     */
+    public int countNeighbor(int i, int j){
+        int count = 0;
+
+        //check top
+        if (isActiveCell(i, j-1))
+            count++;
+
+        //check top-left
+        if (isActiveCell(i-1, j-1))
+            count++;
+
+        //check top-right
+        if (isActiveCell(i+1, j-1))
+            count++;
+
+        //check left
+        if (isActiveCell(i-1, j))
+            count++;
+
+        //check right
+        if (isActiveCell(i+1, j))
+            count++;
+
+        //check bottom
+        if (isActiveCell(i, j+1))
+            count++;
+
+        //check bottom-right
+        if (isActiveCell(i+1, j+1))
+            count++;
+
+        //check bottom-left
+        if (isActiveCell(i-1, j+1))
+            count++;
+
+        return count;
     }
 
     /**
-     * The method which lets the user set or remove cells manually from the board.
-     * @param canvas        the canvas to get the coordinates from
+     * The method checking if the cell is alive.
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @return          <code>true</code> if the cell is alive
+     *                  and not exceeding the board array
      */
-    abstract void userDrawCell(Canvas canvas);
-
-    /**
-     * The method return whether the animation is running or not.
-     * @return      <code>true</code> if the animation
-     *              is running.
-     */
-    public boolean getIsRunning(){
-        return isRunning;
+    private boolean isActiveCell(int i, int j) {
+        return inBounds(i, j) && getValue(i,j) == true;
     }
 
     /**
-     * The method setting the speed of the animation.
-     * @param value     the value used to set the speed of the animation
+     * The method checking if the appointed position is within the board array
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @return          <code>false</code> if the position is exceeding the board array
      */
-    protected void setSpeed(int value) {
-        speed = value;
-        draw(canvas);
+    private boolean inBounds(int i, int j){
+        if(i == -1 || j == -1){
+            return false;
+        }
+
+        if(i >= getWidth() || j >= getHeight()){
+            return false;
+        }
+
+        return true;
     }
 
     /**
-     * The method setting color to the alive cells.
-     * @param colorPicker       the input color to set on the cell
-     */
-    public void setCellColor(ColorPicker colorPicker){
-        cellColor = colorPicker.getValue();
-        draw(canvas);
-    }
-
-    /**
-     * The method setting color to the grid.
-     * @param colorPicker       the input color to set on the grid
-     */
-    public void setGridColor(ColorPicker colorPicker) {
-        gridColor = colorPicker.getValue();
-        draw(canvas);
-    }
-
-    /**
-     * The method setting color to the boards background.
-     * @param colorPicker       the input color to set on the boards background
-     */
-    public void setBoardColor(ColorPicker colorPicker) {
-        boardColor = colorPicker.getValue();
-        draw(canvas);
-    }
-
-    /**
-     * The method clearing the board.
-     */
-    public abstract void clearBoard();
-
-    /**
-     * The method pausing the game by stopping the animation.
-     */
-    public void pauseGame(){
-        isRunning = false;
-    }
-
-    /**
-     * The method resuming the game by starting the animation again.
-     */
-    public void resumeGame(){
-        isRunning = true;
-    }
-
-    /**
-     * The method exiting the game.
-     */
-    public void exitGame(){
-        System.exit(0);
-    }
-
-    /**
-     * Method used to unit test {@link Rules#nextGeneration()}.
+     * Method used to unit test {@link #nextGeneration()}.
      * @return  The board array in an easy to read String format
      */
     @Override
     public abstract String toString();
 
 
-    public abstract void selectPatternFromDisk();
-    public abstract void selectPatternFromURL();
 
 
 

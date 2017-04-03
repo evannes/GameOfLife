@@ -1,14 +1,13 @@
 package sample;
 
 
-import com.sun.deploy.util.ArrayUtil;
 import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import sun.plugin.javascript.navig.Array;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Miina Lervik
@@ -17,39 +16,12 @@ import java.util.List;
  */
 
 public class DynamicBoard extends Board {
+    private int original_x_size;
+    private int original_y_size;
+    public List<List<Boolean>> dynamicBoardArray = new ArrayList<List<Boolean>>(160);
+    public List<List<Boolean>> clone;
 
-    public Rules rules = new Rules();
-    public FileHandling fileHandling = new FileHandling();
-
-    private List<List<Boolean>> dynamicBoard = new ArrayList<List<Boolean>>(160);
-    AnimationTimer drawTimer;
-
-
-    /**
-     * Constructs and initiates the visible playing board.
-     * @param canvas        the canvas the board is to be painted on
-     */
-    public DynamicBoard(Canvas canvas) {
-        super(canvas);
-        initStartBoard();
-        rules.setBoard(dynamicBoard);
-        draw(canvas);
-        drawTimer = new AnimationTimer() {
-            public void handle(long now) {
-                if (isRunning && (now - tid) > speed) {
-                    draw(canvas);
-                    rules.nextListGeneration();
-                    tid = System.nanoTime();
-                }
-
-                if (isClearing){
-                    isClearing = false;
-                    draw(canvas);
-                }
-            }
-        };
-
-        drawTimer.start();
+    public DynamicBoard() {
     }
 
     /**
@@ -57,134 +29,101 @@ public class DynamicBoard extends Board {
      * @param board     the board used instead of the default board
      */
     public DynamicBoard(List<List<Boolean>> board) {
-        rules.setBoard(dynamicBoard);
-        this.dynamicBoard = board;
+        this.dynamicBoardArray = board;
     }
 
-
+    /**
+     * The method initializing the board with all values set to false
+     */
+    @Override
     public void initStartBoard(){
         for(int i = 0; i < x; i++) {
-            dynamicBoard.add(i, new ArrayList<Boolean>(y));
+            dynamicBoardArray.add(i, new ArrayList<Boolean>(y));
         }
 
         for(int i = 0; i < x; i++){
             for(int j = 0; j < y; j++){
-                dynamicBoard.get(i).add(j,false);
+                dynamicBoardArray.get(i).add(j,false);
             }
         }
     }
 
-    /**
-     * The method applying a default pattern of cells to the board.
-     */
     @Override
     public void defaultStartBoard(){
-        dynamicBoard.get(0).set(2,true);
-        dynamicBoard.get(1).set(2,true);
-        dynamicBoard.get(2).set(2,true);
-        dynamicBoard.get(2).set(1,true);
-        dynamicBoard.get(1).set(0,true);
+        dynamicBoardArray.get(0).set(2,true);
+        dynamicBoardArray.get(1).set(2,true);
+        dynamicBoardArray.get(2).set(2,true);
+        dynamicBoardArray.get(2).set(1,true);
+        dynamicBoardArray.get(1).set(0,true);
     }
 
-    /**
-     * The method starting the game over again with the preset pattern.
-     */
     @Override
-    public void newGame() {
-        clearBoard();
-        rules.setBoard(dynamicBoard);
-        defaultStartBoard();
-        isRunning = true;
+    public void setValue(int x, int y, boolean value) {
+        dynamicBoardArray.get(x).set(y, value);
     }
 
-    /**
-     * The method drawing the board with alive cells, background.
-     * and grid. The method will draw the board according to the array applied in the <code>Rules</code> class.
-     * @param canvas    the canvas to be drawn on.
-     */
     @Override
-    public void draw(Canvas canvas) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        dynamicBoard = rules.getListBoard();
-        gc.setFill(gridColor);
-        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        cellWidth = (canvas.getWidth()*drawScale - gridSize) / dynamicBoard.size();
-        cellHeight = (canvas.getHeight()*drawScale - gridSize) / dynamicBoard.get(0).size();
+    public boolean getValue(int x, int y) {
+        return dynamicBoardArray.get(x).get(y);
+    }
 
-        x = dynamicBoard.size();
-        y = dynamicBoard.get(0).size();
+    @Override
+    public void toggleValue(int x, int y) {
+        dynamicBoardArray.get(x).set(y, !dynamicBoardArray.get(x).get(y));
+    }
 
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+    @Override
+    public int getWidth() {
+        return dynamicBoardArray.size();
+    }
 
-                if(dynamicBoard.get(i).get(j) == true && drawRandomColors) {
-                    gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
-                }
-                else if (dynamicBoard.get(i).get(j) == true) {
-                    gc.setFill(cellColor);
-                }
-                else {
-                    gc.setFill(boardColor);
-                }
+    @Override
+    public int getHeight() {
+        return dynamicBoardArray.get(0).size();
+    }
 
-                double cellX = cellHeight * i;
-                double cellY = cellWidth * j;
+    @Override
+    public void createClone() {
+        clone = new ArrayList<List<Boolean>>(getWidth());
 
-                gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
+        for(int i = 0; i < getWidth(); i++) {
+            clone.add(new ArrayList<>(getHeight()));
+
+            for(int j = 0; j < getHeight(); j++) {
+                clone.get(i).add(j, getValue(i, j));
+            }
+        }
+    }
+
+    @Override
+    public void setCloneValue(int x, int y, boolean value) {
+        clone.get(x).set(y, value);
+    }
+
+    @Override
+    public void toggleBoards() {
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                setValue(i, j, clone.get(i).get(j));
             }
         }
     }
 
     /**
-     * The method which lets the user set or remove cells manually from the board.
-     * @param canvas        the canvas to get the coordinates from
+     * The method resetting all values of the board to false
      */
-    @Override
-    public void userDrawCell(Canvas canvas){
-        canvas.setOnMouseClicked(e -> {
-            cellWidth = (canvas.getWidth()*drawScale + gridSize) / x;
-            cellHeight = (canvas.getHeight()*drawScale + gridSize) / y;
-            int korX = (int)e.getX();
-            int korY = (int)e.getY();
-            int arrayX = (int)Math.floor(korX/(int)cellWidth);
-            int arrayY = (int)Math.floor(korY/(int)cellHeight);
-
-            if(dynamicBoard.get(arrayX).get(arrayY) == false) {
-                dynamicBoard.get(arrayX).set(arrayY,true);
-            } else {
-                dynamicBoard.get(arrayX).set(arrayY,false);
-            }
-            rules.setBoard(dynamicBoard);
-            draw(canvas);
-        });
+    public void resetBoard() {
+        
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }
 
-    /**
-     * The method clearing the board.
-     */
-    @Override
-    public void clearBoard(){
-        isRunning = false;
 
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
-                dynamicBoard.get(i).set(j,false);
-            }
-        }
-        rules.setBoard(dynamicBoard);
-        isClearing = true;
-    }
-
-    /**
-     * Method used to unit test {@link Rules#nextListGeneration()}.
-     * @return  The board array in an easy to read String format
-     */
     @Override
     public String toString(){
         String boardStringOutput = "";
         for(int i = 0; i < x; i++) {
             for(int j = 0; j < y; j++) {
-                if (dynamicBoard.get(i).get(j)) {
+                if (dynamicBoardArray.get(i).get(j)) {
                     boardStringOutput += "1";
                 } else {
                     boardStringOutput += "0";
@@ -194,44 +133,142 @@ public class DynamicBoard extends Board {
         return boardStringOutput;
     }
 
-    public void selectPatternFromDisk() {
-        boolean[][] array = fileHandling.readPatternFromDisk();
-        List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
-
-
-        /*for(int i = 0; i < array.length; i++){
+    /**
+     * The method creating an ArrayList our of an array.
+     * @param array     the two-dimensional array to be converted
+     * @return          a two-dimensional ArrayList with the same content as the input array
+     */
+    public List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
+        List<List<Boolean>> listArray = new ArrayList<>();
+        for(int i = 0; i < array.length; i++){
             listArray.add(new ArrayList<>());
             for(int j = 0; j < array[0].length; j++){
                 Boolean b = array[i][j];
                 listArray.get(i).add(b);
-                System.out.print(listArray.get(i).get(j));
             }
-            System.out.println("");
-        }*/
 
-
-        rules.setBoard(listArray);
-        draw(canvas);
+        }
+        return listArray;
     }
 
-    public void selectPatternFromURL() {
-        boolean[][] array = fileHandling.readPatternFromURL();
-        List<List<Boolean>> listArray = fileHandling.createArrayListFromArray(array);
 
+    /**
+     * The method placing the input array from filehandler into the board.
+     * @param inputArray    the array loaded from file or URL
+     */
+    public void setInputInBoard(List<List<Boolean>> inputArray) {
+        int inputX = inputArray.size();
+        int inputY = inputArray.get(0).size();
+        original_x_size = dynamicBoardArray.size();
+        original_y_size = dynamicBoardArray.get(0).size();
+        int diffX = inputX - original_x_size;
+        int diffY = inputY - original_y_size;
+        int width_loop_count;
+        int height_loop_count;
+        double factor;
 
-        /*for(int i = 0; i < array.length; i++){
-            listArray.add(new ArrayList<>());
-            for(int j = 0; j < array[0].length; j++){
-                Boolean b = array[i][j];
-                listArray.get(i).add(b);
-                System.out.print(listArray.get(i).get(j));
+        System.out.println(inputY);
+        System.out.println(original_y_size);
+        System.out.println(inputX);
+        System.out.println(original_x_size);
+
+        //check is the input array is bigger than dynamicBoardArray on both the x and y coordinates
+        if( inputX > original_x_size && inputY > original_y_size){
+            //check which of the factors is the largest
+            if(inputX/x > inputY/original_y_size ){
+                factor = (double)inputX/original_x_size;
+                height_loop_count = (int)(factor*original_y_size)-original_y_size ;
+                System.out.println("height loop: "+ height_loop_count);
+                System.out.println("diffX: " + diffX);
+                enlarge(diffX, height_loop_count);
+            } else {
+                factor = (double)inputY/original_y_size ;
+                System.out.println(factor);
+                width_loop_count = (int)(factor*original_x_size)-original_x_size;
+                System.out.println("width loop: "+ width_loop_count);
+                System.out.println("y = " + original_y_size);
+                System.out.println("diffY: " + diffY);
+                enlarge(width_loop_count, diffY);
+            }
+        //check if the input array is larger on the y coordinate
+        } else if(inputY > original_y_size) {
+            factor = (double)inputY/y;
+            width_loop_count = (int)(factor*original_x_size)-original_x_size;
+            enlarge(width_loop_count, diffY);
+        //check if the input array is larger on the x coordinate
+        } else if(inputX > original_x_size) {
+            factor = (double)inputX/original_x_size;
+            height_loop_count = (int)(factor*original_y_size)-original_y_size ;
+            enlarge(diffX, height_loop_count);
+
+        }
+
+        //place the input array in the middle of dynamicBoardArray and transfer all values
+        System.out.println("dynamic size: "+ dynamicBoardArray.size() +"  " +inputArray.size());
+        System.out.println("dynamic get0: "+ dynamicBoardArray.get(0).size() +"  "+ inputArray.get(0).size());
+        int xStartIndex = (dynamicBoardArray.size() - inputArray.size())/2;
+        System.out.println("startindex X: " + xStartIndex);
+        int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size())/2;
+        System.out.println("startindex y: " + yStartIndex);
+        int xIndex = 0;
+
+        /* ///INTSTREAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        IntStream.range(0,10).forEach(e -> System.out.println(e));
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i);
+        }
+        dynamicBoardArray.forEach(e-> e.forEach()));
+
+        */
+
+        for (int i = xStartIndex; i < inputArray.size()+xStartIndex; i++){
+            int yIndex = 0;
+            for(int j = yStartIndex; j < inputArray.get(0).size()+yStartIndex; j++){
+                Boolean value = inputArray.get(xIndex).get(yIndex);
+                dynamicBoardArray.get(i).set(j, value);
+                yIndex++;
+            }
+            xIndex++;
+        }
+
+    }
+
+    /**
+     * The method enlarging the board
+     * @param width_factor  the factor to enlarge the boards width
+     * @param height_factor the factor to enlarge the boards height
+     */
+    private void enlarge(int width_factor, int height_factor) {
+        for(int f = 0; f < height_factor; f++) {
+            for (int i = 0; i < original_x_size; i++) {
+                dynamicBoardArray.get(i).add(Boolean.FALSE);
+            }
+            original_y_size++;
+            System.out.println(dynamicBoardArray.size()+" "+ dynamicBoardArray.get(0).size());
+        }
+
+        for(int f = 0; f < width_factor; f++) {
+
+            dynamicBoardArray.add(new ArrayList());
+            for (int i = 0; i < original_y_size; i++) {
+                dynamicBoardArray.get(original_x_size).add(i, Boolean.FALSE);
+            }
+            original_x_size++;
+            System.out.println(dynamicBoardArray.size()+" "+ dynamicBoardArray.get(0).size());
+        }
+
+    }
+
+    ////////////////////////   KUN FOR Å TESTE!
+    public void print(List<List<Boolean>> array) {
+        for(int i = 0; i < array.size(); i++) {
+            for(int j = 0; j < array.get(0).size(); j++) {
+                System.out.print(array.get(i).get(j) == true ? "■" : "□");
             }
             System.out.println("");
-        }*/
-
-
-        rules.setBoard(listArray);
-        draw(canvas);
+        }
+        System.out.println("");
+        System.out.println("");
     }
 
 

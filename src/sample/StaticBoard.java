@@ -1,51 +1,19 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 /**
  * @author Miina Lervik
  * @author Elise Vannes
  * @author Alexander Kingdon
  */
-public class StaticBoard extends Board{
-
-    public Rules staticRules = new Rules();
-
+public class StaticBoard extends Board {
     //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
-    //public boolean[][] boardGrid;// = new boolean[160][100];
-
-    public boolean[][] boardGrid = new boolean[x][y];
-
-    AnimationTimer drawTimer;
+    public boolean[][] staticBoardArray;
+    public boolean[][] clone;
 
 
-    /**
-     * Constructs and initiates the visible playing board.
-     * @param canvas        the canvas the board is to be painted on
-     */
-    public StaticBoard(Canvas canvas) {
-        super(canvas);
-        staticRules.setBoard(boardGrid);
-        draw(canvas);
-        drawTimer = new AnimationTimer() {
-            public void handle(long now) {
-                if (isRunning && (now - tid) > speed) {
-                    draw(canvas);
-                    staticRules.nextGeneration();
-                    tid = System.nanoTime();
-                }
-
-                if (isClearing){
-                    isClearing = false;
-                    draw(canvas);
-                }
-            }
-        };
-
-        drawTimer.start();
+    public StaticBoard() {
     }
 
     /**
@@ -53,119 +21,80 @@ public class StaticBoard extends Board{
      * @param board     the board used instead of the default board
      */
     public StaticBoard(boolean[][] board) {
-        staticRules.setBoard(board);
-        this.boardGrid = board;
+        this.staticBoardArray = board;
     }
 
-    /**
-     * The method applying a default pattern of cells to the board.
-     */
+    @Override
+    public void initStartBoard(){
+        staticBoardArray = new boolean[x][y];
+    }
+
+    @Override
+    public void setValue(int x, int y, boolean value) {
+        staticBoardArray[x][y] = value;
+    }
+
+    @Override
+    public boolean getValue(int x, int y) {
+        return staticBoardArray[x][y];
+    }
+
+    @Override
+    public void toggleValue(int x, int y) {
+        staticBoardArray[x][y] = !staticBoardArray[x][y];
+    }
+
+    @Override
+    public int getWidth() {
+        return staticBoardArray.length;
+    }
+
+    @Override
+    public int getHeight() {
+        return staticBoardArray[0].length;
+    }
+
+    @Override
+    public void createClone() {
+        clone = new boolean[getWidth()][getHeight()];
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                clone[i][j] = getValue(i, j);
+            }
+        }
+    }
+
+    @Override
+    public void toggleBoards() {
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                setValue(i, j, clone[i][j]);
+            }
+        }
+    }
+
+    @Override
+    public void setCloneValue(int x, int y, boolean value) {
+        clone[x][y] = value;
+    }
+
     @Override
     public void defaultStartBoard(){
-        boardGrid[0][2] = true;
-        boardGrid[1][2] = true;
-        boardGrid[2][2] = true;
-        boardGrid[2][1] = true;
-        boardGrid[1][0] = true;
-    }
-
-    /**
-     * The method starting the game over again with the preset pattern.
-     */
-    @Override
-    public void newGame() {
-        clearBoard();
-        staticRules.setBoard(boardGrid);
-        defaultStartBoard();
-        isRunning = true;
-    }
-
-    /**
-     * The method drawing the board with alive cells, background.
-     * and grid. The method will draw the board according to the array applied in the <code>staticRules</code> class.
-     * @param canvas    the canvas to be drawn on.
-     */
-    @Override
-    public void draw(Canvas canvas) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        boardGrid = staticRules.getBoard();
-        gc.setFill(gridColor);
-        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        cellWidth = (canvas.getWidth()*drawScale - gridSize) / boardGrid.length;
-        cellHeight = (canvas.getHeight()*drawScale - gridSize) / boardGrid[0].length;
-
-        for (int i = 0; i < boardGrid.length; i++) {
-            for (int j = 0; j < boardGrid[0].length; j++) {
-
-                if(boardGrid[i][j] == true && drawRandomColors) {
-                    gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
-                }
-                else if (boardGrid[i][j] == true) {
-                    gc.setFill(cellColor);
-                }
-                else {
-                    gc.setFill(boardColor);
-                }
-
-                double cellX = cellHeight * i;
-                double cellY = cellWidth * j;
-
-                gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
-            }
-        }
+        staticBoardArray[0][2] = true;
+        staticBoardArray[1][2] = true;
+        staticBoardArray[2][2] = true;
+        staticBoardArray[2][1] = true;
+        staticBoardArray[1][0] = true;
     }
 
 
-    /**
-     * The method which lets the user set or remove cells manually from the board.
-     * @param canvas        the canvas to get the coordinates from
-     */
-    public void userDrawCell(Canvas canvas){
-        canvas.setOnMouseClicked(e -> {
-            cellWidth = (canvas.getWidth()*drawScale + gridSize) / boardGrid.length;
-            cellHeight = (canvas.getHeight()*drawScale + gridSize) / boardGrid[0].length;
-            int korX = (int)e.getX();
-            int korY = (int)e.getY();
-            int arrayX = (int)Math.floor(korX/(int)cellWidth);
-            int arrayY = (int)Math.floor(korY/(int)cellHeight);
 
-            if(boardGrid[arrayX][arrayY] == false) {
-                boardGrid[arrayX][arrayY] = true;
-            } else {
-                boardGrid[arrayX][arrayY] = false;
-            }
-            staticRules.setBoard(boardGrid);
-            draw(canvas);
-        });
-    }
-
-    /**
-     * The method clearing the board.
-     */
-    @Override
-    public void clearBoard(){
-        isRunning = false;
-
-        /*for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid[0].length; j++) {*/
-        for(int i = 0; i < this.boardGrid.length; i++) {
-            for(int j = 0; j < this.boardGrid[0].length; j++) {
-                boardGrid[i][j] = false;
-            }
-        }
-        staticRules.setBoard(boardGrid);
-        isClearing = true;
-    }
-    /**
-     * Method used to unit test {@link Rules#nextGeneration()}.
-     * @return  The board array in an easy to read String format
-     */
     @Override
     public String toString(){
         String boardStringOutput = "";
-        for(int i = 0; i < boardGrid.length; i++) {
-            for(int j = 0; j < boardGrid[0].length; j++) {
-                if (boardGrid[i][j]) {
+        for(int i = 0; i < staticBoardArray.length; i++) {
+            for(int j = 0; j < staticBoardArray[0].length; j++) {
+                if (staticBoardArray[i][j]) {
                     boardStringOutput += "1";
                     } else {
                     boardStringOutput += "0";
@@ -175,7 +104,13 @@ public class StaticBoard extends Board{
         return boardStringOutput;
     }
 
-    public void selectPatternFromDisk(){}
-    public void selectPatternFromURL(){}
+
+    private void transferPatternToBoard(boolean[][] array) {
+        for(int i = 0; i < array.length; i++) {
+            for(int j = 0; j < array[0].length; j++) {
+                staticBoardArray[i][j] = array[i][j];
+            }
+        }
+    }
 
 }

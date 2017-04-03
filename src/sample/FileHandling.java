@@ -26,10 +26,10 @@ import java.util.regex.Matcher;
  * @author Alexander Kingdon
  */
 public class FileHandling {
-    Rules staticRules = new Rules();
-
-    Charset charset = Charset.forName("US-ASCII");
+    private Rules rules = new Rules();
     private boolean[][] array;
+    Charset charset = Charset.forName("US-ASCII");
+
 
     public FileHandling() {
     }
@@ -63,15 +63,13 @@ public class FileHandling {
                 while ((currentLine = reader.readLine()) != null) {
                     patternString += currentLine + "\n";
                 }
-
                 String code = getCode(patternString);
                 int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
                 int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
                 String expandedCode = expand(code);
                 array = createArray(expandedCode, x, y);
-
             } else {
-                throw new FileNotFoundException("");
+                throw new FileNotFoundException("Cancel was pressed - File");
             }
 
         } catch (IOException ioe) {
@@ -114,9 +112,12 @@ public class FileHandling {
             int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
             String expandedCode = expand(code);
             array = createArray(expandedCode, x, y);
+            } else {
+                throw new NullPointerException("Cancel was pressed");
             }
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
+        } catch (NullPointerException npe) {
         }
         return array;
     }
@@ -142,6 +143,7 @@ public class FileHandling {
         //System.out.println(cellPositionCode);
         return cellPositionCode.toString();
     }
+
 
     public String expand(String input) {
 
@@ -170,7 +172,7 @@ public class FileHandling {
         match.find();
         return match.group(group);
     }
-
+/*
     public boolean[][] createArray(String input, int x, int y) {
         boolean[][] result = new boolean[160][100];
         int xIndex = (160-x)/2;
@@ -194,6 +196,32 @@ public class FileHandling {
         return result;
     }
 
+    */
+    public boolean[][] createArray(String input, int x, int y) {
+        boolean[][] result = new boolean[x][y];
+        int xIndex = 0;
+        int yIndex = 0;
+        char[] charArray = input.toCharArray();
+        for(char charOutput : charArray) {
+            if (charOutput == '$') {
+                xIndex = 0;
+                yIndex++;
+            }
+            else if (charOutput == 'o') {
+                //System.out.println(xIndex + ", " + yIndex);
+                result[xIndex][yIndex] = true;
+                xIndex++;
+            }
+            else if (charOutput == 'b') {
+                xIndex++;
+            }
+        }
+
+        return result;
+    }
+
+
+
     /**
      * Method used to generate the error message box.
      * @param HeaderText    The text displayed in the error message box.
@@ -206,28 +234,20 @@ public class FileHandling {
 
         if (ioe.toString().contains("MalformedURLException")) {
             alert.setContentText("The URL entered was not valid.");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("Cancel")) {
+            return;
         } else if (ioe.toString().contains("FileNotFoundException")) {
             alert.setContentText("The file could not be found.");
+            alert.showAndWait();
         } else if (ioe.toString().contains("NoSuchFileException")) {
             alert.setContentText("The file could not be found.");
+            alert.showAndWait();
         } else {
             alert.setContentText("Caught IOException: " + ioe);
+            alert.showAndWait();
         }
         //System.err.format("IOException: %s%n", ioe);
-        alert.showAndWait();
-    }
 
-    protected List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
-        List<List<Boolean>> listArray = new ArrayList<>();
-        for(int i = 0; i < array.length; i++){
-            listArray.add(new ArrayList<>());
-            for(int j = 0; j < array[0].length; j++){
-                Boolean b = array[i][j];
-                listArray.get(i).add(b);
-                System.out.print(listArray.get(i).get(j));
-            }
-            System.out.println("");
-        }
-        return listArray;
     }
 }

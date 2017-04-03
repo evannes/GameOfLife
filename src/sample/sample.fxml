@@ -86,6 +86,11 @@
                   <Point3D y="1.0" />
                </rotationAxis></Slider>
             <CheckBox fx:id="randomColors" mnemonicParsing="false" onAction="#setRandomColors" text="Random Colors" />
+            <Button fx:id="selectRules" mnemonicParsing="false" onAction="#selectRules" text="Select rules">
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </Button>
          </children>
          <padding>
             <Insets left="10.0" top="10.0" />

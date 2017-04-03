@@ -1,23 +1,28 @@
+/*
 package testing;
 
 import org.junit.jupiter.api.Test;
 import sample.StaticBoard;
 import sample.Rules;
 
+*/
 /**
  * @author Miina Lervik
  * @author Elise Vannes
  * @author Alexander Kingdon
- */
+ *//*
+
 public class testNextGenerationPatternTwo {
 
     private boolean[][] testBoardGrid = new boolean[4][4];
     private StaticBoard testStaticBoard = new StaticBoard(testBoardGrid);
 
-    /**
+    */
+/**
      * Applies a given default pattern to the board being tested.
      * @param testBoardGrid     the array used to represent the board
-     */
+     *//*
+
     private void defaultBoard(boolean[][] testBoardGrid) {
         testBoardGrid[0][0] = true;
         testBoardGrid[1][0] = true;
@@ -25,12 +30,14 @@ public class testNextGenerationPatternTwo {
         testBoardGrid[2][0] = true;
     }
 
-    /**
+    */
+/**
      * Used to set up the board again after running {@link Rules#nextGeneration()}
      * @param testStaticBoard     the board used for testing
-     */
+     *//*
+
     private void setBoard(StaticBoard testStaticBoard) {
-        testStaticBoard.boardGrid = testStaticBoard.staticRules.getBoard();
+        testStaticBoard.staticBoardArray = testStaticBoard.rules.getStaticBoard();
     }
 
     @Test
@@ -43,7 +50,7 @@ public class testNextGenerationPatternTwo {
     @Test
     public void testNextGenerationFirstRun() {
         defaultBoard(testBoardGrid);
-        testStaticBoard.staticRules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
         setBoard(testStaticBoard);
 
         org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "1100110011000000");
@@ -52,8 +59,8 @@ public class testNextGenerationPatternTwo {
     @Test
     public void testNextGenerationSecondRun() {
         defaultBoard(testBoardGrid);
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
         setBoard(testStaticBoard);
 
         org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "1100001011000000");
@@ -62,9 +69,9 @@ public class testNextGenerationPatternTwo {
     @Test
     public void testNextGenerationThirdRun() {
         defaultBoard(testBoardGrid);
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
         setBoard(testStaticBoard);
 
         org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "0100001001000000");
@@ -73,10 +80,10 @@ public class testNextGenerationPatternTwo {
     @Test
     public void testNextGenerationFourthRun() {
         defaultBoard(testBoardGrid);
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
         setBoard(testStaticBoard);
 
         org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "0000011000000000");
@@ -85,14 +92,15 @@ public class testNextGenerationPatternTwo {
     @Test
     public void testNextGenerationFinalRun() {
         defaultBoard(testBoardGrid);
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
-        testStaticBoard.staticRules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
+        testStaticBoard.rules.nextGeneration();
         setBoard(testStaticBoard);
 
         org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "0000000000000000");
     }
 
 }
+*/
