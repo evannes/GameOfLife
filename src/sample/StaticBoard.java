@@ -1,14 +1,12 @@
 package sample;
 
-import javafx.animation.AnimationTimer;
-
 /**
  * @author Miina Lervik
  * @author Elise Vannes
  * @author Alexander Kingdon
  */
 public class StaticBoard extends Board {
-    //The canvas is 800 x 500 px so in order to create square cells the array must maintain a similar ratio
+    //The canvas is 800 DEFAULT_WIDTH 500 px so in order to create square cells the array must maintain a similar ratio
     public boolean[][] staticBoardArray;
     public boolean[][] clone;
 
@@ -26,7 +24,7 @@ public class StaticBoard extends Board {
 
     @Override
     public void initStartBoard(){
-        staticBoardArray = new boolean[x][y];
+        staticBoardArray = new boolean[DEFAULT_WIDTH][DEFAULT_HEIGHT];
     }
 
     @Override
@@ -76,6 +74,15 @@ public class StaticBoard extends Board {
     @Override
     public void setCloneValue(int x, int y, boolean value) {
         clone[x][y] = value;
+    }
+
+    @Override
+    public void clearBoeard() {
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                staticBoardArray[i][j] = false;
+            }
+        }
     }
 
     @Override

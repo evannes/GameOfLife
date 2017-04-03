@@ -7,8 +7,8 @@ package sample;
  */
 
 public abstract class Board {
-    protected int x = 160;
-    protected int y = 100;
+    protected final int DEFAULT_WIDTH = 160;
+    protected final int DEFAULT_HEIGHT = 100;
     public Rules rules = Rules.getInstance();
 
     public Board(){}
@@ -76,6 +76,8 @@ public abstract class Board {
      * @param value the value to be set
      */
     public abstract void setCloneValue(int x, int y, boolean value);
+
+    public abstract void clearBoeard();
 
     /**
      * The method creating the next generation of cells to be drawn or removed.
