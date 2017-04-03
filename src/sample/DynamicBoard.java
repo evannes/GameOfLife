@@ -108,7 +108,7 @@ public class DynamicBoard extends Board {
     /**
      * The method resetting all values of the board to false
      */
-    public void clearBoeard() {
+    public void clearBoard() {
         
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }

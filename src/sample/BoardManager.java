@@ -197,7 +197,7 @@ public class BoardManager {
    public void clearBoard(){
         isRunning = false;
         /////fiks så den funker med staticboard.
-        board.clearBoeard();
+        board.clearBoard();
         isClearing = true;
     }
 

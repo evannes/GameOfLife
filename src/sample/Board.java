@@ -77,7 +77,7 @@ public abstract class Board {
      */
     public abstract void setCloneValue(int x, int y, boolean value);
 
-    public abstract void clearBoeard();
+    public abstract void clearBoard();
 
     /**
      * The method creating the next generation of cells to be drawn or removed.
