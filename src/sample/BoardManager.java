@@ -36,10 +36,6 @@ public class BoardManager {
     protected long time = System.nanoTime();
     AnimationTimer drawTimer;
 
-
-    private int boardSizeX;
-    private int boardSizeY;
-
     public BoardManager(Canvas canvas, Board board) {
         this.canvas = canvas;
         this.board = board;
@@ -54,7 +50,7 @@ public class BoardManager {
 
                     time = System.nanoTime();
                 }
-
+                //isClearing sier ifra at vi har clearet boardet og skal tegne det en gang.
                 if (isClearing){
                     isClearing = false;
                     draw();
@@ -178,6 +174,7 @@ public class BoardManager {
 
     public void selectPatternLogic(boolean[][] array) {
         try {
+            ////////lag en if-else som sjekker om instansen er Dynamic eller Static
             ((DynamicBoard)board).setInputInBoard(((DynamicBoard)board).createArrayListFromArray(array));
             draw();
         } catch (NullPointerException cancelException) {
@@ -199,7 +196,8 @@ public class BoardManager {
      */
    public void clearBoard(){
         isRunning = false;
-       ((DynamicBoard)board).resetBoard();
+        /////fiks så den funker med staticboard.
+        board.clearBoeard();
         isClearing = true;
     }
 

@@ -1,11 +1,7 @@
 package sample;
 
 
-import javafx.animation.AnimationTimer;
-import sun.plugin.javascript.navig.Array;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -37,12 +33,12 @@ public class DynamicBoard extends Board {
      */
     @Override
     public void initStartBoard(){
-        for(int i = 0; i < x; i++) {
-            dynamicBoardArray.add(i, new ArrayList<Boolean>(y));
+        for(int i = 0; i < DEFAULT_WIDTH; i++) {
+            dynamicBoardArray.add(i, new ArrayList<Boolean>(DEFAULT_HEIGHT));
         }
 
-        for(int i = 0; i < x; i++){
-            for(int j = 0; j < y; j++){
+        for(int i = 0; i < DEFAULT_WIDTH; i++){
+            for(int j = 0; j < DEFAULT_HEIGHT; j++){
                 dynamicBoardArray.get(i).add(j,false);
             }
         }
@@ -112,7 +108,7 @@ public class DynamicBoard extends Board {
     /**
      * The method resetting all values of the board to false
      */
-    public void resetBoard() {
+    public void clearBoeard() {
         
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }
@@ -121,8 +117,8 @@ public class DynamicBoard extends Board {
     @Override
     public String toString(){
         String boardStringOutput = "";
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
+        for(int i = 0; i < DEFAULT_WIDTH; i++) {
+            for(int j = 0; j < DEFAULT_HEIGHT; j++) {
                 if (dynamicBoardArray.get(i).get(j)) {
                     boardStringOutput += "1";
                 } else {
@@ -157,6 +153,7 @@ public class DynamicBoard extends Board {
      * @param inputArray    the array loaded from file or URL
      */
     public void setInputInBoard(List<List<Boolean>> inputArray) {
+        ///denne skal resize både opp og ned til 160x100
         int inputX = inputArray.size();
         int inputY = inputArray.get(0).size();
         original_x_size = dynamicBoardArray.size();
@@ -172,10 +169,10 @@ public class DynamicBoard extends Board {
         System.out.println(inputX);
         System.out.println(original_x_size);
 
-        //check is the input array is bigger than dynamicBoardArray on both the x and y coordinates
+        //check is the input array is bigger than dynamicBoardArray on both the DEFAULT_WIDTH and DEFAULT_HEIGHT coordinates
         if( inputX > original_x_size && inputY > original_y_size){
             //check which of the factors is the largest
-            if(inputX/x > inputY/original_y_size ){
+            if(inputX/ DEFAULT_WIDTH > inputY/original_y_size ){
                 factor = (double)inputX/original_x_size;
                 height_loop_count = (int)(factor*original_y_size)-original_y_size ;
                 System.out.println("height loop: "+ height_loop_count);
@@ -186,16 +183,16 @@ public class DynamicBoard extends Board {
                 System.out.println(factor);
                 width_loop_count = (int)(factor*original_x_size)-original_x_size;
                 System.out.println("width loop: "+ width_loop_count);
-                System.out.println("y = " + original_y_size);
+                System.out.println("DEFAULT_HEIGHT = " + original_y_size);
                 System.out.println("diffY: " + diffY);
                 enlarge(width_loop_count, diffY);
             }
-        //check if the input array is larger on the y coordinate
+        //check if the input array is larger on the DEFAULT_HEIGHT coordinate
         } else if(inputY > original_y_size) {
-            factor = (double)inputY/y;
+            factor = (double)inputY/ DEFAULT_HEIGHT;
             width_loop_count = (int)(factor*original_x_size)-original_x_size;
             enlarge(width_loop_count, diffY);
-        //check if the input array is larger on the x coordinate
+        //check if the input array is larger on the DEFAULT_WIDTH coordinate
         } else if(inputX > original_x_size) {
             factor = (double)inputX/original_x_size;
             height_loop_count = (int)(factor*original_y_size)-original_y_size ;
@@ -209,7 +206,7 @@ public class DynamicBoard extends Board {
         int xStartIndex = (dynamicBoardArray.size() - inputArray.size())/2;
         System.out.println("startindex X: " + xStartIndex);
         int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size())/2;
-        System.out.println("startindex y: " + yStartIndex);
+        System.out.println("startindex DEFAULT_HEIGHT: " + yStartIndex);
         int xIndex = 0;
 
         /* ///INTSTREAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -239,6 +236,7 @@ public class DynamicBoard extends Board {
      * @param height_factor the factor to enlarge the boards height
      */
     private void enlarge(int width_factor, int height_factor) {
+        /////// ha max-størrelse! og en alert som sier ifra hvis den er for stor.
         for(int f = 0; f < height_factor; f++) {
             for (int i = 0; i < original_x_size; i++) {
                 dynamicBoardArray.get(i).add(Boolean.FALSE);
@@ -257,18 +255,6 @@ public class DynamicBoard extends Board {
             System.out.println(dynamicBoardArray.size()+" "+ dynamicBoardArray.get(0).size());
         }
 
-    }
-
-    ////////////////////////   KUN FOR Å TESTE!
-    public void print(List<List<Boolean>> array) {
-        for(int i = 0; i < array.size(); i++) {
-            for(int j = 0; j < array.get(0).size(); j++) {
-                System.out.print(array.get(i).get(j) == true ? "■" : "□");
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-        System.out.println("");
     }
 
 
