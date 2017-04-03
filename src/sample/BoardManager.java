@@ -3,7 +3,9 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -14,7 +16,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -249,7 +253,7 @@ public class BoardManager {
     }
 
     public void ruleWindow() {
-        if (getIsRunning()) {
+        /*if (getIsRunning()) {
             pauseGame();
         }
         Alert ruleWindow = new Alert(Alert.AlertType.INFORMATION);
@@ -295,6 +299,7 @@ public class BoardManager {
         if (getIsRunning()) {
             resumeGame();
         }
+
     }
 
     private String setSelectedRules(ListView selectedRules) {
@@ -317,5 +322,6 @@ public class BoardManager {
                     "- A cell will survive when it has two or three neighbors.";
         }
         return ruleDescription;
+    }*/
     }
 }

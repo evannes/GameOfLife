@@ -1,9 +1,15 @@
 package sample;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,6 +34,9 @@ public class Controller implements Initializable{
 
     @FXML
     private Button pauseButton;
+
+    @FXML
+    private Button selectRules;
 
     /**
      * The method allowing the user to select a pattern from disk
@@ -118,12 +127,30 @@ public class Controller implements Initializable{
     }
 
     public void selectRules() {
-        pauseGame();
+        /*pauseGame();
         if (pauseButton.getText().equals("Pause")) {
             pauseButton.setText("Resume");
         }
         boardManager.ruleWindow();
-        pauseGame();
+        pauseGame();*/
+        try {
+            pauseGame();
+            Stage ruleWindowStage = new Stage();
+            ruleWindowStage.initModality(Modality.WINDOW_MODAL);
+            ruleWindowStage.initOwner(selectRules.getScene().getWindow());
+
+            FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("ruleWindow.fxml"));
+            BorderPane ruleWindowBorderPane = ruleWindowLoader.load();
+
+            Scene ruleWindowScene = new Scene(ruleWindowBorderPane, 600, 400);
+
+            ruleWindowStage.setScene(ruleWindowScene);
+            ruleWindowStage.setTitle("Rule selection");
+            ruleWindowStage.showAndWait();
+            pauseGame();
+        } catch (IOException ioe) {
+            System.out.println("Feil, bror!");
+        }
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
