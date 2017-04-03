@@ -24,45 +24,45 @@ public class testReadPatternFromDisk {
 
     @Test
     public void testFirstPattern() {
-        File selectedFile = Paths.get(
-                "/Users/Alex/IdeaProjects/TestProsjekt/src/testing/patterns/rpentomino.rle").toFile();
-        testPatternString(selectedFile);
+        Path inFile = Paths.get(
+                "src/testing/patterns/rpentomino.rle").toAbsolutePath();
+        testPatternString(inFile);
         org.junit.jupiter.api.Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "010111100");
     }
 
     @Test
     public void testSecondPattern() {
-        File selectedFile = Paths.get(
-                "/Users/Alex/IdeaProjects/TestProsjekt/src/testing/patterns/prebeehive.rle").toFile();
-        testPatternString(selectedFile);
+        Path inFile = Paths.get(
+                "src/testing/patterns/prebeehive.rle").toAbsolutePath();
+        testPatternString(inFile);
         org.junit.jupiter.api.Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "111111");
     }
 
     @Test
     public void testThirdPattern() {
-        File selectedFile = Paths.get(
-                "/Users/Alex/IdeaProjects/TestProsjekt/src/testing/patterns/thunderbird.rle").toFile();
-        testPatternString(selectedFile);
+        Path inFile = Paths.get(
+                "src/testing/patterns/thunderbird.rle").toAbsolutePath();
+        testPatternString(inFile);
         org.junit.jupiter.api.Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "100001011110000");
     }
 
     @Test
     public void testFourthPattern() {
-        File selectedFile = Paths.get(
-                "/Users/Alex/IdeaProjects/TestProsjekt/src/testing/patterns/stairstephexomino.rle").toFile();
-        testPatternString(selectedFile);
+        Path inFile = Paths.get(
+                "src/testing/patterns/stairstephexomino.rle").toAbsolutePath();
+        testPatternString(inFile);
         org.junit.jupiter.api.Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "100110011001");
     }
 
     @Test
     public void testFifthPattern() {
-        File selectedFile = Paths.get(
-                "/Users/Alex/IdeaProjects/TestProsjekt/src/testing/patterns/aircraftcarrier.rle").toFile();
-        testPatternString(selectedFile);
+        Path inFile = Paths.get(
+                "src/testing/patterns/aircraftcarrier.rle").toAbsolutePath();
+        testPatternString(inFile);
         org.junit.jupiter.api.Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "110100001011");
     }
@@ -70,13 +70,13 @@ public class testReadPatternFromDisk {
     /**
      * This method mimics {@link FileHandling#readPatternFromDisk()}.
      * It is used to get the pattern from a local file and parse it into a usable array for the game board.
-     * @param file      The .rle file on the disk.
+     * @param inFile      The .rle file on the disk.
      * @return          The array being used to draw the game board.
      */
-    private boolean[][] testPatternString(File file) {
+    private boolean[][] testPatternString(Path inFile) {
         try {
 
-            Path inFile = file.toPath();
+            //Path inFile = file.toPath();
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
 
             String currentLine = null;
@@ -85,7 +85,6 @@ public class testReadPatternFromDisk {
             while ((currentLine = reader.readLine()) != null) {
                 patternString += currentLine + "\n";
             }
-
             gameBoardArray = patterns.parsePattern(patternString);
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);

@@ -13,8 +13,6 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -27,7 +25,7 @@ import java.util.regex.Matcher;
  */
 public class FileHandling {
     private Rules rules = new Rules();
-    private boolean[][] array;
+    private boolean[][] boardArray;
     Charset charset = Charset.forName("US-ASCII");
 
 
@@ -44,13 +42,12 @@ public class FileHandling {
      */
     public boolean[][] readPatternFromDisk() {
         FileChooser fileChooser = new FileChooser();
-        File selectedFile;
+        File selectedFile = null;
 
         try {
             fileChooser.setTitle("Open RLE file from disk");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("RLE file", "*.rle"));
             selectedFile = fileChooser.showOpenDialog(null);
-            //selectedFile = Paths.get("fil.txt").toFile();
             if (selectedFile != null) {
                 System.out.println("File selected: " + selectedFile.getName());
                 System.out.println(selectedFile.toPath());
@@ -67,7 +64,7 @@ public class FileHandling {
                 int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
                 int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
                 String expandedCode = expand(code);
-                array = createArray(expandedCode, x, y);
+                boardArray = createArray(expandedCode, x, y);
             } else {
                 throw new FileNotFoundException("Cancel was pressed - File");
             }
@@ -75,7 +72,12 @@ public class FileHandling {
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the pattern file", ioe);
         }
-        return array;
+
+        if (selectedFile != null) {
+            return boardArray;
+        }
+
+        return null;
     }
 
     /**
@@ -92,7 +94,6 @@ public class FileHandling {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 enteredURL = result.get();
-                //}
                 System.out.println(enteredURL);
 
                 URL url = new URL(enteredURL);
@@ -111,15 +112,21 @@ public class FileHandling {
             int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
             int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
             String expandedCode = expand(code);
-            array = createArray(expandedCode, x, y);
+            boardArray = createArray(expandedCode, x, y);
             } else {
                 throw new NullPointerException("Cancel was pressed");
             }
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the file", ioe);
         } catch (NullPointerException npe) {
+            dialog.close();
         }
-        return array;
+
+        if (!enteredURL.isEmpty()) {
+            return boardArray;
+        }
+
+        return null;
     }
 
     public String getCode(String fileContent) {
