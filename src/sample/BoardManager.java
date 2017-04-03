@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Created by miinael on 28.03.2017.
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
 public class BoardManager {
     private boolean drawRandomColors;
@@ -30,7 +32,7 @@ public class BoardManager {
     private double gridSize = 0.1;
     private int speed;
     private Color cellColor = Color.LIGHTSEAGREEN;
-    private Color gridColor = Color.BLACK;
+    private Color gridColor = Color.GRAY;
     private Color boardColor = Color.WHITE;
     private Canvas canvas;
     private Board board;
@@ -41,6 +43,11 @@ public class BoardManager {
     protected long time = System.nanoTime();
     AnimationTimer drawTimer;
 
+    /**
+     * The constructor initializing the animation of Game of Life.
+     * @param canvas    the canvas to draw the board on
+     * @param board     the board to draw on the canvas
+     */
     public BoardManager(Canvas canvas, Board board) {
         this.canvas = canvas;
         this.board = board;
@@ -95,7 +102,6 @@ public class BoardManager {
             }
         }
     }
-
 
     /**
      * The method which lets the user set or remove cells manually from the board.
@@ -161,11 +167,16 @@ public class BoardManager {
         System.exit(0);
     }
 
+    /**
+     * The method allowing the user to select a rle pattern from disk.
+     */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
         selectPatternLogic(array);
     }
-
+    /**
+     * The method allowing the user to select a rle pattern from URL.
+     */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
         selectPatternLogic(array);
@@ -175,18 +186,15 @@ public class BoardManager {
         try {
             ////////lag en if-else som sjekker om instansen er Dynamic eller Static
             if(board instanceof DynamicBoard) {
-                System.out.println("DynamicBoard");
                 ((DynamicBoard) board).setInputInBoard(((DynamicBoard) board).createArrayListFromArray(array));
                 draw();
             } else {
-                System.out.println("StaticBoard");
                 ((StaticBoard) board).transferPatternToBoard(array);
                 draw();
             }
         } catch (NullPointerException cancelException) {
         }
     }
-
 
     /**
      * The method return whether the animation is running or not.
@@ -207,7 +215,6 @@ public class BoardManager {
         isClearing = true;
     }
 
-
     /**
      * The method setting the speed of the animation.
      * @param value     the value used to set the speed of the animation
@@ -216,6 +223,10 @@ public class BoardManager {
         speed = value;
     }
 
+    /**
+     * The method returning the speed of the animation.
+     * @return  the speed of the animation
+     */
     protected int getSpeed(){
         return speed;
     }

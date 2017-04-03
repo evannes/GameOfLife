@@ -28,11 +28,10 @@ public class FileHandling {
     private boolean[][] boardArray;
     Charset charset = Charset.forName("US-ASCII");
 
-
     public FileHandling() {
     }
 
-
+///////////// Kan denne slettes??? Hva er den til??
     public void readGameBoard(Reader r) throws IOException {
 
     }
@@ -94,13 +93,9 @@ public class FileHandling {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 enteredURL = result.get();
-                System.out.println(enteredURL);
-
                 URL url = new URL(enteredURL);
                 URLConnection conn = url.openConnection();
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String currentLine = null;
                 String patternString = "";
 
@@ -125,14 +120,16 @@ public class FileHandling {
         if (!enteredURL.isEmpty()) {
             return boardArray;
         }
-
         return null;
     }
 
+    /**
+     * The method extracting the code for the cells.
+     * @param fileContent   the <code>String</code>containing all information from the file
+     * @return      the <code>String</code> containing only the code related to the cell state
+     */
     public String getCode(String fileContent) {
-        //System.out.println(path);
         String regex = "(\\$*[ob0-9]+\\$)+([ob0-9]+[\\$!]*)+";
-        //System.out.println(content);
         Pattern pattern = Pattern.compile(regex);
         StringBuilder cellPositionCode = new StringBuilder();
 
@@ -143,26 +140,26 @@ public class FileHandling {
             Matcher match = pattern.matcher(content);
             if(match.find()){
                 cellPositionCode.append(match.group());
-                //System.out.println(match.group());
             }
         }
-
-        //System.out.println(cellPositionCode);
         return cellPositionCode.toString();
     }
 
-
+    /**
+     * The method expanding the rle code so that the new string does not contain any numbers.
+     * @param input the <code>String</code> containing the code regarding cell state
+     * @return      the expanded <code>String</code> with no numbers
+     */
     public String expand(String input) {
-
         String regex = "([0-9]+)([$bo])";
         Pattern pattern = Pattern.compile(regex);
         Matcher match = pattern.matcher(input);
         StringBuffer result = new StringBuffer();
         while (match.find())
         {
-            //holder på tegnet vi skal ekspandere
+            // keeps the charachter we want to expand
             String tmp = "";
-            // i group 1 finnes et tall som angir antallet av tegnet i group 2
+            // in group 1 we find the number which we use to expand the character in group 2
             for (int i = 0; i < Integer.parseInt(match.group(1)); i++) {
                 tmp += match.group(2);
             }
@@ -179,31 +176,7 @@ public class FileHandling {
         match.find();
         return match.group(group);
     }
-/*
-    public boolean[][] createArray(String input, int defaultWidth, int defaultHeight) {
-        boolean[][] result = new boolean[160][100];
-        int xIndex = (160-defaultWidth)/2;
-        int yIndex = (100-defaultHeight)/2;
-        char[] charArray = input.toCharArray();
-        for(char charOutput : charArray) {
-            if (charOutput == '$') {
-                xIndex = (160-defaultWidth)/2;
-                yIndex++;
-            }
-            else if (charOutput == 'o') {
-                //System.out.println(xIndex + ", " + yIndex);
-                result[xIndex][yIndex] = true;
-                xIndex++;
-            }
-            else if (charOutput == 'b') {
-                xIndex++;
-            }
-        }
 
-        return result;
-    }
-
-    */
     public boolean[][] createArray(String input, int x, int y) {
         boolean[][] result = new boolean[x][y];
         int xIndex = 0;
@@ -223,11 +196,8 @@ public class FileHandling {
                 xIndex++;
             }
         }
-
         return result;
     }
-
-
 
     /**
      * Method used to generate the error message box.
@@ -254,7 +224,6 @@ public class FileHandling {
             alert.setContentText("Caught IOException: " + ioe);
             alert.showAndWait();
         }
-        //System.err.format("IOException: %s%n", ioe);
-
     }
+
 }

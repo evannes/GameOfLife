@@ -20,13 +20,18 @@ public class DynamicBoard extends Board {
     public List<List<Boolean>> dynamicBoardArray = new ArrayList<List<Boolean>>(160);
     public List<List<Boolean>> clone;
 
+    /**
+     * Constructs and initiates the board to be used.
+     * @param width     the width of the board.
+     * @param height    the height of the board.
+     */
     public DynamicBoard(int width, int height) {
         super(width, height);
         initStartBoard();
     }
 
     /**
-     * The method initializing the board with all values set to false
+     * The method initializing the board with all values set to false.
      */
     public void initStartBoard(){
         for(int i = 0; i < defaultWidth; i++) {
@@ -93,7 +98,7 @@ public class DynamicBoard extends Board {
     }
 
     @Override
-    public void toggleBoards() {
+    public void switchBoard() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
                 setValue(i, j, clone.get(i).get(j));
@@ -126,7 +131,7 @@ public class DynamicBoard extends Board {
     }
 
     /**
-     * The method creating an ArrayList our of an array.
+     * The method creating a two-dimensional ArrayList our of a boolean two-dimensional array.
      * @param array     the two-dimensional array to be converted
      * @return          a two-dimensional ArrayList with the same content as the input array
      */
@@ -149,13 +154,13 @@ public class DynamicBoard extends Board {
      * @param inputArray    the array loaded from file or URL
      */
     public void setInputInBoard(List<List<Boolean>> inputArray) {
-        if(inputArray.size() > 500 || inputArray.get(0).size() > 500) {
+        // check if the input array is too large (doesn't look good anymore...)
+        if(inputArray.size() > 640 || inputArray.get(0).size() > 400) {
             Alert sizeErrorAlert = new Alert(Alert.AlertType.INFORMATION);
             sizeErrorAlert.setTitle("Error with size of pattern");
             sizeErrorAlert.setHeaderText("The pattern is too large for the board");
             sizeErrorAlert.showAndWait();
         } else {
-
             resize(inputArray.size(), inputArray.get(0).size());
 
             //clear previous pattern
@@ -176,9 +181,10 @@ public class DynamicBoard extends Board {
     }
 
     /**
-     * The method resizing the board.
-     * @param width  the width of the pattern
-     * @param height the height of the pattern
+     * The method resizing the board. This method will either enlarge or decrease the size of the board.
+     * The minimum size will be equal to the default size set in the constructor of the board.
+     * @param width  the new width we wish to resize to
+     * @param height the new height we wish to resize to
      */
     private void resize(int width, int height) {
         // finds the factor of width and height

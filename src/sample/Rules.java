@@ -7,24 +7,13 @@ import java.util.List;
  * Created by miinael on 15.02.2017.
  */
 public class Rules {
-    private static Rules rules = null;
     protected static String ruleSet = "Default (Life)";
-
-
-    public static Rules getInstance() {
-        if(rules == null) {
-            rules = new Rules();
-        }
-        return rules;
-    }
-
-
-
 
     /**
      * The method checking if a cell should be born.
      * @param counter   the amount of alive neighbors to the cell
-     * @return          <code>true</code> if the cell has exactly 3 neighbors
+     * @return          <code>true</code> if the cell has the exact number
+     *                  of neighbors required to stay alive defined from the rule set in use
      */
     protected boolean shouldSpawnActiveCell(int counter) {
         switch (ruleSet) {
@@ -50,7 +39,7 @@ public class Rules {
      * The method checking if an alive cell should stay alive or die.
      * @param counter   the amount of alive neighboring cells
      * @return          <code>true</code> if the amount of neighboring
-     *                  cells is 2 or 3
+     *                  cells is the same as required from the rule set in use
      */
     protected static boolean shouldStayAlive(int counter) {
         switch (ruleSet) {

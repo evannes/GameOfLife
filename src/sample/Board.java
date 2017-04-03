@@ -9,8 +9,13 @@ package sample;
 public abstract class Board {
     protected int defaultWidth = 160;
     protected int defaultHeight = 100;
-    public Rules rules = Rules.getInstance();
+    public Rules rules = new Rules();
 
+    /**
+     * The constructor sets the default width and default height of the board.
+     * @param width     the width of the board
+     * @param height    the height of the board
+     */
     public Board(int width, int height){
         this.defaultWidth = width;
         this.defaultHeight = height;
@@ -65,7 +70,7 @@ public abstract class Board {
     /**
      * The method making the board equals to the clone.
      */
-    public abstract void toggleBoards();
+    public abstract void switchBoard();
 
     /**
      * The method setting values to the clone at the appointed index.
@@ -90,7 +95,7 @@ public abstract class Board {
                 setCloneValue(i, j, value );
             }
         }
-        toggleBoards();
+        switchBoard();
     }
 
 
@@ -150,7 +155,7 @@ public abstract class Board {
     }
 
     /**
-     * The method checking if the appointed position is within the board array
+     * The method checking if the appointed position is within the board array.
      * @param i         the first column index of the array
      * @param j         the second column index of the array
      * @return          <code>false</code> if the position is exceeding the board array
@@ -173,9 +178,5 @@ public abstract class Board {
      */
     @Override
     public abstract String toString();
-
-
-
-
 
 }

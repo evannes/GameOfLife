@@ -13,6 +13,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
+ */
 public class Controller implements Initializable{
 
     @FXML
