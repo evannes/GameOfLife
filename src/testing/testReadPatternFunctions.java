@@ -95,8 +95,8 @@ class testReadPatternFunctions {
      */
     boolean[][] parsePattern(String patternString) {
         String code = fileHandling.getCode(patternString);
-        int x = Integer.parseInt(fileHandling.getMatchGroup(patternString, "DEFAULT_WIDTH = (\\d+)", 1));
-        int y = Integer.parseInt(fileHandling.getMatchGroup(patternString, "DEFAULT_HEIGHT = (\\d+)", 1));
+        int x = Integer.parseInt(fileHandling.getMatchGroup(patternString, "defaultWidth = (\\d+)", 1));
+        int y = Integer.parseInt(fileHandling.getMatchGroup(patternString, "defaultHeight = (\\d+)", 1));
         String expandedCode = fileHandling.expand(code);
         boolean[][] gameBoardArray = fileHandling.createArray(expandedCode, x, y);
 

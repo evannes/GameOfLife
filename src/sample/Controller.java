@@ -123,7 +123,7 @@ public class Controller implements Initializable{
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         //board = new StaticBoard(canvas);
-        board = new DynamicBoard();
+        board = new DynamicBoard(160, 100);
         boardManager = new BoardManager(canvas, board);
 
         boardManager.userDrawCell();

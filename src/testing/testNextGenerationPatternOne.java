@@ -15,8 +15,7 @@ import sample.Rules;
 
 public class testNextGenerationPatternOne {
 
-    private boolean[][] testBoardGrid = new boolean[4][4];
-    private Board testStaticBoard = new StaticBoard(testBoardGrid);
+    private Board testStaticBoard = new StaticBoard(4,4);
 
 
     /**

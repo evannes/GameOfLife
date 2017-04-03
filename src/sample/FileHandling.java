@@ -173,14 +173,14 @@ public class FileHandling {
         return match.group(group);
     }
 /*
-    public boolean[][] createArray(String input, int DEFAULT_WIDTH, int DEFAULT_HEIGHT) {
+    public boolean[][] createArray(String input, int defaultWidth, int defaultHeight) {
         boolean[][] result = new boolean[160][100];
-        int xIndex = (160-DEFAULT_WIDTH)/2;
-        int yIndex = (100-DEFAULT_HEIGHT)/2;
+        int xIndex = (160-defaultWidth)/2;
+        int yIndex = (100-defaultHeight)/2;
         char[] charArray = input.toCharArray();
         for(char charOutput : charArray) {
             if (charOutput == '$') {
-                xIndex = (160-DEFAULT_WIDTH)/2;
+                xIndex = (160-defaultWidth)/2;
                 yIndex++;
             }
             else if (charOutput == 'o') {

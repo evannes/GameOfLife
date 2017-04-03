@@ -6,25 +6,19 @@ package sample;
  * @author Alexander Kingdon
  */
 public class StaticBoard extends Board {
-    //The canvas is 800 DEFAULT_WIDTH 500 px so in order to create square cells the array must maintain a similar ratio
+    //The canvas is 800 defaultWidth 500 px so in order to create square cells the array must maintain a similar ratio
     public boolean[][] staticBoardArray;
     public boolean[][] clone;
 
 
-    public StaticBoard() {
-    }
-
-    /**
-     * Constructs and initiates the playing board used for unit testing.
-     * @param board     the board used instead of the default board
-     */
-    public StaticBoard(boolean[][] board) {
-        this.staticBoardArray = board;
+    public StaticBoard(int width, int height) {
+        super(width, height);
+        staticBoardArray = new boolean[defaultWidth][defaultHeight];
     }
 
     @Override
     public void initStartBoard(){
-        staticBoardArray = new boolean[DEFAULT_WIDTH][DEFAULT_HEIGHT];
+        staticBoardArray = new boolean[defaultWidth][defaultHeight];
     }
 
     @Override
