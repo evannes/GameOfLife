@@ -93,21 +93,26 @@ public class FileHandling {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 enteredURL = result.get();
-                URL url = new URL(enteredURL);
-                URLConnection conn = url.openConnection();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String currentLine = null;
-                String patternString = "";
+                if (enteredURL.endsWith(".rle")) {
+                    URL url = new URL(enteredURL);
+                    URLConnection conn = url.openConnection();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String currentLine = null;
+                    String patternString = "";
 
-                while ((currentLine = reader.readLine()) != null) {
-                    patternString += currentLine + "\n";
+                    while ((currentLine = reader.readLine()) != null) {
+                        patternString += currentLine + "\n";
+                    }
+
+                    String code = getCode(patternString);
+                    int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
+                    int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
+                    String expandedCode = expand(code);
+                    boardArray = createArray(expandedCode, x, y);
+                } else {
+                    throw new Exception("You tried to use a different file format. \n" +
+                            "Only .rle files are allowed.");
                 }
-
-            String code = getCode(patternString);
-            int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
-            int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
-            String expandedCode = expand(code);
-            boardArray = createArray(expandedCode, x, y);
             } else {
                 throw new NullPointerException("Cancel was pressed");
             }
@@ -115,6 +120,8 @@ public class FileHandling {
             showErrorMessage("There was an error getting the file", ioe);
         } catch (NullPointerException npe) {
             dialog.close();
+        } catch (Exception e) {
+            showErrorMessage("Only .rle files can be submitted", e);
         }
 
         if (!enteredURL.isEmpty()) {
@@ -201,9 +208,10 @@ public class FileHandling {
 
     /**
      * Method used to generate the error message box.
+     * @param HeaderText    The text to be shown depending on the type of error produced.
      * @param ioe           The exception being handled.
      */
-    private void showErrorMessage(String HeaderText, IOException ioe) {
+    private void showErrorMessage(String HeaderText, Exception ioe) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(HeaderText);
@@ -222,7 +230,7 @@ public class FileHandling {
             alert.setContentText("The file could not be found (NoSuchFileException).");
             alert.showAndWait();
         } else {
-            alert.setContentText("Caught IOException: " + ioe);
+            alert.setContentText("Error: " + ioe);
             alert.showAndWait();
         }
     }

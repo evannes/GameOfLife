@@ -105,6 +105,17 @@ public class testReadPatternFromURL {
     }
 
     @Test
+    public void testWrongFileFormat() {
+        try {
+            URL url = new URL("https://docs.oracle.com/en/dcommon/img/oracle-doc-logo.png");
+            testPatternString(url);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            Assertions.assertEquals("java.lang.IllegalStateException", e.getClass().getName());
+        }
+    }
+
+    @Test
     public void testPressedCancel() {
         try {
             URL url = new URL("");
