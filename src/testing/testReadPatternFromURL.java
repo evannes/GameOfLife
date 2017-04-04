@@ -5,11 +5,13 @@ import org.junit.jupiter.api.Test;
 import sample.FileHandling;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.NoSuchFileException;
 
 /**
  * @author Miina Lervik
@@ -17,7 +19,6 @@ import java.net.URLConnection;
  * @author Alexander Kingdon
  */
 public class testReadPatternFromURL {
-
     private boolean[][] gameBoardArray;
     private testReadPatternFunctions patterns = new testReadPatternFunctions();
 
@@ -82,17 +83,24 @@ public class testReadPatternFromURL {
     }
 
     @Test
-    public void testMalformedURLException() {
+    public void testUnknownHostException() {
         try {
-            URL url = new URL("bjarne");
+            URL url = new URL("http://saasece");
             testPatternString(url);
-            Throwable exception =
-            Assertions.assertThrows(MalformedURLException.class, () -> {
-                throw new IOException("The URL entered was not valid.");
-            });
-            Assertions.assertEquals("The URL entered was not valid.", exception.getMessage());
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
+            Assertions.assertEquals("The URL entered was not valid (UnknownHostException).", ioe.getMessage());
+        }
+    }
+
+    @Test
+    public void testNoSuchFileException() {
+        try {
+            URL url = new URL("http://www.conwaylife.com/patterns/halfmax.rleeee");
+            testPatternString(url);
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe);
+            Assertions.assertEquals("The file could not be found (FileNotFoundException).", ioe.getMessage());
         }
     }
 

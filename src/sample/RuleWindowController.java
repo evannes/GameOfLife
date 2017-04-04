@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Alex on 03.04.2017.
  */
-public class ruleWindowController implements Initializable{
+public class RuleWindowController implements Initializable{
 
     @FXML
     RuleWindow ruleWindow;

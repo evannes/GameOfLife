@@ -201,7 +201,6 @@ public class FileHandling {
 
     /**
      * Method used to generate the error message box.
-     * @param HeaderText    The text displayed in the error message box.
      * @param ioe           The exception being handled.
      */
     private void showErrorMessage(String HeaderText, IOException ioe) {
@@ -209,16 +208,18 @@ public class FileHandling {
         alert.setTitle("Error");
         alert.setHeaderText(HeaderText);
 
-        if (ioe.toString().contains("MalformedURLException")) {
-            alert.setContentText("The URL entered was not valid.");
+        if (ioe.toString().contains("UnknownHostException")) {
+            alert.setContentText("The URL entered was not valid (UnknownHostException).");
+        } else if (ioe.toString().contains("MalformedURLException")) {
+            alert.setContentText("The URL entered was not valid (MalformedURLException).");
             alert.showAndWait();
         } else if (ioe.toString().contains("Cancel")) {
             return;
         } else if (ioe.toString().contains("FileNotFoundException")) {
-            alert.setContentText("The file could not be found.");
+            alert.setContentText("The file could not be found (FileNotFoundException).");
             alert.showAndWait();
         } else if (ioe.toString().contains("NoSuchFileException")) {
-            alert.setContentText("The file could not be found.");
+            alert.setContentText("The file could not be found (NoSuchFileException).");
             alert.showAndWait();
         } else {
             alert.setContentText("Caught IOException: " + ioe);
