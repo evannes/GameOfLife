@@ -1,5 +1,6 @@
 package testing;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sample.FileHandling;
 
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -21,6 +23,7 @@ public class testReadPatternFromDisk {
     private boolean[][] gameBoardArray;
     private Charset charset = Charset.forName("US-ASCII");
     private testReadPatternFunctions patterns = new testReadPatternFunctions();
+    private String errorString;
 
     @Test
     public void testFirstPattern() {
@@ -67,6 +70,13 @@ public class testReadPatternFromDisk {
                 patterns.getBoundingBoxPattern(gameBoardArray), "110100001011");
     }
 
+    @Test
+    public void testNoSuchFileException() {
+        Path inFile = Paths.get("laksjdlaksdj").toAbsolutePath();
+        testPatternString(inFile);
+        Assertions.assertEquals("java.nio.file.NoSuchFileException", errorString);
+    }
+
     /**
      * This method mimics {@link FileHandling#readPatternFromDisk()}.
      * It is used to get the pattern from a local file and parse it into a usable array for the game board.
@@ -75,8 +85,6 @@ public class testReadPatternFromDisk {
      */
     private boolean[][] testPatternString(Path inFile) {
         try {
-
-            //Path inFile = file.toPath();
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
 
             String currentLine = null;
@@ -87,7 +95,7 @@ public class testReadPatternFromDisk {
             }
             gameBoardArray = patterns.parsePattern(patternString);
         } catch (IOException ioe) {
-            System.out.println("Error: " + ioe);
+            errorString = ioe.getClass().getName();
         }
         return gameBoardArray;
     }
