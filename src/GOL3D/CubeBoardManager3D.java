@@ -2,7 +2,6 @@ package GOL3D;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
-import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -10,14 +9,12 @@ import javafx.scene.shape.Box;
 import java.util.ArrayList;
 import java.util.List;
 
-import sample.*;
+import sample.FileHandling;
 
 /**
- * Created by Elise Haram Vannes on 03.04.2017.
+ * Created by Elise Haram Vannes on 05.04.2017.
  */
-public class BoardManager3D{
-
-    // inneholder boxer.. changeBoard, setPurpleMaterial, createBoxes
+public class CubeBoardManager3D {
 
     private AnimationTimer animationTimer;
     private int speed = 250000000;
@@ -26,6 +23,7 @@ public class BoardManager3D{
     private FileHandling fileHandling = new FileHandling();
     private Group group;
     private List<List<Box>> boardBoxes;
+    private Box currentBox;
     private boolean isRunning = false;
     private boolean isClearing = false;
     private long time = System.nanoTime();
@@ -34,29 +32,42 @@ public class BoardManager3D{
     private int boxX = 0;
     private int boxY = 0;
     private int boxZ = 0;
+    private List<List<Box>> boxBoard1;
+    private List<List<Box>> boxBoard2;
+    private List<List<Box>> boxBoard3;
+    private List<List<Box>> boxBoard4;
+    private List<List<Box>> boxBoard5;
+    private List<List<Box>> boxBoard6;
     private PhongMaterial blueMaterial;
     private PhongMaterial greenMaterial;
     private PhongMaterial purpleMaterial;
     private PhongMaterial pinkMaterial;
 
+    //private static CubeBoardManager3D ourInstance = new CubeBoardManager3D();
+
+    //public static CubeBoardManager3D getInstance() {
+    //    return ourInstance;
+    //}
+    //
+    // inneholder boxer.. changeBoard, setPurpleMaterial, createBoxes
+
     /**
      * The constructor initializing the animation of Game of Life.
-     * @param board3D     the board
+     * @param cubeBoard3D the board
      */
-    public BoardManager3D(Board3D board3D, Group group) {
-        this.board3D = board3D;
+
+    public CubeBoardManager3D(CubeBoard3D cubeBoard3D, Group group) {
+        this.cubeBoard3D = cubeBoard3D;
         this.group = group;
-        createBoxes();
+        initBoxArrays();
         changeBoard();
         animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board3D.nextGeneration();
-                    //draw();
+                    //cubeBoard3D.nextCubeGeneration();
                     changeBoard();
                     time = System.nanoTime();
                 }
-                //isClearing sier ifra at vi har clearet boardet og skal tegne det en gang.
                 if (isClearing){
                     isClearing = false;
                     changeBoard();
@@ -66,26 +77,119 @@ public class BoardManager3D{
         animationTimer.start();
     }
 
+    public void initBoxArrays(){
+        boxBoard1 = createBoxes(boxBoard1,0,-53,0,53,0,53,true,false);
+        boxBoard2 = createBoxes(boxBoard2,0,0,-53,53,53,0,false,true);
+        boxBoard3 = createBoxes(boxBoard3,0,1590,0,53,0,53,true,false);
+        boxBoard4 = createBoxes(boxBoard4,0,0,1590,53,53,0,false,true);
+        boxBoard5 = createBoxes(boxBoard5,1590,0,0,0,53,53,false,false);
+        boxBoard6 = createBoxes(boxBoard6,-53,0,0,0,53,53,false,false);
+    }
+
     public void changeBoard(){
-
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-
-                Box currentBox = boardBoxes.get(i).get(j);
-
-                if(board3D.board.get(i).get(j) == true) {
+        for(int i = 0; i < cubeBoard3D.getBoard2().size(); i++){
+            for(int j = 0; j < cubeBoard3D.getBoard2().size(); j++){
+                currentBox = boxBoard2.get(i).get(j);
+                if(cubeBoard3D.getBoard2().get(i).get(j)){
                     setPurpleMaterial(currentBox);
-                    currentBox.setHeight(cellSize + 50);
+                    currentBox.setDepth(cellSize + 50);
                     //currentBox.setTranslateY(boxY-25);
                 } else {
                     setBlueMaterial(currentBox);
-                    currentBox.setHeight(cellSize);
+                    currentBox.setDepth(cellSize);
                     //currentBox.setTranslateY(boxY);
                 }
             }
-            //boxY = 0;
         }
     }
+
+    public List<List<Box>> createBoxes(List<List<Box>> boardBoxes,int boxX,int boxY,int boxZ,
+                                       int incrementX,int decrementY,int incrementZ,
+                                       boolean resetX,boolean resetY){
+
+        boardBoxes = new ArrayList<List<Box>>();
+
+        for(int i = 0; i < boardSize; i++) {
+            boardBoxes.add(i, new ArrayList<Box>(boardSize));
+        }
+
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                Box myBox = new Box(cellSize,cellSize,cellSize);
+                boardBoxes.get(i).add(j,myBox);
+
+                if(j%2==0){
+                    setBlueMaterial(myBox);
+                } else {
+                    setPurpleMaterial(myBox);
+                }
+
+                myBox.setTranslateX(boxX);
+                myBox.setTranslateY(boxY);
+                myBox.setTranslateZ(boxZ);
+                group.getChildren().add(myBox);
+
+                if(resetX) {
+                    boxX += incrementX;//53;
+                } else if(resetY) {
+                    boxY += decrementY;
+                } else {
+                    boxZ += incrementZ;
+                }
+            }
+
+            boxX += incrementX;
+            boxY += decrementY;
+            boxZ += incrementZ;//53;
+
+            if(resetX) {
+                boxX = 0;
+            } else if(resetY) {
+                boxY = 0;
+            } else {
+                boxZ = 0;
+            }
+
+        }
+        return boardBoxes;
+    }
+
+    /**
+     * The method allowing the user to select a rle pattern from disk.
+     */
+    public void selectPatternFromDisk() {
+        boolean[][] array = fileHandling.readPatternFromDisk();
+        selectPatternLogic(array);
+        changeBoard();
+    }
+    /**
+     * The method allowing the user to select a rle pattern from URL.
+     */
+    public void selectPatternFromURL() {
+        boolean[][] array = fileHandling.readPatternFromURL();
+        selectPatternLogic(array);
+        changeBoard();
+    }
+
+    public void selectPatternLogic(boolean[][] array) {
+        try {
+            ////////lag en if-else som sjekker om instansen er Dynamic eller Static
+            if(board3D instanceof Board3D){
+                ((Board3D) board3D).setInputInBoard(((Board3D) board3D).createArrayListFromArray(array));
+                changeBoard();
+            }
+        } catch (NullPointerException cancelException) {
+        }
+    }
+
+    // inneholder boxer.. changeBoard, setPurpleMaterial, createBoxes
+
+
+
+
+
+
+
 
     public void createBoxes(){
 
@@ -182,41 +286,6 @@ public class BoardManager3D{
     }
 
     /**
-     * The method exiting the game.
-     */
-    public void exitGame(){
-        System.exit(0);
-    }
-
-    /**
-     * The method allowing the user to select a rle pattern from disk.
-     */
-    public void selectPatternFromDisk() {
-        boolean[][] array = fileHandling.readPatternFromDisk();
-        selectPatternLogic(array);
-        changeBoard();
-    }
-    /**
-     * The method allowing the user to select a rle pattern from URL.
-     */
-    public void selectPatternFromURL() {
-        boolean[][] array = fileHandling.readPatternFromURL();
-        selectPatternLogic(array);
-        changeBoard();
-    }
-
-    public void selectPatternLogic(boolean[][] array) {
-        try {
-            ////////lag en if-else som sjekker om instansen er Dynamic eller Static
-            if(board3D instanceof Board3D){
-                ((Board3D) board3D).setInputInBoard(((Board3D) board3D).createArrayListFromArray(array));
-                changeBoard();
-            }
-        } catch (NullPointerException cancelException) {
-        }
-    }
-
-    /**
      * The method return whether the animation is running or not.
      * @return      <code>true</code> if the animation
      *              is running.
@@ -249,4 +318,6 @@ public class BoardManager3D{
         board3D.clearBoard();
         isClearing = true;
     }
+
+
 }

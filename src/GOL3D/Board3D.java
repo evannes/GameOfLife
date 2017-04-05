@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * Created by Elise Haram Vannes on 03.04.2017.
+ */
+
 public class Board3D{
 
     protected List<List<Boolean>> board;
@@ -96,8 +100,6 @@ public class Board3D{
         }
     }
 
-
-
     /**
      * The method counting the alive cells surrounding the appointed cell
      * @param i     the first column index of the array
@@ -170,8 +172,6 @@ public class Board3D{
 
         return true;
     }
-
-
 
     public void setValue(int x, int y, boolean value) {
         board.get(x).set(y, value);
@@ -252,7 +252,6 @@ public class Board3D{
             }
         }
     }
-
     // var en resize-metode, men skal ikkje resizes
 
 }

@@ -33,39 +33,46 @@ public class Controller implements Initializable {
     @FXML
     Button pauseButton;
 
-    Board3D board;
-    BoardManager3D boardManager3D;
-    CubeBoard3D cubeBoard3D;
-    Group group;
-    Camera camera;
+    private Board3D board;
+    private BoardManager3D boardManager3D;
+    private CubeBoardManager3D cubeBoardManager3D;
+    private CubeBoard3D cubeBoard3D;
+    private Group group;
+    private Camera camera;
+    private boolean cubeExists = false;
+    private boolean boardExists = false;
 
     /**
      * The method allowing the user to select a pattern from disk
      */
     public void selectPatternFromDisk() {
-        boardManager3D.selectPatternFromDisk();
+        if(boardExists) {
+            boardManager3D.selectPatternFromDisk();
+        }else if(cubeExists){
+            cubeBoardManager3D.selectPatternFromDisk();
+        }
     }
 
     /**
      * The method allowing the user to select a pattern from a URL
      */
     public void selectPatternFromURL() {
-        boardManager3D.selectPatternFromURL();
-    }
-
-    /**
-     * Starts a new game from the beginning.
-     */
-    public void newGame(){
-        pauseButton.setText("Pause");
-        boardManager3D.newGame();
+        if(boardExists) {
+            boardManager3D.selectPatternFromURL();
+        }else if(cubeExists){
+            cubeBoardManager3D.selectPatternFromURL();
+        }
     }
 
     /**
      * Clears the board.
      */
     public void clearBoard(){
-        boardManager3D.clearBoard();
+        if(boardExists) {
+            boardManager3D.clearBoard();
+        }else if(cubeExists){
+            cubeBoardManager3D.clearBoard();
+        }
     }
 
     /**
@@ -73,19 +80,34 @@ public class Controller implements Initializable {
      */
     public void start() {
         pauseButton.setText("Pause");
-        boardManager3D.start();
+        if(boardExists) {
+            boardManager3D.start();
+        } else if(cubeExists){
+            cubeBoardManager3D.start();
+        }
     }
 
     /**
      * Pauses the game.
      */
     public void pauseGame(){
-        if(boardManager3D.getIsRunning()) {
-            boardManager3D.pauseGame();
-            pauseButton.setText("Resume");
-        } else {
-            boardManager3D.resumeGame();
-            pauseButton.setText("Pause");
+        // rotete????
+        if(boardExists) {
+            if (boardManager3D.getIsRunning()) {
+                boardManager3D.pauseGame();
+                pauseButton.setText("Resume");
+            } else {
+                boardManager3D.resumeGame();
+                pauseButton.setText("Pause");
+            }
+        } else if(cubeExists){
+            if (cubeBoardManager3D.getIsRunning()) {
+                cubeBoardManager3D.pauseGame();
+                pauseButton.setText("Resume");
+            } else {
+                cubeBoardManager3D.resumeGame();
+                pauseButton.setText("Pause");
+            }
         }
     }
 
@@ -96,12 +118,9 @@ public class Controller implements Initializable {
         boardManager3D.exitGame();
     }
 
-    boolean cubeExists = false;
-    boolean boardExists = false;
-
     public void initBoard(){
         if(group != null && cubeExists) {
-            cubeBoard3D.removeBoxes();
+            cubeBoardManager3D.removeBoxes();
             cubeExists = false;
             boardExists = true;
         }
@@ -139,13 +158,10 @@ public class Controller implements Initializable {
         subscene.setCamera(camera);
         subscene.setFill(Color.BLACK);
 
-        cubeBoard3D = new CubeBoard3D(group);
+        cubeBoard3D = new CubeBoard3D();
+        cubeBoardManager3D = new CubeBoardManager3D(cubeBoard3D,group);
         pauseButton.setText("Resume");
         // ha ekstra box på hjørnene
-    }
-
-    public GridPane getGridPane(){
-        return gridPane;
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
