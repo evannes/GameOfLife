@@ -127,4 +127,14 @@ public class StaticBoard extends Board {
         }
     }
 
+    @Override
+    public StaticBoard clone() {
+        try {
+            return (StaticBoard) super.clone();
+        } catch (CloneNotSupportedException cnse) {
+            return null;
+        }
+    }
+
+
 }

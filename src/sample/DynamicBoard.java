@@ -224,5 +224,13 @@ public class DynamicBoard extends Board {
         dynamicBoardArray = newArray;
     }
 
+    @Override
+    public DynamicBoard clone() throws CloneNotSupportedException {
+        DynamicBoard clonedBoard = (DynamicBoard) super.clone();
+        clonedBoard.createClone();
+        clonedBoard.dynamicBoardArray = clonedBoard.clone;
+        return clonedBoard;
+    }
+
 
 }

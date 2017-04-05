@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -42,6 +44,9 @@ public class Controller implements Initializable{
 
     @FXML
     private Button selectRules;
+
+    @FXML
+    private Button viewStatistics;
 
     /**
      * The method allowing the user to select a pattern from disk
@@ -151,6 +156,43 @@ public class Controller implements Initializable{
             pauseGame();
         } catch (IOException ioe) {
             System.out.println("IOException: " + ioe.getMessage());
+        }
+    }
+
+    public void viewStatistics() {
+        try {
+            if (boardManager.isRunning) {
+                pauseGame();
+            }
+
+            try {
+                DynamicBoard clonedBoard = (DynamicBoard) board.clone();
+
+                System.out.println("Like brett før sw: " + clonedBoard.toString().equals(board.toString()));
+
+                Stage statisticsWindowStage = new Stage();
+                statisticsWindowStage.initModality(Modality.WINDOW_MODAL);
+                statisticsWindowStage.initOwner(viewStatistics.getScene().getWindow());
+
+                FXMLLoader statisticsWindowLoader = new FXMLLoader(getClass().getResource("statisticsWindow.fxml"));
+
+                BorderPane statisticsWindowBorderPane = statisticsWindowLoader.load();
+
+                StatisticsWindowController swController = statisticsWindowLoader.getController();
+                swController.setClonedBoard(clonedBoard);
+
+                Scene statisticsWindowScene = new Scene(statisticsWindowBorderPane, 800, 600);
+
+                statisticsWindowStage.setScene(statisticsWindowScene);
+                statisticsWindowStage.setTitle("View game statistics");
+                statisticsWindowStage.showAndWait();
+                System.out.println("ulike etter kjøring: " + !clonedBoard.toString().equals(board.toString()));
+            } catch (CloneNotSupportedException cnse) {
+                return;
+            }
+            pauseGame();
+        } catch (IOException ioe) {
+            System.out.println("IOException: " + ioe.getCause());
         }
     }
 

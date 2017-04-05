@@ -6,7 +6,7 @@ package sample;
  * @author Alexander Kingdon
  */
 
-public abstract class Board {
+public abstract class Board implements Cloneable {
     protected int defaultWidth = 160;
     protected int defaultHeight = 100;
     public Rules rules = new Rules();
@@ -179,4 +179,8 @@ public abstract class Board {
     @Override
     public abstract String toString();
 
+    @Override
+    public Board clone() throws CloneNotSupportedException {
+        return (Board) super.clone();
+    }
 }

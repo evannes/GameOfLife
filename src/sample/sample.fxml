@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <left>
       <VBox prefHeight="800.0" prefWidth="260.0" BorderPane.alignment="CENTER">
          <children>
@@ -89,6 +89,11 @@
             <Button fx:id="selectRules" mnemonicParsing="false" onAction="#selectRules" text="Select rules">
                <VBox.margin>
                   <Insets top="25.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="viewStatistics" mnemonicParsing="false" onAction="#viewStatistics" text="View statistics">
+               <VBox.margin>
+                  <Insets top="10.0" />
                </VBox.margin>
             </Button>
          </children>
