@@ -44,21 +44,24 @@ public class StatisticsWindow {
         return livingCells;
     }
 
-    public int similarityMeasure(int alive, int change, int living) {
-        double phi = (ALPHA * alive) + (BETA * change) + (GAMMA * living);
-        return (int) phi;
+    public double similarityMeasure(int alive, int change, int living) {
+        return (ALPHA * alive) + (BETA * change) + (GAMMA * living);
+    }
+
+    public int similarityCalculation(double t1, double t2) {
+        double phi = Math.min(t1, t2) / Math.max(t1, t2);
+        return (int)Math.floor(phi * 100);
     }
 
 
     public int[][] getStatistics(Board clonedBoard, int iterations) {
         int[][] stats = new int[3][iterations+1];
         int[] livingCellsHelper = new int[iterations+1];
+        double[] similarityMeasureHelper = new double[iterations+1];
 
         stats[0][0] = countAlive();
         livingCellsHelper[0] = sumLivingCellCoordinates();
-        System.out.println("Gamma ved t(0) = " + sumLivingCellCoordinates());
         clonedBoard.nextGeneration();
-        System.out.println("Gamma ved t(1) = " + sumLivingCellCoordinates());
 
         for (int i = 1; i < iterations+1; i++) {
             // Populate countAlive part of the array
@@ -67,25 +70,30 @@ public class StatisticsWindow {
             // Populate change in living cells
             stats[1][i-1] = stats[0][i] - stats[0][i-1];
 
-            // Poulate helper table with living cells
+            // Populate helper table with living cells
             livingCellsHelper[i] = sumLivingCellCoordinates();
 
-            // Populates initial value of similarity measure
-            stats[2][i-1] = similarityMeasure(stats[0][i-1], stats[1][i-1], livingCellsHelper[i-1]);
+            // Populate initial value of similarity measure
+            similarityMeasureHelper[i-1] = similarityMeasure(stats[0][i-1], stats[1][i-1], livingCellsHelper[i-1]);
 
             clonedBoard.nextGeneration();
         }
 
-        // Correcting values for the last iteration
-        stats[1][iterations] = 0;
-        stats[2][iterations] = similarityMeasure(stats[0][iterations], stats[1][iterations], livingCellsHelper[30]);
-
-        for (int j = 0; j < iterations + 1; j++) {
-            System.out.println(j + ": Alive " + stats[0][j] + ", Change: " + stats[1][j] +
-                    ", Initial phi: " + stats[2][j]);
+        // Applying correct values for similarity measure
+        for (int i = 0; i < iterations; i++) {
+            stats[2][i] = similarityCalculation(similarityMeasureHelper[i], similarityMeasureHelper[i+1]);
         }
+
+        // Correcting value for the last iteration.
+        // The similarity measure will compare the last value
+        // with the first.
+        // stats[2][iterations-1] = similarityCalculation(similarityMeasureHelper[iterations-1], similarityMeasureHelper[0]);
+
+
+        /*for (int j = 0; j < iterations + 1; j++) {
+            System.out.println(j + ": Alive " + stats[0][j] + ", Change: " + stats[1][j] +
+                    ", phi: " + stats[2][j]);
+        }*/
         return stats;
     }
-
-
 }
