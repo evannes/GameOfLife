@@ -2,10 +2,11 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -42,6 +43,9 @@ public class Controller implements Initializable{
 
     @FXML
     private Button selectRules;
+
+    @FXML
+    private Button version3DButton;
 
     /**
      * The method allowing the user to select a pattern from disk
@@ -152,6 +156,93 @@ public class Controller implements Initializable{
         } catch (IOException ioe) {
             System.out.println("IOException: " + ioe.getMessage());
         }
+    }
+
+    public void start3DGame(){
+        try {
+            Stage window3DGame = new Stage();
+            //window3DGame.initModality(Modality.WINDOW_MODAL);
+            //window3DGame.initOwner(version3DButton.getScene().getWindow());
+
+            FXMLLoader gol3DLoader = new FXMLLoader(getClass().getResource("../GOL3D/view3D.fxml"));
+            GridPane gridPane = gol3DLoader.load();
+
+            Scene gol3DScene = new Scene(gridPane, 1200, 650);
+
+            window3DGame.setScene(gol3DScene);
+            window3DGame.setTitle("Game of Life 3D");
+            window3DGame.showAndWait();
+            pauseGame();
+        } catch(IOException e){
+            System.out.println("IOException: " + e.getMessage());
+        }
+        /*
+        try {
+            if (boardManager.isRunning) {
+                pauseGame();
+            }
+
+            Stage window3DGame = new Stage();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../GOL3D/view3D.fxml"));
+
+            GOL3D.Controller controller3D = new GOL3D.Controller();
+
+            //GridPane gridPane = controller3D.getGridPane();
+
+            GridPane gridPane = loader.load();
+
+            Scene scene = new Scene(gridPane,800,600);
+
+            window3DGame.setScene(scene);
+            window3DGame.setTitle("Game of Life 3D");
+            window3DGame.showAndWait();
+
+            /*FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("GOL3D.view3D.fxml")
+            );*/
+
+            //GridPane gridPane = (GridPane) loader.load();
+
+            /*Parent root = FXMLLoader.load(getClass().getResource("view3D.fxml"));
+
+            primaryStage.setResizable(false);
+            primaryStage.setTitle("\uD83D\uDC22Turtle Garden"); // skilpadde i unicode
+            primaryStage.setScene(new Scene(root,600,600));
+            primaryStage.sizeToScene();
+            primaryStage.show();*/
+
+            /*
+            //Pane pane = new Pane();
+            Parent root = FXMLLoader.load(getClass().getResource("../GOL3D/view3D.fxml"));
+            Scene scene = new Scene(root,800,600);
+            scene.setFill(Color.BLACK);
+            Camera camera2 = new PerspectiveCamera();
+            scene.setCamera(camera2);
+
+            FXMLLoader fxload = FXMLLoader.load(getClass().getResource("../GOL3D/view3D.fxml"));
+
+
+            Stage window3DGame = new Stage();
+            //window3DGame.initModality(Modality.WINDOW_MODAL);
+            //window3DGame.initOwner(selectRules.getScene().getWindow());
+
+            window3DGame.setTitle("Game of Life 3D");
+            window3DGame.setScene(scene);
+            ;
+            window3DGame.setFullScreen(true);
+            window3DGame.show();
+
+            //FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("ruleWindow.fxml"));
+            //BorderPane ruleWindowBorderPane = ruleWindowLoader.load();
+
+            //Scene ruleWindowScene = new Scene(ruleWindowBorderPane, 600, 400);
+            pauseGame();
+
+        } catch (IOException ioe) {
+            System.out.println("IOException: " + ioe.getMessage());
+        }
+        */
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
