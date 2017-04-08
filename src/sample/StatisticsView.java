@@ -1,9 +1,7 @@
 package sample;
 
 
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;
@@ -11,7 +9,7 @@ import java.util.Optional;
 /**
  * Created by Alex on 06.04.2017.
  */
-public class StatisticsWindowDialog {
+public class StatisticsView {
 
     private int specifiedIteration;
 
@@ -25,14 +23,14 @@ public class StatisticsWindowDialog {
         return specifiedIteration;
     }
 
-    public void createIterationTooLargeWindow() {
+    /*public void createIterationTooLargeWindow() {
         Alert iterationTooLarge = new Alert(Alert.AlertType.ERROR);
         iterationTooLarge.setTitle("Error");
         iterationTooLarge.setHeaderText("Iteration chosen was too large.");
         iterationTooLarge.setContentText("You must specify an iteration equal to or smaller " +
                 "than the number of iterations. Please try again");
         iterationTooLarge.showAndWait();
-    }
+    }*/
 
     public XYChart.Series<Number, Number> populateLivingCells(int[][] stats) {
         XYChart.Series<Number, Number> livingCellsSeries = new XYChart.Series<>();
@@ -40,6 +38,8 @@ public class StatisticsWindowDialog {
         for (int i = 0; i < stats[0].length; i ++) {
             livingCellsSeries.getData().add(new XYChart.Data<>(i, stats[0][i]));
         }
+
+        livingCellsSeries.getData().remove((stats[0].length) - 1);
 
         return livingCellsSeries;
     }
@@ -51,6 +51,8 @@ public class StatisticsWindowDialog {
             changeInLivingCellsSeries.getData().add(new XYChart.Data<>(i, stats[1][i]));
         }
 
+        changeInLivingCellsSeries.getData().remove(stats[1].length - 1);
+
         return changeInLivingCellsSeries;
     }
 
@@ -60,6 +62,13 @@ public class StatisticsWindowDialog {
         for (int i = 0; i < stats[2].length; i ++) {
             similarityMeasureSeries.getData().add(new XYChart.Data<>(i, stats[2][i]));
         }
+        if (specifiedIteration != 0) {
+            similarityMeasureSeries.getData().remove(specifiedIteration);
+            similarityMeasureSeries.getData().remove(stats[2].length - 2);
+            return similarityMeasureSeries;
+        }
+
+        similarityMeasureSeries.getData().remove(stats[2].length - 1);
 
         return similarityMeasureSeries;
     }

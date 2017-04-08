@@ -11,8 +11,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -168,8 +166,6 @@ public class Controller implements Initializable{
             try {
                 DynamicBoard clonedBoard = (DynamicBoard) board.clone();
 
-                System.out.println("Like brett før sw: " + clonedBoard.toString().equals(board.toString()));
-
                 Stage statisticsWindowStage = new Stage();
                 statisticsWindowStage.initModality(Modality.WINDOW_MODAL);
                 statisticsWindowStage.initOwner(viewStatistics.getScene().getWindow());
@@ -178,15 +174,14 @@ public class Controller implements Initializable{
 
                 BorderPane statisticsWindowBorderPane = statisticsWindowLoader.load();
 
-                StatisticsWindowController swController = statisticsWindowLoader.getController();
+                StatisticsController swController = statisticsWindowLoader.getController();
                 swController.setClonedBoard(clonedBoard);
 
-                Scene statisticsWindowScene = new Scene(statisticsWindowBorderPane, 800, 600);
+                Scene statisticsWindowScene = new Scene(statisticsWindowBorderPane, 1200, 600);
 
                 statisticsWindowStage.setScene(statisticsWindowScene);
                 statisticsWindowStage.setTitle("View game statistics");
                 statisticsWindowStage.showAndWait();
-                System.out.println("ulike etter kjøring: " + !clonedBoard.toString().equals(board.toString()));
             } catch (CloneNotSupportedException cnse) {
                 return;
             }

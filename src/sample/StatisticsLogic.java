@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Alex on 05.04.2017.
  */
-public class StatisticsWindow {
+public class StatisticsLogic {
 
     private DynamicBoard clonedBoard;
     private final static double ALPHA = 0.5d;
@@ -88,6 +88,9 @@ public class StatisticsWindow {
             clonedBoard.nextGeneration();
         }
 
+        // Correcting last value for living cells
+        stats[0][iterations] = countAlive();
+
         // Correcting last value for initial similarity measure
         similarityMeasureHelper[iterations-1] = similarityMeasure(stats[0][iterations-1], stats[1][iterations-1],
                 livingCellsHelper[iterations-1]);
@@ -126,11 +129,17 @@ public class StatisticsWindow {
                 }
             }
 
+            // Finally, add the data back to the original array
+            for (int k = 0; k < iterations; k ++) {
+                stats[2][k] = similaritySpecifiedHelper[k][1];
+            }
+
+            // used to print data concerning a specified iteration
             System.out.println("Compare with iteration: " + similaritySpecifiedNumber);
             System.out.print("The highest similarity measure found was " + highestSimilarityNumber +
             ", found in the following generations: ");
-            for (Integer aSameOccurrencesHelper : sameOccurrencesHelper) {
-                System.out.print(aSameOccurrencesHelper + ", ");
+            for (Integer generations : sameOccurrencesHelper) {
+                System.out.print(generations + ", ");
             }
             System.out.println("");
 
