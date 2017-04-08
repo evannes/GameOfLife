@@ -7,7 +7,7 @@ import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
 
 /**
- * Created by Alex on 06.04.2017.
+ * Created by Alexander Kingdon on 06.04.2017.
  */
 public class StatisticsView {
 

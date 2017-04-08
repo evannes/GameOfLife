@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Alex on 05.04.2017.
+ * Created by Alexander Kingdon on 05.04.2017.
  */
 public class StatisticsController implements Initializable {
 
