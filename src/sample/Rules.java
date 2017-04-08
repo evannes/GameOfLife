@@ -15,7 +15,7 @@ public class Rules {
      * @return          <code>true</code> if the cell has the exact number
      *                  of neighbors required to stay alive defined from the rule set in use
      */
-    protected boolean shouldSpawnActiveCell(int counter) {
+    public boolean shouldSpawnActiveCell(int counter) {
         switch (ruleSet) {
             case "Replicator": return counter == 1 || counter == 3 || counter == 5 || counter == 7;
             case "Fredkin": return counter == 1 || counter == 3 || counter == 5 || counter == 7;
@@ -41,7 +41,7 @@ public class Rules {
      * @return          <code>true</code> if the amount of neighboring
      *                  cells is the same as required from the rule set in use
      */
-    protected static boolean shouldStayAlive(int counter) {
+    public static boolean shouldStayAlive(int counter) {
         switch (ruleSet) {
             case "Replicator": return counter == 1 || counter == 3 || counter == 5 || counter == 7;
             case "Fredkin": return counter == 0 || counter == 2 || counter == 4 || counter == 6 || counter == 8;

@@ -2,10 +2,11 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -42,6 +43,9 @@ public class Controller implements Initializable{
 
     @FXML
     private Button selectRules;
+
+    @FXML
+    private Button version3DButton;
 
     @FXML
     private Button viewStatistics;
@@ -157,6 +161,25 @@ public class Controller implements Initializable{
         }
     }
 
+    public void start3DGame(){
+        try {
+            Stage window3DGame = new Stage();
+
+            FXMLLoader gol3DLoader = new FXMLLoader(getClass().getResource("../GOL3D/view3D.fxml"));
+            GridPane gridPane = gol3DLoader.load();
+
+            Scene gol3DScene = new Scene(gridPane, 1200, 650);
+
+            window3DGame.setScene(gol3DScene);
+            window3DGame.setTitle("Game of Life 3D");
+            window3DGame.showAndWait();
+            pauseGame();
+        } catch(IOException e){
+            // Alert-boks som forklarer at det mangler en fil?
+            System.out.println("IOException: " + e.getMessage());
+        }
+    }
+
     public void viewStatistics() {
         try {
             if (boardManager.isRunning) {
@@ -200,18 +223,18 @@ public class Controller implements Initializable{
         boardManager.userDrawCell();
 
         changeSpeed.valueProperty().addListener(
-            (observable, oldValue, value) ->
-            {
-                boardManager.setSpeed((int)((double)value * 10000000));
-                boardManager.draw();
-            });
+                (observable, oldValue, value) ->
+                {
+                    boardManager.setSpeed((int)((double)value * 10000000));
+                    boardManager.draw();
+                });
 
         changeCellSize.valueProperty().addListener(
-            (observable, oldValue, value) ->
-            {
-                boardManager.setDrawScale((double)value);
-                boardManager.draw();
-            });
+                (observable, oldValue, value) ->
+                {
+                    boardManager.setDrawScale((double)value);
+                    boardManager.draw();
+                });
 
         boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
     }
