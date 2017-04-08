@@ -33,6 +33,9 @@ public class StatisticsController implements Initializable {
         statisticsLogic.setClonedBoard(clonedBoard);
     }
 
+    /**
+     * This method binds together the logic and view methods producing the statistics.
+     */
     public void getStatistics() {
         if (iterations != 0) {
             statisticsLogic.setIterations(iterations);
@@ -45,6 +48,9 @@ public class StatisticsController implements Initializable {
         statisticsChart.getData().addAll(livingCellsSeries, changeInLivingCellsSeries, similarityMeasureSeries);
     }
 
+    /**
+     * This method opens up a dialog window letting the user specify an iteration to compare similarity with.
+     */
     public void getSpecifiedStatistics() {
         statisticsView = new StatisticsView();
         specifiedNumber = statisticsView.createDialogWindow();
@@ -55,6 +61,10 @@ public class StatisticsController implements Initializable {
         getStatistics();
     }
 
+    /**
+     * Listener method for the cancel button.
+     * @param event The event being triggered when the button is clicked.
+     */
     public void cancelButton(ActionEvent event) {
         ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
     }

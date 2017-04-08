@@ -13,7 +13,12 @@ public class StatisticsView {
 
     private int specifiedIteration;
 
-    public int createDialogWindow() {
+    /**
+     * This method creates a dialog window where the user can input a specified iteration.
+     * The value is used to create the similarity measure in {@link StatisticsLogic#getStatistics()}.
+     * @return  The specified iteration to compare similarity with.
+     */
+    protected int createDialogWindow() {
         TextInputDialog iterationDialog = new TextInputDialog(null);
         iterationDialog.setTitle("Specify iteration");
         iterationDialog.setHeaderText(null);
@@ -32,7 +37,12 @@ public class StatisticsView {
         iterationTooLarge.showAndWait();
     }*/
 
-    public XYChart.Series<Number, Number> populateLivingCells(int[][] stats) {
+    /**
+     * This method populates the series used in the line chart to show living cells.
+     * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
+     * @return  Fully populated series ready to be applied to the line chart.
+     */
+    protected XYChart.Series<Number, Number> populateLivingCells(int[][] stats) {
         XYChart.Series<Number, Number> livingCellsSeries = new XYChart.Series<>();
         livingCellsSeries.setName("Living cells");
         for (int i = 0; i < stats[0].length; i ++) {
@@ -44,7 +54,12 @@ public class StatisticsView {
         return livingCellsSeries;
     }
 
-    public XYChart.Series<Number, Number> populateChangeInLivingCells(int[][] stats) {
+    /**
+     * This method populates the series used in the line chart to show change in living cells.
+     * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
+     * @return  Fully populated series ready to be applied to the line chart.
+     */
+    protected XYChart.Series<Number, Number> populateChangeInLivingCells(int[][] stats) {
         XYChart.Series<Number, Number> changeInLivingCellsSeries = new XYChart.Series<>();
         changeInLivingCellsSeries.setName("Change in living cells");
         for (int i = 0; i < stats[1].length; i ++) {
@@ -56,7 +71,12 @@ public class StatisticsView {
         return changeInLivingCellsSeries;
     }
 
-    public XYChart.Series<Number, Number> populateSimilarityMeasure(int[][] stats) {
+    /**
+     * This method populates the series used in the line chart to show the similarity measure.
+     * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
+     * @return  Fully populated series ready to be applied to the line chart.
+     */
+    protected XYChart.Series<Number, Number> populateSimilarityMeasure(int[][] stats) {
         XYChart.Series<Number, Number> similarityMeasureSeries = new XYChart.Series<>();
         similarityMeasureSeries.setName("Similarity measure");
         for (int i = 0; i < stats[2].length; i ++) {

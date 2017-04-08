@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alex on 05.04.2017.
+ * Created by Alexander Kingdon on 05.04.2017.
  */
 public class StatisticsLogic {
 
@@ -16,14 +16,14 @@ public class StatisticsLogic {
     private int similaritySpecifiedNumber = 0;
     private int iterations = 30;
 
-    public void setClonedBoard(DynamicBoard clonedBoard) {
+    protected void setClonedBoard(DynamicBoard clonedBoard) {
         this.clonedBoard = clonedBoard;
     }
 
-    public void setIterations(int iterations) {
+    protected void setIterations(int iterations) {
         this.iterations = iterations;
     }
-    public void setSimilaritySpecifiedNumber(int specifiedNumber) {
+    protected void setSimilaritySpecifiedNumber(int specifiedNumber) {
         similaritySpecifiedNumber = specifiedNumber;
     }
 
@@ -61,7 +61,10 @@ public class StatisticsLogic {
         return (int)Math.floor(phi * 100);
     }
 
-
+    /**
+     * This method does all the calculations needed to produce game statistics
+     * @return  An int[][] array containing the game statistics.
+     */
     public int[][] getStatistics() {
         int[][] stats = new int[3][iterations+1];
         int[][] similaritySpecifiedHelper = new int[iterations+1][iterations+1];
