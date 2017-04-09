@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -21,13 +22,16 @@ public class StatisticsController implements Initializable {
     private StatisticsLogic statisticsLogic;
     private StatisticsView statisticsView;
     private int iterations;
-    private int specifiedNumber;
+    private int similaritySpecifiedNumber;
 
     @FXML
     private TextField iterationValue;
 
     @FXML
     private LineChart<Number, Number> statisticsChart;
+
+    @FXML
+    private Label comparingGenerationLabel;
 
     protected void setClonedBoard(DynamicBoard clonedBoard) {
         statisticsLogic.setClonedBoard(clonedBoard);
@@ -43,22 +47,25 @@ public class StatisticsController implements Initializable {
         int[][] stats = statisticsLogic.getStatistics();
         XYChart.Series<Number, Number> livingCellsSeries = statisticsView.populateLivingCells(stats);
         XYChart.Series<Number, Number> changeInLivingCellsSeries = statisticsView.populateChangeInLivingCells(stats);
-        XYChart.Series<Number, Number> similarityMeasureSeries = statisticsView.populateSimilarityMeasure(stats);
+        XYChart.Series<Number, Number> similarityMeasureSeries = statisticsView.populateSimilarityMeasure(
+                stats, statisticsLogic.getHighestSimilarityNumber(), statisticsLogic.getSameOccurrencesHelper());
 
         statisticsChart.getData().addAll(livingCellsSeries, changeInLivingCellsSeries, similarityMeasureSeries);
     }
 
     /**
      * This method opens up a dialog window letting the user specify an iteration to compare similarity with.
+     * It also tells {@link StatisticsView} to create labels showing the information gathered.
      */
     public void getSpecifiedStatistics() {
         statisticsView = new StatisticsView();
-        specifiedNumber = statisticsView.createDialogWindow();
-        if (specifiedNumber > iterations) {
-            specifiedNumber = iterations;
+        similaritySpecifiedNumber = statisticsView.createDialogWindow();
+        if (similaritySpecifiedNumber > iterations) {
+            similaritySpecifiedNumber = iterations;
         }
-        statisticsLogic.setSimilaritySpecifiedNumber(specifiedNumber);
+        statisticsLogic.setSimilaritySpecifiedNumber(similaritySpecifiedNumber);
         getStatistics();
+        comparingGenerationLabel.setText(statisticsView.setComparingGenerationLabelText());
     }
 
     /**

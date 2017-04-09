@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -28,7 +27,7 @@
                   <Insets left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button minWidth="100.0" mnemonicParsing="false" onAction="#getSpecifiedStatistics" text="Compare iteration">
+            <Button minWidth="100.0" mnemonicParsing="false" onAction="#getSpecifiedStatistics" text="Compare generation">
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin>
@@ -65,7 +64,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Label>
-            <Label text="Compare iteration">
+            <Label text="Compare generation">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
@@ -88,16 +87,24 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </TextField>
+            <Label fx:id="comparingGenerationLabel">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" top="20.0" />
+               </VBox.margin>
+            </Label>
          </children>
       </VBox>
    </left>
    <center>
       <LineChart fx:id="statisticsChart" titleSide="BOTTOM" BorderPane.alignment="CENTER">
         <xAxis>
-          <NumberAxis fx:id="xAxis" side="BOTTOM" label="GoL evolution"/>
+          <NumberAxis label="GoL evolution" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxis" side="LEFT" />
+          <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
    </center>

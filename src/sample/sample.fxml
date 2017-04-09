@@ -93,7 +93,7 @@
                </VBox.margin></Button>
             <Button fx:id="viewStatistics" mnemonicParsing="false" onAction="#viewStatistics" text="View statistics">
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="15.0" />
                </VBox.margin>
             </Button>
          </children>

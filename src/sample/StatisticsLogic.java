@@ -15,6 +15,8 @@ public class StatisticsLogic {
     private final static double GAMMA = 0.25d;
     private int similaritySpecifiedNumber = 0;
     private int iterations = 30;
+    private List<Integer> sameOccurrencesHelper;
+    private int highestSimilarityNumber;
 
     protected void setClonedBoard(DynamicBoard clonedBoard) {
         this.clonedBoard = clonedBoard;
@@ -104,19 +106,23 @@ public class StatisticsLogic {
                 stats[2][i] = similarityCalculation(similarityMeasureHelper[i], similarityMeasureHelper[i + 1]);
             }
             // Correcting last value - cannot compare with empty next value
-            stats[2][iterations-1] = similarityCalculation(similarityMeasureHelper[iterations-1], similarityMeasureHelper[iterations-2]);
+            stats[2][iterations-1] = similarityCalculation(
+                    similarityMeasureHelper[iterations-1], similarityMeasureHelper[iterations-2]);
+
         } else {
             for (int i = 0; i < iterations; i++) {
                 similaritySpecifiedHelper[i][0] = i;
-                similaritySpecifiedHelper[i][1] = similarityCalculation(similarityMeasureHelper[similaritySpecifiedNumber],
+                similaritySpecifiedHelper[i][1] =
+                        similarityCalculation(similarityMeasureHelper[similaritySpecifiedNumber],
                         similarityMeasureHelper[i]);
             }
             // Cannot compare with the same iteration
             similaritySpecifiedHelper[similaritySpecifiedNumber][1] = 0;
 
             // Find the highest similarity
-            int highestSimilarityNumber = similaritySpecifiedHelper[0][1];
-            List<Integer> sameOccurrencesHelper = new ArrayList<>(1);
+            highestSimilarityNumber = similaritySpecifiedHelper[0][1];
+            //List<Integer>
+            sameOccurrencesHelper = new ArrayList<>(1);
 
             for (int i = 0; i < iterations; i++) {
                 if (similaritySpecifiedHelper[i][1] > highestSimilarityNumber) {
@@ -155,5 +161,13 @@ public class StatisticsLogic {
             ", found in iteration: " + similaritySpecifiedHelper[j][0]);
         }*/
         return stats;
+    }
+
+    protected int getHighestSimilarityNumber() {
+        return highestSimilarityNumber;
+    }
+
+    protected List<Integer> getSameOccurrencesHelper() {
+        return sameOccurrencesHelper;
     }
 }

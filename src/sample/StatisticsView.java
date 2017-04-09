@@ -2,8 +2,10 @@ package sample;
 
 
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,6 +14,7 @@ import java.util.Optional;
 public class StatisticsView {
 
     private int specifiedIteration;
+    private int highestSimilarity;
 
     /**
      * This method creates a dialog window where the user can input a specified iteration.
@@ -76,13 +79,20 @@ public class StatisticsView {
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
      * @return  Fully populated series ready to be applied to the line chart.
      */
-    protected XYChart.Series<Number, Number> populateSimilarityMeasure(int[][] stats) {
+    protected XYChart.Series<Number, Number> populateSimilarityMeasure(
+            int[][] stats, int highestSimilarity, List<Integer> highestSimilarityGenerations) {
+
+        this.highestSimilarity = highestSimilarity;
         XYChart.Series<Number, Number> similarityMeasureSeries = new XYChart.Series<>();
         similarityMeasureSeries.setName("Similarity measure");
         for (int i = 0; i < stats[2].length; i ++) {
             similarityMeasureSeries.getData().add(new XYChart.Data<>(i, stats[2][i]));
         }
         if (specifiedIteration != 0) {
+            for (Integer generations : highestSimilarityGenerations) {
+                Label generationLabel = new Label(Integer.toString(highestSimilarity) + "%");
+                similarityMeasureSeries.getData().get(generations).setNode(generationLabel);
+            }
             similarityMeasureSeries.getData().remove(specifiedIteration);
             similarityMeasureSeries.getData().remove(stats[2].length - 2);
             return similarityMeasureSeries;
@@ -91,5 +101,10 @@ public class StatisticsView {
         similarityMeasureSeries.getData().remove(stats[2].length - 1);
 
         return similarityMeasureSeries;
+    }
+
+    protected String setComparingGenerationLabelText() {
+        return "Comparing generation: " + specifiedIteration + "\n" +
+                "Highest similarity found: " + highestSimilarity + "%";
     }
 }
