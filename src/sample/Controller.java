@@ -174,6 +174,7 @@ public class Controller implements Initializable{
 
             window3DGame.setScene(gol3DScene);
             window3DGame.setTitle("Game of Life 3D");
+            window3DGame.getIcons().add(new Image("icons/gol_icon.png"));
             window3DGame.showAndWait();
             pauseGame();
         } catch(IOException e){
