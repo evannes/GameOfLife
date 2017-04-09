@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -154,6 +155,7 @@ public class Controller implements Initializable{
 
             ruleWindowStage.setScene(ruleWindowScene);
             ruleWindowStage.setTitle("Rule selection");
+            ruleWindowStage.getIcons().add(new Image("icons/gol_icon.png"));
             ruleWindowStage.showAndWait();
             pauseGame();
         } catch (IOException ioe) {
@@ -204,6 +206,7 @@ public class Controller implements Initializable{
 
                 statisticsWindowStage.setScene(statisticsWindowScene);
                 statisticsWindowStage.setTitle("View game statistics");
+                statisticsWindowStage.getIcons().add(new Image("icons/gol_icon.png"));
                 statisticsWindowStage.showAndWait();
             } catch (CloneNotSupportedException cnse) {
                 return;
