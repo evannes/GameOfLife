@@ -4,6 +4,7 @@ import sample.FileHandling;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 
 /**
  * @author Miina Lervik
@@ -88,7 +89,7 @@ class testReadPatternFunctions {
     }
 
     /**
-     * This method parses the .rle file from either {@link testReadPatternFromDisk#testPatternString(File)} or
+     * This method parses the .rle file from either {@link testReadPatternFromDisk#testPatternString(Path)} or
      * {@link testReadPatternFromURL#testPatternString(URL)} into an array ready to be applied to the game board.
      * @param patternString     The string representation of an .rle file.
      * @return                  The pattern array in a ready-to-be-applied format for the game board.
