@@ -8,8 +8,16 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    Stage primaryStage;
+
+    public Stage getPrimaryStage(){
+        return primaryStage;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        this.primaryStage = primaryStage;
 
         Parent root = FXMLLoader.load(getClass().getResource("view3D.fxml"));
         Scene scene = new Scene(root,1200,650);

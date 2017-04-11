@@ -64,7 +64,7 @@ public class CubeBoardManager3D {
         animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    //cubeBoard3D.nextCubeGeneration();
+                    cubeBoard3D.nextGeneration();
                     changeBoard();
                     time = System.nanoTime();
                 }
@@ -78,6 +78,7 @@ public class CubeBoardManager3D {
     }
 
     public void initBoxArrays(){
+        // 3D-vector lagrer x,y og z-transforms
         boxBoard1 = createBoxes(boxBoard1,0,-53,0,53,0,53,true,false);
         boxBoard2 = createBoxes(boxBoard2,0,0,-53,53,53,0,false,true);
         boxBoard3 = createBoxes(boxBoard3,0,1590,0,53,0,53,true,false);
@@ -93,11 +94,9 @@ public class CubeBoardManager3D {
                 if(cubeBoard3D.getBoard2().get(i).get(j)){
                     setPurpleMaterial(currentBox);
                     currentBox.setDepth(cellSize + 50);
-                    //currentBox.setTranslateY(boxY-25);
                 } else {
                     setBlueMaterial(currentBox);
                     currentBox.setDepth(cellSize);
-                    //currentBox.setTranslateY(boxY);
                 }
             }
         }
@@ -182,46 +181,6 @@ public class CubeBoardManager3D {
         }
     }
 
-    // inneholder boxer.. changeBoard, setPurpleMaterial, createBoxes
-
-
-
-
-
-
-
-
-    public void createBoxes(){
-
-        boardBoxes = new ArrayList<List<Box>>();
-
-        for(int i = 0; i < boardSize; i++) {
-            boardBoxes.add(i, new ArrayList<Box>(boardSize));
-        }
-
-        for(int i = 0; i < boardSize; i++){
-            for(int j = 0; j < boardSize; j++){
-                Box box = new Box(cellSize,cellSize,cellSize);
-                boardBoxes.get(i).add(j,box);
-
-                if(j%2==0){
-                    setBlueMaterial(box);
-                } else {
-                    setPurpleMaterial(box);
-                }
-
-                box.setTranslateX(boxX);
-                box.setTranslateY(boxY);
-                box.setTranslateZ(boxZ);
-                group.getChildren().add(box);
-                boxX += 53;
-            }
-            boxX = 0;
-            boxZ += 53;
-        }
-        board3D.initStartBoard();
-    }
-
     public void setBlueMaterial(Box box){
         blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
@@ -259,15 +218,6 @@ public class CubeBoardManager3D {
      * The method starting the animation of the board
      */
     public void start() {
-        isRunning = true;
-    }
-
-    /**
-     * The method starting the game over again with the preset pattern.
-     */
-    public void newGame() {
-        clearBoard();
-        board3D.defaultStartBoard();
         isRunning = true;
     }
 
@@ -318,6 +268,4 @@ public class CubeBoardManager3D {
         board3D.clearBoard();
         isClearing = true;
     }
-
-
 }
