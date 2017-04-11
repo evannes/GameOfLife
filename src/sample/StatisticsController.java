@@ -34,7 +34,7 @@ public class StatisticsController implements Initializable {
     @FXML
     private Label comparingGenerationLabel;
 
-    protected void setClonedBoard(DynamicBoard clonedBoard) {
+    void setClonedBoard(DynamicBoard clonedBoard) {
         statisticsLogic.setClonedBoard(clonedBoard);
     }
 
@@ -83,7 +83,7 @@ public class StatisticsController implements Initializable {
 
     public void createGIF() throws Exception {
         getGIFStatistics();
-        statisticsGIF.writeGif(statisticsLogic.getGifBoard(), iterations, statisticsLogic.getSimilarOccurrencesHelper());
+        statisticsGIF.writeGif(statisticsLogic.getGifBoard(), statisticsLogic.getSimilarOccurrencesHelper());
     }
 
     /**

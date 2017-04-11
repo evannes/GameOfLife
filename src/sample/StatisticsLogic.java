@@ -21,28 +21,25 @@ public class StatisticsLogic {
     private boolean createGIF = false;
     private List<Integer> similarOccurrencesHelper;
 
-    protected void setClonedBoard(DynamicBoard clonedBoard) {
+    void setClonedBoard(DynamicBoard clonedBoard) {
         this.clonedBoard = clonedBoard;
     }
-    protected DynamicBoard getClonedBoard() {
-        return this.clonedBoard;
-    }
-    protected DynamicBoard getGifBoard() {
+    DynamicBoard getGifBoard() {
         return this.gifBoard;
     }
 
-    protected void setIterations(int iterations) {
+    void setIterations(int iterations) {
         this.iterations = iterations;
     }
-    protected void setSimilaritySpecifiedNumber(int specifiedNumber) {
+    void setSimilaritySpecifiedNumber(int specifiedNumber) {
         similaritySpecifiedNumber = specifiedNumber;
     }
 
-    protected void setCreateGIF() {
+    void setCreateGIF() {
         createGIF = true;
     }
 
-    protected boolean getCreateGIF() {
+    boolean getCreateGIF() {
         return createGIF;
     }
 
@@ -84,7 +81,7 @@ public class StatisticsLogic {
      * This method does all the calculations needed to produce game statistics
      * @return  An int[][] array containing the game statistics.
      */
-    public int[][] getStatistics() {
+    int[][] getStatistics() {
         try {
             gifBoard = clonedBoard.clone();
         } catch (CloneNotSupportedException e) {
@@ -150,7 +147,7 @@ public class StatisticsLogic {
             similaritySpecifiedHelper[similaritySpecifiedNumber][1] = 0;
 
             if (!createGIF) {
-                System.out.println("Inne i not create gif");
+                //System.out.println("Inne i not create gif");
                 // Find the highest similarity
                 highestSimilarityNumber = similaritySpecifiedHelper[0][1];
                 //List<Integer>
@@ -184,8 +181,8 @@ public class StatisticsLogic {
                 }
                 System.out.println("");
             } else {
-                System.out.println("Inne i create gif");
-                highestSimilarityNumber = 90;
+                //System.out.println("Inne i create gif");
+                highestSimilarityNumber = 98;
                 similarOccurrencesHelper = new ArrayList<>(1);
 
                 for (int j = 0; j < iterations; j++) {
@@ -193,9 +190,9 @@ public class StatisticsLogic {
                         similarOccurrencesHelper.add(j);
                     }
                 }
-                for (int k : similarOccurrencesHelper) {
-                    System.out.println("Verdi: " + k);
-                }
+                //for (int k : similarOccurrencesHelper) {
+                //    System.out.println("Verdi: " + k);
+                //}
             }
         }
         // used to print out all collected data
@@ -208,14 +205,14 @@ public class StatisticsLogic {
         return stats;
     }
 
-    protected int getHighestSimilarityNumber() {
+    int getHighestSimilarityNumber() {
         return highestSimilarityNumber;
     }
 
-    protected List<Integer> getSameOccurrencesHelper() {
+    List<Integer> getSameOccurrencesHelper() {
         return sameOccurrencesHelper;
     }
-    protected List<Integer> getSimilarOccurrencesHelper() {
+    List<Integer> getSimilarOccurrencesHelper() {
         return similarOccurrencesHelper;
     }
 }
