@@ -69,6 +69,7 @@ public class StatisticsController implements Initializable {
         statisticsLogic.setSimilaritySpecifiedNumber(similaritySpecifiedNumber);
         getStatistics();
         comparingGenerationLabel.setText(statisticsView.setComparingGenerationLabelText());
+        statisticsLogic.setSimilaritySpecifiedNumber(0);
     }
 
     private void getGIFStatistics() {
@@ -79,6 +80,7 @@ public class StatisticsController implements Initializable {
         statisticsLogic.setSimilaritySpecifiedNumber(similaritySpecifiedNumber);
         statisticsLogic.setCreateGIF();
         getStatistics();
+        statisticsLogic.unsetCreateGIF();
     }
 
     public void createGIF() throws Exception {

@@ -38,6 +38,11 @@ public class StatisticsLogic {
     void setCreateGIF() {
         createGIF = true;
     }
+    void unsetCreateGIF() {
+        if (createGIF) {
+            createGIF = false;
+        }
+    }
 
     boolean getCreateGIF() {
         return createGIF;
