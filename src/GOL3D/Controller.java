@@ -1,5 +1,6 @@
 package GOL3D;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -114,8 +116,10 @@ public class Controller implements Initializable {
     /**
      * Exits the game.
      */
-    public void exitGame(){
-        boardManager3D.exitGame();
+    public void exitGame(ActionEvent event) {
+        //((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+
+        //boardManager3D.exitGame();
     }
 
     public void initBoard(){

@@ -30,6 +30,8 @@ public class BoardManager {
     private boolean drawRandomColors;
     private double drawScale = 1;
     private double gridSize = 0.1;
+    private double startingPointX;
+    private double startingPointY;
     private int speed;
     private Color cellColor = Color.LIGHTSEAGREEN;
     private Color gridColor = Color.GRAY;
@@ -95,8 +97,8 @@ public class BoardManager {
                     gc.setFill(boardColor);
                 }
 
-                double cellX = cellHeight * i;
-                double cellY = cellWidth * j;
+                double cellX = (cellHeight * i)-startingPointX;
+                double cellY = (cellWidth * j)-startingPointY;
 
                 gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
             }
@@ -128,6 +130,10 @@ public class BoardManager {
     protected void setDrawScale(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
+        double fullBoardWidth = canvas.getWidth()*drawScale;
+        startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
+        double fullBoardHeight = canvas.getHeight()*drawScale;
+        startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
     }
 
     /**

@@ -160,7 +160,13 @@ public class CubeBoard3D {
      *                  and not exceeding the board array
      */
     private boolean isActiveCell(int i, int j) {
-        return inBounds(i, j) && getValue(i,j) == true;
+        List<List<Boolean>> activeBoard = inBounds(i,j);
+        if(activeBoard!=null){
+            return checkActiveBoardValue(activeBoard,i,j);
+        } else {
+            return false;
+        }
+        //return inBounds(i, j) && getValue(i,j) == true;
     }
 
     /**
@@ -169,16 +175,47 @@ public class CubeBoard3D {
      * @param j         the second column index of the array
      * @return          <code>false</code> if the position is exceeding the board array
      */
-    private boolean inBounds(int i, int j){
-        if(i == -1 || j == -1){
-            return false;
+    private List<List<Boolean>> inBounds(int i, int j){
+        // method "inBoard"??
+        // "hardkodet" versjon med kun board2
+        if(i == -1 && j == -1){
+            return null;
         }
 
-        if(i >= getWidth() || j >= getHeight()){
-            return false;
+        if(i == -1 && j > -1){
+            return board6;
         }
 
-        return true;
+        if(i > -1 && j == -1){
+            return board1;
+        }
+
+        if(i >= boardSize && j >= boardSize){
+            return null;
+        }
+
+        if(i >= boardSize && j < boardSize){
+            return board5;
+        }
+
+        if(i < boardSize && j >= boardSize){
+            return board3;
+        }
+
+        return board2;
+    }
+
+    public boolean checkActiveBoardValue(List<List<Boolean>> board,int i,int j){
+        if(i < 0){
+            if(board.get(0).get(j)) {
+                return true;
+            }
+        }else{
+            if(board.get(0).get(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setValue(int x, int y, boolean value) {

@@ -18,7 +18,7 @@
    <children>
       <BorderPane fx:id="borderpane" prefHeight="650.0" prefWidth="1200.0">
          <left>
-            <VBox prefHeight="650.0" prefWidth="150.0" style="-fx-background-color: #575757;" BorderPane.alignment="CENTER">
+            <VBox prefHeight="650.0" prefWidth="150.0" style="-fx-background-color: #41878C;" BorderPane.alignment="CENTER">
                <children>
                   <Button mnemonicParsing="false" onAction="#start" prefWidth="80.0" text="Start">
                      <VBox.margin>
@@ -26,12 +26,22 @@
                      </VBox.margin></Button>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Rotate" textFill="WHITE">
                      <VBox.margin>
-                        <Insets left="40.0" top="10.0" />
+                        <Insets left="60.0" top="10.0" />
                      </VBox.margin></Label>
                   <Slider fx:id="rotateView" max="360.0">
                      <VBox.margin>
                         <Insets left="5.0" />
                      </VBox.margin></Slider>
+                  <Label text="Set speed:" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets left="50.0" top="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Slider max="10.0">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </Slider>
                   <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseGame" prefWidth="80.0" text="Pause">
                      <VBox.margin>
                         <Insets left="40.0" top="15.0" />
@@ -58,12 +68,12 @@
                       <MenuItem mnemonicParsing="false" onAction="#selectPatternFromURL" text="URL" />
                     </items>
                      <VBox.margin>
-                        <Insets left="10.0" top="15.0" />
+                        <Insets left="5.0" top="15.0" />
                      </VBox.margin>
                   </MenuButton>
                   <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="80.0" text="Exit">
                      <VBox.margin>
-                        <Insets left="40.0" top="300.0" />
+                        <Insets left="40.0" top="280.0" />
                      </VBox.margin>
                   </Button>
                </children>
