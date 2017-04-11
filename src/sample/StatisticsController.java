@@ -21,6 +21,7 @@ public class StatisticsController implements Initializable {
     @FXML
     private StatisticsLogic statisticsLogic;
     private StatisticsView statisticsView;
+    private StatisticsGIF statisticsGIF;
     private int iterations;
     private int similaritySpecifiedNumber;
 
@@ -45,12 +46,14 @@ public class StatisticsController implements Initializable {
             statisticsLogic.setIterations(iterations);
         }
         int[][] stats = statisticsLogic.getStatistics();
-        XYChart.Series<Number, Number> livingCellsSeries = statisticsView.populateLivingCells(stats);
-        XYChart.Series<Number, Number> changeInLivingCellsSeries = statisticsView.populateChangeInLivingCells(stats);
-        XYChart.Series<Number, Number> similarityMeasureSeries = statisticsView.populateSimilarityMeasure(
-                stats, statisticsLogic.getHighestSimilarityNumber(), statisticsLogic.getSameOccurrencesHelper());
+        if (!statisticsLogic.getCreateGIF()) {
+            XYChart.Series<Number, Number> livingCellsSeries = statisticsView.populateLivingCells(stats);
+            XYChart.Series<Number, Number> changeInLivingCellsSeries = statisticsView.populateChangeInLivingCells(stats);
+            XYChart.Series<Number, Number> similarityMeasureSeries = statisticsView.populateSimilarityMeasure(
+                    stats, statisticsLogic.getHighestSimilarityNumber(), statisticsLogic.getSameOccurrencesHelper());
 
-        statisticsChart.getData().addAll(livingCellsSeries, changeInLivingCellsSeries, similarityMeasureSeries);
+            statisticsChart.getData().addAll(livingCellsSeries, changeInLivingCellsSeries, similarityMeasureSeries);
+        }
     }
 
     /**
@@ -68,6 +71,21 @@ public class StatisticsController implements Initializable {
         comparingGenerationLabel.setText(statisticsView.setComparingGenerationLabelText());
     }
 
+    private void getGIFStatistics() {
+        similaritySpecifiedNumber = statisticsView.createDialogWindow();
+        if (similaritySpecifiedNumber > iterations) {
+            similaritySpecifiedNumber = iterations;
+        }
+        statisticsLogic.setSimilaritySpecifiedNumber(similaritySpecifiedNumber);
+        statisticsLogic.setCreateGIF();
+        getStatistics();
+    }
+
+    public void createGIF() throws Exception {
+        getGIFStatistics();
+        statisticsGIF.writeGif(statisticsLogic.getGifBoard(), iterations, statisticsLogic.getSimilarOccurrencesHelper());
+    }
+
     /**
      * Listener method for the cancel button.
      * @param event The event being triggered when the button is clicked.
@@ -79,9 +97,12 @@ public class StatisticsController implements Initializable {
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         statisticsLogic = new StatisticsLogic();
         statisticsView = new StatisticsView();
+        statisticsGIF = new StatisticsGIF();
 
         iterationValue.textProperty().addListener((observable, oldValue, value) -> {
-            iterations = Integer.parseInt(value);
+            if (Integer.parseInt(value) != 0) {
+                iterations = Integer.parseInt(value);
+            }
         });
 
         iterations = Integer.parseInt(iterationValue.getText());

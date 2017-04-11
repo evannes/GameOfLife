@@ -10,6 +10,7 @@ import java.util.List;
 public class StatisticsLogic {
 
     private DynamicBoard clonedBoard;
+    private DynamicBoard gifBoard;
     private final static double ALPHA = 0.5d;
     private final static double BETA = 3.0d;
     private final static double GAMMA = 0.25d;
@@ -17,9 +18,17 @@ public class StatisticsLogic {
     private int iterations = 30;
     private List<Integer> sameOccurrencesHelper;
     private int highestSimilarityNumber;
+    private boolean createGIF = false;
+    private List<Integer> similarOccurrencesHelper;
 
     protected void setClonedBoard(DynamicBoard clonedBoard) {
         this.clonedBoard = clonedBoard;
+    }
+    protected DynamicBoard getClonedBoard() {
+        return this.clonedBoard;
+    }
+    protected DynamicBoard getGifBoard() {
+        return this.gifBoard;
     }
 
     protected void setIterations(int iterations) {
@@ -27,6 +36,14 @@ public class StatisticsLogic {
     }
     protected void setSimilaritySpecifiedNumber(int specifiedNumber) {
         similaritySpecifiedNumber = specifiedNumber;
+    }
+
+    protected void setCreateGIF() {
+        createGIF = true;
+    }
+
+    protected boolean getCreateGIF() {
+        return createGIF;
     }
 
     private int countAlive() {
@@ -68,6 +85,12 @@ public class StatisticsLogic {
      * @return  An int[][] array containing the game statistics.
      */
     public int[][] getStatistics() {
+        try {
+            gifBoard = clonedBoard.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Couldn't create cloned board for gif creation: " + e.getMessage());
+        }
+
         int[][] stats = new int[3][iterations+1];
         int[][] similaritySpecifiedHelper = new int[iterations+1][iterations+1];
         int[] livingCellsHelper = new int[iterations+1];
@@ -110,48 +133,70 @@ public class StatisticsLogic {
                     similarityMeasureHelper[iterations-1], similarityMeasureHelper[iterations-2]);
 
         } else {
+
             for (int i = 0; i < iterations; i++) {
                 similaritySpecifiedHelper[i][0] = i;
                 similaritySpecifiedHelper[i][1] =
                         similarityCalculation(similarityMeasureHelper[similaritySpecifiedNumber],
                         similarityMeasureHelper[i]);
             }
+
+            // Denne er for å se phi-verdien
+            //for (int j = 0; j < similaritySpecifiedHelper[j].length-1; j ++) {
+            //    System.out.println("sim 0: " + similaritySpecifiedHelper[j][0] + ", 1: " + similaritySpecifiedHelper[j][1]);
+            //}
+
             // Cannot compare with the same iteration
             similaritySpecifiedHelper[similaritySpecifiedNumber][1] = 0;
 
-            // Find the highest similarity
-            highestSimilarityNumber = similaritySpecifiedHelper[0][1];
-            //List<Integer>
-            sameOccurrencesHelper = new ArrayList<>(1);
+            if (!createGIF) {
+                System.out.println("Inne i not create gif");
+                // Find the highest similarity
+                highestSimilarityNumber = similaritySpecifiedHelper[0][1];
+                //List<Integer>
+                sameOccurrencesHelper = new ArrayList<>(1);
 
-            for (int i = 0; i < iterations; i++) {
-                if (similaritySpecifiedHelper[i][1] > highestSimilarityNumber) {
-                    highestSimilarityNumber = similaritySpecifiedHelper[i][1];
-                   // highestSimilarityIteration = i;
+                for (int i = 0; i < iterations; i++) {
+                    if (similaritySpecifiedHelper[i][1] > highestSimilarityNumber) {
+                        highestSimilarityNumber = similaritySpecifiedHelper[i][1];
+                        // highestSimilarityIteration = i;
+                    }
+                }
+
+                // Find other occurrences of the same similarity
+                for (int j = 0; j < iterations; j++) {
+                    if (similaritySpecifiedHelper[j][1] == highestSimilarityNumber) {
+                        sameOccurrencesHelper.add(j);
+                    }
+                }
+
+                // Finally, add the data back to the original array
+                for (int k = 0; k < iterations; k++) {
+                    stats[2][k] = similaritySpecifiedHelper[k][1];
+                }
+
+                // used to print data concerning a specified iteration
+                System.out.println("Compare with iteration: " + similaritySpecifiedNumber);
+                System.out.print("The highest similarity measure found was " + highestSimilarityNumber +
+                        ", found in the following generations: ");
+                for (Integer generations : sameOccurrencesHelper) {
+                    System.out.print(generations + ", ");
+                }
+                System.out.println("");
+            } else {
+                System.out.println("Inne i create gif");
+                highestSimilarityNumber = 90;
+                similarOccurrencesHelper = new ArrayList<>(1);
+
+                for (int j = 0; j < iterations; j++) {
+                    if (similaritySpecifiedHelper[j][1] >= highestSimilarityNumber) {
+                        similarOccurrencesHelper.add(j);
+                    }
+                }
+                for (int k : similarOccurrencesHelper) {
+                    System.out.println("Verdi: " + k);
                 }
             }
-
-            // Find other occurrences of the same similarity
-            for (int j = 0; j < iterations; j++) {
-                if (similaritySpecifiedHelper[j][1] == highestSimilarityNumber) {
-                    sameOccurrencesHelper.add(j);
-                }
-            }
-
-            // Finally, add the data back to the original array
-            for (int k = 0; k < iterations; k ++) {
-                stats[2][k] = similaritySpecifiedHelper[k][1];
-            }
-
-            // used to print data concerning a specified iteration
-            System.out.println("Compare with iteration: " + similaritySpecifiedNumber);
-            System.out.print("The highest similarity measure found was " + highestSimilarityNumber +
-            ", found in the following generations: ");
-            for (Integer generations : sameOccurrencesHelper) {
-                System.out.print(generations + ", ");
-            }
-            System.out.println("");
-
         }
         // used to print out all collected data
         /*for (int j = 0; j < iterations + 1; j++) {
@@ -169,5 +214,8 @@ public class StatisticsLogic {
 
     protected List<Integer> getSameOccurrencesHelper() {
         return sameOccurrencesHelper;
+    }
+    protected List<Integer> getSimilarOccurrencesHelper() {
+        return similarOccurrencesHelper;
     }
 }

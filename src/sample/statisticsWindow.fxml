@@ -27,14 +27,19 @@
                   <Insets left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button minWidth="100.0" mnemonicParsing="false" onAction="#getSpecifiedStatistics" text="Compare generation">
+            <Button minWidth="130.0" mnemonicParsing="false" onAction="#getSpecifiedStatistics" text="Compare generation">
+               <HBox.margin>
+                  <Insets right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button minWidth="75.0" mnemonicParsing="false" onAction="#createGIF" text="Create GIF">
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin>
             </Button>
             <Button cancelButton="true" minWidth="100.0" mnemonicParsing="false" onAction="#cancelButton" text="Return to game">
                <HBox.margin>
-                  <Insets left="850.0" top="10.0" />
+                  <Insets left="750.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
