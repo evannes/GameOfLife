@@ -226,6 +226,8 @@ public class Controller implements Initializable{
 
         boardManager.userDrawCell();
 
+
+
         changeSpeed.valueProperty().addListener(
                 (observable, oldValue, value) ->
                 {

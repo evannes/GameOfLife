@@ -13,6 +13,7 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -37,7 +38,39 @@ public class FileHandling {
     }
 
     /**
+     * Method used for reading a local file.
+     * @param fileLocation  the <code>String</code> cotaining the path to the rle-file
+     * @return  the boolean two-dimensional array corresponding to the code from the rle-file.
+     */
+    public boolean[][] readLocalFile(String fileLocation) {
+        Path file = Paths.get(
+                fileLocation).toAbsolutePath();
+        try {
+            BufferedReader reader = Files.newBufferedReader(file, charset);
+            String currentLine = null;
+            String patternString = "";
+
+            while ((currentLine = reader.readLine()) != null) {
+                patternString += currentLine + "\n";
+            }
+            String code = getCode(patternString);
+            int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
+            int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
+            String expandedCode = expand(code);
+            boardArray = createArray(expandedCode, x, y);
+        } catch (IOException ioe) {
+            showErrorMessage("There was an error getting the pattern file", ioe);
+        }
+        if (file != null) {
+            return boardArray;
+        }
+
+        return null;
+    }
+
+    /**
      * Method for reading pattern files from disk.
+     * @return the boolean two-dimensional array corresponding to the code from the rle-file.
      */
     public boolean[][] readPatternFromDisk() {
         FileChooser fileChooser = new FileChooser();
@@ -81,6 +114,7 @@ public class FileHandling {
 
     /**
      * Method for reading pattern files from URL.
+     * @return the boolean two-dimensional array corresponding to the code from the rle-file.
      */
     public boolean[][] readPatternFromURL() {
         TextInputDialog dialog = new TextInputDialog();
