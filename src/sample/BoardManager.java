@@ -142,8 +142,10 @@ public class BoardManager {
      */
     public void newGame() {
         clearBoard();
-        board.defaultStartBoard();
-        isRunning = true;
+        boolean[][] array = fileHandling.readLocalFile("src/sample/patterns/halfmax.rle");
+        selectPatternLogic(array);
+        //board.defaultStartBoard();
+        //isRunning = true;
     }
 
     /**
