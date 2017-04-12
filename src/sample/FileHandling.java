@@ -170,7 +170,7 @@ public class FileHandling {
      * @return      the <code>String</code> containing only the code related to the cell state
      */
     public String getCode(String fileContent) {
-        String regex = "(\\$*[ob0-9]+\\$)+([ob0-9]+[\\$!]*)+";
+        String regex = "^[\\$ob0-9]+[!]*$";
         Pattern pattern = Pattern.compile(regex);
         StringBuilder cellPositionCode = new StringBuilder();
 
