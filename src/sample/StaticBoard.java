@@ -20,6 +20,7 @@ public class StaticBoard extends Board {
     public StaticBoard(int width, int height) {
         super(width, height);
         staticBoardArray = new boolean[defaultWidth][defaultHeight];
+        clone = new boolean[defaultWidth][defaultHeight];
     }
 
     @Override
@@ -48,11 +49,10 @@ public class StaticBoard extends Board {
     }
 
     @Override
-    public void createClone() {
-        clone = new boolean[getWidth()][getHeight()];
+    public void clearClone() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
-                clone[i][j] = getValue(i, j);
+                clone[i][j] = false;
             }
         }
     }

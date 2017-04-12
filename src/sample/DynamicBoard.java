@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class DynamicBoard extends Board {
     private int original_x_size;
     private int original_y_size;
-    public List<List<Boolean>> dynamicBoardArray = new ArrayList<List<Boolean>>(160);
+    public List<List<Boolean>> dynamicBoardArray;
     public List<List<Boolean>> clone;
 
     /**
@@ -34,15 +34,22 @@ public class DynamicBoard extends Board {
      * The method initializing the board with all values set to false.
      */
     public void initStartBoard(){
-        for(int i = 0; i < defaultWidth; i++) {
-            dynamicBoardArray.add(i, new ArrayList<Boolean>(defaultHeight));
-        }
+        dynamicBoardArray = getBoard(defaultWidth, defaultHeight);
+        clone = getBoard(defaultWidth, defaultHeight);
+    }
 
-        for(int i = 0; i < defaultWidth; i++){
-            for(int j = 0; j < defaultHeight; j++){
-                dynamicBoardArray.get(i).add(j,false);
+    private List<List<Boolean>> getBoard(int x, int y) {
+        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
+
+        for(int i = 0; i < x; i++) {
+            tmp.add(new ArrayList<>(y));
+
+            for(int j = 0; j < y; j++) {
+                tmp.get(i).add(j, false);
             }
         }
+
+        return tmp;
     }
 
     @Override
@@ -80,38 +87,25 @@ public class DynamicBoard extends Board {
     }
 
     @Override
-    public void createClone() {
-        clone = new ArrayList<List<Boolean>>(getWidth());
-
-        for(int i = 0; i < getWidth(); i++) {
-            clone.add(new ArrayList<>(getHeight()));
-
-            for(int j = 0; j < getHeight(); j++) {
-                clone.get(i).add(j, getValue(i, j));
-            }
-        }
-    }
-
-    @Override
     public void setCloneValue(int x, int y, boolean value) {
         clone.get(x).set(y, value);
     }
 
     @Override
     public void switchBoard() {
-        for(int i = 0; i < getWidth(); i++) {
-            for(int j = 0; j < getHeight(); j++) {
-                setValue(i, j, clone.get(i).get(j));
-            }
-        }
+        List<List<Boolean>> tmp = dynamicBoardArray;
+        dynamicBoardArray = clone;
+        clone = tmp;
     }
 
-    /**
-     * The method resetting all values of the board to false
-     */
+    @Override
     public void clearBoard() {
-        
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
+    }
+
+    @Override
+    public void clearClone() {
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setCloneValue(i, j, false)));
     }
 
 
@@ -160,22 +154,23 @@ public class DynamicBoard extends Board {
             sizeErrorAlert.setTitle("Error with size of pattern");
             sizeErrorAlert.setHeaderText("The pattern is too large for the board");
             sizeErrorAlert.showAndWait();
-        } else {
-            resize(inputArray.size(), inputArray.get(0).size());
+            return;
+        }
 
-            //clear previous pattern
-            clearBoard();
+        resize(inputArray.size(), inputArray.get(0).size());
 
-            //find the corner to start placing the pattern
-            int xStartIndex = (dynamicBoardArray.size() - inputArray.size()) / 2;
-            int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size()) / 2;
+        //clear previous pattern
+        clearBoard();
 
-            // set new pattern in middle of board
-            for (int i = 0; i < inputArray.size(); i++) {
-                for (int j = 0; j < inputArray.get(0).size(); j++) {
-                    Boolean value = inputArray.get(i).get(j);
-                    setValue(i + xStartIndex, j + yStartIndex, value);
-                }
+        //find the corner to start placing the pattern
+        int xStartIndex = (dynamicBoardArray.size() - inputArray.size()) / 2;
+        int yStartIndex = (dynamicBoardArray.get(0).size() - inputArray.get(0).size()) / 2;
+
+        // set new pattern in middle of board
+        for (int i = 0; i < inputArray.size(); i++) {
+            for (int j = 0; j < inputArray.get(0).size(); j++) {
+                Boolean value = inputArray.get(i).get(j);
+                setValue(i + xStartIndex, j + yStartIndex, value);
             }
         }
     }
@@ -203,15 +198,7 @@ public class DynamicBoard extends Board {
         width = Math.max(width, defaultWidth);
 
         // create new board with new size
-        List<List<Boolean>> newArray = new ArrayList<List<Boolean>>(width);
-
-        for (int i = 0; i < width; i++) {
-            ArrayList<Boolean> column = new ArrayList<Boolean>(height);
-            for(int j = 0; j < height; j++) {
-                column.add(false);
-            }
-            newArray.add(column);
-        }
+        List<List<Boolean>> newArray = getBoard(width, height);
 
         // sets value from dynamicBoard to the new array
         for(int i = 0; i < newArray.size() && i < defaultWidth; i++) {
@@ -222,15 +209,20 @@ public class DynamicBoard extends Board {
 
         // switching the arrays
         dynamicBoardArray = newArray;
+        clone = getBoard(width, height);
     }
 
     @Override
     public DynamicBoard clone() throws CloneNotSupportedException {
         DynamicBoard clonedBoard = (DynamicBoard) super.clone();
-        clonedBoard.createClone();
-        clonedBoard.dynamicBoardArray = clonedBoard.clone;
+        clonedBoard.dynamicBoardArray = getBoard(getWidth(), getHeight());
+
+        for (int i = 0; i < getWidth(); i++) {
+            for (int j = 0; j < getHeight(); j++) {
+                clonedBoard.setValue(i, j, getValue(i, j));
+            }
+        }
+
         return clonedBoard;
     }
-
-
 }

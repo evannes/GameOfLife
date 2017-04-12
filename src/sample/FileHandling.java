@@ -86,17 +86,7 @@ public class FileHandling {
 
                 Path inFile = selectedFile.toPath();
                 BufferedReader reader = Files.newBufferedReader(inFile, charset);
-                String currentLine = null;
-                String patternString = "";
-
-                while ((currentLine = reader.readLine()) != null) {
-                    patternString += currentLine + "\n";
-                }
-                String code = getCode(patternString);
-                int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
-                int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
-                String expandedCode = expand(code);
-                boardArray = createArray(expandedCode, x, y);
+                boardArray = getBoardArray(reader);
             } else {
                 throw new FileNotFoundException("Cancel was pressed - File");
             }
@@ -131,18 +121,7 @@ public class FileHandling {
                     URL url = new URL(enteredURL);
                     URLConnection conn = url.openConnection();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String currentLine = null;
-                    String patternString = "";
-
-                    while ((currentLine = reader.readLine()) != null) {
-                        patternString += currentLine + "\n";
-                    }
-
-                    String code = getCode(patternString);
-                    int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
-                    int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
-                    String expandedCode = expand(code);
-                    boardArray = createArray(expandedCode, x, y);
+                    boardArray = getBoardArray(reader);
                 } else {
                     throw new Exception("You tried to use a different file format. \n" +
                             "Only .rle files are allowed.");
@@ -162,6 +141,20 @@ public class FileHandling {
             return boardArray;
         }
         return null;
+    }
+
+    public boolean[][] getBoardArray(BufferedReader reader) throws IOException {
+        String currentLine = null;
+        String patternString = "";
+
+        while ((currentLine = reader.readLine()) != null) {
+            patternString += currentLine + "\n";
+        }
+        String code = getCode(patternString);
+        int x = Integer.parseInt(getMatchGroup(patternString, "x = (\\d+)", 1));
+        int y = Integer.parseInt(getMatchGroup(patternString, "y = (\\d+)", 1));
+        String expandedCode = expand(code);
+        return createArray(expandedCode, x, y);
     }
 
     /**

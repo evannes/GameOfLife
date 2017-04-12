@@ -63,11 +63,6 @@ public abstract class Board implements Cloneable {
     public abstract void toggleValue(int x, int y);
 
     /**
-     * Creating a clone of the board.
-     */
-    public abstract void createClone();
-
-    /**
      * The method making the board equals to the clone.
      */
     public abstract void switchBoard();
@@ -80,13 +75,21 @@ public abstract class Board implements Cloneable {
      */
     public abstract void setCloneValue(int x, int y, boolean value);
 
+    /**
+     * Sets all values of the board to false.
+     */
     public abstract void clearBoard();
+
+    /**
+     * Sets all values of the clone to false.
+     */
+    public abstract void clearClone();
 
     /**
      * The method creating the next generation of cells to be drawn or removed.
      */
     public void nextGeneration() {
-        createClone();
+        clearClone();
 
         for(int i = 0; i < getWidth(); i++){
             for(int j = 0; j < getHeight(); j++){
@@ -97,7 +100,6 @@ public abstract class Board implements Cloneable {
         }
         switchBoard();
     }
-
 
     /**
      * The method counting the alive cells surrounding the appointed cell
