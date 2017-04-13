@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
  * @author Elise Vannes
  * @author Alexander Kingdon
  */
+@Deprecated
 public class StaticBoard extends Board {
     //The canvas is 800 defaultWidth 500 px so in order to create square cells the array must maintain a similar ratio
     public boolean[][] staticBoardArray;
