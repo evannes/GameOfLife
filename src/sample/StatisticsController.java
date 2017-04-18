@@ -73,19 +73,25 @@ public class StatisticsController implements Initializable {
     }
 
     private void getGIFStatistics() {
-        similaritySpecifiedNumber = statisticsView.createDialogWindow();
-        if (similaritySpecifiedNumber > iterations) {
-            similaritySpecifiedNumber = iterations;
-        }
-        statisticsLogic.setSimilaritySpecifiedNumber(similaritySpecifiedNumber);
         statisticsLogic.setCreateGIF();
         getStatistics();
         statisticsLogic.unsetCreateGIF();
     }
 
-    public void createGIF() throws Exception {
+    /*public void createGIF() throws Exception {
+        similaritySpecifiedNumber = statisticsView.createDialogWindow();
+        if (similaritySpecifiedNumber > iterations) {
+            similaritySpecifiedNumber = iterations;
+        }
+        statisticsLogic.setSimilaritySpecifiedNumber(similaritySpecifiedNumber);
         getGIFStatistics();
         statisticsGIF.writeGif(statisticsLogic.getGifBoard(), statisticsLogic.getSimilarOccurrencesHelper());
+    }*/
+
+    public void createRandomGIF() throws Exception {
+        getGIFStatistics();
+        statisticsGIF.writeGif(
+                statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
     }
 
     /**

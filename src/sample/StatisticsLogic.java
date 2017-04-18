@@ -19,7 +19,8 @@ public class StatisticsLogic {
     private List<Integer> sameOccurrencesHelper;
     private int highestSimilarityNumber;
     private boolean createGIF = false;
-    private List<Integer> similarOccurrencesHelper;
+    //private List<Integer> similarOccurrencesHelper;
+    private List<Integer> similaritiesOver98;
 
     void setClonedBoard(DynamicBoard clonedBoard) {
         this.clonedBoard = clonedBoard;
@@ -27,14 +28,24 @@ public class StatisticsLogic {
     DynamicBoard getGifBoard() {
         return this.gifBoard;
     }
-
     void setIterations(int iterations) {
         this.iterations = iterations;
     }
     void setSimilaritySpecifiedNumber(int specifiedNumber) {
         similaritySpecifiedNumber = specifiedNumber;
     }
-
+    int getHighestSimilarityNumber() {
+        return highestSimilarityNumber;
+    }
+    List<Integer> getSameOccurrencesHelper() {
+        return sameOccurrencesHelper;
+    }
+    /*List<Integer> getSimilarOccurrencesHelper() {
+        return similarOccurrencesHelper;
+    }*/
+    List<Integer> getSimilaritiesOver98() {
+        return similaritiesOver98;
+    }
     void setCreateGIF() {
         createGIF = true;
     }
@@ -43,7 +54,6 @@ public class StatisticsLogic {
             createGIF = false;
         }
     }
-
     boolean getCreateGIF() {
         return createGIF;
     }
@@ -134,28 +144,28 @@ public class StatisticsLogic {
             stats[2][iterations-1] = similarityCalculation(
                     similarityMeasureHelper[iterations-1], similarityMeasureHelper[iterations-2]);
 
+            if (createGIF) {
+                similaritiesOver98 = new ArrayList<>(1);
+                for (int i = 0; i < stats[2].length; i ++) {
+                    if (stats[2][i] >= 98) {
+                        similaritiesOver98.add(stats[2][i]);
+                    }
+                }
+            }
         } else {
-
             for (int i = 0; i < iterations; i++) {
                 similaritySpecifiedHelper[i][0] = i;
                 similaritySpecifiedHelper[i][1] =
-                        similarityCalculation(similarityMeasureHelper[similaritySpecifiedNumber],
-                        similarityMeasureHelper[i]);
+                        similarityCalculation(
+                                similarityMeasureHelper[similaritySpecifiedNumber], similarityMeasureHelper[i]);
             }
-
-            // Denne er for å se phi-verdien
-            //for (int j = 0; j < similaritySpecifiedHelper[j].length-1; j ++) {
-            //    System.out.println("sim 0: " + similaritySpecifiedHelper[j][0] + ", 1: " + similaritySpecifiedHelper[j][1]);
-            //}
 
             // Cannot compare with the same iteration
             similaritySpecifiedHelper[similaritySpecifiedNumber][1] = 0;
 
             if (!createGIF) {
-                //System.out.println("Inne i not create gif");
                 // Find the highest similarity
                 highestSimilarityNumber = similaritySpecifiedHelper[0][1];
-                //List<Integer>
                 sameOccurrencesHelper = new ArrayList<>(1);
 
                 for (int i = 0; i < iterations; i++) {
@@ -178,15 +188,16 @@ public class StatisticsLogic {
                 }
 
                 // used to print data concerning a specified iteration
-                System.out.println("Compare with iteration: " + similaritySpecifiedNumber);
+                /*System.out.println("Compare with iteration: " + similaritySpecifiedNumber);
                 System.out.print("The highest similarity measure found was " + highestSimilarityNumber +
                         ", found in the following generations: ");
                 for (Integer generations : sameOccurrencesHelper) {
                     System.out.print(generations + ", ");
                 }
-                System.out.println("");
-            } else {
-                //System.out.println("Inne i create gif");
+                System.out.println("");*/
+            } /*else {
+                 This is the value used to specify how similar two generations
+                 should be in the gif creation process using video textures.
                 highestSimilarityNumber = 98;
                 similarOccurrencesHelper = new ArrayList<>(1);
 
@@ -195,10 +206,7 @@ public class StatisticsLogic {
                         similarOccurrencesHelper.add(j);
                     }
                 }
-                //for (int k : similarOccurrencesHelper) {
-                //    System.out.println("Verdi: " + k);
-                //}
-            }
+            }*/
         }
         // used to print out all collected data
         /*for (int j = 0; j < iterations + 1; j++) {
@@ -208,16 +216,5 @@ public class StatisticsLogic {
             ", found in iteration: " + similaritySpecifiedHelper[j][0]);
         }*/
         return stats;
-    }
-
-    int getHighestSimilarityNumber() {
-        return highestSimilarityNumber;
-    }
-
-    List<Integer> getSameOccurrencesHelper() {
-        return sameOccurrencesHelper;
-    }
-    List<Integer> getSimilarOccurrencesHelper() {
-        return similarOccurrencesHelper;
     }
 }

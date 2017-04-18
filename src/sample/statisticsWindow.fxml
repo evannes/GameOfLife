@@ -32,14 +32,14 @@
                   <Insets right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button minWidth="75.0" mnemonicParsing="false" onAction="#createGIF" text="Create GIF">
+            <Button minWidth="75.0" mnemonicParsing="false" onAction="#createRandomGIF" text="Create GIF">
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin>
             </Button>
             <Button cancelButton="true" minWidth="100.0" mnemonicParsing="false" onAction="#cancelButton" text="Return to game">
                <HBox.margin>
-                  <Insets left="750.0" top="10.0" />
+                  <Insets left="755.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
