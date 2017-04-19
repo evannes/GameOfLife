@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Alexander Kingdon on 10.04.2017.
  */
-public class StatisticsGIF {
+class StatisticsGIF {
 
     private Color cellColor = new Color(32, 178, 170);
     private Color boardColor = Color.WHITE;
@@ -18,40 +18,11 @@ public class StatisticsGIF {
     private int width;
     private int height;
 
-    /*void writeGif(DynamicBoard gifBoard, List<Integer> generations) {
-        width = gifBoard.getWidth()*3;
-        height = gifBoard.getHeight()*3;
-
-        String path = "testgif.gif";
-        int timePerMilliSecond = 1;
-
-        try {
-            lieng.GIFWriter gif = new lieng.GIFWriter(width,height, path, timePerMilliSecond);
-
-            int currentGen = generations.get(0);
-            for (int i = 1; i < generations.size(); i ++) {
-                for (int j = 0; j < currentGen; j ++) {
-                    gifBoard.nextGeneration();
-                }
-                drawGIFFrame(gif, gifBoard);
-                currentGen = generations.get(i) - generations.get(i-1);
-            }
-            for (int k = 0; k < currentGen; k ++) {
-                gifBoard.nextGeneration();
-            }
-            drawGIFFrame(gif, gifBoard);
-            gif.insertCurrentImage();
-            gif.close();
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-    }*/
-
     /**
      * This method runs {@link DynamicBoard#nextGeneration()} a set number of times to supply
      * {@link StatisticsGIF#drawGIFFrame(GIFWriter, DynamicBoard)} with board data to draw to a file.
      * @param gifBoard          The cloned board being used to supply data.
-     * @param generationsOver98 An array list of generations with a similarity measure >= 98.
+     * @param generationsOver98 An array list of generations with a similarity measure >= 97.
      * @param iterations        The number of iterations that the simulation ran, user specified.
      * @throws Exception        An {@link java.io.IOException} possibly thrown by the gif writer.
      */
@@ -71,6 +42,8 @@ public class StatisticsGIF {
 
             for (int i = 0; i < iterations; i ++) {
                 if (gifRandomValue.nextDouble() < 0.5) {
+                    gifBoard.nextGeneration();
+                    drawGIFFrame(gif, gifBoard);
                     gifBoard.nextGeneration();
                     drawGIFFrame(gif, gifBoard);
                 } else {

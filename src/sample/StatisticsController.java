@@ -23,7 +23,6 @@ public class StatisticsController implements Initializable {
     private StatisticsView statisticsView;
     private StatisticsGIF statisticsGIF;
     private int iterations;
-    private int similaritySpecifiedNumber;
 
     @FXML
     private TextField iterationValue;
@@ -42,7 +41,7 @@ public class StatisticsController implements Initializable {
      * This method binds together the logic and view methods producing the statistics.
      */
     public void getStatistics() {
-        if (iterations != 0) {
+        if (iterations > 0 && iterations <= 100) {
             statisticsLogic.setIterations(iterations);
         }
         int[][] stats = statisticsLogic.getStatistics();
@@ -62,7 +61,7 @@ public class StatisticsController implements Initializable {
      */
     public void getSpecifiedStatistics() {
         statisticsView = new StatisticsView();
-        similaritySpecifiedNumber = statisticsView.createDialogWindow();
+        int similaritySpecifiedNumber = statisticsView.createDialogWindow();
         if (similaritySpecifiedNumber > iterations) {
             similaritySpecifiedNumber = iterations;
         }
@@ -77,16 +76,6 @@ public class StatisticsController implements Initializable {
         getStatistics();
         statisticsLogic.unsetCreateGIF();
     }
-
-    /*public void createGIF() throws Exception {
-        similaritySpecifiedNumber = statisticsView.createDialogWindow();
-        if (similaritySpecifiedNumber > iterations) {
-            similaritySpecifiedNumber = iterations;
-        }
-        statisticsLogic.setSimilaritySpecifiedNumber(similaritySpecifiedNumber);
-        getGIFStatistics();
-        statisticsGIF.writeGif(statisticsLogic.getGifBoard(), statisticsLogic.getSimilarOccurrencesHelper());
-    }*/
 
     public void createRandomGIF() throws Exception {
         getGIFStatistics();
@@ -108,8 +97,12 @@ public class StatisticsController implements Initializable {
         statisticsGIF = new StatisticsGIF();
 
         iterationValue.textProperty().addListener((observable, oldValue, value) -> {
-            if (Integer.parseInt(value) != 0) {
+            if (Integer.parseInt(value) > 0 && Integer.parseInt(value) <= 100) {
                 iterations = Integer.parseInt(value);
+            } else if (Integer.parseInt(value) > 100){
+                iterations = 100;
+            } else {
+                iterations = 30;
             }
         });
 

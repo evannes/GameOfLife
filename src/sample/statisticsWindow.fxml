@@ -82,7 +82,20 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Label>
-            <Label text="Number of generations">
+            <Label text="Create GIF">
+               <VBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label text="Creates an animated gif file that jumps between similar generations." wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Number of generations [1-100]">
                <VBox.margin>
                   <Insets left="10.0" top="20.0" />
                </VBox.margin>

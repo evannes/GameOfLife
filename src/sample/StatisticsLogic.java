@@ -19,7 +19,6 @@ public class StatisticsLogic {
     private List<Integer> sameOccurrencesHelper;
     private int highestSimilarityNumber;
     private boolean createGIF = false;
-    //private List<Integer> similarOccurrencesHelper;
     private List<Integer> similaritiesOver98;
 
     void setClonedBoard(DynamicBoard clonedBoard) {
@@ -40,9 +39,6 @@ public class StatisticsLogic {
     List<Integer> getSameOccurrencesHelper() {
         return sameOccurrencesHelper;
     }
-    /*List<Integer> getSimilarOccurrencesHelper() {
-        return similarOccurrencesHelper;
-    }*/
     List<Integer> getSimilaritiesOver98() {
         return similaritiesOver98;
     }
@@ -171,7 +167,6 @@ public class StatisticsLogic {
                 for (int i = 0; i < iterations; i++) {
                     if (similaritySpecifiedHelper[i][1] > highestSimilarityNumber) {
                         highestSimilarityNumber = similaritySpecifiedHelper[i][1];
-                        // highestSimilarityIteration = i;
                     }
                 }
 
@@ -186,35 +181,8 @@ public class StatisticsLogic {
                 for (int k = 0; k < iterations; k++) {
                     stats[2][k] = similaritySpecifiedHelper[k][1];
                 }
-
-                // used to print data concerning a specified iteration
-                /*System.out.println("Compare with iteration: " + similaritySpecifiedNumber);
-                System.out.print("The highest similarity measure found was " + highestSimilarityNumber +
-                        ", found in the following generations: ");
-                for (Integer generations : sameOccurrencesHelper) {
-                    System.out.print(generations + ", ");
-                }
-                System.out.println("");*/
-            } /*else {
-                 This is the value used to specify how similar two generations
-                 should be in the gif creation process using video textures.
-                highestSimilarityNumber = 98;
-                similarOccurrencesHelper = new ArrayList<>(1);
-
-                for (int j = 0; j < iterations; j++) {
-                    if (similaritySpecifiedHelper[j][1] >= highestSimilarityNumber) {
-                        similarOccurrencesHelper.add(j);
-                    }
-                }
-            }*/
+            }
         }
-        // used to print out all collected data
-        /*for (int j = 0; j < iterations + 1; j++) {
-            System.out.println(j + ": Alive " + stats[0][j] + ", Change: " + stats[1][j] +
-                    ", sum living: " + livingCellsHelper[j] + ", Sim helper: " + similarityMeasureHelper[j] +
-            ", final phi: " + stats[2][j] + ", specified phi: " + similaritySpecifiedHelper[j][1] +
-            ", found in iteration: " + similaritySpecifiedHelper[j][0]);
-        }*/
         return stats;
     }
 }
