@@ -113,11 +113,11 @@ public class BoardManager {
             double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
             double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
 
-            //double korX = (e.getX()*drawScale);
-            //double korY = (e.getY()*drawScale);
+            double korX = (e.getX()+startingPointX);
+            double korY = (e.getY()+startingPointY);
 
-            int korX = (int)e.getX();
-            int korY = (int)e.getY();
+            //int korX = (int)e.getX();
+            //int korY = (int)e.getY();
             int arrayX = (int)Math.floor(korX/cellWidth);
             int arrayY = (int)Math.floor(korY/cellHeight);
 
