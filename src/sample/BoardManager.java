@@ -112,6 +112,10 @@ public class BoardManager {
         canvas.setOnMouseClicked(e -> {
             double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
             double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
+
+            //double korX = (e.getX()*drawScale);
+            //double korY = (e.getY()*drawScale);
+
             int korX = (int)e.getX();
             int korY = (int)e.getY();
             int arrayX = (int)Math.floor(korX/cellWidth);

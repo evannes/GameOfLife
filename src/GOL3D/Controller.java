@@ -35,6 +35,9 @@ public class Controller implements Initializable {
     @FXML
     Button pauseButton;
 
+    @FXML
+    private Slider changeSpeed;
+
     private Board3D board;
     private BoardManager3D boardManager3D;
     private CubeBoardManager3D cubeBoardManager3D;
@@ -183,6 +186,13 @@ public class Controller implements Initializable {
                 (observable, oldValue, newValue) ->
                 {
                     group.setRotate((double)newValue);
+                });
+
+        changeSpeed.valueProperty().addListener(
+                (observable, oldValue, value) ->
+                {
+                    boardManager3D.setSpeed((int)((double)value * 10000000));
+                    boardManager3D.changeBoard();
                 });
     }
 }

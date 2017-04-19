@@ -37,7 +37,7 @@
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Slider max="10.0">
+                  <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15.0" min="1.0" minorTickCount="0" showTickMarks="true" value="7.0">
                      <VBox.margin>
                         <Insets left="5.0" />
                      </VBox.margin>

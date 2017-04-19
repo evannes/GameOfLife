@@ -33,6 +33,12 @@ public class CubeBoard3D {
         board4 = initBoards(board4);
         board5 = initBoards(board5);
         board6 = initBoards(board6);
+        //board6.get(2).set(0,true);
+        //board1.get(2).set(0,true);
+
+        board2.get(1).set(10,true);
+        board2.get(1).set(11,true);
+        board2.get(1).set(12,true);
 
         defaultStartBoard();
     }
@@ -68,42 +74,49 @@ public class CubeBoard3D {
         return boardSize;
     }
 
-    public void createClone() {
+    public void createClone(int numBoard) {
         clone = new ArrayList<List<Boolean>>(getWidth());
 
         for(int i = 0; i < getWidth(); i++) {
             clone.add(new ArrayList<>(getHeight()));
 
             for(int j = 0; j < getHeight(); j++) {
-                clone.get(i).add(j, getValue(i, j));
+                clone.get(i).add(j, getValue(numBoard,i, j));
             }
+        }
+    }
+
+    public void nextGenerations(){
+        for(int i = 1; i < 7; i++){
+            nextGeneration(i);
         }
     }
 
     /**
      * The method creating the next generation of cells to be drawn or removed.
      */
-    public void nextGeneration() {
-        createClone();
+    // får problem med kloning av brett, må klones 6 stk og alle må byttes
+    public void nextGeneration(int numBoard) {
+        createClone(numBoard);
 
         for(int i = 0; i < getWidth(); i++){
             for(int j = 0; j < getHeight(); j++){
-                int neighbors = countNeighbor(i, j);
-                boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                int neighbors = countNeighbor(numBoard,i, j);
+                boolean value = getValue(numBoard,i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
                 setCloneValue(i, j, value );
             }
         }
-        switchBoard();
+        switchBoard(numBoard);
     }
 
     public void setCloneValue(int x, int y, boolean value) {
         clone.get(x).set(y, value);
     }
 
-    public void switchBoard() {
+    public void switchBoard(int numBoard) {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
-                setValue(i, j, clone.get(i).get(j));
+                setValue(numBoard,i, j, clone.get(i).get(j));
             }
         }
     }
@@ -114,59 +127,42 @@ public class CubeBoard3D {
      * @param j     the second column index of the array
      * @return      the number of alive neighboring cells
      */
-    public int countNeighbor(int i, int j){
+    public int countNeighbor(int numBoard,int i, int j){
         int count = 0;
 
         //check top
-        if (isActiveCell(i, j-1))
+        if (isInCurrentBoard(numBoard,i, j-1))
             count++;
 
         //check top-left
-        if (isActiveCell(i-1, j-1))
+        if (isInCurrentBoard(numBoard,i-1, j-1))
             count++;
 
         //check top-right
-        if (isActiveCell(i+1, j-1))
+        if (isInCurrentBoard(numBoard,i+1, j-1))
             count++;
 
         //check left
-        if (isActiveCell(i-1, j))
+        if (isInCurrentBoard(numBoard,i-1, j))
             count++;
 
         //check right
-        if (isActiveCell(i+1, j))
+        if (isInCurrentBoard(numBoard,i+1, j))
             count++;
 
         //check bottom
-        if (isActiveCell(i, j+1))
+        if (isInCurrentBoard(numBoard,i, j+1))
             count++;
 
         //check bottom-right
-        if (isActiveCell(i+1, j+1))
+        if (isInCurrentBoard(numBoard,i+1, j+1))
             count++;
 
         //check bottom-left
-        if (isActiveCell(i-1, j+1))
+        if (isInCurrentBoard(numBoard,i-1, j+1))
             count++;
 
         return count;
-    }
-
-    /**
-     * The method checking if the cell is alive.
-     * @param i         the first column index of the array
-     * @param j         the second column index of the array
-     * @return          <code>true</code> if the cell is alive
-     *                  and not exceeding the board array
-     */
-    private boolean isActiveCell(int i, int j) {
-        List<List<Boolean>> activeBoard = inBounds(i,j);
-        if(activeBoard!=null){
-            return checkActiveBoardValue(activeBoard,i,j);
-        } else {
-            return false;
-        }
-        //return inBounds(i, j) && getValue(i,j) == true;
     }
 
     /**
@@ -175,34 +171,116 @@ public class CubeBoard3D {
      * @param j         the second column index of the array
      * @return          <code>false</code> if the position is exceeding the board array
      */
-    private List<List<Boolean>> inBounds(int i, int j){
+    private boolean isInCurrentBoard(int numBoard, int i, int j){
         // method "inBoard"??
         // "hardkodet" versjon med kun board2
+
         if(i == -1 && j == -1){
-            return null;
+            return false;
+        }
+        else if(i >= boardSize && j >= boardSize){
+            return false;
+        }
+        else if(i == -1 && j >= boardSize){
+            return false;
+        }
+        else if(i >= boardSize && j == -1){
+            return false;
         }
 
-        if(i == -1 && j > -1){
-            return board6;
+        else if(inBounds(i) && inBounds(j)){
+            if(getBoard2().get(i).get(j)){
+                return true;
+            } else {
+                return false;
+            }
         }
-
-        if(i > -1 && j == -1){
-            return board1;
+        else{
+            return countBoardNeighbors(numBoard,i,j);
         }
+    }
 
-        if(i >= boardSize && j >= boardSize){
-            return null;
+    public boolean inBounds(int m){
+        if(m == -1 || m >= boardSize){
+            return false;
+        } else {
+            return true;
         }
+    }
 
-        if(i >= boardSize && j < boardSize){
-            return board5;
+    public boolean countBoardNeighbors(int numboard,int i, int j){
+        switch(numboard){
+            case 1:
+                return countBoard1Neighbors(i,j);
+            case 2:
+                return countBoard2Neighbors(i,j);
+            case 3:
+                return countBoard3Neighbors(i,j);
+            case 4:
+                return countBoard4Neighbors(i,j);
+            case 5:
+                return countBoard5Neighbors(i,j);
+            case 6:
+                return countBoard6Neighbors(i,j);
+            default:
+                return false;
         }
+    }
 
-        if(i < boardSize && j >= boardSize){
-            return board3;
-        }
+    public boolean countBoard1Neighbors(int i, int j){
+        return false;
+    }
 
-        return board2;
+    public boolean countBoard2Neighbors(int i, int j){
+
+            if (i == -1 && inBounds(j)) {
+                if (board6.get(j).get(0)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            if (inBounds(i) && j == -1) {
+                if (board1.get(i).get(0)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            if (i >= boardSize && inBounds(j)) {
+                if (board5.get(0).get(j)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            if (inBounds(i) && j >= boardSize) {
+                if (board3.get(i).get(0)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        return false;
+    }
+
+    public boolean countBoard3Neighbors(int i, int j){
+        return false;
+    }
+
+    public boolean countBoard4Neighbors(int i, int j){
+        return false;
+    }
+
+    public boolean countBoard5Neighbors(int i, int j){
+        return false;
+    }
+
+    public boolean countBoard6Neighbors(int i, int j){
+        return false;
     }
 
     public boolean checkActiveBoardValue(List<List<Boolean>> board,int i,int j){
@@ -218,24 +296,25 @@ public class CubeBoard3D {
         return false;
     }
 
-    public void setValue(int x, int y, boolean value) {
-        board2.get(x).set(y, value);
+    public void setValue(int numBoard,int x, int y, boolean value) {
+        getBoard(numBoard).get(x).set(y, value);
     }
 
-    public boolean getValue(int x, int y) {
-        return board2.get(x).get(y);
+    public boolean getValue(int numBoard,int x, int y) {
+        return getBoard(numBoard).get(x).get(y);
     }
 
-    public void toggleValue(int x, int y) {
-        board2.get(x).set(y, !board2.get(x).get(y));
+    public void toggleValue(int numBoard, int x, int y) {
+        getBoard(numBoard).get(x).set(y, !board2.get(x).get(y));
     }
 
     /**
      * The method resetting all values of the board to false
      */
+    // er no kun for board 2
     public void clearBoard() {
 
-        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(2,i, j, false)));
     }
 
     /**
@@ -259,7 +338,7 @@ public class CubeBoard3D {
      * The method placing the input array from filehandler into the board.
      * @param inputArray    the array loaded from file or URL
      */
-    public void setInputInBoard(List<List<Boolean>> inputArray) {
+    public void setInputInBoard(List<List<Boolean>> inputArray,int numBoard) {
         // check if the input array is too large (doesn't look good anymore...)
         if(inputArray.size() > boardSize || inputArray.get(0).size() > boardSize) {
             Alert sizeErrorAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -278,10 +357,30 @@ public class CubeBoard3D {
             for (int i = 0; i < inputArray.size(); i++) {
                 for (int j = 0; j < inputArray.get(0).size(); j++) {
                     Boolean value = inputArray.get(i).get(j);
-                    setValue(i + xStartIndex, j + yStartIndex, value);
+                    setValue(numBoard,i + xStartIndex, j + yStartIndex, value);
                 }
             }
         }
+    }
+
+    public List<List<Boolean>> getBoard(int board) {
+        switch(board){
+            case 1:
+                return board1;
+            case 2:
+                return board2;
+            case 3:
+                return board3;
+            case 4:
+                return board4;
+            case 5:
+                return board5;
+            case 6:
+                return board6;
+            default:
+                return null;
+        }
+
     }
 
     public List<List<Boolean>> getBoard1() {

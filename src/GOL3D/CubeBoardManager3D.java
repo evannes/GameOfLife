@@ -60,17 +60,17 @@ public class CubeBoardManager3D {
         this.cubeBoard3D = cubeBoard3D;
         this.group = group;
         initBoxArrays();
-        changeBoard();
+        changeBoards();
         animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    cubeBoard3D.nextGeneration();
-                    changeBoard();
+                    cubeBoard3D.nextGenerations();
+                    changeBoards();
                     time = System.nanoTime();
                 }
                 if (isClearing){
                     isClearing = false;
-                    changeBoard();
+                    changeBoards();
                 }
             }
         };
@@ -87,16 +87,82 @@ public class CubeBoardManager3D {
         boxBoard6 = createBoxes(boxBoard6,-53,0,0,0,53,53,false,false);
     }
 
-    public void changeBoard(){
+    public void changeBoards(){
+        for(int i = 1; i < 7; i++){
+            changeBoard(i);
+        }
+    }
+
+    public void changeBoard(int numBoard){
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                currentBox = getBoxBoards(numBoard).get(i).get(j);
+                if(cubeBoard3D.getBoard(numBoard).get(i).get(j)){
+                    setPurpleMaterial(currentBox);
+                    if(numBoard == 6) {
+                        currentBox.setWidth(cellSize + 50);
+                    } else if(numBoard == 2){
+                        currentBox.setDepth(cellSize + 50);
+                    } else {
+                        currentBox.setHeight(cellSize + 50);
+                    }
+                } else {
+                    setBlueMaterial(currentBox);
+                    if(numBoard == 6 || numBoard == 5) {
+                        currentBox.setWidth(cellSize);
+                    } else if(numBoard == 2 || numBoard == 4){
+                        currentBox.setDepth(cellSize);
+                    } else {
+                        currentBox.setHeight(cellSize);
+                    }
+                }
+            }
+        }
+    }
+
+    public List<List<Box>> getBoxBoards(int boxBoard){
+        switch(boxBoard){
+            case 1:
+                return boxBoard1;
+            case 2:
+                return boxBoard2;
+            case 3:
+                return boxBoard3;
+            case 4:
+                return boxBoard4;
+            case 5:
+                return boxBoard5;
+            case 6:
+                return boxBoard6;
+        }
+        return null;
+    }
+
+    public void changeBoard2(){
         for(int i = 0; i < cubeBoard3D.getBoard2().size(); i++){
             for(int j = 0; j < cubeBoard3D.getBoard2().size(); j++){
                 currentBox = boxBoard2.get(i).get(j);
                 if(cubeBoard3D.getBoard2().get(i).get(j)){
                     setPurpleMaterial(currentBox);
-                    currentBox.setDepth(cellSize + 50);
+                    currentBox.setWidth(cellSize + 50);
                 } else {
                     setBlueMaterial(currentBox);
-                    currentBox.setDepth(cellSize);
+                    currentBox.setWidth(cellSize);
+                }
+            }
+        }
+    }
+
+    public void changeBoard1(){
+        for(int i = 0; i < cubeBoard3D.getBoard1().size(); i++){
+            for(int j = 0; j < cubeBoard3D.getBoard1().size(); j++){
+                currentBox = boxBoard1.get(i).get(j);
+                if(cubeBoard3D.getBoard1().get(i).get(j)){
+                    setPurpleMaterial(currentBox);
+                    currentBox.setHeight(cellSize + 50);
+                } else {
+                    setBlueMaterial(currentBox);
+                    currentBox.setHeight(cellSize);
                 }
             }
         }
@@ -159,7 +225,7 @@ public class CubeBoardManager3D {
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
         selectPatternLogic(array);
-        changeBoard();
+        changeBoard2();
     }
     /**
      * The method allowing the user to select a rle pattern from URL.
@@ -167,7 +233,7 @@ public class CubeBoardManager3D {
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
         selectPatternLogic(array);
-        changeBoard();
+        changeBoard2();
     }
 
     public void selectPatternLogic(boolean[][] array) {
@@ -175,7 +241,7 @@ public class CubeBoardManager3D {
             ////////lag en if-else som sjekker om instansen er Dynamic eller Static
             if(board3D instanceof Board3D){
                 ((Board3D) board3D).setInputInBoard(((Board3D) board3D).createArrayListFromArray(array));
-                changeBoard();
+                changeBoard2();
             }
         } catch (NullPointerException cancelException) {
         }
