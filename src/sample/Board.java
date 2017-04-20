@@ -1,5 +1,9 @@
 package sample;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Miina Lervik
  * @author Elise Vannes
@@ -20,12 +24,6 @@ public abstract class Board implements Cloneable {
         this.defaultWidth = width;
         this.defaultHeight = height;
     }
-
-
-    /**
-     * The method applying a default pattern of cells to the board.
-     */
-    public abstract void defaultStartBoard();
 
     /**
      * The method returning the width of the board.
@@ -81,15 +79,11 @@ public abstract class Board implements Cloneable {
     public abstract void clearBoard();
 
     /**
-     * Sets all values of the clone to false.
-     */
-    public abstract void clearClone();
-
-    /**
      * The method creating the next generation of cells to be drawn or removed.
      */
+    @Deprecated
     public void nextGeneration() {
-        clearClone();
+        //clearClone();
 
         for(int i = 0; i < getWidth(); i++){
             for(int j = 0; j < getHeight(); j++){
@@ -99,6 +93,67 @@ public abstract class Board implements Cloneable {
             }
         }
         switchBoard();
+    }
+
+    /**
+     * The method creating the task for the nextGeneration method.
+     * @param quarter
+     */
+     public void nextGenerationThreadTask(int quarter) {
+         for(int i = (getWidth()/4)*quarter++; i < (getWidth()/4)*quarter; i++){
+             for(int j = 0; j < getHeight(); j++){
+                 int neighbors = countNeighbor(i, j);
+                 boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                 setCloneValue(i, j, value );
+             }
+         }
+     }
+
+    /**
+     * The method creating the next generation of cells to be drawn or removed using Threads.
+     */
+    public void nextGenerationConcurrent() {
+
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+
+        executor.submit(new Thread(()-> {
+            nextGenerationThreadTask(0);}));
+        executor.submit(new Thread(()-> {
+            nextGenerationThreadTask(1);}));
+        executor.submit(new Thread(()-> {
+            nextGenerationThreadTask(2);}));
+        executor.submit(new Thread(()-> {
+            nextGenerationThreadTask(3);}));
+        try {
+            executor.shutdown();
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException ie){
+            System.err.println("interrupted");
+        }
+        finally {
+            if(!executor.isTerminated()){
+                System.out.println("IKKE FERDIG!!!");
+            }
+            executor.shutdownNow();
+        }
+
+        switchBoard();
+    }
+
+    /**
+     * Prints the time it takes to run nextGeneration with Threads and without.
+     */
+    public void nextGenerationConcurrentPrintPerformance() {
+        System.out.println("med Threads: ");
+        long start = System.currentTimeMillis();
+        nextGenerationConcurrent();
+        long elapsed = System.currentTimeMillis() - start;
+        System.out.println("Counting time (ms): " + elapsed);
+        System.out.println("Uten Threads: ");
+        long start2 = System.currentTimeMillis();
+        nextGeneration();
+        long elapsed2 = System.currentTimeMillis() - start2;
+        System.out.println("Counting time (ms): " + elapsed2);
     }
 
     /**
