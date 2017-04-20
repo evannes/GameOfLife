@@ -52,8 +52,8 @@ public class BoardManager3D{
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
                     board3D.nextGeneration();
-                    //draw();
                     changeBoard();
+
                     time = System.nanoTime();
                 }
                 //isClearing sier ifra at vi har clearet boardet og skal tegne det en gang.

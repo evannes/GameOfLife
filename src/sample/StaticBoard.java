@@ -24,6 +24,8 @@ public class StaticBoard extends Board {
         clone = new boolean[defaultWidth][defaultHeight];
     }
 
+
+
     @Override
     public void setValue(int x, int y, boolean value) {
         staticBoardArray[x][y] = value;
@@ -50,15 +52,6 @@ public class StaticBoard extends Board {
     }
 
     @Override
-    public void clearClone() {
-        for(int i = 0; i < getWidth(); i++) {
-            for(int j = 0; j < getHeight(); j++) {
-                clone[i][j] = false;
-            }
-        }
-    }
-
-    @Override
     public void switchBoard() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
@@ -79,15 +72,6 @@ public class StaticBoard extends Board {
                 staticBoardArray[i][j] = false;
             }
         }
-    }
-
-    @Override
-    public void defaultStartBoard(){
-        staticBoardArray[0][2] = true;
-        staticBoardArray[1][2] = true;
-        staticBoardArray[2][2] = true;
-        staticBoardArray[2][1] = true;
-        staticBoardArray[1][0] = true;
     }
 
     @Override

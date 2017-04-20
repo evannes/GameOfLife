@@ -11,6 +11,14 @@ public class testCloning {
 
     private DynamicBoard dynamicBoard = new DynamicBoard(4,4);
 
+    public void defaultStartBoard(){
+        dynamicBoard.setValue(0, 2, true);
+        dynamicBoard.setValue(1, 2, true);
+        dynamicBoard.setValue(2, 2, true);
+        dynamicBoard.setValue(2, 1, true);
+        dynamicBoard.setValue(1, 0, true);
+    }
+
     @Test
     public void testIfObjectsAreDifferent() {
         DynamicBoard cloneBoard = null;
@@ -37,7 +45,7 @@ public class testCloning {
 
     @Test
     public void testDefaultPatternIsEqual() {
-        dynamicBoard.defaultStartBoard();
+        defaultStartBoard();
         DynamicBoard cloneBoard = null;
         try {
             cloneBoard = dynamicBoard.clone();
@@ -71,7 +79,7 @@ public class testCloning {
             e.printStackTrace();
         }
         if (cloneBoard != null) {
-            cloneBoard.defaultStartBoard();
+            defaultStartBoard();
             Assertions.assertNotEquals(cloneBoard.toString(), dynamicBoard.toString());
         }
     }
@@ -84,7 +92,7 @@ public class testCloning {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        dynamicBoard.defaultStartBoard();
+        defaultStartBoard();
         if (cloneBoard != null) {
             Assertions.assertNotEquals(cloneBoard.toString(), dynamicBoard.toString());
         }

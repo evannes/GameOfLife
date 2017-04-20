@@ -41,7 +41,6 @@ public class BoardManager {
     FileHandling fileHandling = new FileHandling();
     Controller controller = new Controller();
     protected boolean isRunning = false;
-    protected boolean isClearing = false;
     protected long time = System.nanoTime();
     AnimationTimer drawTimer;
 
@@ -57,16 +56,13 @@ public class BoardManager {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board.nextGeneration();
+                    //board.nextGeneration();
+                    board.nextGenerationConcurrent();
                     draw();
 
                     time = System.nanoTime();
                 }
-                //isClearing sier ifra at vi har clearet boardet og skal tegne det en gang.
-                if (isClearing){
-                    isClearing = false;
-                    draw();
-                }
+
             }
         };
 
@@ -112,8 +108,12 @@ public class BoardManager {
         canvas.setOnMouseClicked(e -> {
             double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
             double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
-            int korX = (int)e.getX();
-            int korY = (int)e.getY();
+
+            double korX = (e.getX()+startingPointX);
+            double korY = (e.getY()+startingPointY);
+
+            //int korX = (int)e.getX();
+            //int korY = (int)e.getY();
             int arrayX = (int)Math.floor(korX/cellWidth);
             int arrayY = (int)Math.floor(korY/cellHeight);
 
@@ -218,9 +218,8 @@ public class BoardManager {
      */
    public void clearBoard(){
         isRunning = false;
-        /////fiks så den funker med staticboard.
         board.clearBoard();
-        isClearing = true;
+        draw();
     }
 
     /**
