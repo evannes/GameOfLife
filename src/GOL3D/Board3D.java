@@ -252,7 +252,7 @@ public class Board3D{
             }
         }
     }
-    // var en resize-metode, men skal ikkje resizes
+    // var en resize-nextGenerationThreadTask, men skal ikkje resizes
 
 }
 

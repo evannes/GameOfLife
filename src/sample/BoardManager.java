@@ -41,7 +41,6 @@ public class BoardManager {
     FileHandling fileHandling = new FileHandling();
     Controller controller = new Controller();
     protected boolean isRunning = false;
-    protected boolean isClearing = false;
     protected long time = System.nanoTime();
     AnimationTimer drawTimer;
 
@@ -57,16 +56,13 @@ public class BoardManager {
         drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board.nextGeneration();
+                    //board.nextGeneration();
+                    board.nextGenerationConcurrent();
                     draw();
 
                     time = System.nanoTime();
                 }
-                //isClearing sier ifra at vi har clearet boardet og skal tegne det en gang.
-                if (isClearing){
-                    isClearing = false;
-                    draw();
-                }
+
             }
         };
 
@@ -222,9 +218,8 @@ public class BoardManager {
      */
    public void clearBoard(){
         isRunning = false;
-        /////fiks så den funker med staticboard.
         board.clearBoard();
-        isClearing = true;
+        draw();
     }
 
     /**

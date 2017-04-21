@@ -53,15 +53,6 @@ public class DynamicBoard extends Board {
     }
 
     @Override
-    public void defaultStartBoard(){
-        dynamicBoardArray.get(0).set(2,true);
-        dynamicBoardArray.get(1).set(2,true);
-        dynamicBoardArray.get(2).set(2,true);
-        dynamicBoardArray.get(2).set(1,true);
-        dynamicBoardArray.get(1).set(0,true);
-    }
-
-    @Override
     public void setValue(int x, int y, boolean value) {
         dynamicBoardArray.get(x).set(y, value);
     }
@@ -98,16 +89,11 @@ public class DynamicBoard extends Board {
         clone = tmp;
     }
 
+
     @Override
     public void clearBoard() {
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }
-
-    @Override
-    public void clearClone() {
-        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setCloneValue(i, j, false)));
-    }
-
 
     @Override
     public String toString(){
