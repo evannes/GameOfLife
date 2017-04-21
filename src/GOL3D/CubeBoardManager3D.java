@@ -53,6 +53,7 @@ public class CubeBoardManager3D {
 
     /**
      * The constructor initializing the animation of Game of Life.
+     *
      * @param cubeBoard3D the board
      */
 
@@ -68,7 +69,7 @@ public class CubeBoardManager3D {
                     changeBoards();
                     time = System.nanoTime();
                 }
-                if (isClearing){
+                if (isClearing) {
                     isClearing = false;
                     changeBoards();
                 }
@@ -77,40 +78,40 @@ public class CubeBoardManager3D {
         animationTimer.start();
     }
 
-    public void initBoxArrays(){
+    public void initBoxArrays() {
         // 3D-vector lagrer x,y og z-transforms
-        boxBoard1 = createBoxes(boxBoard1,0,-53,0,53,0,53,true,false);
-        boxBoard2 = createBoxes(boxBoard2,0,0,-53,53,53,0,false,true);
-        boxBoard3 = createBoxes(boxBoard3,0,1590,0,53,0,53,true,false);
-        boxBoard4 = createBoxes(boxBoard4,0,0,1590,53,53,0,false,true);
-        boxBoard5 = createBoxes(boxBoard5,1590,0,0,0,53,53,false,false);
-        boxBoard6 = createBoxes(boxBoard6,-53,0,0,0,53,53,false,false);
+        boxBoard1 = createBoxes(boxBoard1, 0, -53, 0, 53, 0, 53, true, false);
+        boxBoard2 = createBoxes(boxBoard2, 0, 0, -53, 53, 53, 0, false, true);
+        boxBoard3 = createBoxes(boxBoard3, 0, 1590, 0, 53, 0, 53, true, false);
+        boxBoard4 = createBoxes(boxBoard4, 0, 0, 1590, 53, 53, 0, false, true);
+        boxBoard5 = createBoxes(boxBoard5, 1590, 0, 0, 0, 53, 53, false, false);
+        boxBoard6 = createBoxes(boxBoard6, -53, 0, 0, 0, 53, 53, false, false);
     }
 
-    public void changeBoards(){
-        for(int i = 1; i < 7; i++){
+    public void changeBoards() {
+        for (int i = 0; i < 6; i++) {
             changeBoard(i);
         }
     }
 
-    public void changeBoard(int numBoard){
-        for(int i = 0; i < boardSize; i++){
-            for(int j = 0; j < boardSize; j++){
-                currentBox = getBoxBoards(numBoard).get(i).get(j);
-                if(cubeBoard3D.getBoard(numBoard).get(i).get(j)){
+    public void changeBoard(int numBoard) {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                currentBox = getBoxBoards(numBoard + 1).get(i).get(j);
+                if (cubeBoard3D.getBoardArrays()[numBoard].get(i).get(j)) {
                     setPurpleMaterial(currentBox);
-                    if(numBoard == 6) {
+                    if (numBoard == 5 || numBoard == 4) {
                         currentBox.setWidth(cellSize + 50);
-                    } else if(numBoard == 2){
+                    } else if (numBoard == 1 || numBoard == 3) {
                         currentBox.setDepth(cellSize + 50);
                     } else {
                         currentBox.setHeight(cellSize + 50);
                     }
                 } else {
                     setBlueMaterial(currentBox);
-                    if(numBoard == 6 || numBoard == 5) {
+                    if (numBoard == 5 || numBoard == 4) {
                         currentBox.setWidth(cellSize);
-                    } else if(numBoard == 2 || numBoard == 4){
+                    } else if (numBoard == 1 || numBoard == 3) {
                         currentBox.setDepth(cellSize);
                     } else {
                         currentBox.setHeight(cellSize);
@@ -120,8 +121,8 @@ public class CubeBoardManager3D {
         }
     }
 
-    public List<List<Box>> getBoxBoards(int boxBoard){
-        switch(boxBoard){
+    public List<List<Box>> getBoxBoards(int boxBoard) {
+        switch (boxBoard) {
             case 1:
                 return boxBoard1;
             case 2:
@@ -138,11 +139,11 @@ public class CubeBoardManager3D {
         return null;
     }
 
-    public void changeBoard2(){
-        for(int i = 0; i < cubeBoard3D.getBoard2().size(); i++){
-            for(int j = 0; j < cubeBoard3D.getBoard2().size(); j++){
+    public void changeBoard2() {
+        for (int i = 0; i < cubeBoard3D.getBoard2().size(); i++) {
+            for (int j = 0; j < cubeBoard3D.getBoard2().size(); j++) {
                 currentBox = boxBoard2.get(i).get(j);
-                if(cubeBoard3D.getBoard2().get(i).get(j)){
+                if (cubeBoard3D.getBoard2().get(i).get(j)) {
                     setPurpleMaterial(currentBox);
                     currentBox.setWidth(cellSize + 50);
                 } else {
@@ -153,11 +154,11 @@ public class CubeBoardManager3D {
         }
     }
 
-    public void changeBoard1(){
-        for(int i = 0; i < cubeBoard3D.getBoard1().size(); i++){
-            for(int j = 0; j < cubeBoard3D.getBoard1().size(); j++){
+    public void changeBoard1() {
+        for (int i = 0; i < cubeBoard3D.getBoard1().size(); i++) {
+            for (int j = 0; j < cubeBoard3D.getBoard1().size(); j++) {
                 currentBox = boxBoard1.get(i).get(j);
-                if(cubeBoard3D.getBoard1().get(i).get(j)){
+                if (cubeBoard3D.getBoard1().get(i).get(j)) {
                     setPurpleMaterial(currentBox);
                     currentBox.setHeight(cellSize + 50);
                 } else {
@@ -168,22 +169,32 @@ public class CubeBoardManager3D {
         }
     }
 
-    public List<List<Box>> createBoxes(List<List<Box>> boardBoxes,int boxX,int boxY,int boxZ,
-                                       int incrementX,int decrementY,int incrementZ,
-                                       boolean resetX,boolean resetY){
+    public List<List<Box>> createBoxes(List<List<Box>> boardBoxes, int boxX, int boxY, int boxZ,
+                                       int incrementX, int decrementY, int incrementZ,
+                                       boolean resetX, boolean resetY) {
 
         boardBoxes = new ArrayList<List<Box>>();
 
-        for(int i = 0; i < boardSize; i++) {
+        for (int i = 0; i < boardSize; i++) {
             boardBoxes.add(i, new ArrayList<Box>(boardSize));
         }
 
-        for(int i = 0; i < boardSize; i++){
-            for(int j = 0; j < boardSize; j++){
-                Box myBox = new Box(cellSize,cellSize,cellSize);
-                boardBoxes.get(i).add(j,myBox);
+        /* vurdere å bruke foreach istedenfor for-løkke der det er mulig
+        boardBoxes.forEach(row -> {
+            Box myBox = new Box(cellSize, cellSize, cellSize);
+            row.add(myBox);
+        });
 
-                if(j%2==0){
+        for (List row: boardBoxes) {
+
+        }*/
+
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                Box myBox = new Box(cellSize, cellSize, cellSize);
+                boardBoxes.get(i).add(myBox);
+
+                if (j % 2 == 0) {
                     setBlueMaterial(myBox);
                 } else {
                     setPurpleMaterial(myBox);
@@ -194,9 +205,9 @@ public class CubeBoardManager3D {
                 myBox.setTranslateZ(boxZ);
                 group.getChildren().add(myBox);
 
-                if(resetX) {
+                if (resetX) {
                     boxX += incrementX;//53;
-                } else if(resetY) {
+                } else if (resetY) {
                     boxY += decrementY;
                 } else {
                     boxZ += incrementZ;
@@ -207,9 +218,9 @@ public class CubeBoardManager3D {
             boxY += decrementY;
             boxZ += incrementZ;//53;
 
-            if(resetX) {
+            if (resetX) {
                 boxX = 0;
-            } else if(resetY) {
+            } else if (resetY) {
                 boxY = 0;
             } else {
                 boxZ = 0;
@@ -227,6 +238,7 @@ public class CubeBoardManager3D {
         selectPatternLogic(array);
         changeBoard2();
     }
+
     /**
      * The method allowing the user to select a rle pattern from URL.
      */
@@ -239,7 +251,7 @@ public class CubeBoardManager3D {
     public void selectPatternLogic(boolean[][] array) {
         try {
             ////////lag en if-else som sjekker om instansen er Dynamic eller Static
-            if(board3D instanceof Board3D){
+            if (board3D instanceof Board3D) {
                 ((Board3D) board3D).setInputInBoard(((Board3D) board3D).createArrayListFromArray(array));
                 changeBoard2();
             }
@@ -247,35 +259,35 @@ public class CubeBoardManager3D {
         }
     }
 
-    public void setBlueMaterial(Box box){
+    public void setBlueMaterial(Box box) {
         blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
         blueMaterial.setSpecularColor(Color.SNOW);
         box.setMaterial(blueMaterial);
     }
 
-    public void setPurpleMaterial(Box box){
+    public void setPurpleMaterial(Box box) {
         purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
         purpleMaterial.setSpecularColor(Color.SKYBLUE);
         box.setMaterial(purpleMaterial);
     }
 
-    public void setGreenMaterial(Box box){
+    public void setGreenMaterial(Box box) {
         greenMaterial = new PhongMaterial();
         greenMaterial.setDiffuseColor(Color.FORESTGREEN);
         greenMaterial.setSpecularColor(Color.LIGHTGREEN);
         box.setMaterial(greenMaterial);
     }
 
-    public void setPinkMaterial(Box box){
+    public void setPinkMaterial(Box box) {
         pinkMaterial = new PhongMaterial();
         pinkMaterial.setDiffuseColor(Color.web("#FFE9B8"));
         pinkMaterial.setSpecularColor(Color.web("#FFFBF2"));
         box.setMaterial(pinkMaterial);
     }
 
-    public void removeBoxes(){
+    public void removeBoxes() {
         group.getChildren().clear();
 
     }
@@ -290,29 +302,31 @@ public class CubeBoardManager3D {
     /**
      * The method pausing the game by stopping the animation.
      */
-    public void pauseGame(){
+    public void pauseGame() {
         isRunning = false;
     }
 
     /**
      * The method resuming the game by starting the animation again.
      */
-    public void resumeGame(){
+    public void resumeGame() {
         isRunning = true;
     }
 
     /**
      * The method return whether the animation is running or not.
-     * @return      <code>true</code> if the animation
-     *              is running.
+     *
+     * @return <code>true</code> if the animation
+     * is running.
      */
-    public boolean getIsRunning(){
+    public boolean getIsRunning() {
         return isRunning;
     }
 
     /**
      * The method setting the speed of the animation.
-     * @param value     the value used to set the speed of the animation
+     *
+     * @param value the value used to set the speed of the animation
      */
     protected void setSpeed(int value) {
         speed = value;
@@ -320,16 +334,17 @@ public class CubeBoardManager3D {
 
     /**
      * The method returning the speed of the animation.
-     * @return  the speed of the animation
+     *
+     * @return the speed of the animation
      */
-    protected int getSpeed(){
+    protected int getSpeed() {
         return speed;
     }
 
     /**
      * The method clearing the board.
      */
-    public void clearBoard(){
+    public void clearBoard() {
         isRunning = false;
         board3D.clearBoard();
         isClearing = true;
