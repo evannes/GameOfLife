@@ -113,17 +113,15 @@ public abstract class Board implements Cloneable {
      * The method creating the next generation of cells to be drawn or removed using Threads.
      */
     public void nextGenerationConcurrent() {
-
         ExecutorService executor = Executors.newFixedThreadPool(4);
-
-        executor.submit(new Thread(()-> {
-            nextGenerationThreadTask(0);}));
-        executor.submit(new Thread(()-> {
-            nextGenerationThreadTask(1);}));
-        executor.submit(new Thread(()-> {
-            nextGenerationThreadTask(2);}));
-        executor.submit(new Thread(()-> {
-            nextGenerationThreadTask(3);}));
+        executor.submit(()-> {
+            nextGenerationThreadTask(0);});
+        executor.submit(()-> {
+            nextGenerationThreadTask(1);});
+        executor.submit(()-> {
+            nextGenerationThreadTask(2);});
+        executor.submit(()-> {
+            nextGenerationThreadTask(3);});
         try {
             executor.shutdown();
             executor.awaitTermination(5, TimeUnit.SECONDS);
@@ -136,7 +134,6 @@ public abstract class Board implements Cloneable {
             }
             executor.shutdownNow();
         }
-
         switchBoard();
     }
 
