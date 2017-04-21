@@ -46,7 +46,9 @@ public class BoardManager {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
                     //board.nextGeneration();
+
                     board.nextGenerationConcurrent();
+
                     draw();
 
                     time = System.nanoTime();
@@ -65,12 +67,14 @@ public class BoardManager {
     public void draw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(gridColor);
+        int width = board.getWidth();
+        int height = board.getHeight();
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / board.getWidth();
-        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / board.getHeight();
+        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / width;
+        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / height;
 
-        for (int i = 0; i < board.getWidth(); i++) {
-            for (int j = 0; j < board.getHeight(); j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
 
                 if(board.getValue(i, j) && drawRandomColors) {
                     gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));

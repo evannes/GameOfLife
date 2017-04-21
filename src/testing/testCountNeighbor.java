@@ -32,7 +32,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][1] = true;
         setBoard(testStaticBoard);
@@ -51,7 +51,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         setBoard(testStaticBoard);
@@ -70,7 +70,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][2] = true;
         setBoard(testStaticBoard);
@@ -89,7 +89,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[1][0] = true;
         setBoard(testStaticBoard);
@@ -108,7 +108,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][2] = true;
         setBoard(testStaticBoard);
@@ -127,7 +127,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, true);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[2][1] = true;
         setBoard(testStaticBoard);
@@ -146,7 +146,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[2][2] = true;
         setBoard(testStaticBoard);
@@ -165,7 +165,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, true);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[2][0] = true;
         setBoard(testStaticBoard);
@@ -184,7 +184,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, false);
         testStaticBoard.setValue(2, 1, false);
         testStaticBoard.setValue(2, 2, false);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         setBoard(testStaticBoard);
         int testCountNeighbor = testStaticBoard.rules.countNeighbor(1, 1, testBoardGrid);
@@ -196,7 +196,7 @@ public class testCountNeighbor {
     public void testCountNeighborTwoNeighbors() {
         testStaticBoard.setValue(0, 0, true);
         testStaticBoard.setValue(0, 1, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
@@ -211,7 +211,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(0, 0, true);
         testStaticBoard.setValue(0, 1, true);
         testStaticBoard.setValue(0, 2, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
@@ -228,7 +228,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(0, 1, true);
         testStaticBoard.setValue(0, 2, true);
         testStaticBoard.setValue(1, 0, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
@@ -247,7 +247,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(0, 2, true);
         testStaticBoard.setValue(1, 0, true);
         testStaticBoard.setValue(1, 2, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
@@ -268,7 +268,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(1, 0, true);
         testStaticBoard.setValue(1, 2, true);
         testStaticBoard.setValue(2, 0, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
@@ -291,7 +291,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(1, 2, true);
         testStaticBoard.setValue(2, 0, true);
         testStaticBoard.setValue(2, 1, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;
@@ -316,7 +316,7 @@ public class testCountNeighbor {
         testStaticBoard.setValue(2, 0, true);
         testStaticBoard.setValue(2, 1, true);
         testStaticBoard.setValue(2, 2, true);
-        int testCountNeighbor = testStaticBoard.countNeighbor(1,1);
+        int testCountNeighbor = testStaticBoard.countNeighbor(1,1, testStaticBoard.getWidth(), testStaticBoard.getHeight());
         /*
         testBoardGrid[0][0] = true;
         testBoardGrid[0][1] = true;

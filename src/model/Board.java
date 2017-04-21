@@ -83,9 +83,11 @@ public abstract class Board implements Cloneable {
      */
     @Deprecated
     public void nextGeneration() {
-        for(int i = 0; i < getWidth(); i++){
-            for(int j = 0; j < getHeight(); j++){
-                int neighbors = countNeighbor(i, j);
+        int width = getWidth();
+        int height = getHeight();
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+                int neighbors = countNeighbor(i, j, width, height);
                 boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
                 setCloneValue(i, j, value );
             }
@@ -99,9 +101,11 @@ public abstract class Board implements Cloneable {
      *                  The board is divided into four equal quarters, split horizontally.
      */
      private void nextGenerationThreadTask(int quarter) {
-         for(int i = (getWidth()/4)*quarter++; i < (getWidth()/4)*quarter; i++){
-             for(int j = 0; j < getHeight(); j++){
-                 int neighbors = countNeighbor(i, j);
+         int width = getWidth();
+         int height = getHeight();
+         for(int i = (width/4)*quarter++; i < (width/4)*quarter; i++){
+             for(int j = 0; j < height; j++){
+                 int neighbors = countNeighbor(i, j, width, height);
                  boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
                  setCloneValue(i, j, value );
              }
@@ -158,71 +162,59 @@ public abstract class Board implements Cloneable {
      * @param j     the second column index of the array
      * @return      the number of alive neighboring cells
      */
-    public int countNeighbor(int i, int j){
+    public int countNeighbor(int i, int j, int width, int height){
         int count = 0;
 
         //check top
-        if (isActiveCell(i, j-1))
+        if (isActiveCell(i, j-1, width, height))
             count++;
 
         //check top-left
-        if (isActiveCell(i-1, j-1))
+        if (isActiveCell(i-1, j-1, width, height))
             count++;
 
         //check top-right
-        if (isActiveCell(i+1, j-1))
+        if (isActiveCell(i+1, j-1, width, height))
             count++;
 
         //check left
-        if (isActiveCell(i-1, j))
+        if (isActiveCell(i-1, j, width, height))
             count++;
 
         //check right
-        if (isActiveCell(i+1, j))
+        if (isActiveCell(i+1, j, width, height))
             count++;
 
         //check bottom
-        if (isActiveCell(i, j+1))
+        if (isActiveCell(i, j+1, width, height))
             count++;
 
         //check bottom-right
-        if (isActiveCell(i+1, j+1))
+        if (isActiveCell(i+1, j+1, width, height))
             count++;
 
         //check bottom-left
-        if (isActiveCell(i-1, j+1))
+        if (isActiveCell(i-1, j+1, width, height))
             count++;
 
         return count;
     }
 
     /**
-     * The method checking if the cell is alive.
+     * * The method checking if the cell is alive and inbounds the board.
      * @param i         the first column index of the array
      * @param j         the second column index of the array
+     * @param width     the width of the board
+     * @param height    the height of the board
      * @return          <code>true</code> if the cell is alive
      *                  and not exceeding the board array
      */
-    private boolean isActiveCell(int i, int j) {
-        return inBounds(i, j) && getValue(i,j);
-    }
-
-    /**
-     * The method checking if the appointed position is within the board array.
-     * @param i         the first column index of the array
-     * @param j         the second column index of the array
-     * @return          <code>false</code> if the position is exceeding the board array
-     */
-    private boolean inBounds(int i, int j){
-        if(i == -1 || j == -1){
+    private boolean isActiveCell(int i, int j, int width, int height) {
+        if(i < 0 || j < 0 || i >= width || j >= height){
             return false;
         }
 
-        if(i >= getWidth() || j >= getHeight()){
-            return false;
-        }
-
-        return true;
+        return getValue(i,j);
     }
 
     /**
