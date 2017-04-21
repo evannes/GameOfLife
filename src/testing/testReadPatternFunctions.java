@@ -1,8 +1,7 @@
 package testing;
 
-import sample.FileHandling;
+import model.FileHandling;
 
-import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 

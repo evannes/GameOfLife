@@ -1,4 +1,4 @@
-package sample;
+package model;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
  */
 
 public abstract class Board implements Cloneable {
-    protected int defaultWidth = 160;
-    protected int defaultHeight = 100;
+    int defaultWidth = 160;
+    int defaultHeight = 100;
     public Rules rules = new Rules();
 
     /**
@@ -83,12 +83,10 @@ public abstract class Board implements Cloneable {
      */
     @Deprecated
     public void nextGeneration() {
-        //clearClone();
-
         for(int i = 0; i < getWidth(); i++){
             for(int j = 0; j < getHeight(); j++){
                 int neighbors = countNeighbor(i, j);
-                boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
                 setCloneValue(i, j, value );
             }
         }
@@ -97,13 +95,14 @@ public abstract class Board implements Cloneable {
 
     /**
      * The method creating the task for the nextGeneration method.
-     * @param quarter
+     * @param quarter   Indicated which quarter section of the board to be worked on.
+     *                  The board is divided into four equal quarters, split horizontally.
      */
-     public void nextGenerationThreadTask(int quarter) {
+     private void nextGenerationThreadTask(int quarter) {
          for(int i = (getWidth()/4)*quarter++; i < (getWidth()/4)*quarter; i++){
              for(int j = 0; j < getHeight(); j++){
                  int neighbors = countNeighbor(i, j);
-                 boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                 boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
                  setCloneValue(i, j, value );
              }
          }
@@ -205,7 +204,7 @@ public abstract class Board implements Cloneable {
      *                  and not exceeding the board array
      */
     private boolean isActiveCell(int i, int j) {
-        return inBounds(i, j) && getValue(i,j) == true;
+        return inBounds(i, j) && getValue(i,j);
     }
 
     /**

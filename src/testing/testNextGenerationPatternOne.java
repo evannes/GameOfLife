@@ -2,9 +2,8 @@
 package testing;
 
 import org.junit.jupiter.api.Test;
-import sample.Board;
-import sample.StaticBoard;
-import sample.Rules;
+import model.Board;
+import model.StaticBoard;
 
 
 /**

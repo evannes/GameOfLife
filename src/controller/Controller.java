@@ -1,4 +1,4 @@
-package sample;
+package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +10,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Board;
+import view.BoardManager;
+import model.DynamicBoard;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,8 +27,8 @@ public class Controller implements Initializable{
 
     @FXML
     private Canvas canvas;
-    Board board;
-    BoardManager boardManager;
+    private Board board;
+    private BoardManager boardManager;
 
     @FXML
     private Slider changeCellSize;
@@ -148,7 +151,7 @@ public class Controller implements Initializable{
             ruleWindowStage.initModality(Modality.WINDOW_MODAL);
             ruleWindowStage.initOwner(selectRules.getScene().getWindow());
 
-            FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("ruleWindow.fxml"));
+            FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("../view/ruleWindow.fxml"));
             BorderPane ruleWindowBorderPane = ruleWindowLoader.load();
 
             Scene ruleWindowScene = new Scene(ruleWindowBorderPane, 600, 400);
@@ -196,7 +199,7 @@ public class Controller implements Initializable{
                 statisticsWindowStage.initModality(Modality.WINDOW_MODAL);
                 statisticsWindowStage.initOwner(viewStatistics.getScene().getWindow());
 
-                FXMLLoader statisticsWindowLoader = new FXMLLoader(getClass().getResource("statisticsWindow.fxml"));
+                FXMLLoader statisticsWindowLoader = new FXMLLoader(getClass().getResource("../view/statisticsWindow.fxml"));
 
                 BorderPane statisticsWindowBorderPane = statisticsWindowLoader.load();
 

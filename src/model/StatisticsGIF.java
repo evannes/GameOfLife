@@ -1,4 +1,4 @@
-package sample;
+package model;
 
 import lieng.GIFWriter;
 
@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Alexander Kingdon on 10.04.2017.
  */
-class StatisticsGIF {
+public class StatisticsGIF {
 
     private Color cellColor = new Color(32, 178, 170);
     private Color boardColor = Color.WHITE;
@@ -22,11 +22,11 @@ class StatisticsGIF {
      * This method runs {@link DynamicBoard#nextGeneration()} a set number of times to supply
      * {@link StatisticsGIF#drawGIFFrame(GIFWriter, DynamicBoard)} with board data to draw to a file.
      * @param gifBoard          The cloned board being used to supply data.
-     * @param generationsOver98 An array list of generations with a similarity measure >= 97.
+     * @param generationsOver98 An array list of generations with a similarity measure >= 98.
      * @param iterations        The number of iterations that the simulation ran, user specified.
      * @throws Exception        An {@link java.io.IOException} possibly thrown by the gif writer.
      */
-    void writeGif(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) throws Exception {
+    public void writeGif(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) throws Exception {
         width = gifBoard.getWidth()*3;
         height = gifBoard.getHeight()*3;
         Random gifRandomValue = new Random();

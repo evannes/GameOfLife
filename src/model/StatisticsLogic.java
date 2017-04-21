@@ -1,4 +1,4 @@
-package sample;
+package model;
 
 
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ public class StatisticsLogic {
 
     private DynamicBoard clonedBoard;
     private DynamicBoard gifBoard;
-    private final static double ALPHA = 0.5d;
-    private final static double BETA = 3.0d;
-    private final static double GAMMA = 0.25d;
+    private static final double ALPHA = 0.5d;
+    private static final double BETA = 3.0d;
+    private static final double GAMMA = 0.25d;
     private int similaritySpecifiedNumber = 0;
     private int iterations = 30;
     private List<Integer> sameOccurrencesHelper;
@@ -21,36 +21,36 @@ public class StatisticsLogic {
     private boolean createGIF = false;
     private List<Integer> similaritiesOver98;
 
-    void setClonedBoard(DynamicBoard clonedBoard) {
+    public void setClonedBoard(DynamicBoard clonedBoard) {
         this.clonedBoard = clonedBoard;
     }
-    DynamicBoard getGifBoard() {
+    public DynamicBoard getGifBoard() {
         return this.gifBoard;
     }
-    void setIterations(int iterations) {
+    public void setIterations(int iterations) {
         this.iterations = iterations;
     }
-    void setSimilaritySpecifiedNumber(int specifiedNumber) {
+    public void setSimilaritySpecifiedNumber(int specifiedNumber) {
         similaritySpecifiedNumber = specifiedNumber;
     }
-    int getHighestSimilarityNumber() {
+    public int getHighestSimilarityNumber() {
         return highestSimilarityNumber;
     }
-    List<Integer> getSameOccurrencesHelper() {
+    public List<Integer> getSameOccurrencesHelper() {
         return sameOccurrencesHelper;
     }
-    List<Integer> getSimilaritiesOver98() {
+    public List<Integer> getSimilaritiesOver98() {
         return similaritiesOver98;
     }
-    void setCreateGIF() {
+    public void setCreateGIF() {
         createGIF = true;
     }
-    void unsetCreateGIF() {
+    public void unsetCreateGIF() {
         if (createGIF) {
             createGIF = false;
         }
     }
-    boolean getCreateGIF() {
+    public boolean getCreateGIF() {
         return createGIF;
     }
 
@@ -92,7 +92,7 @@ public class StatisticsLogic {
      * This method does all the calculations needed to produce game statistics
      * @return  An int[][] array containing the game statistics.
      */
-    int[][] getStatistics() {
+    public int[][] getStatistics() {
         try {
             gifBoard = clonedBoard.clone();
         } catch (CloneNotSupportedException e) {

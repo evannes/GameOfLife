@@ -1,13 +1,10 @@
-package sample;
-
-import java.util.ArrayList;
-import java.util.List;
+package model;
 
 /**
  * Created by miinael on 15.02.2017.
  */
 public class Rules {
-    protected static String ruleSet = "Default (Life)";
+    static String ruleSet = "Default (Life)";
 
     /**
      * The method checking if a cell should be born.
@@ -32,7 +29,6 @@ public class Rules {
             case "Day & Night": return counter == 3 || counter == 6 || counter == 7 || counter == 8;
             default : return counter == 3;
         }
-        //return counter == 3;
     }
 
     /**

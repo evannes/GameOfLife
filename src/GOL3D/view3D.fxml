@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="gridPane" alignment="center" hgap="10" prefHeight="650.0" prefWidth="1200.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GOL3D.Controller">
+<GridPane fx:id="gridPane" alignment="center" hgap="10" prefHeight="650.0" prefWidth="1200.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GOL3D.view3DController">
    <children>
       <BorderPane fx:id="borderpane" prefHeight="650.0" prefWidth="1200.0">
          <left>

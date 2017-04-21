@@ -1,4 +1,4 @@
-package sample;
+package model;
 
 
 
@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
 public class FileHandling {
     private Rules rules = new Rules();
     private boolean[][] boardArray;
-    Charset charset = Charset.forName("US-ASCII");
+    private Charset charset = Charset.forName("US-ASCII");
 
     public FileHandling() {
     }
@@ -143,7 +143,7 @@ public class FileHandling {
         return null;
     }
 
-    public boolean[][] getBoardArray(BufferedReader reader) throws IOException {
+    private boolean[][] getBoardArray(BufferedReader reader) throws IOException {
         String currentLine = null;
         String patternString = "";
 
