@@ -2,7 +2,7 @@ package testing;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import sample.DynamicBoard;
+import model.DynamicBoard;
 
 /**
  * Created by Alex on 05.04.2017.

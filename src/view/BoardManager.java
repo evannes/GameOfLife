@@ -1,25 +1,15 @@
-package sample;
+package view;
 
+import controller.Controller;
 import javafx.animation.AnimationTimer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Objects;
+import model.Board;
+import model.DynamicBoard;
+import model.FileHandling;
+import model.StaticBoard;
 
 /**
  * @author Miina Lervik
@@ -38,11 +28,10 @@ public class BoardManager {
     private Color boardColor = Color.WHITE;
     private Canvas canvas;
     private Board board;
-    FileHandling fileHandling = new FileHandling();
+    private FileHandling fileHandling = new FileHandling();
     Controller controller = new Controller();
-    protected boolean isRunning = false;
-    protected long time = System.nanoTime();
-    AnimationTimer drawTimer;
+    public boolean isRunning = false;
+    private long time = System.nanoTime();
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -53,7 +42,7 @@ public class BoardManager {
         this.canvas = canvas;
         this.board = board;
         draw();
-        drawTimer = new AnimationTimer() {
+        AnimationTimer drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
                     //board.nextGeneration();
@@ -83,10 +72,10 @@ public class BoardManager {
         for (int i = 0; i < board.getWidth(); i++) {
             for (int j = 0; j < board.getHeight(); j++) {
 
-                if(board.getValue(i, j) == true && drawRandomColors) {
+                if(board.getValue(i, j) && drawRandomColors) {
                     gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                 }
-                else if (board.getValue(i, j) == true) {
+                else if (board.getValue(i, j)) {
                     gc.setFill(cellColor);
                 }
                 else {
@@ -127,7 +116,7 @@ public class BoardManager {
      * The higher the value passed in the larger the board will become.
      * @param value     the value used to change the size of the board.
      */
-    protected void setDrawScale(double value) {
+    public void setDrawScale(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
         double fullBoardWidth = canvas.getWidth()*drawScale;
@@ -148,7 +137,7 @@ public class BoardManager {
      */
     public void newGame() {
         clearBoard();
-        boolean[][] array = fileHandling.readLocalFile("src/sample/patterns/halfmax.rle");
+        boolean[][] array = fileHandling.readLocalFile("src/model/patterns/halfmax.rle");
         selectPatternLogic(array);
         //board.defaultStartBoard();
         //isRunning = true;
@@ -190,7 +179,7 @@ public class BoardManager {
         selectPatternLogic(array);
     }
 
-    public void selectPatternLogic(boolean[][] array) {
+    private void selectPatternLogic(boolean[][] array) {
         try {
             ////////lag en if-else som sjekker om instansen er Dynamic eller Static
             if(board instanceof DynamicBoard) {
@@ -226,7 +215,7 @@ public class BoardManager {
      * The method setting the speed of the animation.
      * @param value     the value used to set the speed of the animation
      */
-    protected void setSpeed(int value) {
+    public void setSpeed(int value) {
         speed = value;
     }
 
@@ -234,7 +223,7 @@ public class BoardManager {
      * The method returning the speed of the animation.
      * @return  the speed of the animation
      */
-    protected int getSpeed(){
+    private int getSpeed(){
         return speed;
     }
 

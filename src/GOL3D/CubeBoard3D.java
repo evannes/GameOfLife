@@ -1,9 +1,7 @@
 package GOL3D;
 
-import javafx.animation.AnimationTimer;
-import javafx.scene.Group;
 import javafx.scene.control.Alert;
-import sample.Rules;
+import model.Rules;
 
 import java.util.ArrayList;
 import java.util.List;

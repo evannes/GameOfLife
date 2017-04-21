@@ -9,7 +9,7 @@ import javafx.scene.shape.Box;
 import java.util.ArrayList;
 import java.util.List;
 
-import sample.FileHandling;
+import model.FileHandling;
 
 /**
  * Created by Elise Haram Vannes on 05.04.2017.

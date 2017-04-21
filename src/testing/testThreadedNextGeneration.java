@@ -2,8 +2,8 @@ package testing;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import sample.DynamicBoard;
-import sample.FileHandling;
+import model.DynamicBoard;
+import model.FileHandling;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class testThreadedNextGeneration {
     }
 
     private List<Integer> runThreadedTest(int generations) {
-        boolean[][] array = fileHandling.readLocalFile("src/sample/patterns/tlogtgrowth.rle");
+        boolean[][] array = fileHandling.readLocalFile("src/model/patterns/tlogtgrowth.rle");
         board.setInputInBoard(board.createArrayListFromArray(array));
         List<Integer> testList = new ArrayList<>(2);
 

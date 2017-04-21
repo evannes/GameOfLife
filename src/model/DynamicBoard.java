@@ -1,8 +1,7 @@
-package sample;
+package model;
 
 
 import javafx.scene.control.Alert;
-import sun.plugin.javascript.navig.Array;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,8 @@ import java.util.stream.IntStream;
 public class DynamicBoard extends Board {
     private int original_x_size;
     private int original_y_size;
-    public List<List<Boolean>> dynamicBoardArray;
-    public List<List<Boolean>> clone;
+    private List<List<Boolean>> dynamicBoardArray;
+    private List<List<Boolean>> clone;
 
     /**
      * Constructs and initiates the board to be used.
@@ -33,7 +32,7 @@ public class DynamicBoard extends Board {
     /**
      * The method initializing the board with all values set to false.
      */
-    public void initStartBoard(){
+    private void initStartBoard(){
         dynamicBoardArray = getBoard(defaultWidth, defaultHeight);
         clone = getBoard(defaultWidth, defaultHeight);
     }

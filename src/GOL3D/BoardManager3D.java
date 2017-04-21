@@ -2,7 +2,6 @@ package GOL3D;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
-import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -10,7 +9,7 @@ import javafx.scene.shape.Box;
 import java.util.ArrayList;
 import java.util.List;
 
-import sample.*;
+import model.*;
 
 /**
  * Created by Elise Haram Vannes on 03.04.2017.

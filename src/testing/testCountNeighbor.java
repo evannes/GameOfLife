@@ -1,8 +1,8 @@
 package testing;
 
 import org.junit.jupiter.api.Test;
-import sample.Board;
-import sample.StaticBoard;
+import model.Board;
+import model.StaticBoard;
 
 /**
  * @author Miina Lervik

@@ -1,30 +1,23 @@
-package sample;
+package model;
 
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import java.util.Objects;
 
 /**
- * Created by Alex on 03.04.2017.
+ * Created by Alexander Kingdon on 03.04.2017.
  */
-public class RuleWindow {
+public class Rulesets {
 
     private ListView ruleList;
-    String ruleDescription;
-    String ruleIdentifier;
+    private String ruleIdentifier;
 
-    public RuleWindow(ListView ruleList) {
+    public Rulesets(ListView ruleList) {
         this.ruleList = ruleList;
     }
 
     public String getRuleDescription() {
         ruleIdentifier = (String) ruleList.getSelectionModel().getSelectedItem();
+        String ruleDescription;
         switch (ruleIdentifier) {
             case "Replicator":
                 ruleDescription = "B1357/S1357 \n- A cell is born when it has one, three, five or seven neighbors." +

@@ -1,4 +1,4 @@
-package sample;
+package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.DynamicBoard;
+import model.StatisticsGIF;
+import model.StatisticsLogic;
+import view.StatisticsManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +24,7 @@ public class StatisticsController implements Initializable {
 
     @FXML
     private StatisticsLogic statisticsLogic;
-    private StatisticsView statisticsView;
+    private StatisticsManager statisticsView;
     private StatisticsGIF statisticsGIF;
     private int iterations;
 
@@ -57,10 +61,10 @@ public class StatisticsController implements Initializable {
 
     /**
      * This method opens up a dialog window letting the user specify an iteration to compare similarity with.
-     * It also tells {@link StatisticsView} to create labels showing the information gathered.
+     * It also tells {@link StatisticsManager} to create labels showing the information gathered.
      */
     public void getSpecifiedStatistics() {
-        statisticsView = new StatisticsView();
+        statisticsView = new StatisticsManager();
         int similaritySpecifiedNumber = statisticsView.createDialogWindow();
         if (similaritySpecifiedNumber > iterations) {
             similaritySpecifiedNumber = iterations;
@@ -93,7 +97,7 @@ public class StatisticsController implements Initializable {
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         statisticsLogic = new StatisticsLogic();
-        statisticsView = new StatisticsView();
+        statisticsView = new StatisticsManager();
         statisticsGIF = new StatisticsGIF();
 
         iterationValue.textProperty().addListener((observable, oldValue, value) -> {

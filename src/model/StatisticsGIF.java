@@ -1,4 +1,4 @@
-package sample;
+package model;
 
 import lieng.GIFWriter;
 
@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Alexander Kingdon on 10.04.2017.
  */
-class StatisticsGIF {
+public class StatisticsGIF {
 
     private Color cellColor = new Color(32, 178, 170);
     private Color boardColor = Color.WHITE;
@@ -26,7 +26,7 @@ class StatisticsGIF {
      * @param iterations        The number of iterations that the simulation ran, user specified.
      * @throws Exception        An {@link java.io.IOException} possibly thrown by the gif writer.
      */
-    void writeGif(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) throws Exception {
+    public void writeGif(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) throws Exception {
         width = gifBoard.getWidth()*3;
         height = gifBoard.getHeight()*3;
         Random gifRandomValue = new Random();
