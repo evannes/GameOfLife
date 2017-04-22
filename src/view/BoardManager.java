@@ -24,8 +24,8 @@ public class BoardManager {
     private double startingPointY;
     private int speed;
     private Color cellColor = Color.LIGHTSEAGREEN;
-    private Color gridColor = Color.GRAY;
-    private Color boardColor = Color.WHITE;
+    public Color gridColor = Color.GRAY;
+    public Color boardColor = Color.WHITE;
     private Canvas canvas;
     private Board board;
     private FileHandling fileHandling = new FileHandling();

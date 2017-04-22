@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Board;
@@ -53,6 +54,9 @@ public class Controller implements Initializable{
 
     @FXML
     private Button viewStatistics;
+
+    @FXML
+    private CheckBox gridOnOff;
 
     /**
      * The method allowing the user to select a pattern from disk
@@ -246,6 +250,15 @@ public class Controller implements Initializable{
                 });
 
         boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
+
+        gridOnOff.setOnAction(event -> {
+            if (gridOnOff.isSelected()) {
+                boardManager.gridColor = boardManager.boardColor;
+            } else {
+                boardManager.gridColor = Color.GRAY;
+            }
+            boardManager.draw();
+        });
     }
 
 }
