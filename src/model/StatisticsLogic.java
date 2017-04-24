@@ -110,7 +110,8 @@ public class StatisticsLogic {
 
     /**
      * Getter method to check if the user wanted to create an animated gif.
-     * @return
+     * @return  <code>True</code> or <code>false</code> depending on
+     * what the user wants to do
      */
     public boolean getCreateGIF() {
         return createGIF;
