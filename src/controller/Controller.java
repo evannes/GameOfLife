@@ -41,9 +41,6 @@ public class Controller implements Initializable{
     private CheckBox randomColors;
 
     @FXML
-    private ColorPicker colorPicker;
-
-    @FXML
     private Button pauseButton;
 
     @FXML
@@ -57,6 +54,17 @@ public class Controller implements Initializable{
 
     @FXML
     private CheckBox gridOnOff;
+
+    @FXML
+    private ColorPicker colorPickerCell;
+
+    @FXML
+    private ColorPicker colorPickerGrid;
+
+    @FXML
+    private ColorPicker colorPickerBoard;
+
+
 
     /**
      * The method allowing the user to select a pattern from disk
@@ -76,7 +84,7 @@ public class Controller implements Initializable{
      * Assigns color to the cells.
      */
     public void setCellColor(){
-        boardManager.setCellColor(colorPicker);
+        boardManager.setCellColor(colorPickerCell);
         boardManager.draw();
     }
 
@@ -84,7 +92,7 @@ public class Controller implements Initializable{
      * Assigns color to the grid.
      */
     public void setGridColor(){
-        boardManager.setGridColor(colorPicker);
+        boardManager.setGridColor(colorPickerGrid);
         boardManager.draw();
     }
 
@@ -92,7 +100,7 @@ public class Controller implements Initializable{
      * Assigns color to the boards background.
      */
     public void setBoardColor(){
-        boardManager.setBoardColor(colorPicker);
+        boardManager.setBoardColor(colorPickerBoard);
         boardManager.draw();
     }
 
@@ -233,8 +241,6 @@ public class Controller implements Initializable{
 
         boardManager.userDrawCell();
 
-
-
         changeSpeed.valueProperty().addListener(
                 (observable, oldValue, value) ->
                 {
@@ -253,11 +259,26 @@ public class Controller implements Initializable{
 
         gridOnOff.setOnAction(event -> {
             if (gridOnOff.isSelected()) {
-                boardManager.gridColor = boardManager.boardColor;
+                boardManager.switchOffGrid();
             } else {
-                boardManager.gridColor = Color.GRAY;
+                boardManager.switchOnGrid(colorPickerGrid);
             }
-            boardManager.draw();
+        });
+
+        colorPickerCell.setValue(boardManager.cellColor);
+        colorPickerGrid.setValue(boardManager.gridColor);
+        colorPickerBoard.setValue(boardManager.boardColor);
+
+        colorPickerCell.setOnAction(event -> {
+            boardManager.setCellColor(colorPickerCell);
+        });
+
+        colorPickerGrid.setOnAction(event -> {
+            boardManager.setGridColor(colorPickerGrid);
+        });
+
+        colorPickerBoard.setOnAction(event -> {
+            boardManager.setBoardColor(colorPickerBoard);
         });
     }
 

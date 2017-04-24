@@ -23,7 +23,7 @@ public class BoardManager {
     private double startingPointX;
     private double startingPointY;
     private int speed;
-    private Color cellColor = Color.LIGHTSEAGREEN;
+    public Color cellColor = Color.LIGHTSEAGREEN;
     public Color gridColor = Color.GRAY;
     public Color boardColor = Color.WHITE;
     private Canvas canvas;
@@ -237,6 +237,7 @@ public class BoardManager {
      */
     public void setCellColor(ColorPicker colorPicker){
         cellColor = colorPicker.getValue();
+        draw();
     }
 
     /**
@@ -245,6 +246,7 @@ public class BoardManager {
      */
     public void setGridColor(ColorPicker colorPicker) {
         gridColor = colorPicker.getValue();
+        draw();
     }
 
     /**
@@ -253,6 +255,7 @@ public class BoardManager {
      */
     public void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
+        draw();
     }
 
 
@@ -262,5 +265,15 @@ public class BoardManager {
      */
     public void setDrawRandomColors(boolean value) {
         drawRandomColors = value;
+    }
+
+    public void switchOffGrid() {
+        gridColor = boardColor;
+        draw();
+    }
+
+    public void switchOnGrid(ColorPicker colorPickerGrid) {
+        gridColor = colorPickerGrid.getValue();
+        draw();
     }
 }
