@@ -148,35 +148,35 @@ public class BoardManager3D{
     }
 
     /**
-     * The method starting the animation of the board
+     * Starts the animation of the board
      */
     public void start() {
         isRunning = true;
     }
 
     /**
-     * The method pausing the game by stopping the animation.
+     * Pauses the game by stopping the animation.
      */
     public void pauseGame(){
         isRunning = false;
     }
 
     /**
-     * The method resuming the game by starting the animation again.
+     * Resumes the game by starting the animation again.
      */
     public void resumeGame(){
         isRunning = true;
     }
 
     /**
-     * The method exiting the game.
+     * Exits the game.
      */
     public void exitGame(){
         System.exit(0);
     }
 
     /**
-     * The method allowing the user to select a rle pattern from disk.
+     * Lets the user to select a rle pattern from disk.
      */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
@@ -184,7 +184,7 @@ public class BoardManager3D{
         changeBoard();
     }
     /**
-     * The method allowing the user to select a rle pattern from URL.
+     * Lets the user to select a rle pattern from URL.
      */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
@@ -203,7 +203,7 @@ public class BoardManager3D{
     }
 
     /**
-     * The method return whether the animation is running or not.
+     * Returna whether the animation is running or not.
      * @return      <code>true</code> if the animation
      *              is running.
      */
@@ -212,7 +212,7 @@ public class BoardManager3D{
     }
 
     /**
-     * The method setting the speed of the animation.
+     * Sets the speed of the animation.
      * @param value     the value used to set the speed of the animation
      */
     protected void setSpeed(int value) {
@@ -220,7 +220,7 @@ public class BoardManager3D{
     }
 
     /**
-     * The method returning the speed of the animation.
+     * Returns the speed of the animation.
      * @return  the speed of the animation
      */
     protected int getSpeed(){
@@ -228,7 +228,7 @@ public class BoardManager3D{
     }
 
     /**
-     * The method clearing the board.
+     * Clears the board.
      */
     public void clearBoard(){
         isRunning = false;

@@ -93,7 +93,7 @@ public class Board3D{
     }
 
     /**
-     * The method creating the next generation of cells to be drawn or removed.
+     * Creates the next generation of cells to be drawn or removed.
      */
     public void nextGeneration() {
         createClone();
@@ -109,7 +109,7 @@ public class Board3D{
     }
 
     /**
-     * The method setting values to the clone at the appointed index.
+     * Sets values to the clone at the appointed index.
      * @param x the first column index
      * @param y the second column index
      * @param value the value to be set
@@ -119,7 +119,7 @@ public class Board3D{
     }
 
     /**
-     * The method making the board equal to the clone.
+     * Makes the board equal to the clone.
      */
     public void switchBoard() {
         for(int i = 0; i < getWidth(); i++) {
@@ -130,7 +130,7 @@ public class Board3D{
     }
 
     /**
-     * The method counting the alive cells surrounding the appointed cell
+     * Counts the alive cells surrounding the appointed cell
      * @param i     the first column index of the array
      * @param j     the second column index of the array
      * @return      the number of alive neighboring cells
@@ -174,7 +174,7 @@ public class Board3D{
     }
 
     /**
-     * The method checking if the cell is alive.
+     * Checks if the cell is alive.
      * @param i         the first column index of the array
      * @param j         the second column index of the array
      * @return          <code>true</code> if the cell is alive
@@ -185,7 +185,7 @@ public class Board3D{
     }
 
     /**
-     * The method checking if the appointed position is within the board array.
+     * Checks if the appointed position is within the board array.
      * @param i         the first column index of the array
      * @param j         the second column index of the array
      * @return          <code>false</code> if the position is exceeding the board array
@@ -203,7 +203,7 @@ public class Board3D{
     }
 
     /**
-     * The method setting <code>boolean</code> values to the board.
+     * Sets <code>boolean</code> values to the board.
      * @param x     the first column index
      * @param y     the second column index
      * @param value the <code>boolean</code> value to be set
@@ -213,7 +213,7 @@ public class Board3D{
     }
 
     /**
-     * The method returning the <code>boolean</code> value of the appointed position
+     * Returns the <code>boolean</code> value of the appointed position
      * @param x the first column index
      * @param y the second column index
      * @return  the <code>boolean</code> value in this index
@@ -223,7 +223,7 @@ public class Board3D{
     }
 
     /**
-     * The method toggling the <code>boolean</code> value at the appointed index.
+     * Toggles the <code>boolean</code> value at the appointed index.
      * @param x the first column index
      * @param y the second column index
      */
@@ -232,7 +232,7 @@ public class Board3D{
     }
 
     /**
-     * The method resetting all values of the board to false
+     * Resets all values of the board to false
      */
     public void clearBoard() {
 
@@ -255,7 +255,7 @@ public class Board3D{
     }
 
     /**
-     * The method creating a two-dimensional ArrayList our of a boolean two-dimensional array.
+     * Creates a two-dimensional ArrayList our of a boolean two-dimensional array.
      * @param array     the two-dimensional array to be converted
      * @return          a two-dimensional ArrayList with the same content as the input array
      */
@@ -272,7 +272,7 @@ public class Board3D{
     }
 
     /**
-     * The method placing the input array from filehandler into the board.
+     * Places the input array from filehandler into the board.
      * @param inputArray    the array loaded from file or URL
      */
     public void setInputInBoard(List<List<Boolean>> inputArray) {
