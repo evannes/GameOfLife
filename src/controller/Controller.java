@@ -87,30 +87,6 @@ public class Controller implements Initializable{
     }
 
     /**
-     * Assigns color to the cells.
-     */
-    public void setCellColor(){
-        boardManager.setCellColor(colorPickerCell);
-        boardManager.draw();
-    }
-
-    /**
-     * Assigns color to the grid.
-     */
-    public void setGridColor(){
-        boardManager.setGridColor(colorPickerGrid);
-        boardManager.draw();
-    }
-
-    /**
-     * Assigns color to the boards background.
-     */
-    public void setBoardColor(){
-        boardManager.setBoardColor(colorPickerBoard);
-        boardManager.draw();
-    }
-
-    /**
      * Assigns random colors to the cells.
      */
     public void setRandomColors(){
@@ -160,6 +136,9 @@ public class Controller implements Initializable{
         boardManager.exitGame();
     }
 
+    /**
+     * Used to create the <code>Stage</code> for the rule selection window.
+     */
     public void selectRules() {
         try {
             if (boardManager.isRunning) {
@@ -184,6 +163,9 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Used to create the <code>Stage</code> for the 3D game window.
+     */
     public void start3DGame(){
         try {
             Stage window3DGame = new Stage();
@@ -204,6 +186,9 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Used to create the <code>Stage</code> for the statistics window.
+     */
     public void viewStatistics() {
         try {
             if (boardManager.isRunning) {
@@ -239,8 +224,15 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Called to initialize a controller after its root element has been completely processed.
+     * @param fxmlFileLocation  The location used to resolve relative paths for the root object,
+     *                          or null if the location is not known.
+     * @param resources         The resources used to localize the root object,
+     *                          or null if the root object was not localized.
+     * @see                     Initializable
+     */
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        //board = new StaticBoard(160, 100);
         board = new DynamicBoard(160, 100);
 
         boardManager = new BoardManager(canvas, board);

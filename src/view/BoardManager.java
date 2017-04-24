@@ -198,7 +198,7 @@ public class BoardManager {
     }
 
     /**
-     * The method return whether the animation is running or not.
+     * The method returns whether the animation is running or not.
      * @return      <code>true</code> if the animation
      *              is running.
      */
