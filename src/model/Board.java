@@ -176,8 +176,10 @@ public abstract class Board implements Cloneable {
 
     /**
      * The method counting the alive cells surrounding the appointed cell
-     * @param i     the first column index of the array
-     * @param j     the second column index of the array
+     * @param i         the first column index of the array
+     * @param j         the second column index of the array
+     * @param width     the width of the board
+     * @param height    the height of the board
      * @return      the number of alive neighboring cells
      */
     public int countNeighbor(int i, int j, int width, int height){

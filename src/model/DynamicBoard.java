@@ -22,8 +22,6 @@ import java.util.stream.IntStream;
  */
 
 public class DynamicBoard extends Board {
-    private int original_x_size;
-    private int original_y_size;
     private List<List<Boolean>> dynamicBoardArray;
     private List<List<Boolean>> clone;
 

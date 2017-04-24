@@ -74,7 +74,11 @@ public class StatisticsManager {
 
     /**
      * This method populates the series used in the line chart to show the similarity measure.
-     * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
+     * @param stats                         The statistics array produced by
+     *                                      {@link StatisticsLogic#getStatistics()}.
+     * @param highestSimilarity             The highest similarity found.
+     * @param highestSimilarityGenerations  A dynamic list containing all occurrences of
+     *                                      the highest similarity.
      * @return      Fully populated series ready to be applied to the line chart.
      */
     public XYChart.Series<Number, Number> populateSimilarityMeasure(

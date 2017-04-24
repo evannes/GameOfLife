@@ -28,7 +28,8 @@ public class StatisticsGIF {
      * This method runs {@link DynamicBoard#nextGenerationConcurrent()} a set number of times to supply
      * {@link StatisticsGIF#drawGIFFrame(GIFWriter, DynamicBoard)} with board data to draw to a file.
      * @param gifBoard          The cloned board being used to supply data.
-     * @param generationsOver98 An array list of generations with a similarity measure >= 98.
+     * @param generationsOver98 An array list of generations with a similarity measure
+     *                          equal to or greater than 98.
      * @param iterations        The number of iterations that the simulation ran, user specified.
      * @throws Exception        An {@link java.io.IOException} possibly thrown by the gif writer.
      */
