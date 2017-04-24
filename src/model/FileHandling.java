@@ -38,12 +38,9 @@ public class FileHandling {
     private boolean[][] boardArray;
     private Charset charset = Charset.forName("US-ASCII");
 
-    public FileHandling() {
-    }
-
     /**
      * Method used for reading a local file.
-     * @param fileLocation  the <code>String</code> cotaining the path to the rle-file
+     * @param fileLocation  the <code>String</code> containing the path to the rle-file
      * @return  the boolean two-dimensional array corresponding to the code from the rle-file.
      */
     public boolean[][] readLocalFile(String fileLocation) {
@@ -208,6 +205,13 @@ public class FileHandling {
         return result.toString();
     }
 
+    /**
+     * This method returns the desired group matched from the regex input.
+     * @param input     the <code>String</code> to extract information from
+     * @param regex     the regex expression to capture the desired information
+     * @param group     the group we wish to extract information from
+     * @return          the information from the matched group
+     */
     public String getMatchGroup(String input, String regex, int group) {
         Pattern pattern = Pattern.compile(regex);
         Matcher match = pattern.matcher(input);
@@ -215,6 +219,13 @@ public class FileHandling {
         return match.group(group);
     }
 
+    /**
+     * The method creating <code>boolean</code> two-dimensional array out of the rle input file content.
+     * @param input     the content of the input file
+     * @param x         the size of the x index of the array
+     * @param y         the size of the y index of the array
+     * @return          the array corresponding to the code from the rle-file with <code>true</code> and <code>false</code> values
+     */
     public boolean[][] createArray(String input, int x, int y) {
         boolean[][] result = new boolean[x][y];
         int xIndex = 0;
