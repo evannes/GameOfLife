@@ -16,7 +16,7 @@ class testReadPatternFunctions {
     private FileHandling fileHandling = new FileHandling();
 
     /**
-     * Method used to get the bounding box for the pattern provided.
+     * Gets the bounding box for the pattern provided.
      * @param gameBoardArray     The pattern array in a ready-to-be-applied format for the game board.
      * @return          The string representation of the game board.
      */
@@ -69,7 +69,7 @@ class testReadPatternFunctions {
     }
 
     /**
-     * Simple method that mimics a toString-method. It gives a representation of the game board in a format that
+     * Mimics a toString-method. It gives a representation of the game board in a format that
      * programmers or users can read.
      * @param gameBoardArray     The pattern array in a ready-to-be-applied format for the game board.
      * @return          A string representation of the game board.
@@ -88,7 +88,7 @@ class testReadPatternFunctions {
     }
 
     /**
-     * This method parses the .rle file from either {@link testReadPatternFromDisk#testPatternString(Path)} or
+     * Parses the .rle file from either {@link testReadPatternFromDisk#testPatternString(Path)} or
      * {@link testReadPatternFromURL#testPatternString(URL)} into an array ready to be applied to the game board.
      * @param patternString     The string representation of an .rle file.
      * @return                  The pattern array in a ready-to-be-applied format for the game board.

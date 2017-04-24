@@ -71,14 +71,14 @@ public class Controller implements Initializable{
 
 
     /**
-     * The method allowing the user to select a pattern from disk
+     * Lets the user to select a pattern from disk
      */
     public void selectPatternFromDisk() {
         boardManager.selectPatternFromDisk();
     }
 
     /**
-     * The method allowing the user to select a pattern from a URL
+     * Lets the user to select a pattern from a URL
      */
     public void selectPatternFromURL() {
         boardManager.selectPatternFromURL();
@@ -107,7 +107,7 @@ public class Controller implements Initializable{
     }
 
     /**
-     * The method starting the animation of the game.
+     * Starts the animation of the game.
      */
     public void start() {
         pauseButton.setText("Pause");
@@ -135,7 +135,7 @@ public class Controller implements Initializable{
     }
 
     /**
-     * Used to create the <code>Stage</code> for the rule selection window.
+     * Creates the <code>Stage</code> for the rule selection window.
      */
     public void selectRules() {
         try {
@@ -162,7 +162,7 @@ public class Controller implements Initializable{
     }
 
     /**
-     * Used to create the <code>Stage</code> for the 3D game window.
+     * Creates the <code>Stage</code> for the 3D game window.
      */
     public void start3DGame(){
         try {
@@ -185,7 +185,7 @@ public class Controller implements Initializable{
     }
 
     /**
-     * Used to create the <code>Stage</code> for the statistics window.
+     * Creates the <code>Stage</code> for the statistics window.
      */
     public void viewStatistics() {
         try {

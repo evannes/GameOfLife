@@ -12,16 +12,14 @@ import java.util.List;
 import model.*;
 
 /**
+ * The BoardManager3D creates a 3D board of Box-objects, for running the Game of Life on.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
 public class BoardManager3D{
 
-    // inneholder boxer.. changeBoard, setPurpleMaterial, createBoxes
-
     private AnimationTimer animationTimer;
     private int speed = 250000000;
     private Board3D board3D;
-    private CubeBoard3D cubeBoard3D;
     private FileHandling fileHandling = new FileHandling();
     private Group group;
     private List<List<Box>> boardBoxes;
@@ -41,6 +39,7 @@ public class BoardManager3D{
     /**
      * The constructor initializing the animation of Game of Life.
      * @param board3D     the board
+     * @param group       the group-node that contains the box-objects in the 3D board
      */
     public BoardManager3D(Board3D board3D, Group group) {
         this.board3D = board3D;
@@ -55,16 +54,15 @@ public class BoardManager3D{
 
                     time = System.nanoTime();
                 }
-                //isClearing sier ifra at vi har clearet boardet og skal tegne det en gang.
-                if (isClearing){
-                    isClearing = false;
-                    changeBoard();
-                }
             }
         };
         animationTimer.start();
     }
 
+    /**
+     * Changes the color and size of the boxes in the 3D board,
+     * according to the boolean values of the board.
+     */
     public void changeBoard(){
 
         for (int i = 0; i < boardSize; i++) {
@@ -75,17 +73,17 @@ public class BoardManager3D{
                 if(board3D.board.get(i).get(j) == true) {
                     setPurpleMaterial(currentBox);
                     currentBox.setHeight(cellSize + 50);
-                    //currentBox.setTranslateY(boxY-25);
                 } else {
                     setBlueMaterial(currentBox);
                     currentBox.setHeight(cellSize);
-                    //currentBox.setTranslateY(boxY);
                 }
             }
-            //boxY = 0;
         }
     }
 
+    /**
+     * Creates boxes and places them in 3D space.
+     */
     public void createBoxes(){
 
         boardBoxes = new ArrayList<List<Box>>();
@@ -117,6 +115,11 @@ public class BoardManager3D{
         board3D.initStartBoard();
     }
 
+    /**
+     * Creates a blue PhongMaterial and sets it to the box,
+     * which changes the color of the box.
+     * @param box a box from the board
+     */
     public void setBlueMaterial(Box box){
         blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
@@ -124,6 +127,11 @@ public class BoardManager3D{
         box.setMaterial(blueMaterial);
     }
 
+    /**
+     * Creates a purple PhongMaterial and sets it to the box,
+     * which changes the color of the box.
+     * @param box a box from the board
+     */
     public void setPurpleMaterial(Box box){
         purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
@@ -131,20 +139,9 @@ public class BoardManager3D{
         box.setMaterial(purpleMaterial);
     }
 
-    public void setGreenMaterial(Box box){
-        greenMaterial = new PhongMaterial();
-        greenMaterial.setDiffuseColor(Color.FORESTGREEN);
-        greenMaterial.setSpecularColor(Color.LIGHTGREEN);
-        box.setMaterial(greenMaterial);
-    }
-
-    public void setPinkMaterial(Box box){
-        pinkMaterial = new PhongMaterial();
-        pinkMaterial.setDiffuseColor(Color.web("#FFE9B8"));
-        pinkMaterial.setSpecularColor(Color.web("#FFFBF2"));
-        box.setMaterial(pinkMaterial);
-    }
-
+    /**
+     * Removes all the boxes from the group node, causing the board to disappear.
+     */
     public void removeBoxes(){
         group.getChildren().clear();
 
@@ -154,15 +151,6 @@ public class BoardManager3D{
      * The method starting the animation of the board
      */
     public void start() {
-        isRunning = true;
-    }
-
-    /**
-     * The method starting the game over again with the preset pattern.
-     */
-    public void newGame() {
-        clearBoard();
-        board3D.defaultStartBoard();
         isRunning = true;
     }
 
@@ -204,9 +192,8 @@ public class BoardManager3D{
         changeBoard();
     }
 
-    public void selectPatternLogic(boolean[][] array) {
+    private void selectPatternLogic(boolean[][] array) {
         try {
-            ////////lag en if-else som sjekker om instansen er Dynamic eller Static
             if(board3D instanceof Board3D){
                 ((Board3D) board3D).setInputInBoard(((Board3D) board3D).createArrayListFromArray(array));
                 changeBoard();

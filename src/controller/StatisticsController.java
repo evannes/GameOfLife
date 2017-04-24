@@ -43,7 +43,7 @@ public class StatisticsController implements Initializable {
     private Label comparingGenerationLabel;
 
     /**
-     * Initialzer method for the cloned board to be used for gathering statistical data.
+     * Initializer method for the cloned board to be used for gathering statistical data.
      * @param clonedBoard   The cloned board supplied by {@link Controller}.
      */
     void setClonedBoard(DynamicBoard clonedBoard) {
@@ -51,7 +51,7 @@ public class StatisticsController implements Initializable {
     }
 
     /**
-     * This method binds together the logic and view methods producing the statistics.
+     * Binds together the logic and view methods producing the statistics.
      */
     public void getStatistics() {
         if (iterations > 0 && iterations <= 100) {
@@ -69,7 +69,7 @@ public class StatisticsController implements Initializable {
     }
 
     /**
-     * This method opens up a dialog window letting the user specify an iteration to compare similarity with.
+     * Opens up a dialog window letting the user specify an iteration to compare similarity with.
      * It also tells {@link StatisticsManager} to create labels showing the information gathered.
      */
     public void getSpecifiedStatistics() {

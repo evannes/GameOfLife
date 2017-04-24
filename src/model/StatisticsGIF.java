@@ -24,7 +24,7 @@ public class StatisticsGIF {
     private int height;
 
     /**
-     * This method runs {@link DynamicBoard#nextGenerationConcurrent()} a set number of times to supply
+     * Runs {@link DynamicBoard#nextGenerationConcurrent()} a set number of times to supply
      * {@link StatisticsGIF#drawGIFFrame(GIFWriter, DynamicBoard)} with board data to draw to a file.
      * @param gifBoard          The cloned board being used to supply data.
      * @param generationsOver98 An array list of generations with a similarity measure
@@ -67,7 +67,7 @@ public class StatisticsGIF {
     }
 
     /**
-     * This method uses the GIFLib supplied to draw each frame of the gif file being produced.
+     * Uses the GIFLib supplied to draw each frame of the gif file being produced.
      * @param gif           The {@link GIFWriter} being used to draw frames.
      * @param inBoard       The board supplied by the {@link StatisticsGIF#writeGif(DynamicBoard, List, int)} method.
      * @throws Exception    An {@link java.io.IOException} possibly thrown by the gif writer.

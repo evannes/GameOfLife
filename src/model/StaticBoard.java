@@ -96,8 +96,8 @@ public class StaticBoard extends Board {
     }
 
     /**
-     * The method transfering a pattern to the board.
-     * This methos will only allow a pattern with smaller or equal size as the board.
+     * Transfers a pattern to the board.
+     * This method will only allow a pattern with smaller or equal size as the board.
      * In case of a larger pattern this method will give an alert letting the user know the pattern is too large.
      * @param array     the array with the desired pattern to be placed on the board.
      */

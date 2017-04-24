@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 /**
+ * This class creates the board of boolean values to keep track of Game of Life
+ * and the logic associated with it.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
 
@@ -22,10 +24,16 @@ public class Board3D{
     // forrige opplastede mønsteret kjøres på nytt igjen
     // har ikke exception handling ved innlasting av for store brett, får exceptions
 
+    /**
+     * Constructor that initializes the 3D board.
+     */
     public Board3D(){
         initStartBoard();
     }
 
+    /**
+     * Initializes the lists that the board consists of.
+     */
     public void initStartBoard(){
 
         board = new ArrayList<List<Boolean>>(boardSize);
@@ -39,11 +47,12 @@ public class Board3D{
                 board.get(i).add(j,false);
             }
         }
-
-        // default start-board:
         defaultStartBoard();
     }
 
+    /**
+     * Sets a default starting pattern to the board.
+     */
     public void defaultStartBoard(){
         board.get(0).set(2,true);
         board.get(1).set(2,true);
@@ -52,14 +61,25 @@ public class Board3D{
         board.get(1).set(0,true);
     }
 
+    /**
+     * Returns the width of the board.
+     * @return the width of this board
+     */
     public int getWidth() {
         return board.size();
     }
 
+    /**
+     * Returns the height of the board.
+     * @return the height of this board
+     */
     public int getHeight() {
         return board.get(0).size();
     }
 
+    /**
+     * Creates clone of the current board.
+     */
     public void createClone() {
         clone = new ArrayList<List<Boolean>>(getWidth());
 
@@ -88,10 +108,19 @@ public class Board3D{
         switchBoard();
     }
 
+    /**
+     * The method setting values to the clone at the appointed index.
+     * @param x the first column index
+     * @param y the second column index
+     * @param value the value to be set
+     */
     public void setCloneValue(int x, int y, boolean value) {
         clone.get(x).set(y, value);
     }
 
+    /**
+     * The method making the board equal to the clone.
+     */
     public void switchBoard() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
@@ -173,14 +202,31 @@ public class Board3D{
         return true;
     }
 
+    /**
+     * The method setting <code>boolean</code> values to the board.
+     * @param x     the first column index
+     * @param y     the second column index
+     * @param value the <code>boolean</code> value to be set
+     */
     public void setValue(int x, int y, boolean value) {
         board.get(x).set(y, value);
     }
 
+    /**
+     * The method returning the <code>boolean</code> value of the appointed position
+     * @param x the first column index
+     * @param y the second column index
+     * @return  the <code>boolean</code> value in this index
+     */
     public boolean getValue(int x, int y) {
         return board.get(x).get(y);
     }
 
+    /**
+     * The method toggling the <code>boolean</code> value at the appointed index.
+     * @param x the first column index
+     * @param y the second column index
+     */
     public void toggleValue(int x, int y) {
         board.get(x).set(y, !board.get(x).get(y));
     }
@@ -192,6 +238,7 @@ public class Board3D{
 
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }
+
 
     public String toString(){
         String boardStringOutput = "";

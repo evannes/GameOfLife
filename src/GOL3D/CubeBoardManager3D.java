@@ -231,7 +231,7 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * The method allowing the user to select a rle pattern from disk.
+     * Lets the user to select a rle pattern from disk.
      */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
@@ -240,7 +240,7 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * The method allowing the user to select a rle pattern from URL.
+     * Lets the user to select a rle pattern from URL.
      */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
@@ -273,48 +273,34 @@ public class CubeBoardManager3D {
         box.setMaterial(purpleMaterial);
     }
 
-    public void setGreenMaterial(Box box) {
-        greenMaterial = new PhongMaterial();
-        greenMaterial.setDiffuseColor(Color.FORESTGREEN);
-        greenMaterial.setSpecularColor(Color.LIGHTGREEN);
-        box.setMaterial(greenMaterial);
-    }
-
-    public void setPinkMaterial(Box box) {
-        pinkMaterial = new PhongMaterial();
-        pinkMaterial.setDiffuseColor(Color.web("#FFE9B8"));
-        pinkMaterial.setSpecularColor(Color.web("#FFFBF2"));
-        box.setMaterial(pinkMaterial);
-    }
-
     public void removeBoxes() {
         group.getChildren().clear();
 
     }
 
     /**
-     * The method starting the animation of the board
+     * Starts the animation of the board
      */
     public void start() {
         isRunning = true;
     }
 
     /**
-     * The method pausing the game by stopping the animation.
+     * Pauses the game by stopping the animation.
      */
     public void pauseGame() {
         isRunning = false;
     }
 
     /**
-     * The method resuming the game by starting the animation again.
+     * Resumes the game by starting the animation again.
      */
     public void resumeGame() {
         isRunning = true;
     }
 
     /**
-     * The method return whether the animation is running or not.
+     * Returns whether the animation is running or not.
      *
      * @return <code>true</code> if the animation
      * is running.
@@ -324,7 +310,7 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * The method setting the speed of the animation.
+     * Sets the speed of the animation.
      *
      * @param value the value used to set the speed of the animation
      */
@@ -333,7 +319,7 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * The method returning the speed of the animation.
+     * Returns the speed of the animation.
      *
      * @return the speed of the animation
      */
@@ -342,7 +328,7 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * The method clearing the board.
+     * Clears the board.
      */
     public void clearBoard() {
         isRunning = false;

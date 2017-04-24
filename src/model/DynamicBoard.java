@@ -35,7 +35,7 @@ public class DynamicBoard extends Board {
     }
 
     /**
-     * The method initializing the board with all values set to false.
+     * Initializes the board with all values set to false.
      */
     private void initStartBoard(){
         dynamicBoardArray = getBoard(defaultWidth, defaultHeight);
@@ -115,7 +115,7 @@ public class DynamicBoard extends Board {
     }
 
     /**
-     * The method creating a two-dimensional ArrayList our of a boolean two-dimensional array.
+     * Creates a two-dimensional ArrayList our of a boolean two-dimensional array.
      * @param array     the two-dimensional array to be converted
      * @return          a two-dimensional ArrayList with the same content as the input array
      */
@@ -134,7 +134,7 @@ public class DynamicBoard extends Board {
 
 
     /**
-     * The method placing the input array from filehandler into the board.
+     * Places the input array from filehandler into the board.
      * The array will not be set if the size is too big as this will compromise the user experience.
      * @param inputArray    the array loaded from file or URL
      */
@@ -167,7 +167,7 @@ public class DynamicBoard extends Board {
     }
 
     /**
-     * The method resizing the board. This method will either enlarge or decrease the size of the board.
+     * Resize the board. This method will either enlarge or decrease the size of the board.
      * The minimum size will be equal to the default size set in the constructor of the board.
      * @param width  the new width we wish to resize to
      * @param height the new height we wish to resize to

@@ -48,7 +48,7 @@ public class view3DController implements Initializable {
     private boolean boardExists = false;
 
     /**
-     * The method allowing the user to select a pattern from disk
+     * Lets the user to select a pattern from disk
      */
     public void selectPatternFromDisk() {
         if(boardExists) {
@@ -59,7 +59,7 @@ public class view3DController implements Initializable {
     }
 
     /**
-     * The method allowing the user to select a pattern from a URL
+     * Lets the user to select a pattern from a URL
      */
     public void selectPatternFromURL() {
         if(boardExists) {
@@ -75,13 +75,14 @@ public class view3DController implements Initializable {
     public void clearBoard(){
         if(boardExists) {
             boardManager3D.clearBoard();
+            boardManager3D.changeBoard();
         }else if(cubeExists){
             cubeBoardManager3D.clearBoard();
         }
     }
 
     /**
-     * The method starting the animation of the game.
+     * Starts the animation of the game.
      */
     public void start() {
         pauseButton.setText("Pause");
@@ -125,13 +126,15 @@ public class view3DController implements Initializable {
         //boardManager3D.exitGame();
     }
 
+    /**
+     * Initializes 3D board, and removes any current boards.
+     */
     public void initBoard(){
         if(group != null && cubeExists) {
             cubeBoardManager3D.removeBoxes();
             cubeExists = false;
             boardExists = true;
         }
-        // blir det laget 2D-brett oppå hverandre?
         if(boardExists) {
             boardManager3D.removeBoxes();
         }
@@ -139,6 +142,9 @@ public class view3DController implements Initializable {
         pauseButton.setText("Resume");
     }
 
+    /**
+     * Creates a new board, and sets new camera angles accordingly.
+     */
     public void createBoard(){
         board = new Board3D();
 
@@ -153,6 +159,9 @@ public class view3DController implements Initializable {
         subscene.setCamera(camera);
     }
 
+    /**
+     * Creates a new cube board, and sets new camera angles accordingly.
+     */
     public void initCube(){
         boardManager3D.removeBoxes();
         boardExists = false;

@@ -23,7 +23,7 @@ public class StatisticsManager {
     private int highestSimilarity;
 
     /**
-     * This method creates a dialog window where the user can input a specified iteration.
+     * Creates a dialog window where the user can input a specified iteration.
      * The value is used to create the similarity measure in {@link StatisticsLogic#getStatistics()}.
      * @return  The specified iteration to compare similarity with.
      */
@@ -38,7 +38,7 @@ public class StatisticsManager {
     }
 
     /**
-     * This method populates the series used in the line chart to show living cells.
+     * Populates the series used in the line chart to show living cells.
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
      * @return      Fully populated series ready to be applied to the line chart.
      */
@@ -55,7 +55,7 @@ public class StatisticsManager {
     }
 
     /**
-     * This method populates the series used in the line chart to show change in living cells.
+     * Populates the series used in the line chart to show change in living cells.
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
      * @return      Fully populated series ready to be applied to the line chart.
      */
@@ -72,7 +72,7 @@ public class StatisticsManager {
     }
 
     /**
-     * This method populates the series used in the line chart to show the similarity measure.
+     * Populates the series used in the line chart to show the similarity measure.
      * @param stats                         The statistics array produced by
      *                                      {@link StatisticsLogic#getStatistics()}.
      * @param highestSimilarity             The highest similarity found.
@@ -105,7 +105,7 @@ public class StatisticsManager {
     }
 
     /**
-     * This method sets the <code>String</code> value to be applied to
+     * Sets the <code>String</code> value to be applied to
      * a <code>Label</code> shown in the lower left part of the
      * statistics window when the user chooses to compare a
      * specific generation with others.

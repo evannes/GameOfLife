@@ -169,14 +169,14 @@ public class BoardManager {
     }
 
     /**
-     * The method allowing the user to select a rle pattern from disk.
+     * Lets the user to select a rle pattern from disk.
      */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
         selectPatternLogic(array);
     }
     /**
-     * The method allowing the user to select a rle pattern from URL.
+     * Lets the user to select a rle pattern from URL.
      */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
@@ -197,7 +197,7 @@ public class BoardManager {
     }
 
     /**
-     * The method returns whether the animation is running or not.
+     * Returns whether the animation is running or not.
      * @return      <code>true</code> if the animation
      *              is running.
      */
@@ -206,7 +206,7 @@ public class BoardManager {
     }
 
     /**
-     * The method clearing the board.
+     * Clears the board.
      */
    public void clearBoard(){
         isRunning = false;
@@ -215,7 +215,7 @@ public class BoardManager {
     }
 
     /**
-     * The method setting the speed of the animation.
+     * Sets the speed of the animation.
      * @param value     the value used to set the speed of the animation
      */
     public void setSpeed(int value) {
@@ -223,7 +223,7 @@ public class BoardManager {
     }
 
     /**
-     * The method returning the speed of the animation.
+     * Returns the speed of the animation.
      * @return  the speed of the animation
      */
     private int getSpeed(){
@@ -231,7 +231,7 @@ public class BoardManager {
     }
 
     /**
-     * The method setting color to the alive cells.
+     * Sets color to the alive cells.
      * @param colorPicker       the input color to set on the cell
      */
     public void setCellColor(ColorPicker colorPicker){
@@ -240,7 +240,7 @@ public class BoardManager {
     }
 
     /**
-     * The method setting color to the grid.
+     * Sets color to the grid.
      * @param colorPicker       the input color to set on the grid
      */
     public void setGridColor(ColorPicker colorPicker) {
@@ -249,7 +249,7 @@ public class BoardManager {
     }
 
     /**
-     * The method setting color to the boards background.
+     * Sets color to the boards background.
      * @param colorPicker       the input color to set on the boards background
      */
     public void setBoardColor(ColorPicker colorPicker) {
@@ -259,7 +259,7 @@ public class BoardManager {
 
 
     /**
-     * The method used for setting random colors to the cells.
+     * Sets random colors to the cells.
      * @param value     <code>true</code> if drawRandomColors is to be turned on
      */
     public void setDrawRandomColors(boolean value) {
@@ -267,7 +267,7 @@ public class BoardManager {
     }
 
     /**
-     * Nethod used to hide the grid. It works by making the
+     * Hides the grid. It works by making the
      * grid color the same as the board color.
      */
     public void switchOffGrid() {
@@ -276,7 +276,7 @@ public class BoardManager {
     }
 
     /**
-     * Method used to show the grid again. It sets the grid color
+     * Shows the grid again. It sets the grid color
      * equal to the <code>ColorPicker</code> related to grid color.
      * @param colorPickerGrid   The <code>ColorPicker</code> related
      *                          to grid color.

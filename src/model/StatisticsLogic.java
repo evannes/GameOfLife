@@ -151,7 +151,7 @@ public class StatisticsLogic {
     }
 
     /**
-     * This method does all the calculations needed to produce game statistics
+     * Does all the calculations needed to produce game statistics
      * @return  An int[][] array containing the game statistics.
      */
     public int[][] getStatistics() {

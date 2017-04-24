@@ -43,19 +43,19 @@ public abstract class Board implements Cloneable {
     }
 
     /**
-     * The method returning the width of the board.
-     * @return  the height of the board
+     * Returns the width of the board.
+     * @return  the width of the board
      */
     public abstract int getWidth();
 
     /**
-     * The method returning the height of the board.
+     * Returns the height of the board.
      * @return the height of the board
      */
     public abstract int getHeight();
 
     /**
-     * The method setting <code>boolean</code> values to the board.
+     * Sets <code>boolean</code> values to the board.
      * @param x     the first column index
      * @param y     the second column index
      * @param value the <code>boolean</code> value to be set
@@ -63,7 +63,7 @@ public abstract class Board implements Cloneable {
     public abstract void setValue(int x, int y, boolean value);
 
     /**
-     * The method returning the <code>boolean</code> value of the appointed position
+     * Returns the <code>boolean</code> value of the appointed position
      * @param x the first column index
      * @param y the second column index
      * @return  the <code>boolean</code> value in this index
@@ -71,19 +71,19 @@ public abstract class Board implements Cloneable {
     public abstract boolean getValue(int x, int y);
 
     /**
-     * The method toggling the <code>boolean</code> value at the appointed index.
+     * Toggles the <code>boolean</code> value at the appointed index.
      * @param x the first column index
      * @param y the second column index
      */
     public abstract void toggleValue(int x, int y);
 
     /**
-     * The method making the board equals to the clone.
+     * Makes the board equal to the clone.
      */
     public abstract void switchBoard();
 
     /**
-     * The method setting values to the clone at the appointed index.
+     * Sets values to the clone at the appointed index.
      * @param x the first column index
      * @param y the second column index
      * @param value the value to be set
@@ -96,7 +96,7 @@ public abstract class Board implements Cloneable {
     public abstract void clearBoard();
 
     /**
-     * The method creating the next generation of cells to be drawn or removed.
+     * Creates the next generation of cells to be drawn or removed.
      */
     @Deprecated
     public void nextGeneration() {
@@ -113,7 +113,7 @@ public abstract class Board implements Cloneable {
     }
 
     /**
-     * The method creating the task for the nextGeneration method.
+     * Creates the task for the nextGeneration method.
      * @param quarter   Indicated which quarter section of the board to be worked on.
      *                  The board is divided into four equal quarters, split horizontally.
      */
@@ -130,7 +130,7 @@ public abstract class Board implements Cloneable {
      }
 
     /**
-     * The method creating the next generation of cells to be drawn or removed using Threads.
+     * Creates the next generation of cells to be drawn or removed using Threads.
      */
     public void nextGenerationConcurrent() {
         ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -174,7 +174,7 @@ public abstract class Board implements Cloneable {
     }
 
     /**
-     * The method counting the alive cells surrounding the appointed cell
+     * Counts the alive cells surrounding the appointed cell
      * @param i         the first column index of the array
      * @param j         the second column index of the array
      * @param width     the width of the board
@@ -220,7 +220,7 @@ public abstract class Board implements Cloneable {
     }
 
     /**
-     * * The method checking if the cell is alive and inbounds the board.
+     * * Checks if the cell is alive and inbounds the board.
      * @param i         the first column index of the array
      * @param j         the second column index of the array
      * @param width     the width of the board
@@ -237,7 +237,7 @@ public abstract class Board implements Cloneable {
     }
 
     /**
-     * Method used to unit test {@link #nextGeneration()}.
+     * Used to unit test {@link #nextGeneration()}.
      * @return  The board array in an easy to read String format
      */
     @Override

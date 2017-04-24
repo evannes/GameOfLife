@@ -22,7 +22,7 @@ public class Rules {
     static String ruleSet = "Default (Life)";
 
     /**
-     * The method checking if a cell should be born.
+     * Checks if a cell should be born.
      * @param counter   the amount of alive neighbors to the cell
      * @return          <code>true</code> if the cell has the exact number
      *                  of neighbors required to stay alive defined from the rule set in use
@@ -47,7 +47,7 @@ public class Rules {
     }
 
     /**
-     * The method checking if an alive cell should stay alive or die.
+     * Checks if an alive cell should stay alive or die.
      * @param counter   the amount of alive neighboring cells
      * @return          <code>true</code> if the amount of neighboring
      *                  cells is the same as required from the rule set in use

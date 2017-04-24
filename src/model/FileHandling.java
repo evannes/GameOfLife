@@ -39,7 +39,7 @@ public class FileHandling {
     private Charset charset = Charset.forName("US-ASCII");
 
     /**
-     * Method used for reading a local file.
+     * Reads a local file.
      * @param fileLocation  the <code>String</code> containing the path to the rle-file
      * @return  the boolean two-dimensional array corresponding to the code from the rle-file.
      */
@@ -70,7 +70,7 @@ public class FileHandling {
     }
 
     /**
-     * Method for reading pattern files from disk.
+     * Reads pattern files from disk.
      * @return the boolean two-dimensional array corresponding to the code from the rle-file.
      */
     public boolean[][] readPatternFromDisk() {
@@ -104,7 +104,7 @@ public class FileHandling {
     }
 
     /**
-     * Method for reading pattern files from URL.
+     * Reads pattern files from URL.
      * @return the boolean two-dimensional array corresponding to the code from the rle-file.
      */
     public boolean[][] readPatternFromURL() {
@@ -159,7 +159,7 @@ public class FileHandling {
     }
 
     /**
-     * The method extracting the code for the cells.
+     * Extracts the code for the cells.
      * @param fileContent   the <code>String</code>containing all information from the file
      * @return      the <code>String</code> containing only the code related to the cell state
      */
@@ -181,7 +181,7 @@ public class FileHandling {
     }
 
     /**
-     * The method expanding the rle code so that the new string does not contain any numbers.
+     * Expands the rle code so that the new string does not contain any numbers.
      * @param input the <code>String</code> containing the code regarding cell state
      * @return      the expanded <code>String</code> with no numbers
      */
@@ -206,7 +206,7 @@ public class FileHandling {
     }
 
     /**
-     * This method returns the desired group matched from the regex input.
+     * Returns the desired group matched from the regex input.
      * @param input     the <code>String</code> to extract information from
      * @param regex     the regex expression to capture the desired information
      * @param group     the group we wish to extract information from
@@ -220,7 +220,7 @@ public class FileHandling {
     }
 
     /**
-     * The method creating <code>boolean</code> two-dimensional array out of the rle input file content.
+     * Creates <code>boolean</code> two-dimensional array out of the rle input file content.
      * @param input     the content of the input file
      * @param x         the size of the x index of the array
      * @param y         the size of the y index of the array
@@ -248,7 +248,7 @@ public class FileHandling {
     }
 
     /**
-     * Method used to generate the error message box.
+     * Generates the error message box.
      * @param HeaderText    The text to be shown depending on the type of error produced.
      * @param ioe           The type of exception being handled.
      */

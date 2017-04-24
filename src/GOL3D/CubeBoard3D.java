@@ -494,6 +494,7 @@ public class CubeBoard3D {
      * The method resetting all values of the board to false
      */
     // er no kun for board 2
+    // funker ikkje i det heile tatt? fra controller kalles det på board3d sin clearboard?
     public void clearBoard() {
 
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(2,i, j, false)));
