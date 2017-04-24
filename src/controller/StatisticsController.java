@@ -91,6 +91,11 @@ public class StatisticsController implements Initializable {
         statisticsLogic.unsetCreateGIF();
     }
 
+    /**
+     * Used to tell {@link StatisticsGIF} to begin creating an animated gif based on data from
+     * {@link StatisticsLogic}.
+     * @throws Exception    Any exception thrown by {@link lieng.GIFWriter}
+     */
     public void createRandomGIF() throws Exception {
         getGIFStatistics();
         statisticsGIF.writeGif(

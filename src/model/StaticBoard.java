@@ -119,8 +119,14 @@ public class StaticBoard extends Board {
         }
     }
 
+    /**
+     * Used to clone the board. The functionality is used both in the
+     * next generation methods and in the statistics window.
+     * @return                              A cloned board equal to the currently drawn one
+     * @throws CloneNotSupportedException   Exception thrown if the clone couldn't be created.
+     */
     @Override
-    public StaticBoard clone() {
+    public StaticBoard clone() throws CloneNotSupportedException {
         try {
             return (StaticBoard) super.clone();
         } catch (CloneNotSupportedException cnse) {
