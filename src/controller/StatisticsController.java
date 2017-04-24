@@ -98,13 +98,22 @@ public class StatisticsController implements Initializable {
     }
 
     /**
-     * Listener method for the cancel button.
-     * @param event The event being triggered when the button is clicked.
+     * Used to enable the cancel button functionality. Found on
+     * <a href="https://stackoverflow.com/questions/25037724/">Stack Overflow</a>.
+     * @param event The event being handled - user clicked cancel
      */
     public void cancelButton(ActionEvent event) {
         ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
     }
 
+    /**
+     * Called to initialize a controller after its root element has been completely processed.
+     * @param fxmlFileLocation  The location used to resolve relative paths for the root object,
+     *                          or null if the location is not known.
+     * @param resources         The resources used to localize the root object,
+     *                          or null if the root object was not localized.
+     * @see                     Initializable
+     */
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         statisticsLogic = new StatisticsLogic();
         statisticsView = new StatisticsManager();
