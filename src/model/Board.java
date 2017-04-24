@@ -57,24 +57,24 @@ public abstract class Board implements Cloneable {
 
     /**
      * The method setting values to the board.
-     * @param x the first collumn index
-     * @param y the second collumn index
+     * @param x the first column index
+     * @param y the second column index
      * @param value the value to be set
      */
     public abstract void setValue(int x, int y, boolean value);
 
     /**
      * The method returning the value of the appointed position
-     * @param x the first collumn index
-     * @param y the second collumn index
+     * @param x the first column index
+     * @param y the second column index
      * @return the value in this index
      */
     public abstract boolean getValue(int x, int y);
 
     /**
      * The method toggling the value at the appointed index.
-     * @param x the first collumn index
-     * @param y the second collumn index
+     * @param x the first column index
+     * @param y the second column index
      */
     public abstract void toggleValue(int x, int y);
 
@@ -85,8 +85,8 @@ public abstract class Board implements Cloneable {
 
     /**
      * The method setting values to the clone at the appointed index.
-     * @param x the first collumn index
-     * @param y the second collumn index
+     * @param x the first column index
+     * @param y the second column index
      * @param value the value to be set
      */
     public abstract void setCloneValue(int x, int y, boolean value);
@@ -180,7 +180,7 @@ public abstract class Board implements Cloneable {
      * @param j         the second column index of the array
      * @param width     the width of the board
      * @param height    the height of the board
-     * @return      the number of alive neighboring cells
+     * @return      the number of living neighboring cells
      */
     public int countNeighbor(int i, int j, int width, int height){
         int count = 0;
@@ -244,6 +244,12 @@ public abstract class Board implements Cloneable {
     @Override
     public abstract String toString();
 
+    /**
+     * Used to clone the board. The functionality is used both in the
+     * next generation methods and in the statistics window.
+     * @return                              A cloned board equal to the currently drawn one
+     * @throws CloneNotSupportedException   Exception thrown if the clone couldn't be created.
+     */
     @Override
     public Board clone() throws CloneNotSupportedException {
         return (Board) super.clone();
