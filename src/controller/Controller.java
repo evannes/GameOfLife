@@ -275,6 +275,7 @@ public class Controller implements Initializable{
 
         colorPickerGrid.setOnAction(event -> {
             boardManager.setGridColor(colorPickerGrid);
+            gridOnOff.setSelected(false);
         });
 
         colorPickerBoard.setOnAction(event -> {
