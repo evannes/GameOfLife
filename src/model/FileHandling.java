@@ -20,21 +20,26 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
- * @author Miina Lervik
- * @author Elise Vannes
- * @author Alexander Kingdon
+ * The FileHandling class contains all functions related to
+ * importing custom board patterns. They can be imported
+ * from either the local file system or from the internet.
+ * <p>
+ * The functions have been created not to be too large,
+ * so that everything related to <code>regex</code> will be
+ * done in its own functions, and the actual file reading
+ * also has its own functions.
+ *
+ * @author  Miina Lervik
+ * @author  Elise Vannes
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class FileHandling {
-    private Rules rules = new Rules();
     private boolean[][] boardArray;
     private Charset charset = Charset.forName("US-ASCII");
 
     public FileHandling() {
-    }
-
-///////////// Kan denne slettes??? Hva er den til??
-    public void readGameBoard(Reader r) throws IOException {
-
     }
 
     /**
@@ -222,7 +227,6 @@ public class FileHandling {
                 yIndex++;
             }
             else if (charOutput == 'o') {
-                //System.out.println(xIndex + ", " + yIndex);
                 result[xIndex][yIndex] = true;
                 xIndex++;
             }
@@ -236,7 +240,7 @@ public class FileHandling {
     /**
      * Method used to generate the error message box.
      * @param HeaderText    The text to be shown depending on the type of error produced.
-     * @param ioe           The exception being handled.
+     * @param ioe           The type of exception being handled.
      */
     private void showErrorMessage(String HeaderText, Exception ioe) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
