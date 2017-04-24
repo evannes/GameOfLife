@@ -10,7 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by Alexander Kingdon on 06.04.2017.
+ * StatisticsManager is the view class for the statistics window.
+ * It contains methods related to showing the user the data gathered
+ * by {@link StatisticsLogic}.
+ *
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class StatisticsManager {
 
@@ -35,7 +41,7 @@ public class StatisticsManager {
     /**
      * This method populates the series used in the line chart to show living cells.
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
-     * @return  Fully populated series ready to be applied to the line chart.
+     * @return      Fully populated series ready to be applied to the line chart.
      */
     public XYChart.Series<Number, Number> populateLivingCells(int[][] stats) {
         XYChart.Series<Number, Number> livingCellsSeries = new XYChart.Series<>();
@@ -52,7 +58,7 @@ public class StatisticsManager {
     /**
      * This method populates the series used in the line chart to show change in living cells.
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
-     * @return  Fully populated series ready to be applied to the line chart.
+     * @return      Fully populated series ready to be applied to the line chart.
      */
     public XYChart.Series<Number, Number> populateChangeInLivingCells(int[][] stats) {
         XYChart.Series<Number, Number> changeInLivingCellsSeries = new XYChart.Series<>();
@@ -69,7 +75,7 @@ public class StatisticsManager {
     /**
      * This method populates the series used in the line chart to show the similarity measure.
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
-     * @return  Fully populated series ready to be applied to the line chart.
+     * @return      Fully populated series ready to be applied to the line chart.
      */
     public XYChart.Series<Number, Number> populateSimilarityMeasure(
             int[][] stats, int highestSimilarity, List<Integer> highestSimilarityGenerations) {
@@ -95,6 +101,14 @@ public class StatisticsManager {
         return similarityMeasureSeries;
     }
 
+    /**
+     * This method sets the <code>String</code> value to be applied to
+     * a <code>Label</code> shown in the lower left part of the
+     * statistics window when the user chooses to compare a
+     * specific generation with others.
+     * @return  The <code>String</code> to be shown in the
+     *          main statistics window.
+     */
     public String setComparingGenerationLabelText() {
         return "Comparing generation: " + specifiedIteration + "\n" +
                 "Highest similarity found: " + highestSimilarity + "%";
