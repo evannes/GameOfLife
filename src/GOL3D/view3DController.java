@@ -21,6 +21,11 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
+/**
+ * This is the controller class for the 3D Game of Life window.
+ * Created by Elise Haram Vannes on 03.04.2017.
+ */
 public class view3DController implements Initializable {
 
     @FXML

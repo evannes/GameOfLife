@@ -12,6 +12,8 @@ import java.util.List;
 import model.FileHandling;
 
 /**
+ * The CubeBoardManager3D creates a cube from Box-objects,
+ * for running the Game of Life on.
  * Created by Elise Haram Vannes on 05.04.2017.
  */
 public class CubeBoardManager3D {

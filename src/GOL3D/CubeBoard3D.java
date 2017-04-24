@@ -9,6 +9,8 @@ import java.util.stream.IntStream;
 
 
 /**
+ * This class creates the boards of boolean values for the cube,
+ * to keep track of Game of Life and the logic associated with it.
  * Created by Elise Haram Vannes on 28.03.2017.
  */
 public class CubeBoard3D {
