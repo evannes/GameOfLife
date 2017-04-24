@@ -3,13 +3,20 @@ package model;
 import javafx.scene.control.Alert;
 
 /**
- * @author Miina Lervik
- * @author Elise Vannes
- * @author Alexander Kingdon
+ * The StaticBoard class was the initial board being used.
+ * It doesn't have the functionality used to expand the board
+ * and is no longer in use.
+ *
+ * @author      Miina Lervik
+ * @author      Elise Vannes
+ * @author      Alexander Kingdon
+ * @version     %I%, %G%
+ * @since       1.0
+ * @deprecated  After adding dynamic board functionality
+ *              in {@link DynamicBoard}.
  */
 @Deprecated
 public class StaticBoard extends Board {
-    //The canvas is 800 defaultWidth 500 px so in order to create square cells the array must maintain a similar ratio
     private boolean[][] staticBoardArray;
     private boolean[][] clone;
 
