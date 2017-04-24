@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import controller.Controller;
 import javafx.animation.AnimationTimer;
@@ -12,9 +12,9 @@ import model.FileHandling;
 import model.StaticBoard;
 
 /**
- * The BoardManager class is the view class related to the main game.
- * It contains all the methods that does something graphically,
- * including the <code>draw</code> method that draws the cells on the canvas.
+ * The BoardManager binds the logic from the model classes together with the view.
+ * It contains all the methods related to the canvas,
+ * including the <code>draw</code> method that draws the cells to the game board.
  *
  * @author  Miina Lervik
  * @author  Elise Vannes

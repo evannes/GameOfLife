@@ -11,7 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Board;
-import view.BoardManager;
 import model.DynamicBoard;
 
 import java.io.IOException;

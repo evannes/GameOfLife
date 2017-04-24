@@ -135,11 +135,12 @@ public class DynamicBoard extends Board {
 
     /**
      * The method placing the input array from filehandler into the board.
+     * The array will not be set if the size is too big as this will compromise the user experience.
      * @param inputArray    the array loaded from file or URL
      */
     public void setInputInBoard(List<List<Boolean>> inputArray) {
         // check if the input array is too large (doesn't look good anymore...)
-        if(inputArray.size() > 640 || inputArray.get(0).size() > 400) {
+        if(inputArray.size() > 1040 || inputArray.get(0).size() > 650) {
             Alert sizeErrorAlert = new Alert(Alert.AlertType.INFORMATION);
             sizeErrorAlert.setTitle("Error with size of pattern");
             sizeErrorAlert.setHeaderText("The pattern is too large for the board");
