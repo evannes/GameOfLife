@@ -4,7 +4,14 @@ package model;
 import javafx.scene.control.ListView;
 
 /**
- * Created by Alexander Kingdon on 03.04.2017.
+ * The Rulesets class contains the logic and descriptions of the
+ * custom rules that the user can select.
+ * The rulesets were implemented from the list found
+ * <a href="http://conwaylife.com/wiki/Rules#Well-known_Life-like_cellular_automata">here</a>.
+ *
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class Rulesets {
 
