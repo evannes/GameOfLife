@@ -1,7 +1,23 @@
 package model;
 
 /**
- * Created by miinael on 15.02.2017.
+ * Rules is the class containing the two methods used to either:
+ * <ul>
+ * <li>See if a cell should be spawned, or
+ * <li>See if a cell should survive to the next generation
+ * </ul>
+ * <p>
+ * When the custom ruleset extension task was implemented,
+ * the class was expanded with the switch statements related to
+ * rulesets found on
+ * <a href="http://conwaylife.com/wiki/Rules#Well-known_Life-like_cellular_automata">LifeWiki</a>.
+ * The rule names are also taken from LifeWiki.
+ *
+ * @author  Miina Lervik
+ * @author  Elise Vannes
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class Rules {
     static String ruleSet = "Default (Life)";
