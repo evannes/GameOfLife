@@ -8,7 +8,13 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Alexander Kingdon on 10.04.2017.
+ * StatisticsGIF uses the {@link GIFWriter} library to draw an
+ * animated gif file frame by frame. It works in conjunction with
+ * {@link StatisticsLogic} which supplies the statistical data.
+ *
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class StatisticsGIF {
 
@@ -19,7 +25,7 @@ public class StatisticsGIF {
     private int height;
 
     /**
-     * This method runs {@link DynamicBoard#nextGeneration()} a set number of times to supply
+     * This method runs {@link DynamicBoard#nextGenerationConcurrent()} a set number of times to supply
      * {@link StatisticsGIF#drawGIFFrame(GIFWriter, DynamicBoard)} with board data to draw to a file.
      * @param gifBoard          The cloned board being used to supply data.
      * @param generationsOver98 An array list of generations with a similarity measure >= 98.
@@ -42,14 +48,14 @@ public class StatisticsGIF {
 
             for (int i = 0; i < iterations; i ++) {
                 if (gifRandomValue.nextDouble() < 0.5) {
-                    gifBoard.nextGeneration();
+                    gifBoard.nextGenerationConcurrent();
                     drawGIFFrame(gif, gifBoard);
-                    gifBoard.nextGeneration();
+                    gifBoard.nextGenerationConcurrent();
                     drawGIFFrame(gif, gifBoard);
                 } else {
                     int randomIndex = similarityRandomValueGenerator.nextInt(generationsOver98.size());
                     for (int j = 0; j < randomIndex; j ++) {
-                        randomBoard.nextGeneration();
+                        randomBoard.nextGenerationConcurrent();
                     }
                     drawGIFFrame(gif, randomBoard);
                 }
