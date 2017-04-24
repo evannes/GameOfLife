@@ -10,7 +10,6 @@ import javafx.scene.control.Alert;
  * @author      Miina Lervik
  * @author      Elise Vannes
  * @author      Alexander Kingdon
- * @version     %I%, %G%
  * @since       1.0
  * @deprecated  After adding dynamic board functionality
  *              in {@link DynamicBoard}.

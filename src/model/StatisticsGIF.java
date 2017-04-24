@@ -13,7 +13,6 @@ import java.util.Random;
  * {@link StatisticsLogic} which supplies the statistical data.
  *
  * @author  Alexander Kingdon
- * @version %I%, %G%
  * @since   1.0
  */
 public class StatisticsGIF {

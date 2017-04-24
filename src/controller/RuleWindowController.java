@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
  * named "Select rules".
  *
  * @author  Alexander Kingdon
- * @version %I%, %G%
  * @since   1.0
  */
 public class RuleWindowController implements Initializable {

@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
  * named "View statistics".
  *
  * @author  Alexander Kingdon
- * @version %I%, %G%
  * @since   1.0
  */
 public class StatisticsController implements Initializable {

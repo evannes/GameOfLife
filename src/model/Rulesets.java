@@ -10,7 +10,6 @@ import javafx.scene.control.ListView;
  * <a href="http://conwaylife.com/wiki/Rules#Well-known_Life-like_cellular_automata">here</a>.
  *
  * @author  Alexander Kingdon
- * @version %I%, %G%
  * @since   1.0
  */
 public class Rulesets {

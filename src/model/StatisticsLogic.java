@@ -15,7 +15,6 @@ import java.util.List;
  * described in the extension task supplied by the professor.
  *
  * @author  Alexander Kingdon
- * @version %I%, %G%
  * @since   1.0
  */
 public class StatisticsLogic {

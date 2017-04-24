@@ -15,7 +15,6 @@ import java.util.Optional;
  * by {@link StatisticsLogic}.
  *
  * @author  Alexander Kingdon
- * @version %I%, %G%
  * @since   1.0
  */
 public class StatisticsManager {

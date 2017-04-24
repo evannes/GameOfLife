@@ -19,7 +19,6 @@ import model.StaticBoard;
  * @author  Miina Lervik
  * @author  Elise Vannes
  * @author  Alexander Kingdon
- * @version %I%, %G%
  * @since   1.0
  */
 public class BoardManager {
