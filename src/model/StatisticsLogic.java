@@ -5,7 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alexander Kingdon on 05.04.2017.
+ * StatisticsLogic contains all methods related to gathering
+ * statistical data to be used for either displaying the data
+ * to the user, or to create an animated gif based on a
+ * <code>similarity measure</code>.
+ * <p>
+ * The class contains a number of getters and setters required
+ * by the other statistics classes in addition to the base data
+ * described in the extension task supplied by the professor.
+ *
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class StatisticsLogic {
 
