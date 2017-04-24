@@ -12,9 +12,15 @@ import model.FileHandling;
 import model.StaticBoard;
 
 /**
- * @author Miina Lervik
- * @author Elise Vannes
- * @author Alexander Kingdon
+ * The BoardManager class is the view class related to the main game.
+ * It contains all the methods that does something graphically,
+ * including the <code>draw</code> method that draws the cells on the canvas.
+ *
+ * @author  Miina Lervik
+ * @author  Elise Vannes
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class BoardManager {
     private boolean drawRandomColors;
@@ -29,7 +35,6 @@ public class BoardManager {
     private Canvas canvas;
     private Board board;
     private FileHandling fileHandling = new FileHandling();
-    Controller controller = new Controller();
     public boolean isRunning = false;
     private long time = System.nanoTime();
 
@@ -45,8 +50,6 @@ public class BoardManager {
         AnimationTimer drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    //board.nextGeneration();
-
                     board.nextGenerationConcurrent();
 
                     draw();
@@ -105,8 +108,6 @@ public class BoardManager {
             double korX = (e.getX()+startingPointX);
             double korY = (e.getY()+startingPointY);
 
-            //int korX = (int)e.getX();
-            //int korY = (int)e.getY();
             int arrayX = (int)Math.floor(korX/cellWidth);
             int arrayY = (int)Math.floor(korY/cellHeight);
 
@@ -185,7 +186,6 @@ public class BoardManager {
 
     private void selectPatternLogic(boolean[][] array) {
         try {
-            ////////lag en if-else som sjekker om instansen er Dynamic eller Static
             if(board instanceof DynamicBoard) {
                 ((DynamicBoard) board).setInputInBoard(((DynamicBoard) board).createArrayListFromArray(array));
                 draw();
@@ -267,11 +267,21 @@ public class BoardManager {
         drawRandomColors = value;
     }
 
+    /**
+     * Nethod used to hide the grid. It works by making the
+     * grid color the same as the board color.
+     */
     public void switchOffGrid() {
         gridColor = boardColor;
         draw();
     }
 
+    /**
+     * Method used to show the grid again. It sets the grid color
+     * equal to the <code>ColorPicker</code> related to grid color.
+     * @param colorPickerGrid   The <code>ColorPicker</code> related
+     *                          to grid color.
+     */
     public void switchOnGrid(ColorPicker colorPickerGrid) {
         gridColor = colorPickerGrid.getValue();
         draw();
