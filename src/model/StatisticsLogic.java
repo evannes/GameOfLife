@@ -32,35 +32,86 @@ public class StatisticsLogic {
     private boolean createGIF = false;
     private List<Integer> similaritiesOver98;
 
+    /**
+     * Initializes the board that was cloned by {@link controller.Controller}.
+     * @param clonedBoard   A cloned board to be used for statistics functionality
+     */
     public void setClonedBoard(DynamicBoard clonedBoard) {
         this.clonedBoard = clonedBoard;
     }
+
+    /**
+     * Checks if user asked to create gif or not.
+     * @return  <code>True</code> if the user clicked "Create GIF"
+     */
     public DynamicBoard getGifBoard() {
         return this.gifBoard;
     }
+
+    /**
+     * Setter method for the number of generations to produce statistics for.
+     * @param iterations    Iterations specified by user
+     */
     public void setIterations(int iterations) {
         this.iterations = iterations;
     }
+
+    /**
+     * Setter method used if the user wants to compare statistics to a specified generation.
+     * @param specifiedNumber   User specified generation number to compare with
+     */
     public void setSimilaritySpecifiedNumber(int specifiedNumber) {
         similaritySpecifiedNumber = specifiedNumber;
     }
+
+    /**
+     * Getter method used to create a <code>Label</code> text showing the user
+     * what the highest similarity measure was, in a given call to {@link StatisticsLogic#getStatistics()}
+     * @return  The highest similarity percentage found
+     */
     public int getHighestSimilarityNumber() {
         return highestSimilarityNumber;
     }
+
+    /**
+     * Getter method for the generations (if more than one) that has a similarity measure
+     * equal to or greather than 98.
+     * @return  An <code>ArrayList</code> consisting of numbered generations that
+     *          were found to be similar to the user specified generation
+     */
     public List<Integer> getSameOccurrencesHelper() {
         return sameOccurrencesHelper;
     }
+
+    /**
+     * Produces an <code>ArrayList</code> of possible generation to jump back or forwards to
+     * when creating an animated gif in {@link StatisticsGIF}.
+     * @return  The <code>ArrayList</code> of possible generations
+     */
     public List<Integer> getSimilaritiesOver98() {
         return similaritiesOver98;
     }
+
+    /**
+     * Setter method used to indicate that the user wishes to create an animated gif.
+     */
     public void setCreateGIF() {
         createGIF = true;
     }
+
+    /**
+     * Setter method used to switch off the gif creation functionality after it has been used.
+     */
     public void unsetCreateGIF() {
         if (createGIF) {
             createGIF = false;
         }
     }
+
+    /**
+     * Getter method to check if the user wanted to create an animated gif.
+     * @return
+     */
     public boolean getCreateGIF() {
         return createGIF;
     }

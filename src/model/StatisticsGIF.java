@@ -30,7 +30,7 @@ public class StatisticsGIF {
      * @param gifBoard          The cloned board being used to supply data.
      * @param generationsOver98 An array list of generations with a similarity measure
      *                          equal to or greater than 98.
-     * @param iterations        The number of iterations that the simulation ran, user specified.
+     * @param iterations        The number of iterations that the simulation ran. User specified.
      * @throws Exception        An {@link java.io.IOException} possibly thrown by the gif writer.
      */
     public void writeGif(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) throws Exception {
