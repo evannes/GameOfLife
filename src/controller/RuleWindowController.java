@@ -13,7 +13,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Alexander Kingdon on 03.04.2017.
+ * This is the controller class for the rule selection window.
+ * It is accessed from the main game window using the button
+ * named "Select rules".
+ *
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class RuleWindowController implements Initializable {
 

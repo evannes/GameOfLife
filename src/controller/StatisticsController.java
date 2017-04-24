@@ -18,7 +18,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Alexander Kingdon on 05.04.2017.
+ * This is the controller class for the rule selection window.
+ * It is accessed from the main game window using the button
+ * named "View statistics".
+ *
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class StatisticsController implements Initializable {
 
@@ -37,6 +43,10 @@ public class StatisticsController implements Initializable {
     @FXML
     private Label comparingGenerationLabel;
 
+    /**
+     * Initialzer method for the cloned board to be used for gathering statistical data.
+     * @param clonedBoard   The cloned board supplied by {@link Controller}.
+     */
     void setClonedBoard(DynamicBoard clonedBoard) {
         statisticsLogic.setClonedBoard(clonedBoard);
     }

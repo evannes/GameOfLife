@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Board;
@@ -20,9 +19,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author Miina Lervik
- * @author Elise Vannes
- * @author Alexander Kingdon
+ * This is the main controller class for the Game of Life window.
+ * It controls the various methods related to the base game,
+ * such as new game and pause, as well as the color choices related to
+ * cells, grid and board background.
+ *
+ * @author  Miina Lervik
+ * @author  Elise Vannes
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class Controller implements Initializable{
 

@@ -8,9 +8,17 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- * @author Miina Lervik
- * @author Elise Vannes
- * @author Alexander Kingdon
+ * This is the replacement class for the previously used {@link StaticBoard}.
+ * The dynamic board will automatically resize itself when a pattern
+ * larger than the default size of 160x100 cells is loaded. Our group decided
+ * not to implement a dynamically expanding board when the current pattern
+ * outgrew the current size, as we couldn't find a suitable maximum size.
+ *
+ * @author  Miina Lervik
+ * @author  Elise Vannes
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 
 public class DynamicBoard extends Board {

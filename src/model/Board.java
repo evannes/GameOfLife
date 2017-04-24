@@ -5,9 +5,27 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Miina Lervik
- * @author Elise Vannes
- * @author Alexander Kingdon
+ * Board is the abstract base class for game boards.
+ * It has two child classes, {@link DynamicBoard} and
+ * {@link StaticBoard} (Deprecated).
+ * <p>
+ * The methods related to calculating the game's next generation
+ * have been implemented so that they work both with the static board
+ * using two dimensional <code>boolean</code> arrays, and the dynamic board
+ * using two dimensional boolean <code>ArrayList</code> arrays.
+ * <p>
+ * The base representation of the board is a size of 160x100 cells,
+ * and each cell has a 1 pixel border around it. The border thus acts
+ * as a grid surrounding the cells. It was eventually decided to
+ * implement a function for the user to remove the grid
+ * (setting its color equal to the board color), as the representation
+ * doesn't look particularly good when a large dynamic board is drawn.
+ *
+ * @author  Miina Lervik
+ * @author  Elise Vannes
+ * @author  Alexander Kingdon
+ * @version %I%, %G%
+ * @since   1.0
  */
 
 public abstract class Board implements Cloneable {
@@ -17,8 +35,8 @@ public abstract class Board implements Cloneable {
 
     /**
      * The constructor sets the default width and default height of the board.
-     * @param width     the width of the board
-     * @param height    the height of the board
+     * @param width     the default width of the board
+     * @param height    the default height of the board
      */
     public Board(int width, int height){
         this.defaultWidth = width;
