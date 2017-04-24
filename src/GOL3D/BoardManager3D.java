@@ -82,7 +82,7 @@ public class BoardManager3D{
     }
 
     /**
-     * Creates boxes and places them in 3D space.
+     * Creates the boxes that make up the board, and places them in 3D space.
      */
     public void createBoxes(){
 
@@ -203,7 +203,7 @@ public class BoardManager3D{
     }
 
     /**
-     * Returna whether the animation is running or not.
+     * Returns whether the animation is running or not.
      * @return      <code>true</code> if the animation
      *              is running.
      */

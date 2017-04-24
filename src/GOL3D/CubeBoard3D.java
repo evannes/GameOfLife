@@ -25,6 +25,9 @@ public class CubeBoard3D {
     private Rules rules = new Rules();
     private List<List<Boolean>> clone;
 
+    /**
+     * Constructor that initializes all arrays for the cubes boolean values.
+     */
     public CubeBoard3D(){
         board1 = initBoards(board1);
         board2 = initBoards(board2);
@@ -53,6 +56,11 @@ public class CubeBoard3D {
         defaultStartBoard();
     }
 
+    /**
+     * Initializes the board.
+     * @param board board to be initialized
+     * @return returns the initialized board
+     */
     public List<List<Boolean>> initBoards(List<List<Boolean>> board){
         board = new ArrayList<List<Boolean>>(boardSize);
 
@@ -68,6 +76,9 @@ public class CubeBoard3D {
         return board;
     }
 
+    /**
+     * Creates an initial pattern to be shown on the cube.
+     */
     public void defaultStartBoard(){
 
         /*board2.get(0).set(2,true); // akkurat denne teller feil naboer, teller 2 men har 1
@@ -93,14 +104,25 @@ public class CubeBoard3D {
         board6.get(1).set(0,true);*/
     }
 
+    /**
+     * Returns the width of the board.
+     * @return the width of this board
+     */
     public int getWidth() {
         return boardSize;
     }
 
+    /**
+     * Returns the height of the board.
+     * @return the height of this board
+     */
     public int getHeight() {
         return boardSize;
     }
 
+    /**
+     * Creates clone of the current array.
+     */
     public void createClone(int numBoard) {
         clone = new ArrayList<List<Boolean>>(getWidth());
 
@@ -113,14 +135,21 @@ public class CubeBoard3D {
         }
     }
 
+    /**
+     * Runs through the nextGeneration-method for all the arrays of the cube.
+     */
     public void nextGenerations(){
         for(int i = 0; i < 6; i++){
             nextGeneration(i);
         }
     }
 
+    public void switchBoards(){
+        // TODO: bytte alle bretta samtidig, kjøre den etter alle nextgenerations
+    }
+
     /**
-     * The method creating the next generation of cells to be drawn or removed.
+     * Creates the next generation of cells to be drawn or removed.
      */
     // får problem med kloning av brett, må klones 6 stk og alle må byttes
     public void nextGeneration(int indexBoard) {
@@ -136,10 +165,19 @@ public class CubeBoard3D {
         switchBoard(indexBoard);
     }
 
+    /**
+     * Sets values to the clone at the appointed index.
+     * @param x the first column index
+     * @param y the second column index
+     * @param value the value to be set
+     */
     public void setCloneValue(int x, int y, boolean value) {
         clone.get(x).set(y, value);
     }
 
+    /**
+     * Makes the board equal to the clone.
+     */
     public void switchBoard(int numBoard) {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
@@ -226,14 +264,28 @@ public class CubeBoard3D {
         }
     }
 
-    public boolean inBounds(int m){
-        if(m == -1 || m >= boardSize){
+    /**
+     * Checks if the cell exists in the cube
+     * @param cell  cell in cube
+     * @return <code>true</code> if the cell exists in the cube
+     */
+    public boolean inBounds(int cell){
+        if(cell == -1 || cell >= boardSize){
             return false;
         } else {
             return true;
         }
     }
 
+    /**
+     * Chooses the method for counting neighbors at neighboring
+     * arrays when the cell is at the end of a board, according
+     * to which is the current board.
+     * @param indexBoard index of current board in array of boards
+     * @param i          the first column index of the array
+     * @param j          the second column index of the array
+     * @return       <code>true</code> if the neighboring cell is alive
+     */
     public boolean countBoardNeighbors(int indexBoard,int i, int j){
         // TODO: switch on enum
         switch(indexBoard){
@@ -254,6 +306,12 @@ public class CubeBoard3D {
         }
     }
 
+    /**
+     * Checks if the neighbor at neighboring boards is alive for board1
+     * @param i  the first column index of the array
+     * @param j  the second column index of the array
+     * @return   <code>true</code> if the neighboring cell is alive
+     */
     public boolean countBoard1Neighbors(int i, int j){
         if (i == -1 && inBounds(j)) {
             if (board2.get(j).get(0)) {
@@ -289,6 +347,12 @@ public class CubeBoard3D {
         return false;
     }
 
+    /**
+     * Checks if the neighbor at neighboring boards is alive for board2
+     * @param i  the first column index of the array
+     * @param j  the second column index of the array
+     * @return   <code>true</code> if the neighboring cell is alive
+     */
     public boolean countBoard2Neighbors(int i, int j){
 
             if (i == -1 && inBounds(j)) {
@@ -325,6 +389,12 @@ public class CubeBoard3D {
         return false;
     }
 
+    /**
+     * Checks if the neighbor at neighboring boards is alive for board3
+     * @param i  the first column index of the array
+     * @param j  the second column index of the array
+     * @return   <code>true</code> if the neighboring cell is alive
+     */
     public boolean countBoard3Neighbors(int i, int j){
         if (i == -1 && inBounds(j)) {
             if (board6.get(board6.size()-1).get(j)) {
@@ -360,6 +430,12 @@ public class CubeBoard3D {
         return false;
     }
 
+    /**
+     * Checks if the neighbor at neighboring boards is alive for board4
+     * @param i  the first column index of the array
+     * @param j  the second column index of the array
+     * @return   <code>true</code> if the neighboring cell is alive
+     */
     public boolean countBoard4Neighbors(int i, int j){
         if (i == -1 && inBounds(j)) {
             if (board1.get(j).get(board1.size()-1)) {
@@ -395,6 +471,12 @@ public class CubeBoard3D {
         return false;
     }
 
+    /**
+     * Checks if the neighbor at neighboring boards is alive for board5
+     * @param i  the first column index of the array
+     * @param j  the second column index of the array
+     * @return   <code>true</code> if the neighboring cell is alive
+     */
     public boolean countBoard5Neighbors(int i, int j){
         if (i == -1 && inBounds(j)) {
             if (board1.get(board1.size()-1).get(j)) {
@@ -430,6 +512,12 @@ public class CubeBoard3D {
         return false;
     }
 
+    /**
+     * Checks if the neighbor at neighboring boards is alive for board6
+     * @param i  the first column index of the array
+     * @param j  the second column index of the array
+     * @return   <code>true</code> if the neighboring cell is alive
+     */
     public boolean countBoard6Neighbors(int i, int j){
         if (i == -1 && inBounds(j)) {
             if (board1.get(j).get(0)) {
@@ -465,43 +553,47 @@ public class CubeBoard3D {
         return false;
     }
 
-    public boolean checkActiveBoardValue(List<List<Boolean>> board,int i,int j){
-        if(i < 0){
-            if(board.get(0).get(j)) {
-                return true;
-            }
-        }else{
-            if(board.get(0).get(i)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    /**
+     * Sets <code>boolean</code> values to the board.
+     * @param x     the first column index
+     * @param y     the second column index
+     * @param value the <code>boolean</code> value to be set
+     */
     public void setValue(int numBoard,int x, int y, boolean value) {
         boardArrays[numBoard].get(x).set(y, value);
     }
 
+    /**
+     * Returns the <code>boolean</code> value of the appointed position
+     * @param x the first column index
+     * @param y the second column index
+     * @return  the <code>boolean</code> value in this index
+     */
     public boolean getValue(int numBoard,int x, int y) {
         return boardArrays[numBoard].get(x).get(y);
     }
 
+    /**
+     * Toggles the <code>boolean</code> value at the appointed index.
+     * @param x the first column index
+     * @param y the second column index
+     */
     public void toggleValue(int numBoard, int x, int y) {
         boardArrays[numBoard].get(x).set(y, !board2.get(x).get(y));
     }
 
     /**
-     * The method resetting all values of the board to false
+     * Resets all values of the board to false
      */
     // er no kun for board 2
     // funker ikkje i det heile tatt? fra controller kalles det på board3d sin clearboard?
     public void clearBoard() {
 
-        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(2,i, j, false)));
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(1,i, j, false)));
     }
 
     /**
-     * The method creating a two-dimensional ArrayList our of a boolean two-dimensional array.
+     * Creates a two-dimensional ArrayList our of a boolean two-dimensional array.
      * @param array     the two-dimensional array to be converted
      * @return          a two-dimensional ArrayList with the same content as the input array
      */
@@ -518,7 +610,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * The method placing the input array from filehandler into the board.
+     * Places the input array from filehandler into the board.
      * @param inputArray    the array loaded from file or URL
      */
     public void setInputInBoard(List<List<Boolean>> inputArray,int numBoard) {
@@ -546,6 +638,9 @@ public class CubeBoard3D {
         }
     }
 
+    /**
+     * Initializes array containing all the arrays with boolean values of the cube.
+     */
     public void initBoardArray(){
         boardArrays = new ArrayList[6];
         boardArrays[0] = board1;
@@ -556,52 +651,20 @@ public class CubeBoard3D {
         boardArrays[5] = board6;
     }
 
+    /**
+     * Returns the array containing all the arrays with boolean values of the cube.
+     * @return the array of arrays
+     */
     public List<List<Boolean>>[] getBoardArrays(){
         return boardArrays;
     }
 
-    public List<List<Boolean>> getBoard(int board) {
-        switch(board){
-            case 1:
-                return board1;
-            case 2:
-                return board2;
-            case 3:
-                return board3;
-            case 4:
-                return board4;
-            case 5:
-                return board5;
-            case 6:
-                return board6;
-            default:
-                return null;
-        }
-
-    }
-
-    public List<List<Boolean>> getBoard1() {
-        return board1;
-    }
-
+    /**
+     * Returns board2, one of the arrays with boolean values of the cube.
+     * @return the array board2
+     */
     public List<List<Boolean>> getBoard2() {
         return board2;
-    }
-
-    public List<List<Boolean>> getBoard3() {
-        return board3;
-    }
-
-    public List<List<Boolean>> getBoard4() {
-        return board4;
-    }
-
-    public List<List<Boolean>> getBoard5() {
-        return board5;
-    }
-
-    public List<List<Boolean>> getBoard6() {
-        return board6;
     }
 
 }

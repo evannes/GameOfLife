@@ -20,6 +20,9 @@ public class Board3D{
     private Rules rules = new Rules();
     public List<List<Boolean>> clone;
 
+    // er så lik Board/DynamicBoard-klassen at kanskje burde arve??? og kun overskrive
+    // dei få nødvendige metodane, enten arve board eller dynamicBoard
+
     // får feilmelding ved innlasting av fil hvis man trykker avbryt og det
     // forrige opplastede mønsteret kjøres på nytt igjen
     // har ikke exception handling ved innlasting av for store brett, får exceptions
@@ -239,7 +242,10 @@ public class Board3D{
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }
 
-
+    /**
+     * Used to unit test {@link #nextGeneration()}.
+     * @return  The board array in an easy to read String format
+     */
     public String toString(){
         String boardStringOutput = "";
         for(int i = 0; i < boardSize; i++) {
@@ -276,7 +282,6 @@ public class Board3D{
      * @param inputArray    the array loaded from file or URL
      */
     public void setInputInBoard(List<List<Boolean>> inputArray) {
-        // check if the input array is too large (doesn't look good anymore...)
         if(inputArray.size() > boardSize || inputArray.get(0).size() > boardSize) {
             Alert sizeErrorAlert = new Alert(Alert.AlertType.INFORMATION);
             sizeErrorAlert.setTitle("Error with size of pattern");
@@ -300,7 +305,6 @@ public class Board3D{
         }
     }
     // var en resize-nextGenerationThreadTask, men skal ikkje resizes
-
 }
 
 

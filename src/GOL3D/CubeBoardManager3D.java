@@ -154,21 +154,6 @@ public class CubeBoardManager3D {
         }
     }
 
-    public void changeBoard1() {
-        for (int i = 0; i < cubeBoard3D.getBoard1().size(); i++) {
-            for (int j = 0; j < cubeBoard3D.getBoard1().size(); j++) {
-                currentBox = boxBoard1.get(i).get(j);
-                if (cubeBoard3D.getBoard1().get(i).get(j)) {
-                    setPurpleMaterial(currentBox);
-                    currentBox.setHeight(cellSize + 50);
-                } else {
-                    setBlueMaterial(currentBox);
-                    currentBox.setHeight(cellSize);
-                }
-            }
-        }
-    }
-
     public List<List<Box>> createBoxes(List<List<Box>> boardBoxes, int boxX, int boxY, int boxZ,
                                        int incrementX, int decrementY, int incrementZ,
                                        boolean resetX, boolean resetY) {
