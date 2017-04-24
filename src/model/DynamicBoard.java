@@ -203,6 +203,12 @@ public class DynamicBoard extends Board {
         clone = getBoard(width, height);
     }
 
+    /**
+     * Used to clone the board. The functionality is used both in the
+     * next generation methods and in the statistics window.
+     * @return                              A cloned board equal to the currently drawn one
+     * @throws CloneNotSupportedException   Exception thrown if the clone couldn't be created.
+     */
     @Override
     public DynamicBoard clone() throws CloneNotSupportedException {
         DynamicBoard clonedBoard = (DynamicBoard) super.clone();

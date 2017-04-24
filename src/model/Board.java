@@ -56,23 +56,23 @@ public abstract class Board implements Cloneable {
     public abstract int getHeight();
 
     /**
-     * The method setting values to the board.
-     * @param x the first column index
-     * @param y the second column index
-     * @param value the value to be set
+     * The method setting <code>boolean</code> values to the board.
+     * @param x     the first column index
+     * @param y     the second column index
+     * @param value the <code>boolean</code> value to be set
      */
     public abstract void setValue(int x, int y, boolean value);
 
     /**
-     * The method returning the value of the appointed position
+     * The method returning the <code>boolean</code> value of the appointed position
      * @param x the first column index
      * @param y the second column index
-     * @return the value in this index
+     * @return  the <code>boolean</code> value in this index
      */
     public abstract boolean getValue(int x, int y);
 
     /**
-     * The method toggling the value at the appointed index.
+     * The method toggling the <code>boolean</code> value at the appointed index.
      * @param x the first column index
      * @param y the second column index
      */
