@@ -22,6 +22,11 @@ public class Rulesets {
         this.ruleList = ruleList;
     }
 
+    /**
+     * Creates the <code>String</code> to be used in the rule selection window.
+     * @return  A <code>String</code> representation of the rule description found on
+     *          <a href="http://conwaylife.com/wiki/Rules#Well-known_Life-like_cellular_automata">LifeWiki</a>
+     */
     public String getRuleDescription() {
         ruleIdentifier = (String) ruleList.getSelectionModel().getSelectedItem();
         String ruleDescription;
@@ -116,6 +121,9 @@ public class Rulesets {
         return ruleDescription;
     }
 
+    /**
+     * Setter method for rules. If nothing is selected it will use the default rules.
+     */
     public void setRules() {
         if (!ruleIdentifier.equals("")) {
             Rules.ruleSet = ruleIdentifier;
