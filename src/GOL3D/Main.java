@@ -6,6 +6,9 @@ import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * Main class used to start the window for the 3D Game of Life.
+ */
 public class Main extends Application {
 
     Stage primaryStage;
