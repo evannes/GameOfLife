@@ -1,7 +1,8 @@
-package model;
+package statistics;
 
 import javafx.concurrent.Task;
 import lieng.GIFWriter;
+import model.DynamicBoard;
 
 
 import java.awt.Color;

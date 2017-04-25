@@ -4,7 +4,7 @@ package controller;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import model.StatisticsLogic;
+import statistics.StatisticsLogic;
 
 import java.util.List;
 import java.util.Optional;

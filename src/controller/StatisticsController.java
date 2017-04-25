@@ -11,9 +11,9 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.DynamicBoard;
-import model.StatisticsGIF;
-import model.StatisticsLogic;
-import model.StatisticsService;
+import statistics.StatisticsGIF;
+import statistics.StatisticsLogic;
+import statistics.StatisticsService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -70,6 +70,9 @@ public class StatisticsController implements Initializable {
         }
         int[][] stats = statisticsLogic.getStatistics();
         if (!statisticsLogic.getCreateGIF()) {
+            if (!statisticsChart.getData().isEmpty()) {
+                statisticsChart.getData().removeAll(statisticsChart.getData());
+            }
             XYChart.Series<Number, Number> livingCellsSeries = statisticsView.populateLivingCells(stats);
             XYChart.Series<Number, Number> changeInLivingCellsSeries = statisticsView.populateChangeInLivingCells(stats);
             XYChart.Series<Number, Number> similarityMeasureSeries = statisticsView.populateSimilarityMeasure(
