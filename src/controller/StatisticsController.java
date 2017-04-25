@@ -35,6 +35,7 @@ public class StatisticsController implements Initializable {
     private StatisticsManager statisticsView;
     private StatisticsGIF statisticsGIF;
     private int iterations;
+    private StatisticsService statisticsService;
 
     @FXML
     private TextField iterationValue;
@@ -50,6 +51,9 @@ public class StatisticsController implements Initializable {
 
     @FXML
     private Label statisticsProgressLabel;
+
+    @FXML
+    private Button stopGifButton;
 
 
     /**
@@ -107,17 +111,14 @@ public class StatisticsController implements Initializable {
      */
     public void createRandomGIF() throws Exception {
         getGIFStatistics();
-        StatisticsService statisticsService = new StatisticsService(
+        statisticsService = new StatisticsService(
                 statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
         statisticsService.restart();
         statisticsProgressBar.setVisible(true);
         statisticsProgressLabel.setVisible(true);
         statisticsProgressBar.progressProperty().bind(statisticsService.progressProperty());
         statisticsProgressLabel.textProperty().bind(statisticsService.messageProperty());
-        //statisticsGIF = new StatisticsGIF(
-        //        statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
-        //statisticsGIF.writeGif(
-        //        statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
+        stopGifButton.setVisible(true);
     }
 
     /**
@@ -153,5 +154,12 @@ public class StatisticsController implements Initializable {
         });
 
         iterations = Integer.parseInt(iterationValue.getText());
+
+        stopGifButton.setOnAction(event -> {
+            statisticsService.cancel();
+            stopGifButton.setVisible(false);
+            statisticsProgressLabel.setVisible(false);
+            statisticsProgressBar.setVisible(false);
+        });
     }
 }

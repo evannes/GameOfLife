@@ -43,17 +43,22 @@
                   <Insets right="10.0" top="14.0" />
                </HBox.margin>
             </ProgressBar>
-            <Label fx:id="statisticsProgressLabel" text="Label" visible="false">
+            <Label fx:id="statisticsProgressLabel" minWidth="110.0" text="Label" visible="false">
                <HBox.margin>
-                  <Insets top="13.0" />
+                  <Insets right="10.0" top="13.0" />
                </HBox.margin>
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Button fx:id="stopGifButton" mnemonicParsing="false" text="Stop" visible="false">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
             <Button cancelButton="true" minWidth="100.0" mnemonicParsing="false" onAction="#cancelButton" text="Return to game">
                <HBox.margin>
-                  <Insets left="490.0" top="10.0" />
+                  <Insets left="370.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>

@@ -56,7 +56,7 @@ public class StatisticsGIF extends Task<Void> {
             lieng.GIFWriter gif = new lieng.GIFWriter(width,height, path, timePerMilliSecond);
 
             for (int i = 0; i < iterations; i ++) {
-
+                if (isCancelled()) break;
                 updateMessage((i+1) + " / " + (iterations));
                 updateProgress(i+1, iterations);
 
@@ -74,7 +74,7 @@ public class StatisticsGIF extends Task<Void> {
                 }
             }
             gif.close();
-            updateMessage(path + " created.");
+            updateMessage(path + " created");
         } catch (CloneNotSupportedException clone) {
             System.out.println("Couldn't create clone: " + clone.getMessage());
         } catch (IOException ioe) {

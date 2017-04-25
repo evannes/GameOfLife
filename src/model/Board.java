@@ -146,11 +146,11 @@ public abstract class Board implements Cloneable {
             executor.shutdown();
             executor.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException ie){
-            System.err.println("interrupted");
+            System.err.println("nextGenerationConcurrent was interrupted");
         }
         finally {
             if(!executor.isTerminated()){
-                System.out.println("IKKE FERDIG!!!");
+                System.err.println("Thread was interrupted");
             }
             executor.shutdownNow();
         }
