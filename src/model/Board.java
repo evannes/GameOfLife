@@ -33,6 +33,11 @@ public abstract class Board implements Cloneable {
     public Rules rules = new Rules();
 
     /**
+     * Default constructor.
+     */
+    public Board(){}
+
+    /**
      * The constructor sets the default width and default height of the board.
      * @param width     the default width of the board
      * @param height    the default height of the board

@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import model.*;
+
 /**
  * This class creates the board of boolean values to keep track of Game of Life
  * and the logic associated with it.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
 
-public class Board3D{
+public class Board3D extends Board{
 
     protected List<List<Boolean>> board;
     private int boardSize = 30;
@@ -51,6 +53,7 @@ public class Board3D{
             }
         }
         defaultStartBoard();
+        clone = getBoard(boardSize, boardSize);
     }
 
     /**
@@ -64,18 +67,12 @@ public class Board3D{
         board.get(1).set(0,true);
     }
 
-    /**
-     * Returns the width of the board.
-     * @return the width of this board
-     */
+    @Override
     public int getWidth() {
         return board.size();
     }
 
-    /**
-     * Returns the height of the board.
-     * @return the height of this board
-     */
+    @Override
     public int getHeight() {
         return board.get(0).size();
     }
@@ -95,35 +92,41 @@ public class Board3D{
         }
     }
 
-    /**
-     * Creates the next generation of cells to be drawn or removed.
-     */
+    // både for initialize clone og vanlig board
+    private List<List<Boolean>> getBoard(int x, int y) {
+        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
+
+        for(int i = 0; i < x; i++) {
+            tmp.add(new ArrayList<>(y));
+
+            for(int j = 0; j < y; j++) {
+                tmp.get(i).add(j, false);
+            }
+        }
+
+        return tmp;
+    }
+    /*
+    @Override
     public void nextGeneration() {
         createClone();
 
         for(int i = 0; i < getWidth(); i++){
             for(int j = 0; j < getHeight(); j++){
-                int neighbors = countNeighbor(i, j);
+                int neighbors = countNeighbor(i, j,getWidth(),getHeight());
                 boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
                 setCloneValue(i, j, value );
             }
         }
         switchBoard();
-    }
+    }*/
 
-    /**
-     * Sets values to the clone at the appointed index.
-     * @param x the first column index
-     * @param y the second column index
-     * @param value the value to be set
-     */
+    @Override
     public void setCloneValue(int x, int y, boolean value) {
         clone.get(x).set(y, value);
     }
 
-    /**
-     * Makes the board equal to the clone.
-     */
+    @Override
     public void switchBoard() {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
@@ -138,6 +141,7 @@ public class Board3D{
      * @param j     the second column index of the array
      * @return      the number of alive neighboring cells
      */
+    /*
     public int countNeighbor(int i, int j){
         int count = 0;
 
@@ -174,7 +178,7 @@ public class Board3D{
             count++;
 
         return count;
-    }
+    }*/
 
     /**
      * Checks if the cell is alive.
@@ -183,17 +187,17 @@ public class Board3D{
      * @return          <code>true</code> if the cell is alive
      *                  and not exceeding the board array
      */
-    private boolean isActiveCell(int i, int j) {
+    /*private boolean isActiveCell(int i, int j) {
         return inBounds(i, j) && getValue(i,j) == true;
-    }
+    }*/
 
     /**
      * Checks if the appointed position is within the board array.
-     * @param i         the first column index of the array
-     * @param j         the second column index of the array
+     * @param /i         the first column index of the array
+     * @param /j         the second column index of the array
      * @return          <code>false</code> if the position is exceeding the board array
      */
-    private boolean inBounds(int i, int j){
+    /*private boolean inBounds(int i, int j){
         if(i == -1 || j == -1){
             return false;
         }
@@ -203,49 +207,30 @@ public class Board3D{
         }
 
         return true;
-    }
+    }*/
 
-    /**
-     * Sets <code>boolean</code> values to the board.
-     * @param x     the first column index
-     * @param y     the second column index
-     * @param value the <code>boolean</code> value to be set
-     */
+    @Override
     public void setValue(int x, int y, boolean value) {
         board.get(x).set(y, value);
     }
 
-    /**
-     * Returns the <code>boolean</code> value of the appointed position
-     * @param x the first column index
-     * @param y the second column index
-     * @return  the <code>boolean</code> value in this index
-     */
+    @Override
     public boolean getValue(int x, int y) {
         return board.get(x).get(y);
     }
 
-    /**
-     * Toggles the <code>boolean</code> value at the appointed index.
-     * @param x the first column index
-     * @param y the second column index
-     */
+    @Override
     public void toggleValue(int x, int y) {
         board.get(x).set(y, !board.get(x).get(y));
     }
 
-    /**
-     * Resets all values of the board to false
-     */
+    @Override
     public void clearBoard() {
 
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }
 
-    /**
-     * Used to unit test {@link #nextGeneration()}.
-     * @return  The board array in an easy to read String format
-     */
+    @Override
     public String toString(){
         String boardStringOutput = "";
         for(int i = 0; i < boardSize; i++) {

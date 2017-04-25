@@ -41,9 +41,7 @@ public class CubeBoardManager3D {
     private List<List<Box>> boxBoard5;
     private List<List<Box>> boxBoard6;
     private PhongMaterial blueMaterial;
-    private PhongMaterial greenMaterial;
     private PhongMaterial purpleMaterial;
-    private PhongMaterial pinkMaterial;
 
     //private static CubeBoardManager3D ourInstance = new CubeBoardManager3D();
 
@@ -68,6 +66,7 @@ public class CubeBoardManager3D {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
                     cubeBoard3D.nextGenerations();
+                    cubeBoard3D.switchBoards();
                     changeBoards();
                     time = System.nanoTime();
                 }
@@ -86,7 +85,7 @@ public class CubeBoardManager3D {
         boxBoard2 = createBoxes(boxBoard2, 0, 0, -53, 53, 53, 0, false, true);
         boxBoard3 = createBoxes(boxBoard3, 0, 1590, 0, 53, 0, 53, true, false);
         boxBoard4 = createBoxes(boxBoard4, 0, 0, 1590, 53, 53, 0, false, true);
-        boxBoard5 = createBoxes(boxBoard5, 1590, 0, 0, 0, 53, 53, false, false);
+        boxBoard5 = createBoxes(boxBoard5, 1590, 0, 0, 0, 53, 53, false, true);
         boxBoard6 = createBoxes(boxBoard6, -53, 0, 0, 0, 53, 53, false, false);
     }
 
@@ -178,19 +177,19 @@ public class CubeBoardManager3D {
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                Box myBox = new Box(cellSize, cellSize, cellSize);
-                boardBoxes.get(i).add(myBox);
+                Box box = new Box(cellSize, cellSize, cellSize);
+                boardBoxes.get(i).add(box);
 
                 if (j % 2 == 0) {
-                    setBlueMaterial(myBox);
+                    setBlueMaterial(box);
                 } else {
-                    setPurpleMaterial(myBox);
+                    setPurpleMaterial(box);
                 }
 
-                myBox.setTranslateX(boxX);
-                myBox.setTranslateY(boxY);
-                myBox.setTranslateZ(boxZ);
-                group.getChildren().add(myBox);
+                box.setTranslateX(boxX);
+                box.setTranslateY(boxY);
+                box.setTranslateZ(boxZ);
+                group.getChildren().add(box);
 
                 if (resetX) {
                     boxX += incrementX;//53;
@@ -262,7 +261,6 @@ public class CubeBoardManager3D {
 
     public void removeBoxes() {
         group.getChildren().clear();
-
     }
 
     /**
@@ -315,11 +313,11 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * Clears the board.
+     * Clears board2.
      */
-    public void clearBoard() {
+    public void clearBoards() {
         isRunning = false;
-        board3D.clearBoard();
+        cubeBoard3D.clearBoards();
         isClearing = true;
     }
 }

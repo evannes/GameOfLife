@@ -38,6 +38,9 @@ public class view3DController implements Initializable {
     Slider rotateView;
 
     @FXML
+    Slider rotateViewVertical;
+
+    @FXML
     Button pauseButton;
 
     @FXML
@@ -82,7 +85,7 @@ public class view3DController implements Initializable {
             boardManager3D.clearBoard();
             boardManager3D.changeBoard();
         }else if(cubeExists){
-            cubeBoardManager3D.clearBoard();
+            cubeBoardManager3D.clearBoards();
         }
     }
 
@@ -199,6 +202,14 @@ public class view3DController implements Initializable {
         rotateView.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {
+                    group.setRotationAxis(new Point3D(750,750,750));
+                    group.setRotate((double)newValue);
+                });
+        // dei roterer ikkje sammen, avbryter kvarandre isteden
+        rotateViewVertical.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                {
+                    group.setRotationAxis(new Point3D(0,750,0));
                     group.setRotate((double)newValue);
                 });
 

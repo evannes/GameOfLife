@@ -26,7 +26,7 @@ public class Main extends Application {
         Scene scene = new Scene(root,1200,650);
         scene.setFill(Color.BLACK);
 
-        primaryStage.setTitle("3D Test");
+        primaryStage.setTitle("Game of Life 3D");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
