@@ -1,7 +1,5 @@
 package controller;
 
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,7 +31,6 @@ public class StatisticsController implements Initializable {
     @FXML
     private StatisticsLogic statisticsLogic;
     private StatisticsManager statisticsView;
-    private StatisticsGIF statisticsGIF;
     private int iterations;
     private StatisticsService statisticsService;
 

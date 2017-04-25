@@ -13,6 +13,11 @@ import java.util.Random;
  * StatisticsGIF uses the {@link GIFWriter} library to draw an
  * animated gif file frame by frame. It works in conjunction with
  * {@link StatisticsLogic} which supplies the statistical data.
+ * <p>
+ * The class also uses the <code>Task</code> abstract class to be able to run threaded
+ * and have a progress bar. This prevents the user interface from becoming
+ * unresponsive during gif creation and also lets the user cancel the process
+ * by clicking on a stop button while the gif is being created.
  *
  * @author  Alexander Kingdon
  * @since   1.0
@@ -29,6 +34,13 @@ public class StatisticsGIF extends Task<Void> {
     private DynamicBoard gifBoard;
     private List<Integer> generationsOver98;
 
+    /**
+     * Sets the parameters neccessary for the class to run its methods.
+     * @param gifBoard          Board to be used to generate statistics
+     * @param generationsOver98 List of generations with a similarity
+     *                          measure equal to or greater than 98
+     * @param iterations        Number of generations for statistical data
+     */
     StatisticsGIF(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) {
         width = gifBoard.getWidth()*3;
         height = gifBoard.getHeight()*3;
@@ -57,6 +69,7 @@ public class StatisticsGIF extends Task<Void> {
 
             for (int i = 0; i < iterations; i ++) {
                 if (isCancelled()) break;
+
                 updateMessage((i+1) + " / " + (iterations));
                 updateProgress(i+1, iterations);
 
@@ -113,6 +126,15 @@ public class StatisticsGIF extends Task<Void> {
         gif.insertAndProceed();
     }
 
+    /**
+     * Used to specify what the thread should do.
+     * In this case it runs the gif creation methods
+     * {@link StatisticsGIF#writeGif()} and
+     * {@link StatisticsGIF#drawGIFFrame(GIFWriter, DynamicBoard)}.
+     *
+     * @return  <code>null</code>
+     */
+    @Override
     public Void call() {
         try {
             writeGif();
