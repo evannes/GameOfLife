@@ -30,28 +30,6 @@ public class testNextGenerationPatternOne {
         testStaticBoard.setValue(2,2,true);
         testStaticBoard.setValue(3,0,true);
         testStaticBoard.setValue(3,3,true);
-
-        /*
-        testBoardGrid[0][0] = true;
-        testBoardGrid[0][3] = true;
-        testBoardGrid[1][1] = true;
-        testBoardGrid[1][2] = true;
-        testBoardGrid[2][1] = true;
-        testBoardGrid[2][2] = true;
-        testBoardGrid[3][0] = true;
-        testBoardGrid[3][3] = true;
-        */
-    }
-
-
-    /**
-     * Used to set up the board again after running {@link Board#nextGeneration()}
-     * @param testStaticBoard     the board used for testing
-     */
-
-    private void setBoard(StaticBoard testStaticBoard) {
-        //testStaticBoard.staticBoardArray = testStaticBoard.rules.getStaticBoard();
-
     }
 
     @Test
@@ -64,7 +42,6 @@ public class testNextGenerationPatternOne {
     public void testNextGeneration() {
         defaultBoard();
         testStaticBoard.nextGeneration();
-        //setBoard(testStaticBoard);
 
         org.junit.jupiter.api.Assertions.assertEquals(testStaticBoard.toString(), "0110100110010110");
     }
