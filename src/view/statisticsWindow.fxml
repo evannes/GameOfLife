@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -34,12 +35,25 @@
             </Button>
             <Button minWidth="75.0" mnemonicParsing="false" onAction="#createRandomGIF" text="Create GIF">
                <HBox.margin>
-                  <Insets top="10.0" />
+                  <Insets right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
+            <ProgressBar fx:id="statisticsProgressBar" prefWidth="200.0" progress="0.0" visible="false">
+               <HBox.margin>
+                  <Insets right="10.0" top="14.0" />
+               </HBox.margin>
+            </ProgressBar>
+            <Label fx:id="statisticsProgressLabel" text="Label" visible="false">
+               <HBox.margin>
+                  <Insets top="13.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
             <Button cancelButton="true" minWidth="100.0" mnemonicParsing="false" onAction="#cancelButton" text="Return to game">
                <HBox.margin>
-                  <Insets left="755.0" top="10.0" />
+                  <Insets left="490.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>

@@ -1,9 +1,11 @@
 package model;
 
+import javafx.concurrent.Task;
 import lieng.GIFWriter;
 
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -15,26 +17,33 @@ import java.util.Random;
  * @author  Alexander Kingdon
  * @since   1.0
  */
-public class StatisticsGIF {
+public class StatisticsGIF extends Task<Void> {
 
     private Color cellColor = new Color(32, 178, 170);
     private Color boardColor = Color.WHITE;
 
     private int width;
     private int height;
+    private int iterations;
+
+    private DynamicBoard gifBoard;
+    private List<Integer> generationsOver98;
+
+    StatisticsGIF(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) {
+        width = gifBoard.getWidth()*3;
+        height = gifBoard.getHeight()*3;
+        this.iterations = iterations;
+        this.gifBoard = gifBoard;
+        this.generationsOver98 = generationsOver98;
+    }
 
     /**
      * Runs {@link DynamicBoard#nextGenerationConcurrent()} a set number of times to supply
      * {@link StatisticsGIF#drawGIFFrame(GIFWriter, DynamicBoard)} with board data to draw to a file.
-     * @param gifBoard          The cloned board being used to supply data.
-     * @param generationsOver98 An array list of generations with a similarity measure
-     *                          equal to or greater than 98.
-     * @param iterations        The number of iterations that the simulation ran. User specified.
-     * @throws Exception        An {@link java.io.IOException} possibly thrown by the gif writer.
+     *
      */
-    public void writeGif(DynamicBoard gifBoard, List<Integer> generationsOver98, int iterations) throws Exception {
-        width = gifBoard.getWidth()*3;
-        height = gifBoard.getHeight()*3;
+    private void writeGif() {
+
         Random gifRandomValue = new Random();
         Random similarityRandomValueGenerator = new Random();
 
@@ -47,6 +56,10 @@ public class StatisticsGIF {
             lieng.GIFWriter gif = new lieng.GIFWriter(width,height, path, timePerMilliSecond);
 
             for (int i = 0; i < iterations; i ++) {
+
+                updateMessage((i+1) + " / " + (iterations));
+                updateProgress(i+1, iterations);
+
                 if (gifRandomValue.nextDouble() < 0.5) {
                     gifBoard.nextGenerationConcurrent();
                     drawGIFFrame(gif, gifBoard);
@@ -61,15 +74,20 @@ public class StatisticsGIF {
                 }
             }
             gif.close();
+            updateMessage(path + " created.");
         } catch (CloneNotSupportedException clone) {
             System.out.println("Couldn't create clone: " + clone.getMessage());
+        } catch (IOException ioe) {
+            System.out.println("Error creating GIFWriter: " + ioe);
+        } catch (Exception e) {
+            System.out.println("GIFWriter error: " + e);
         }
     }
 
     /**
      * Uses the GIFLib supplied to draw each frame of the gif file being produced.
      * @param gif           The {@link GIFWriter} being used to draw frames.
-     * @param inBoard       The board supplied by the {@link StatisticsGIF#writeGif(DynamicBoard, List, int)} method.
+     * @param inBoard       The board supplied by the {@link StatisticsGIF#writeGif()} method.
      * @throws Exception    An {@link java.io.IOException} possibly thrown by the gif writer.
      */
     private void drawGIFFrame(GIFWriter gif, DynamicBoard inBoard) throws Exception {
@@ -93,5 +111,14 @@ public class StatisticsGIF {
             }
         }
         gif.insertAndProceed();
+    }
+
+    public Void call() {
+        try {
+            writeGif();
+        } catch (Exception e) {
+            System.err.println("GIFWriter error: " + e);
+        }
+        return null;
     }
 }

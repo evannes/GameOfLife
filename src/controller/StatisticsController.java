@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,18 +9,19 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.DynamicBoard;
 import model.StatisticsGIF;
 import model.StatisticsLogic;
-import view.StatisticsManager;
+import model.StatisticsService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * This is the controller class for the rule selection window.
+ * This is the controller class for the statistics window.
  * It is accessed from the main game window using the button
  * named "View statistics".
  *
@@ -41,6 +44,13 @@ public class StatisticsController implements Initializable {
 
     @FXML
     private Label comparingGenerationLabel;
+
+    @FXML
+    private ProgressBar statisticsProgressBar;
+
+    @FXML
+    private Label statisticsProgressLabel;
+
 
     /**
      * Initializer method for the cloned board to be used for gathering statistical data.
@@ -97,8 +107,17 @@ public class StatisticsController implements Initializable {
      */
     public void createRandomGIF() throws Exception {
         getGIFStatistics();
-        statisticsGIF.writeGif(
+        StatisticsService statisticsService = new StatisticsService(
                 statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
+        statisticsService.restart();
+        statisticsProgressBar.setVisible(true);
+        statisticsProgressLabel.setVisible(true);
+        statisticsProgressBar.progressProperty().bind(statisticsService.progressProperty());
+        statisticsProgressLabel.textProperty().bind(statisticsService.messageProperty());
+        //statisticsGIF = new StatisticsGIF(
+        //        statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
+        //statisticsGIF.writeGif(
+        //        statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
     }
 
     /**
@@ -121,7 +140,7 @@ public class StatisticsController implements Initializable {
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         statisticsLogic = new StatisticsLogic();
         statisticsView = new StatisticsManager();
-        statisticsGIF = new StatisticsGIF();
+
 
         iterationValue.textProperty().addListener((observable, oldValue, value) -> {
             if (Integer.parseInt(value) > 0 && Integer.parseInt(value) <= 100) {
