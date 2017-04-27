@@ -1,5 +1,6 @@
 package controller;
 
+import controller.Controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,7 +12,6 @@ import model.Board;
 import model.DynamicBoard;
 import model.FileHandling;
 import model.StaticBoard;
-
 
 /**
  * The BoardManager binds the logic from the model classes together with the view.
@@ -30,13 +30,13 @@ public class BoardManager {
     private double startingPointX;
     private double startingPointY;
     private int speed;
-    public Color cellColor = Color.LIGHTSEAGREEN;
-    public Color gridColor = Color.GRAY;
-    public Color boardColor = Color.WHITE;
+    Color cellColor = Color.LIGHTSEAGREEN;
+    Color gridColor = Color.GRAY;
+    Color boardColor = Color.WHITE;
     private Canvas canvas;
     private Board board;
     private FileHandling fileHandling = new FileHandling();
-    public boolean isRunning = false;
+    boolean isRunning = false;
     private long time = System.nanoTime();
     private double fullBoardWidth;
     private double fullBoardHeight;
@@ -55,7 +55,7 @@ public class BoardManager {
      * @param canvas    the canvas to draw the board on
      * @param board     the board to draw on the canvas
      */
-    public BoardManager(Canvas canvas, Board board) {
+    BoardManager(Canvas canvas, Board board) {
         this.canvas = canvas;
         this.board = board;
         draw();
@@ -79,7 +79,7 @@ public class BoardManager {
      * The method drawing the board with alive cells, background.
      * and grid. The method will draw the board according to the array applied in the <code>Rules</code> class.
      */
-    public void draw() {
+    void draw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(gridColor);
         int width = board.getWidth();
@@ -112,7 +112,7 @@ public class BoardManager {
     /**
      * The method which lets the user set or remove cells manually from the board.
      */
-    public void userDrawCell(){
+    void userDrawCell(){
         canvas.setOnMouseClicked(e -> {
             double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
             double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
@@ -219,7 +219,7 @@ public class BoardManager {
      * The higher the value passed in the larger the board will become.
      * @param value     the value used to change the size of the board.
      */
-    public void scaleBoard(double value) {
+    void scaleBoard(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
         fullBoardWidth = canvas.getWidth()*drawScale;
@@ -253,46 +253,48 @@ public class BoardManager {
     /**
      * The method starting the game over again with the preset pattern.
      */
-    public void newGame() {
+    void newGame() {
         clearBoard();
         scaledX = 0;
         scaledY = 0;
         boolean[][] array = fileHandling.readLocalFile("src/model/patterns/halfmax.rle");
         selectPatternLogic(array);
+        //board.defaultStartBoard();
+        //isRunning = true;
     }
 
     /**
      * The method pausing the game by stopping the animation.
      */
-    public void pauseGame(){
+    void pauseGame(){
         isRunning = false;
     }
 
     /**
      * The method resuming the game by starting the animation again.
      */
-    public void resumeGame(){
+    void resumeGame(){
         isRunning = true;
     }
 
     /**
      * The method exiting the game.
      */
-    public void exitGame(){
+    void exitGame(){
         System.exit(0);
     }
 
     /**
      * Lets the user to select a rle pattern from disk.
      */
-    public void selectPatternFromDisk() {
+    void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
         selectPatternLogic(array);
     }
     /**
      * Lets the user to select a rle pattern from URL.
      */
-    public void selectPatternFromURL() {
+    void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
         selectPatternLogic(array);
     }
@@ -315,7 +317,7 @@ public class BoardManager {
      * @return      <code>true</code> if the animation
      *              is running.
      */
-    public boolean getIsRunning(){
+    boolean getIsRunning(){
         return isRunning;
     }
 
@@ -332,7 +334,7 @@ public class BoardManager {
      * Sets the speed of the animation.
      * @param value     the value used to set the speed of the animation
      */
-    public void setSpeed(int value) {
+    void setSpeed(int value) {
         speed = value;
     }
 
@@ -348,7 +350,7 @@ public class BoardManager {
      * Sets color to the alive cells.
      * @param colorPicker       the input color to set on the cell
      */
-    public void setCellColor(ColorPicker colorPicker){
+    void setCellColor(ColorPicker colorPicker){
         cellColor = colorPicker.getValue();
         draw();
     }
@@ -357,7 +359,7 @@ public class BoardManager {
      * Sets color to the grid.
      * @param colorPicker       the input color to set on the grid
      */
-    public void setGridColor(ColorPicker colorPicker) {
+    void setGridColor(ColorPicker colorPicker) {
         gridColor = colorPicker.getValue();
         draw();
     }
@@ -366,7 +368,7 @@ public class BoardManager {
      * Sets color to the boards background.
      * @param colorPicker       the input color to set on the boards background
      */
-    public void setBoardColor(ColorPicker colorPicker) {
+    void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
         draw();
     }
@@ -376,7 +378,7 @@ public class BoardManager {
      * Sets random colors to the cells.
      * @param value     <code>true</code> if drawRandomColors is to be turned on
      */
-    public void setDrawRandomColors(boolean value) {
+    void setDrawRandomColors(boolean value) {
         drawRandomColors = value;
     }
 
@@ -384,7 +386,7 @@ public class BoardManager {
      * Hides the grid. It works by making the
      * grid color the same as the board color.
      */
-    public void switchOffGrid() {
+    void switchOffGrid() {
         gridColor = boardColor;
         draw();
     }
@@ -395,7 +397,7 @@ public class BoardManager {
      * @param colorPickerGrid   The <code>ColorPicker</code> related
      *                          to grid color.
      */
-    public void switchOnGrid(ColorPicker colorPickerGrid) {
+    void switchOnGrid(ColorPicker colorPickerGrid) {
         gridColor = colorPickerGrid.getValue();
         draw();
     }

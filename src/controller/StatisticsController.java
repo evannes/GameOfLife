@@ -7,18 +7,19 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.DynamicBoard;
-import model.StatisticsGIF;
-import model.StatisticsLogic;
-import view.StatisticsManager;
+import statistics.StatisticsGIF;
+import statistics.StatisticsLogic;
+import statistics.StatisticsService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * This is the controller class for the rule selection window.
+ * This is the controller class for the statistics window.
  * It is accessed from the main game window using the button
  * named "View statistics".
  *
@@ -30,8 +31,8 @@ public class StatisticsController implements Initializable {
     @FXML
     private StatisticsLogic statisticsLogic;
     private StatisticsManager statisticsView;
-    private StatisticsGIF statisticsGIF;
     private int iterations;
+    private StatisticsService statisticsService;
 
     @FXML
     private TextField iterationValue;
@@ -41,6 +42,16 @@ public class StatisticsController implements Initializable {
 
     @FXML
     private Label comparingGenerationLabel;
+
+    @FXML
+    private ProgressBar statisticsProgressBar;
+
+    @FXML
+    private Label statisticsProgressLabel;
+
+    @FXML
+    private Button stopGifButton;
+
 
     /**
      * Initializer method for the cloned board to be used for gathering statistical data.
@@ -59,6 +70,9 @@ public class StatisticsController implements Initializable {
         }
         int[][] stats = statisticsLogic.getStatistics();
         if (!statisticsLogic.getCreateGIF()) {
+            if (!statisticsChart.getData().isEmpty()) {
+                statisticsChart.getData().removeAll(statisticsChart.getData());
+            }
             XYChart.Series<Number, Number> livingCellsSeries = statisticsView.populateLivingCells(stats);
             XYChart.Series<Number, Number> changeInLivingCellsSeries = statisticsView.populateChangeInLivingCells(stats);
             XYChart.Series<Number, Number> similarityMeasureSeries = statisticsView.populateSimilarityMeasure(
@@ -97,8 +111,14 @@ public class StatisticsController implements Initializable {
      */
     public void createRandomGIF() throws Exception {
         getGIFStatistics();
-        statisticsGIF.writeGif(
+        statisticsService = new StatisticsService(
                 statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
+        statisticsService.restart();
+        statisticsProgressBar.setVisible(true);
+        statisticsProgressLabel.setVisible(true);
+        statisticsProgressBar.progressProperty().bind(statisticsService.progressProperty());
+        statisticsProgressLabel.textProperty().bind(statisticsService.messageProperty());
+        stopGifButton.setVisible(true);
     }
 
     /**
@@ -121,7 +141,7 @@ public class StatisticsController implements Initializable {
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         statisticsLogic = new StatisticsLogic();
         statisticsView = new StatisticsManager();
-        statisticsGIF = new StatisticsGIF();
+
 
         iterationValue.textProperty().addListener((observable, oldValue, value) -> {
             if (Integer.parseInt(value) > 0 && Integer.parseInt(value) <= 100) {
@@ -134,5 +154,12 @@ public class StatisticsController implements Initializable {
         });
 
         iterations = Integer.parseInt(iterationValue.getText());
+
+        stopGifButton.setOnAction(event -> {
+            statisticsService.cancel();
+            stopGifButton.setVisible(false);
+            statisticsProgressLabel.setVisible(false);
+            statisticsProgressBar.setVisible(false);
+        });
     }
 }

@@ -33,6 +33,11 @@ public abstract class Board implements Cloneable {
     public Rules rules = new Rules();
 
     /**
+     * Default constructor.
+     */
+    public Board(){}
+
+    /**
      * The constructor sets the default width and default height of the board.
      * @param width     the default width of the board
      * @param height    the default height of the board
@@ -146,11 +151,11 @@ public abstract class Board implements Cloneable {
             executor.shutdown();
             executor.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException ie){
-            System.err.println("interrupted");
+            System.err.println("nextGenerationConcurrent was interrupted");
         }
         finally {
             if(!executor.isTerminated()){
-                System.out.println("IKKE FERDIG!!!");
+                System.err.println("Thread was interrupted");
             }
             executor.shutdownNow();
         }

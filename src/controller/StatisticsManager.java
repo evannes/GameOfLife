@@ -1,23 +1,24 @@
-package view;
+package controller;
 
 
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import model.StatisticsLogic;
+import statistics.StatisticsLogic;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * StatisticsManager is the view class for the statistics window.
+ * StatisticsManager binds the logic from the model classes together with the view
+ * for the statistics window.
  * It contains methods related to showing the user the data gathered
  * by {@link StatisticsLogic}.
  *
  * @author  Alexander Kingdon
  * @since   1.0
  */
-public class StatisticsManager {
+class StatisticsManager {
 
     private int specifiedIteration;
     private int highestSimilarity;
@@ -27,7 +28,7 @@ public class StatisticsManager {
      * The value is used to create the similarity measure in {@link StatisticsLogic#getStatistics()}.
      * @return  The specified iteration to compare similarity with.
      */
-    public int createDialogWindow() {
+    int createDialogWindow() {
         TextInputDialog iterationDialog = new TextInputDialog(null);
         iterationDialog.setTitle("Specify iteration");
         iterationDialog.setHeaderText(null);
@@ -42,7 +43,7 @@ public class StatisticsManager {
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
      * @return      Fully populated series ready to be applied to the line chart.
      */
-    public XYChart.Series<Number, Number> populateLivingCells(int[][] stats) {
+    XYChart.Series<Number, Number> populateLivingCells(int[][] stats) {
         XYChart.Series<Number, Number> livingCellsSeries = new XYChart.Series<>();
         livingCellsSeries.setName("Living cells");
         for (int i = 0; i < stats[0].length; i ++) {
@@ -59,7 +60,7 @@ public class StatisticsManager {
      * @param stats The statistics array produced by {@link StatisticsLogic#getStatistics()}.
      * @return      Fully populated series ready to be applied to the line chart.
      */
-    public XYChart.Series<Number, Number> populateChangeInLivingCells(int[][] stats) {
+    XYChart.Series<Number, Number> populateChangeInLivingCells(int[][] stats) {
         XYChart.Series<Number, Number> changeInLivingCellsSeries = new XYChart.Series<>();
         changeInLivingCellsSeries.setName("Change in living cells");
         for (int i = 0; i < stats[1].length; i ++) {
@@ -80,7 +81,7 @@ public class StatisticsManager {
      *                                      the highest similarity.
      * @return      Fully populated series ready to be applied to the line chart.
      */
-    public XYChart.Series<Number, Number> populateSimilarityMeasure(
+    XYChart.Series<Number, Number> populateSimilarityMeasure(
             int[][] stats, int highestSimilarity, List<Integer> highestSimilarityGenerations) {
 
         this.highestSimilarity = highestSimilarity;
@@ -112,7 +113,7 @@ public class StatisticsManager {
      * @return  The <code>String</code> to be shown in the
      *          main statistics window.
      */
-    public String setComparingGenerationLabelText() {
+    String setComparingGenerationLabelText() {
         return "Comparing generation: " + specifiedIteration + "\n" +
                 "Highest similarity found: " + highestSimilarity + "%";
     }

@@ -21,11 +21,17 @@ public class CubeBoard3D {
     private List<List<Boolean>> board4;
     private List<List<Boolean>> board5;
     private List<List<Boolean>> board6;
-    List<List<Boolean>>[] boardArrays;
+    private List<List<Boolean>>[] boardArrays;
 
     private int boardSize = 30;
     private Rules rules = new Rules();
-    private List<List<Boolean>> clone;
+    private List<List<Boolean>> clone1;
+    private List<List<Boolean>> clone2;
+    private List<List<Boolean>> clone3;
+    private List<List<Boolean>> clone4;
+    private List<List<Boolean>> clone5;
+    private List<List<Boolean>> clone6;
+    private List<List<Boolean>>[] cloneArrays;
 
     /**
      * Constructor that initializes all arrays for the cubes boolean values.
@@ -37,6 +43,13 @@ public class CubeBoard3D {
         board4 = initBoards(board4);
         board5 = initBoards(board5);
         board6 = initBoards(board6);
+
+        clone1 = initBoards(clone1);
+        clone2 = initBoards(clone2);
+        clone3 = initBoards(clone3);
+        clone4 = initBoards(clone4);
+        clone5 = initBoards(clone5);
+        clone6 = initBoards(clone6);
         //board1.get(0).set(1,true);
         //board1.get(0).set(2,true);
         /*
@@ -55,6 +68,7 @@ public class CubeBoard3D {
         board2.get(0).set(8,true);
         */
         initBoardArray();
+        initCloneArray();
         defaultStartBoard();
     }
 
@@ -88,17 +102,17 @@ public class CubeBoard3D {
         board2.get(2).set(2,true);
         board2.get(2).set(1,true);
         board2.get(1).set(0,true);*/
-        board6.get(0).set(0,true);
-        board6.get(0).set(1,true);
-        board6.get(0).set(2,true);
+        //board6.get(0).set(0,true);
+        //board6.get(0).set(1,true);
+        //board6.get(0).set(2,true);
         //board1.get(1).set(0,true);
         //board2.get(1).set(1,true);
 
-        /*board2.get(1).set(3,true);
-        board2.get(2).set(3,true);
-        board2.get(3).set(3,true);
-        board2.get(3).set(2,true);
-        board2.get(2).set(1,true);*/
+        board2.get(3).set(15,true);
+        board2.get(4).set(15,true);
+        board2.get(5).set(15,true);
+        board2.get(5).set(14,true);
+        board2.get(4).set(13,true);
         /*board6.get(0).set(2,true);
         board6.get(1).set(2,true);
         board6.get(2).set(2,true);
@@ -125,14 +139,14 @@ public class CubeBoard3D {
     /**
      * Creates clone of the current array.
      */
-    public void createClone(int numBoard) {
-        clone = new ArrayList<List<Boolean>>(getWidth());
+    public void createClone(int indexBoard) {
+        cloneArrays[indexBoard] = new ArrayList<List<Boolean>>(getWidth());
 
         for(int i = 0; i < getWidth(); i++) {
-            clone.add(new ArrayList<>(getHeight()));
+            cloneArrays[indexBoard].add(new ArrayList<>(getHeight()));
 
             for(int j = 0; j < getHeight(); j++) {
-                clone.get(i).add(j, getValue(numBoard,i, j));
+                cloneArrays[indexBoard].get(i).add(j, getValue(indexBoard,i, j));
             }
         }
     }
@@ -146,10 +160,6 @@ public class CubeBoard3D {
         }
     }
 
-    public void switchBoards(){
-        // TODO: bytte alle bretta samtidig, kjøre den etter alle nextgenerations
-    }
-
     /**
      * Creates the next generation of cells to be drawn or removed.
      */
@@ -161,10 +171,10 @@ public class CubeBoard3D {
             for(int j = 0; j < getHeight(); j++){
                 int neighbors = countNeighbor(indexBoard,i, j);
                 boolean value = getValue(indexBoard,i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
-                setCloneValue(i, j, value );
+                setCloneValue(indexBoard,i, j, value );
             }
         }
-        switchBoard(indexBoard);
+        //switchBoard(indexBoard);
     }
 
     /**
@@ -173,17 +183,27 @@ public class CubeBoard3D {
      * @param y the second column index
      * @param value the value to be set
      */
-    public void setCloneValue(int x, int y, boolean value) {
-        clone.get(x).set(y, value);
+    public void setCloneValue(int indexBoard, int x, int y, boolean value) {
+        cloneArrays[indexBoard].get(x).set(y, value);
+    }
+
+    /**
+     * Makes all the boards equal to their clone.
+     */
+    public void switchBoards(){
+        // TODO: bytte alle bretta samtidig, kjøre den etter alle nextgenerations
+        for(int i = 0; i < cloneArrays.length; i++){
+            switchBoard(i);
+        }
     }
 
     /**
      * Makes the board equal to the clone.
      */
-    public void switchBoard(int numBoard) {
+    public void switchBoard(int indexBoard) {
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
-                setValue(numBoard,i, j, clone.get(i).get(j));
+                setValue(indexBoard,i, j, cloneArrays[indexBoard].get(i).get(j));
             }
         }
     }
@@ -398,8 +418,9 @@ public class CubeBoard3D {
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard3Neighbors(int i, int j){
+        // har gjort på nytt
         if (i == -1 && inBounds(j)) {
-            if (board6.get(board6.size()-1).get(j)) {
+            if (board2.get(j).get(board6.size()-1)) {
                 return true;
             } else {
                 return false;
@@ -407,7 +428,7 @@ public class CubeBoard3D {
         }
 
         if (inBounds(i) && j == -1) {
-            if (board2.get(board2.size()-1).get(i)) {
+            if (board6.get(i).get(board2.size()-1)) {
                 return true;
             } else {
                 return false;
@@ -415,7 +436,7 @@ public class CubeBoard3D {
         }
 
         if (i >= boardSize && inBounds(j)) {
-            if (board5.get(board5.size()-1).get(j)) {
+            if (board4.get(j).get(board5.size()-1)) {
                 return true;
             } else {
                 return false;
@@ -423,7 +444,7 @@ public class CubeBoard3D {
         }
 
         if (inBounds(i) && j >= boardSize) {
-            if (board4.get((board4.size()-1)).get(i)) {
+            if (board5.get(i).get(board4.size()-1)) {
                 return true;
             } else {
                 return false;
@@ -439,8 +460,9 @@ public class CubeBoard3D {
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard4Neighbors(int i, int j){
+        // har gjort på nytt
         if (i == -1 && inBounds(j)) {
-            if (board1.get(j).get(board1.size()-1)) {
+            if (board6.get(board1.size()-1).get(j)) {
                 return true;
             } else {
                 return false;
@@ -448,7 +470,7 @@ public class CubeBoard3D {
         }
 
         if (inBounds(i) && j == -1) {
-            if (board6.get(i).get(board6.size()-1)) {
+            if (board1.get(board6.size()-1).get(i)) {
                 return true;
             } else {
                 return false;
@@ -456,7 +478,7 @@ public class CubeBoard3D {
         }
 
         if (i >= boardSize && inBounds(j)) {
-            if (board3.get(j).get(board3.size()-1)) {
+            if (board5.get(board3.size()-1).get(j)){
                 return true;
             } else {
                 return false;
@@ -464,7 +486,7 @@ public class CubeBoard3D {
         }
 
         if (inBounds(i) && j >= boardSize) {
-            if (board5.get(i).get(board5.size()-1)) {
+            if (board3.get(board5.size()-1).get(i)) {
                 return true;
             } else {
                 return false;
@@ -480,8 +502,9 @@ public class CubeBoard3D {
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard5Neighbors(int i, int j){
+        //
         if (i == -1 && inBounds(j)) {
-            if (board1.get(board1.size()-1).get(j)) {
+            if (board2.get(board1.size()-1).get(j)) {
                 return true;
             } else {
                 return false;
@@ -489,7 +512,7 @@ public class CubeBoard3D {
         }
 
         if (inBounds(i) && j == -1) {
-            if (board2.get(i).get(board2.size()-1)) {
+            if (board1.get(i).get(board2.size()-1)) {
                 return true;
             } else {
                 return false;
@@ -497,7 +520,7 @@ public class CubeBoard3D {
         }
 
         if (i >= boardSize && inBounds(j)) {
-            if (board3.get(board3.size()-1).get(j)) {
+            if (board4.get(board3.size()-1).get(j)) { // eller if (board4.get(0).get(j)) { //
                 return true;
             } else {
                 return false;
@@ -505,7 +528,7 @@ public class CubeBoard3D {
         }
 
         if (inBounds(i) && j >= boardSize) {
-            if (board4.get(i).get(board4.size()-1)) {
+            if (board3.get(i).get(board4.size()-1)) {
                 return true;
             } else {
                 return false;
@@ -588,10 +611,13 @@ public class CubeBoard3D {
      * Resets all values of the board to false
      */
     // er no kun for board 2
-    // funker ikkje i det heile tatt? fra controller kalles det på board3d sin clearboard?
-    public void clearBoard() {
-
-        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(1,i, j, false)));
+    public void clearBoards() {
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(0, i, j, false)));
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(1, i, j, false)));
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(2, i, j, false)));
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(3, i, j, false)));
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(4, i, j, false)));
+        IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(5, i, j, false)));
     }
 
     /**
@@ -624,7 +650,7 @@ public class CubeBoard3D {
             sizeErrorAlert.showAndWait();
         } else {
             //clear previous pattern
-            clearBoard();
+            clearBoards();
 
             //find the corner to start placing the pattern
             int xStartIndex = (boardSize - inputArray.size()) / 2;
@@ -669,4 +695,13 @@ public class CubeBoard3D {
         return board2;
     }
 
+    public void initCloneArray(){
+        cloneArrays = new ArrayList[6];
+        cloneArrays[0] = clone1;
+        cloneArrays[1] = clone2;
+        cloneArrays[2] = clone3;
+        cloneArrays[3] = clone4;
+        cloneArrays[4] = clone5;
+        cloneArrays[5] = clone6;
+    }
 }

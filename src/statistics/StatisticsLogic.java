@@ -1,5 +1,7 @@
-package model;
+package statistics;
 
+
+import model.DynamicBoard;
 
 import java.util.ArrayList;
 import java.util.List;

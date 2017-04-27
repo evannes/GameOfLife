@@ -32,9 +32,7 @@ public class BoardManager3D{
     private int boxY = 0;
     private int boxZ = 0;
     private PhongMaterial blueMaterial;
-    private PhongMaterial greenMaterial;
     private PhongMaterial purpleMaterial;
-    private PhongMaterial pinkMaterial;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -49,7 +47,7 @@ public class BoardManager3D{
         animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board3D.nextGeneration();
+                    board3D.nextGenerationConcurrent();//nextGeneration();
                     changeBoard();
 
                     time = System.nanoTime();
