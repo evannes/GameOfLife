@@ -1,15 +1,17 @@
 package controller;
 
-import controller.Controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import model.Board;
 import model.DynamicBoard;
 import model.FileHandling;
 import model.StaticBoard;
+
 
 /**
  * The BoardManager binds the logic from the model classes together with the view.
@@ -36,6 +38,17 @@ public class BoardManager {
     private FileHandling fileHandling = new FileHandling();
     public boolean isRunning = false;
     private long time = System.nanoTime();
+    private double fullBoardWidth;
+    private double fullBoardHeight;
+    private int scalefactorX = 80;
+    private int scalefactorY = 50;
+
+    double startX;
+    double startY;
+    int scaledX = 0;
+    int scaledY = 0;
+    int xOffset = 0;
+    int yOffset = 0;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -88,8 +101,8 @@ public class BoardManager {
                     gc.setFill(boardColor);
                 }
 
-                double cellX = (cellHeight * i)-startingPointX;
-                double cellY = (cellWidth * j)-startingPointY;
+                double cellX = (cellHeight * i) - startingPointX + scaledX;
+                double cellY = (cellWidth * j) - startingPointY + scaledY;
 
                 gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
             }
@@ -104,8 +117,8 @@ public class BoardManager {
             double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
             double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
 
-            double korX = (e.getX()+startingPointX);
-            double korY = (e.getY()+startingPointY);
+            double korX = (e.getX()+startingPointX - scaledX);
+            double korY = (e.getY()+startingPointY) - scaledY;
 
             int arrayX = (int)Math.floor(korX/cellWidth);
             int arrayY = (int)Math.floor(korY/cellHeight);
@@ -116,17 +129,118 @@ public class BoardManager {
     }
 
     /**
+     * Increases the canvas size to fit a maximized stage.
+     */
+    public void maxCanvasSize() {
+        if(canvas.getHeight() == 750)
+            return;
+
+        canvas.setHeight(750);
+        canvas.setWidth(1200);
+        fullBoardWidth = canvas.getWidth()*drawScale;
+        fullBoardHeight = canvas.getHeight()*drawScale;
+        scalefactorX *=1.5;
+        scalefactorY *=1.5;
+        scaledX *=1.5;
+        scaledY *=1.5;
+        startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
+        startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
+        System.out.println("maximize starting x " + startingPointX);
+        System.out.println("maximize starting y " + startingPointY);
+        draw();
+    }
+
+    /**
+     * Decreases the canvas size to fit the normal sized stage.
+     */
+    public void normalCanvasSize() {
+        if(canvas.getHeight() == 500)
+            return;
+
+        canvas.setHeight(500);
+        canvas.setWidth(800);
+        fullBoardWidth = canvas.getWidth()*drawScale;
+        fullBoardHeight = canvas.getHeight()*drawScale;
+        scalefactorX /= 1.5;
+        scalefactorY /= 1.5;
+        scaledX /=1.5;
+        scaledY /=1.5;
+        startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
+        startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
+        draw();
+    }
+
+    /**
+     * Moves the canvas by using the w,a,s,d keys on the keyboard.
+     * It will not move the canvas outside the limit boundaries so
+     * this will only work when user zooms in on the canvas.
+     * @param keyEvent      the KeyEvent
+     */
+    public void moveCanvas(KeyEvent keyEvent) {
+
+        if(keyEvent.getCode() == KeyCode.S) {
+            if(scaledY <= -startingPointY)
+                return;
+
+            scaledY -= scalefactorY;
+            yOffset--;
+            draw();
+        }
+
+        if(keyEvent.getCode() == KeyCode.W) {
+            if(startingPointY <= scaledY)
+                return;
+
+            scaledY += scalefactorY;
+            yOffset++;
+            draw();
+        }
+        if(keyEvent.getCode() == KeyCode.D){
+            if(scaledX <= -startingPointX)
+                return;
+
+            scaledX -= scalefactorX;
+            xOffset--;
+            draw();
+        }
+
+        if(keyEvent.getCode() == KeyCode.A) {
+            if(startingPointX <= scaledX)
+                return;
+
+            scaledX += scalefactorX;
+            xOffset++;
+            draw();
+        }
+    }
+
+    /**
      * The method scaling the board.
      * The higher the value passed in the larger the board will become.
      * @param value     the value used to change the size of the board.
      */
-    public void setDrawScale(double value) {
+    public void scaleBoard(double value) {
         drawScale = value;
         gridSize = 0.1 * value;
-        double fullBoardWidth = canvas.getWidth()*drawScale;
+        fullBoardWidth = canvas.getWidth()*drawScale;
         startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
-        double fullBoardHeight = canvas.getHeight()*drawScale;
+        fullBoardHeight = canvas.getHeight()*drawScale;
         startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
+
+        if(scaledX > startingPointX)
+            scaledX -= scalefactorX;
+
+        if(scaledX < -startingPointX)
+            scaledX += scalefactorX;
+
+        if(scaledY > startingPointY)
+            scaledY -= scalefactorY;
+
+        if(scaledY < -startingPointY)
+            scaledY += scalefactorY;
+
+        draw();
+
     }
 
     /**
@@ -141,10 +255,10 @@ public class BoardManager {
      */
     public void newGame() {
         clearBoard();
+        scaledX = 0;
+        scaledY = 0;
         boolean[][] array = fileHandling.readLocalFile("src/model/patterns/halfmax.rle");
         selectPatternLogic(array);
-        //board.defaultStartBoard();
-        //isRunning = true;
     }
 
     /**

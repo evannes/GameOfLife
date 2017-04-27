@@ -10,6 +10,8 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -19,7 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#moveCanvas" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
    <left>
       <VBox prefHeight="800.0" prefWidth="260.0" BorderPane.alignment="CENTER">
          <children>
@@ -37,16 +39,23 @@
                   <Label text="Cell color:" />
                   <Label text="Board color:" GridPane.columnIndex="1" />
                    <Label text="Grid color:" GridPane.columnIndex="2" />
-                  <ColorPicker fx:id="colorPickerCell" style="-fx-color-label-visible: false" GridPane.rowIndex="1" />
-                   <ColorPicker fx:id="colorPickerBoard" style="-fx-color-label-visible: false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                   <ColorPicker fx:id="colorPickerGrid" style="-fx-color-label-visible: false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ColorPicker fx:id="colorPickerCell" prefWidth="60.0" style="-fx-color-label-visible: false" GridPane.rowIndex="1" />
+                   <ColorPicker fx:id="colorPickerBoard" prefWidth="60.0" style="-fx-color-label-visible: false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                   <ColorPicker fx:id="colorPickerGrid" prefWidth="60.0" style="-fx-color-label-visible: false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <CheckBox fx:id="gridOnOff" mnemonicParsing="false" text="Turn off grid">
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="randomColors" mnemonicParsing="false" onAction="#setRandomColors" text="Random Colors" />
+                  <CheckBox fx:id="gridOnOff" mnemonicParsing="false" text="Turn off grid">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></CheckBox>
+               </children>
                <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
+                  <Insets top="15.0" />
                </VBox.margin>
-            </CheckBox>
+            </HBox>
             <Label text="Pattern:">
                <padding>
                   <Insets top="5.0" />
@@ -93,20 +102,19 @@
                <rotationAxis>
                   <Point3D y="1.0" />
                </rotationAxis></Slider>
-            <CheckBox fx:id="randomColors" mnemonicParsing="false" onAction="#setRandomColors" text="Random Colors" />
-            <Button fx:id="selectRules" mnemonicParsing="false" onAction="#selectRules" text="Select rules">
+            <Button fx:id="selectRules" mnemonicParsing="false" onAction="#selectRules" prefWidth="110.0" text="Select rules">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="version3DButton" mnemonicParsing="false" onAction="#start3DGame" text="Start 3D Version">
+            <Button fx:id="version3DButton" mnemonicParsing="false" onAction="#start3DGame" prefWidth="110.0" text="Start 3D Version">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin></Button>
-            <Button fx:id="viewStatistics" mnemonicParsing="false" onAction="#viewStatistics" text="View statistics">
+            <Button fx:id="viewStatistics" mnemonicParsing="false" onAction="#viewStatistics" prefWidth="110.0" text="View statistics">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
@@ -119,26 +127,58 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="newGame" mnemonicParsing="false" onAction="#newGame" text="New game" />
-            <Button fx:id="start" mnemonicParsing="false" onAction="#start" text="Start">
+            <Button fx:id="newGame" mnemonicParsing="false" onAction="#newGame" prefWidth="80.0" text="New game" />
+            <Button fx:id="start" mnemonicParsing="false" onAction="#start" prefWidth="80.0" text="Start">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseGame" prefWidth="70.0" text="Pause">
+            <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseGame" prefWidth="80.0" text="Pause">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#clearBoard" text="Clear board">
+            <Button mnemonicParsing="false" onAction="#clearBoard" prefWidth="80.0" text="Clear">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Region prefHeight="100.0" prefWidth="749.0" />
-            <Button mnemonicParsing="false" onAction="#exitGame" text="Exit game">
+            <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="80.0" text="Exit game">
                <HBox.margin>
                   <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
+            <Region minHeight="100.0" minWidth="400.0" HBox.hgrow="ALWAYS" />
+            <Label text="Normalize">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Label>
+            <Button fx:id="normalscreen" mnemonicParsing="false" onAction="#normalScreen">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/smaller_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Label text="Maximize">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Label>
+            <Button fx:id="fullscreen" mnemonicParsing="false" onAction="#fullScreen">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/larger_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets right="60.0" />
                </HBox.margin>
             </Button>
          </children>
@@ -150,7 +190,7 @@
    <center>
       <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-               <Canvas fx:id="canvas" height="500.0" width="800.0" BorderPane.alignment="CENTER" />
+               <Canvas fx:id="canvas" height="500.0" layoutX="50.0" width="800.0" BorderPane.alignment="CENTER" />
          </children>
       </Pane>
    </center>

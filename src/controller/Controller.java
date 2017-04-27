@@ -6,6 +6,7 @@ import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -68,7 +69,37 @@ public class Controller implements Initializable{
     @FXML
     private ColorPicker colorPickerBoard;
 
+    @FXML
+    private Button fullscreen;
 
+    @FXML
+    private Button normalscreen;
+
+    /**
+     * Increases the stage to maximized size and increases the size of the canvas.
+     */
+    public void fullScreen(){
+        boardManager.maxCanvasSize();
+        Stage stage = (Stage) fullscreen.getScene().getWindow();
+        stage.setMaximized(true);
+    }
+
+    /**
+     * Decreases the stage to normale size and resize the canvas.
+     */
+    public void normalScreen() {
+        boardManager.normalCanvasSize();
+        Stage stage = (Stage) normalscreen.getScene().getWindow();
+        stage.setMaximized(false);
+    }
+
+    /**
+     * Moves the canvas by pressing the keys w, a, s, and d
+     * @param keyEvent      the KeyEvent
+     */
+    public void moveCanvas(KeyEvent keyEvent) {
+        boardManager.moveCanvas(keyEvent);
+    }
 
     /**
      * Lets the user to select a pattern from disk
@@ -231,6 +262,9 @@ public class Controller implements Initializable{
      * @see                     Initializable
      */
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+
+
+
         board = new DynamicBoard(160, 100);
 
         boardManager = new BoardManager(canvas, board);
@@ -247,8 +281,7 @@ public class Controller implements Initializable{
         changeCellSize.valueProperty().addListener(
                 (observable, oldValue, value) ->
                 {
-                    boardManager.setDrawScale((double)value);
-                    boardManager.draw();
+                    boardManager.scaleBoard((double)value);
                 });
 
         boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
