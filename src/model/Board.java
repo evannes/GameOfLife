@@ -119,19 +119,17 @@ public abstract class Board implements Cloneable {
     }
 
     /**
-     *
-     * @param start
-     * @param end
+     * Creates the next generation of cells to be drawn by using threads.
+     * To make this method thread safe the for-loop is divided into different
+     * pieces to the threads never work on the same part of the arrayList.
+     * @param start     the start position of the for-loop
+     * @param end       the end position of the for-loop
      */
      private synchronized void nextGenerationThreadTask(int start, int end) {
-
          int width = getWidth();
          int height = getHeight();
 
-
-
          for(int i = start; i < end; i++){
-
              for(int j = 0; j < height; j++){
                  int neighbors = countNeighbor(i, j, width, height);
                  boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
@@ -145,12 +143,14 @@ public abstract class Board implements Cloneable {
      */
     public void nextGenerationConcurrent() {
         int width = getWidth();
+
+        // Making start and end positions for the thread task
+        // This will divide the for-loop in 4 pieces
         int x1 = width/4;
         int x2 = width/8;
         int x3 = width/12;
 
         ExecutorService executor = Executors.newFixedThreadPool(4);
-
         executor.submit(()-> {
             nextGenerationThreadTask(0, x1);});
         executor.submit(()-> {
