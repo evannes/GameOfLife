@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.canvas.Canvas?>
@@ -21,10 +27,40 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#moveCanvas" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#moveCanvas" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
    <left>
       <VBox prefHeight="800.0" prefWidth="260.0" BorderPane.alignment="CENTER">
          <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Load">
+                  <items>
+                        <MenuItem mnemonicParsing="false" onAction="#selectPatternFromDisk" text="Pattern from disk" />
+                        <MenuItem mnemonicParsing="false" onAction="#selectPatternFromURL" text="Pattern from URL" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Statistics">
+                    <items>
+                        <MenuItem fx:id="viewStatistics" mnemonicParsing="false" onAction="#viewStatistics" text="Statistics" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="3D">
+                    <items>
+                    <MenuItem fx:id="version3DButton" mnemonicParsing="false" onAction="#start3DGame" text="Open 3D Version" />
+                    </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Rules">
+                  <items>
+                    <MenuItem fx:id="selectRules" mnemonicParsing="false" onAction="#selectRules" text="Change rules" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
             <GridPane>
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,10 +79,16 @@
                    <ColorPicker fx:id="colorPickerBoard" prefWidth="60.0" style="-fx-color-label-visible: false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                    <ColorPicker fx:id="colorPickerGrid" prefWidth="60.0" style="-fx-color-label-visible: false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                </children>
+               <VBox.margin>
+                  <Insets left="10.0" top="30.0" />
+               </VBox.margin>
             </GridPane>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="49.0" prefWidth="250.0">
                <children>
-                  <CheckBox fx:id="randomColors" mnemonicParsing="false" onAction="#setRandomColors" text="Random Colors" />
+                  <CheckBox fx:id="randomColors" mnemonicParsing="false" onAction="#setRandomColors" text="Random Colors">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin></CheckBox>
                   <CheckBox fx:id="gridOnOff" mnemonicParsing="false" text="Turn off grid">
                      <HBox.margin>
                         <Insets left="20.0" />
@@ -56,23 +98,12 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </HBox>
-            <Label text="Pattern:">
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-            </Label>
-            <MenuButton fx:id="patternButton" mnemonicParsing="false" prefWidth="150.0" text="Load from:">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#selectPatternFromDisk" style="-fx-pref-width: 138px" text="Computer" />
-                <MenuItem mnemonicParsing="false" onAction="#selectPatternFromURL" style="-fx-pref-width: 138px" text="URL" />
-              </items>
-            </MenuButton>
             <HBox>
                <children>
                   <Label text="Smaller">
-                     <padding>
-                        <Insets top="20.0" />
-                     </padding>
+                     <HBox.margin>
+                        <Insets left="10.0" top="20.0" />
+                     </HBox.margin>
                   </Label>
                   <Pane prefHeight="37.0" prefWidth="170.0" />
                   <Label text="Larger">
@@ -82,13 +113,19 @@
                   </Label>
                </children>
             </HBox>
-            <Slider fx:id="changeCellSize" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="21.0" prefWidth="173.0" showTickLabels="false" showTickMarks="true" snapToTicks="true" value="1.0" />
+            <Slider fx:id="changeCellSize" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="21.0" prefWidth="173.0" showTickLabels="false" showTickMarks="true" snapToTicks="true" value="1.0">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin></Slider>
             <HBox>
                <children>
                   <Label text="Slower">
                      <padding>
                         <Insets top="5.0" />
                      </padding>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
                   </Label>
                   <Pane prefHeight="22.0" prefWidth="176.0" />
                   <Label text="Faster">
@@ -101,75 +138,11 @@
             <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15" min="1" minorTickCount="0" rotate="180.0" showTickMarks="true" value="7">
                <rotationAxis>
                   <Point3D y="1.0" />
-               </rotationAxis></Slider>
-            <Button fx:id="selectRules" mnemonicParsing="false" onAction="#selectRules" prefWidth="110.0" text="Select rules">
+               </rotationAxis>
                <VBox.margin>
-                  <Insets top="25.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="version3DButton" mnemonicParsing="false" onAction="#start3DGame" prefWidth="110.0" text="Start 3D Version">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin></Button>
-            <Button fx:id="viewStatistics" mnemonicParsing="false" onAction="#viewStatistics" prefWidth="110.0" text="View statistics">
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-         <padding>
-            <Insets left="10.0" top="10.0" />
-         </padding></VBox>
-   </left>
-   <bottom>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="newGame" mnemonicParsing="false" onAction="#newGame" prefWidth="80.0" text="New game" />
-            <Button fx:id="start" mnemonicParsing="false" onAction="#start" prefWidth="80.0" text="Start">
-               <HBox.margin>
                   <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseGame" prefWidth="80.0" text="Pause">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#clearBoard" prefWidth="80.0" text="Clear">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="80.0" text="Exit game">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-            <Region minHeight="100.0" minWidth="400.0" HBox.hgrow="ALWAYS" />
-            <Label text="Normalize">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin></Label>
-            <Button fx:id="normalscreen" mnemonicParsing="false" onAction="#normalScreen">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/smaller_icon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="Maximize">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin></Label>
-            <Button fx:id="fullscreen" mnemonicParsing="false" onAction="#fullScreen">
+               </VBox.margin></Slider>
+            <Button fx:id="fullscreen" mnemonicParsing="false" onAction="#fullScreen" prefWidth="110.0" text="Maximize">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -177,10 +150,69 @@
                      </image>
                   </ImageView>
                </graphic>
-               <HBox.margin>
-                  <Insets right="60.0" />
-               </HBox.margin>
+               <VBox.margin>
+                  <Insets left="10.0" top="40.0" />
+               </VBox.margin>
             </Button>
+            <Button fx:id="normalscreen" mnemonicParsing="false" onAction="#normalScreen" prefWidth="110.0" text="Normalize">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/smaller_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="10.0" top="15.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="newGame" mnemonicParsing="false" onAction="#newGame" prefWidth="110.0" text="Default pattern">
+               <VBox.margin>
+                  <Insets left="10.0" top="15.0" />
+               </VBox.margin>
+            </Button>
+         </children></VBox>
+   </left>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane prefHeight="100.0" prefWidth="230.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#clearBoard" prefWidth="110.0" text="Clear" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="110.0" text="Exit game" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/exit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseGame" prefWidth="110.0" text="Pause" GridPane.columnIndex="1">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/pause.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="start" mnemonicParsing="false" onAction="#start" prefWidth="110.0" text="Start">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/play.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+            </GridPane>
          </children>
          <padding>
             <Insets left="10.0" />
@@ -190,7 +222,7 @@
    <center>
       <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-               <Canvas fx:id="canvas" height="500.0" layoutX="50.0" width="800.0" BorderPane.alignment="CENTER" />
+               <Canvas fx:id="canvas" height="500.0" width="800.0" BorderPane.alignment="CENTER" />
          </children>
       </Pane>
    </center>

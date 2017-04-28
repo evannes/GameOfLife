@@ -49,13 +49,13 @@ public class Controller implements Initializable{
     private Button pauseButton;
 
     @FXML
-    private Button selectRules;
+    private MenuItem selectRules;
 
     @FXML
-    private Button version3DButton;
+    private MenuItem version3DButton;
 
     @FXML
-    private Button viewStatistics;
+    private MenuItem viewStatistics;
 
     @FXML
     private CheckBox gridOnOff;
@@ -175,7 +175,7 @@ public class Controller implements Initializable{
             }
             Stage ruleWindowStage = new Stage();
             ruleWindowStage.initModality(Modality.WINDOW_MODAL);
-            ruleWindowStage.initOwner(selectRules.getScene().getWindow());
+            ruleWindowStage.initOwner(pauseButton.getScene().getWindow());
 
             FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("../view/ruleWindow.fxml"));
             BorderPane ruleWindowBorderPane = ruleWindowLoader.load();
@@ -229,7 +229,7 @@ public class Controller implements Initializable{
 
                 Stage statisticsWindowStage = new Stage();
                 statisticsWindowStage.initModality(Modality.WINDOW_MODAL);
-                statisticsWindowStage.initOwner(viewStatistics.getScene().getWindow());
+                statisticsWindowStage.initOwner(pauseButton.getScene().getWindow());
 
                 FXMLLoader statisticsWindowLoader = new FXMLLoader(getClass().getResource("../view/statisticsWindow.fxml"));
 
@@ -284,7 +284,7 @@ public class Controller implements Initializable{
                     boardManager.scaleBoard((double)value);
                 });
 
-        boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
+        //boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
 
         gridOnOff.setOnAction(event -> {
             if (gridOnOff.isSelected()) {
