@@ -1,8 +1,6 @@
 package model;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -32,6 +30,7 @@ public abstract class Board implements Cloneable {
     int defaultWidth = 160;
     int defaultHeight = 100;
     public Rules rules = new Rules();
+    ExecutorService executor = Executors.newFixedThreadPool(4);
 
     /**
      * Default constructor.
@@ -125,7 +124,7 @@ public abstract class Board implements Cloneable {
      * @param start     the start position of the for-loop
      * @param end       the end position of the for-loop
      */
-     private synchronized void nextGenerationThreadTask(int start, int end) {
+     private void nextGenerationThreadTask(int start, int end) {
          int width = getWidth();
          int height = getHeight();
 
@@ -150,28 +149,35 @@ public abstract class Board implements Cloneable {
         int x2 = width/8;
         int x3 = width/12;
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        executor.submit(()-> {
+
+        Future future1 = executor.submit(()-> {
             nextGenerationThreadTask(0, x1);});
-        executor.submit(()-> {
+        Future future2 = executor.submit(()-> {
             nextGenerationThreadTask(x1, x2);});
-        executor.submit(()-> {
+        Future future3 = executor.submit(()-> {
             nextGenerationThreadTask(x2, x3);});
-        executor.submit(()-> {
+        Future future4 = executor.submit(()-> {
             nextGenerationThreadTask(x3, width);});
+//        try {
+//            executor.shutdown();
+//            executor.awaitTermination(5, TimeUnit.SECONDS);
+//        } catch (InterruptedException ie){
+//            System.err.println("nextGenerationConcurrent was interrupted");
+//        }
+//        finally {
+//            if(!executor.isTerminated()){
+//                System.err.println("Thread was interrupted");
+//            }
+//            executor.shutdownNow();
+//        }
         try {
-            executor.shutdown();
-            executor.awaitTermination(5, TimeUnit.SECONDS);
-        } catch (InterruptedException ie){
-            System.err.println("nextGenerationConcurrent was interrupted");
+            if(future1.get() == null && future2.get() == null && future3.get() == null && future4.get()== null)
+                switchBoard();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-        finally {
-            if(!executor.isTerminated()){
-                System.err.println("Thread was interrupted");
-            }
-            executor.shutdownNow();
-        }
-        switchBoard();
     }
 
     /**
@@ -182,12 +188,12 @@ public abstract class Board implements Cloneable {
         long start = System.currentTimeMillis();
         nextGenerationConcurrent();
         long elapsed = System.currentTimeMillis() - start;
-        System.out.println("Counting time (ms): " + elapsed);
+        System.out.println("Med threads - Counting time (ms): " + elapsed);
         System.out.println("Uten Threads: ");
         long start2 = System.currentTimeMillis();
         nextGeneration();
         long elapsed2 = System.currentTimeMillis() - start2;
-        System.out.println("Counting time (ms): " + elapsed2);
+        System.out.println("Uten Threads - Counting time (ms): " + elapsed2);
     }
 
     /**

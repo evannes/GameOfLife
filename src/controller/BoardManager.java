@@ -43,11 +43,8 @@ public class BoardManager {
     private int scalefactorX = 80;
     private int scalefactorY = 50;
     private double boardIncrease = 1.4;
-
-    double startX;
-    double startY;
-    int scaledX = 0;
-    int scaledY = 0;
+    private int scaledX = 0;
+    private int scaledY = 0;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -61,7 +58,8 @@ public class BoardManager {
         AnimationTimer drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board.nextGenerationConcurrent();
+                    //board.nextGenerationConcurrent();
+                    board.nextGenerationConcurrentPrintPerformance();
 
                     draw();
 
