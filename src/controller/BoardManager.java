@@ -58,8 +58,8 @@ public class BoardManager {
         AnimationTimer drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    //board.nextGenerationConcurrent();
-                    board.nextGenerationConcurrentPrintPerformance();
+                    board.nextGenerationConcurrent();
+                    //board.nextGenerationConcurrentPrintPerformance();
 
                     draw();
 
