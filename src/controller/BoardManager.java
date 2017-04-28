@@ -78,6 +78,23 @@ public class BoardManager {
      */
     void draw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        startingPointX = (canvas.getWidth() / 2 - scaledX) * drawScale - canvas.getWidth() / 2;
+        startingPointY = (canvas.getHeight() / 2 - scaledY) * drawScale - canvas.getHeight() / 2;
+
+
+//        if(scaledX > startingPointX)
+//            scaledX -= scalefactorX;
+//
+//        if(scaledX < -startingPointX)
+//            scaledX += scalefactorX;
+//
+//        if(scaledY > startingPointY)
+//            scaledY -= scalefactorY;
+//
+//        if(scaledY < -startingPointY)
+//            scaledY += scalefactorY;
+
+
         gc.setFill(gridColor);
         int width = board.getWidth();
         int height = board.getHeight();
@@ -98,8 +115,8 @@ public class BoardManager {
                     gc.setFill(boardColor);
                 }
 
-                double cellX = (cellHeight * i) - startingPointX + scaledX;
-                double cellY = (cellWidth * j) - startingPointY + scaledY;
+                double cellX = (cellHeight * i) - startingPointX;
+                double cellY = (cellWidth * j) - startingPointY;
 
                 gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
             }
@@ -114,8 +131,8 @@ public class BoardManager {
             double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
             double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
 
-            double korX = (e.getX()+startingPointX - scaledX);
-            double korY = (e.getY()+startingPointY) - scaledY;
+            double korX = e.getX()+startingPointX;
+            double korY = e.getY()+startingPointY;
 
             int arrayX = (int)Math.floor(korX/cellWidth);
             int arrayY = (int)Math.floor(korY/cellHeight);
@@ -140,10 +157,6 @@ public class BoardManager {
         scalefactorY *=boardIncrease;
         scaledX *=boardIncrease;
         scaledY *=boardIncrease;
-        startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
-        startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
-        System.out.println("maximize starting x " + startingPointX);
-        System.out.println("maximize starting y " + startingPointY);
         draw();
     }
 
@@ -162,8 +175,6 @@ public class BoardManager {
         scalefactorY /= boardIncrease;
         scaledX /=boardIncrease;
         scaledY /=boardIncrease;
-        startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
-        startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
         draw();
     }
 
@@ -174,37 +185,42 @@ public class BoardManager {
      * @param keyEvent      the KeyEvent
      */
     public void moveCanvas(KeyEvent keyEvent) {
-
         if(keyEvent.getCode() == KeyCode.S) {
-            if(scaledY <= -startingPointY)
-                return;
+            //if(scaledY <= -startingPointY)
+            //return;
 
-            scaledY -= scalefactorY;
-            draw();
+            scaledY -= (int)((double)scalefactorY / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.W) {
-            if(startingPointY <= scaledY)
-                return;
+            //if(startingPointY <= scaledY)
+              //  return;
 
-            scaledY += scalefactorY;
-            draw();
+            scaledY += (int)((double)scalefactorY / drawScale);
+            int maxScale = (int)(((canvas.getHeight() / 2) * drawScale - canvas.getHeight() / 2) / drawScale);
+
+            if (scaledY > maxScale)
+                scaledY = maxScale;
         }
         if(keyEvent.getCode() == KeyCode.D){
-            if(scaledX <= -startingPointX)
-                return;
+            //if(scaledX <= -startingPointX)
+              //  return;
 
-            scaledX -= scalefactorX;
-            draw();
+            scaledX -= (int)((double)scalefactorX / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.A) {
-            if(startingPointX <= scaledX)
-                return;
+            //if(startingPointX <= scaledX)
+              //  return;
 
-            scaledX += scalefactorX;
-            draw();
+            scaledX += (int)((double)scalefactorX / drawScale);
+            int maxScale = (int)(((canvas.getWidth() / 2) * drawScale - canvas.getWidth() / 2) / drawScale);
+
+            if (scaledX > maxScale)
+                scaledX = maxScale;
         }
+
+        draw();
     }
 
     /**
@@ -214,26 +230,8 @@ public class BoardManager {
      */
     void scaleBoard(double value) {
         drawScale = value;
-        gridSize = 0.1 * value;
-        fullBoardWidth = canvas.getWidth()*drawScale;
-        startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
-        fullBoardHeight = canvas.getHeight()*drawScale;
-        startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
-
-        if(scaledX > startingPointX)
-            scaledX -= scalefactorX;
-
-        if(scaledX < -startingPointX)
-            scaledX += scalefactorX;
-
-        if(scaledY > startingPointY)
-            scaledY -= scalefactorY;
-
-        if(scaledY < -startingPointY)
-            scaledY += scalefactorY;
-
+        gridSize = 0.1 * drawScale;
         draw();
-
     }
 
     /**
