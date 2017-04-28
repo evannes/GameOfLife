@@ -3,6 +3,7 @@ package model;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Board is the abstract base class for game boards.
@@ -118,14 +119,19 @@ public abstract class Board implements Cloneable {
     }
 
     /**
-     * Creates the task for the nextGeneration method.
-     * @param quarter   Indicated which quarter section of the board to be worked on.
-     *                  The board is divided into four equal quarters, split horizontally.
+     *
+     * @param start
+     * @param end
      */
-     private void nextGenerationThreadTask(int quarter) {
+     private synchronized void nextGenerationThreadTask(int start, int end) {
+
          int width = getWidth();
          int height = getHeight();
-         for(int i = (width/4)*quarter++; i < (width/4)*quarter; i++){
+
+
+
+         for(int i = start; i < end; i++){
+
              for(int j = 0; j < height; j++){
                  int neighbors = countNeighbor(i, j, width, height);
                  boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
@@ -138,15 +144,21 @@ public abstract class Board implements Cloneable {
      * Creates the next generation of cells to be drawn or removed using Threads.
      */
     public void nextGenerationConcurrent() {
+        int width = getWidth();
+        int x1 = width/4;
+        int x2 = width/8;
+        int x3 = width/12;
+
         ExecutorService executor = Executors.newFixedThreadPool(4);
+
         executor.submit(()-> {
-            nextGenerationThreadTask(0);});
+            nextGenerationThreadTask(0, x1);});
         executor.submit(()-> {
-            nextGenerationThreadTask(1);});
+            nextGenerationThreadTask(x1, x2);});
         executor.submit(()-> {
-            nextGenerationThreadTask(2);});
+            nextGenerationThreadTask(x2, x3);});
         executor.submit(()-> {
-            nextGenerationThreadTask(3);});
+            nextGenerationThreadTask(x3, width);});
         try {
             executor.shutdown();
             executor.awaitTermination(5, TimeUnit.SECONDS);

@@ -42,13 +42,12 @@ public class BoardManager {
     private double fullBoardHeight;
     private int scalefactorX = 80;
     private int scalefactorY = 50;
+    private double boardIncrease = 1.4;
 
     double startX;
     double startY;
     int scaledX = 0;
     int scaledY = 0;
-    int xOffset = 0;
-    int yOffset = 0;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -132,17 +131,17 @@ public class BoardManager {
      * Increases the canvas size to fit a maximized stage.
      */
     public void maxCanvasSize() {
-        if(canvas.getHeight() == 750)
+        if(canvas.getHeight() == 650)
             return;
 
-        canvas.setHeight(750);
-        canvas.setWidth(1200);
+        canvas.setHeight(canvas.getHeight()*boardIncrease);
+        canvas.setWidth(canvas.getWidth()*boardIncrease);
         fullBoardWidth = canvas.getWidth()*drawScale;
         fullBoardHeight = canvas.getHeight()*drawScale;
-        scalefactorX *=1.5;
-        scalefactorY *=1.5;
-        scaledX *=1.5;
-        scaledY *=1.5;
+        scalefactorX *=boardIncrease;
+        scalefactorY *=boardIncrease;
+        scaledX *=boardIncrease;
+        scaledY *=boardIncrease;
         startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
         startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
         System.out.println("maximize starting x " + startingPointX);
@@ -161,10 +160,10 @@ public class BoardManager {
         canvas.setWidth(800);
         fullBoardWidth = canvas.getWidth()*drawScale;
         fullBoardHeight = canvas.getHeight()*drawScale;
-        scalefactorX /= 1.5;
-        scalefactorY /= 1.5;
-        scaledX /=1.5;
-        scaledY /=1.5;
+        scalefactorX /= boardIncrease;
+        scalefactorY /= boardIncrease;
+        scaledX /=boardIncrease;
+        scaledY /=boardIncrease;
         startingPointX = (fullBoardWidth / 2)-(canvas.getWidth()/2);
         startingPointY = (fullBoardHeight / 2)-(canvas.getHeight()/2);
         draw();
@@ -183,7 +182,6 @@ public class BoardManager {
                 return;
 
             scaledY -= scalefactorY;
-            yOffset--;
             draw();
         }
 
@@ -192,7 +190,6 @@ public class BoardManager {
                 return;
 
             scaledY += scalefactorY;
-            yOffset++;
             draw();
         }
         if(keyEvent.getCode() == KeyCode.D){
@@ -200,7 +197,6 @@ public class BoardManager {
                 return;
 
             scaledX -= scalefactorX;
-            xOffset--;
             draw();
         }
 
@@ -209,7 +205,6 @@ public class BoardManager {
                 return;
 
             scaledX += scalefactorX;
-            xOffset++;
             draw();
         }
     }
