@@ -45,6 +45,7 @@ public class BoardManager {
     private double boardIncrease = 1.4;
     private int scaledX = 0;
     private int scaledY = 0;
+    private boolean gridIsOn = true;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -361,6 +362,9 @@ public class BoardManager {
      */
     void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
+        if(!gridIsOn){
+            gridColor = boardColor;
+        }
         draw();
     }
 
@@ -378,6 +382,7 @@ public class BoardManager {
      * grid color the same as the board color.
      */
     void switchOffGrid() {
+        gridIsOn = false;
         gridColor = boardColor;
         draw();
     }
@@ -389,6 +394,7 @@ public class BoardManager {
      *                          to grid color.
      */
     void switchOnGrid(ColorPicker colorPickerGrid) {
+        gridIsOn = true;
         gridColor = colorPickerGrid.getValue();
         draw();
     }

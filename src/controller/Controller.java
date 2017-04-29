@@ -275,6 +275,7 @@ public class Controller implements Initializable{
                 (observable, oldValue, value) ->
                 {
                     boardManager.setSpeed((int)((double)value * 10000000));
+                    System.out.println(value);
                     boardManager.draw();
                 });
 

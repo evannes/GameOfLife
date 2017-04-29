@@ -38,7 +38,10 @@ public class view3DController implements Initializable {
     Slider rotateView;
 
     @FXML
-    Slider rotateViewVertical;
+    Slider rotateHorizontal;
+
+    @FXML
+    Slider rotateVertical;
 
     @FXML
     Button pauseButton;
@@ -86,6 +89,7 @@ public class view3DController implements Initializable {
             boardManager3D.changeBoard();
         }else if(cubeExists){
             cubeBoardManager3D.clearBoards();
+            cubeBoardManager3D.changeBoards();
         }
     }
 
@@ -129,7 +133,7 @@ public class view3DController implements Initializable {
      * Exits the game.
      */
     public void exitGame(ActionEvent event) {
-        //((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 
         //boardManager3D.exitGame();
     }
@@ -206,18 +210,31 @@ public class view3DController implements Initializable {
                     group.setRotate((double)newValue);
                 });
         // dei roterer ikkje sammen, avbryter kvarandre isteden
-        rotateViewVertical.valueProperty().addListener(
+        rotateHorizontal.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {
                     group.setRotationAxis(new Point3D(0,750,0));
                     group.setRotate((double)newValue);
                 });
 
+        rotateVertical.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                {
+                    group.setRotationAxis(new Point3D(750,0,0));
+                    group.setRotate((double)newValue);
+                });
+
         changeSpeed.valueProperty().addListener(
                 (observable, oldValue, value) ->
                 {
-                    boardManager3D.setSpeed((int)((double)value * 10000000));
-                    boardManager3D.changeBoard();
+                    if(boardExists) {
+                        boardManager3D.setSpeed((int) ((double) value * 10000000));
+                        boardManager3D.changeBoard();
+                    }
+                    if(cubeExists){
+                        cubeBoardManager3D.setSpeed((int) ((double) value * 10000000));
+                        cubeBoardManager3D.changeBoards();
+                    }
                 });
     }
 }
