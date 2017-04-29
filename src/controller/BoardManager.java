@@ -38,13 +38,11 @@ public class BoardManager {
     private FileHandling fileHandling = new FileHandling();
     boolean isRunning = false;
     private long time = System.nanoTime();
-    private double fullBoardWidth;
-    private double fullBoardHeight;
-    private int scalefactorX = 80;
-    private int scalefactorY = 50;
+    private double scalefactorX = 80;
+    private double scalefactorY = 50;
     private double boardIncrease = 1.4;
-    private int scaledX = 0;
-    private int scaledY = 0;
+    private double scaledX;
+    private double scaledY;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -78,30 +76,17 @@ public class BoardManager {
      */
     void draw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(gridColor);
+        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+        // find the starting points so the zoom will go towards the middle
         startingPointX = (canvas.getWidth() / 2 - scaledX) * drawScale - canvas.getWidth() / 2;
         startingPointY = (canvas.getHeight() / 2 - scaledY) * drawScale - canvas.getHeight() / 2;
-
-
-//        if(scaledX > startingPointX)
-//            scaledX -= scalefactorX;
-//
-//        if(scaledX < -startingPointX)
-//            scaledX += scalefactorX;
-//
-//        if(scaledY > startingPointY)
-//            scaledY -= scalefactorY;
-//
-//        if(scaledY < -startingPointY)
-//            scaledY += scalefactorY;
-
-
-        gc.setFill(gridColor);
         int width = board.getWidth();
         int height = board.getHeight();
-        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        double cellWidth = (canvas.getWidth()*drawScale - gridSize) / width;
-        double cellHeight = (canvas.getHeight()*drawScale - gridSize) / height;
+        double cellWidth = (canvas.getWidth() * drawScale) / width;
+        double cellHeight = (canvas.getHeight() * drawScale) / height;
 
+        // draw alive and dead cells
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
 
@@ -117,7 +102,6 @@ public class BoardManager {
 
                 double cellX = (cellHeight * i) - startingPointX;
                 double cellY = (cellWidth * j) - startingPointY;
-
                 gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
             }
         }
@@ -128,14 +112,12 @@ public class BoardManager {
      */
     void userDrawCell(){
         canvas.setOnMouseClicked(e -> {
-            double cellWidth = ((canvas.getWidth()*drawScale) + gridSize) / board.getWidth();
-            double cellHeight = ((canvas.getHeight()*drawScale) + gridSize) / board.getHeight();
-
-            double korX = e.getX()+startingPointX;
-            double korY = e.getY()+startingPointY;
-
-            int arrayX = (int)Math.floor(korX/cellWidth);
-            int arrayY = (int)Math.floor(korY/cellHeight);
+            double cellWidth = (canvas.getWidth() * drawScale + gridSize) / board.getWidth();
+            double cellHeight = (canvas.getHeight() * drawScale + gridSize) / board.getHeight();
+            double coordinateX = e.getX()+startingPointX;
+            double coordinateY = e.getY()+startingPointY;
+            int arrayX = (int)Math.floor(coordinateX/cellWidth);
+            int arrayY = (int)Math.floor(coordinateY/cellHeight);
 
             board.toggleValue(arrayX, arrayY);
             draw();
@@ -151,8 +133,6 @@ public class BoardManager {
 
         canvas.setHeight(canvas.getHeight()*boardIncrease);
         canvas.setWidth(canvas.getWidth()*boardIncrease);
-        fullBoardWidth = canvas.getWidth()*drawScale;
-        fullBoardHeight = canvas.getHeight()*drawScale;
         scalefactorX *=boardIncrease;
         scalefactorY *=boardIncrease;
         scaledX *=boardIncrease;
@@ -169,8 +149,6 @@ public class BoardManager {
 
         canvas.setHeight(500);
         canvas.setWidth(800);
-        fullBoardWidth = canvas.getWidth()*drawScale;
-        fullBoardHeight = canvas.getHeight()*drawScale;
         scalefactorX /= boardIncrease;
         scalefactorY /= boardIncrease;
         scaledX /=boardIncrease;
@@ -180,42 +158,29 @@ public class BoardManager {
 
     /**
      * Moves the canvas by using the w,a,s,d keys on the keyboard.
-     * It will not move the canvas outside the limit boundaries so
-     * this will only work when user zooms in on the canvas.
+     * It will not be possible to move up or left inside the board when it reaches the position 0x0.
      * @param keyEvent      the KeyEvent
      */
     public void moveCanvas(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.S) {
-            //if(scaledY <= -startingPointY)
-            //return;
-
             scaledY -= (int)((double)scalefactorY / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.W) {
-            //if(startingPointY <= scaledY)
-              //  return;
-
             scaledY += (int)((double)scalefactorY / drawScale);
             int maxScale = (int)(((canvas.getHeight() / 2) * drawScale - canvas.getHeight() / 2) / drawScale);
-
+            // to lock the canvas in the position 0x0 or lower
             if (scaledY > maxScale)
                 scaledY = maxScale;
         }
         if(keyEvent.getCode() == KeyCode.D){
-            //if(scaledX <= -startingPointX)
-              //  return;
-
             scaledX -= (int)((double)scalefactorX / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.A) {
-            //if(startingPointX <= scaledX)
-              //  return;
-
             scaledX += (int)((double)scalefactorX / drawScale);
             int maxScale = (int)(((canvas.getWidth() / 2) * drawScale - canvas.getWidth() / 2) / drawScale);
-
+            // to lock the canvas in the position 0x0 or lower
             if (scaledX > maxScale)
                 scaledX = maxScale;
         }
@@ -235,14 +200,14 @@ public class BoardManager {
     }
 
     /**
-     * The method starting the animation of the board
+     * Starting the animation of the board.
      */
     public void start() {
         isRunning = true;
     }
 
     /**
-     * The method starting the game over again with the preset pattern.
+     * Starting the game over again with the preset pattern.
      */
     void newGame() {
         clearBoard();
@@ -255,21 +220,21 @@ public class BoardManager {
     }
 
     /**
-     * The method pausing the game by stopping the animation.
+     * Pausing the game by stopping the animation.
      */
     void pauseGame(){
         isRunning = false;
     }
 
     /**
-     * The method resuming the game by starting the animation again.
+     * Resuming the game by starting the animation again.
      */
     void resumeGame(){
         isRunning = true;
     }
 
     /**
-     * The method exiting the game.
+     * Exiting the game.
      */
     void exitGame(){
         System.exit(0);
