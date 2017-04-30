@@ -1,6 +1,5 @@
 package controller;
 
-import controller.Controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -34,25 +33,36 @@ public class BoardManager {
     Color gridColor = Color.GRAY;
     Color boardColor = Color.WHITE;
     private Canvas canvas;
+    private Canvas bgCanvas;
+    private Canvas gridCanvas;
     private Board board;
     private FileHandling fileHandling = new FileHandling();
     boolean isRunning = false;
     private long time = System.nanoTime();
     private double scalefactorX = 80;
     private double scalefactorY = 50;
-    private double boardIncrease = 1.4;
+    private double canvasIncrease = 1.4;
     private double scaledX;
     private double scaledY;
+    private int canvasDefaultHeight;
+    private int canvasDefaultWidth;
 
     /**
      * The constructor initializing the animation of Game of Life.
      * @param canvas    the canvas to draw the board on
      * @param board     the board to draw on the canvas
      */
-    BoardManager(Canvas canvas, Board board) {
+    BoardManager(Canvas canvas, Canvas bgCanvas, Canvas gridCanvas, Board board) {
         this.canvas = canvas;
+        this.bgCanvas = bgCanvas;
+        this.gridCanvas = gridCanvas;
         this.board = board;
-        draw();
+        canvasDefaultHeight = 500;
+        canvasDefaultWidth = 800;
+        drawBackground();
+        //draw();
+        drawGrid();
+
         AnimationTimer drawTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
@@ -70,14 +80,45 @@ public class BoardManager {
         drawTimer.start();
     }
 
+    void drawGrid() {
+        long start = System.currentTimeMillis();
+        GraphicsContext gc = gridCanvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setStroke(gridColor);
+        gc.setLineWidth(gridSize);
+        double cellWidth = (canvas.getWidth() * drawScale) / board.getWidth();
+        double cellHeight = (canvas.getHeight() * drawScale) / board.getHeight();
+
+        for (int x = 0; x < board.getWidth(); x++)
+        {
+            double cellX = (cellHeight * x) - startingPointX;
+            gc.strokeLine(cellX, 0,cellX, canvas.getHeight());
+        }
+        for (int y = 0; y < board.getHeight(); y++) {
+            double cellY = (cellWidth * y) - startingPointY;
+            gc.strokeLine(0, cellY, canvas.getWidth(), cellY);
+
+        }
+
+        long elapsed = System.currentTimeMillis() - start;
+        System.out.println("grid: " + elapsed);
+    }
+
+    void drawBackground() {
+        GraphicsContext gc = bgCanvas.getGraphicsContext2D();
+        gc.setFill(boardColor);
+        gc.fillRect(0,0, bgCanvas.getWidth(), bgCanvas.getHeight());
+    }
+
     /**
      * The method drawing the board with alive cells, background.
      * and grid. The method will draw the board according to the array applied in the <code>Rules</code> class.
      */
     void draw() {
+        long start = System.currentTimeMillis();
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(gridColor);
-        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+        gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
         // find the starting points so the zoom will go towards the middle
         startingPointX = (canvas.getWidth() / 2 - scaledX) * drawScale - canvas.getWidth() / 2;
         startingPointY = (canvas.getHeight() / 2 - scaledY) * drawScale - canvas.getHeight() / 2;
@@ -90,28 +131,30 @@ public class BoardManager {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
 
+                if(!board.getValue(i,j))
+                    continue;
+
                 if(board.getValue(i, j) && drawRandomColors) {
                     gc.setFill(new Color(Math.random(),Math.random(),Math.random(),1));
                 }
-                else if (board.getValue(i, j)) {
-                    gc.setFill(cellColor);
-                }
                 else {
-                    gc.setFill(boardColor);
+                    gc.setFill(cellColor);
                 }
 
                 double cellX = (cellHeight * i) - startingPointX;
                 double cellY = (cellWidth * j) - startingPointY;
-                gc.fillRect(cellX + gridSize, cellY + gridSize, cellWidth - gridSize, cellHeight - gridSize);
+                gc.fillRect(cellX, cellY, cellWidth, cellHeight);
             }
         }
+        long elapsed = System.currentTimeMillis() - start;
+        System.out.println("draw: " + elapsed);
     }
 
     /**
      * The method which lets the user set or remove cells manually from the board.
      */
     void userDrawCell(){
-        canvas.setOnMouseClicked(e -> {
+        gridCanvas.setOnMouseClicked(e -> {
             double cellWidth = (canvas.getWidth() * drawScale + gridSize) / board.getWidth();
             double cellHeight = (canvas.getHeight() * drawScale + gridSize) / board.getHeight();
             double coordinateX = e.getX()+startingPointX;
@@ -127,33 +170,48 @@ public class BoardManager {
     /**
      * Increases the canvas size to fit a maximized stage.
      */
-    public void maxCanvasSize() {
-        if(canvas.getHeight() == 650)
+    void maxCanvasSize() {
+        if(canvas.getHeight() == canvasDefaultHeight* canvasIncrease)
             return;
+        int width = (int)(canvasDefaultWidth * canvasIncrease);
+        int height = (int)(canvasDefaultHeight * canvasIncrease);
 
-        canvas.setHeight(canvas.getHeight()*boardIncrease);
-        canvas.setWidth(canvas.getWidth()*boardIncrease);
-        scalefactorX *=boardIncrease;
-        scalefactorY *=boardIncrease;
-        scaledX *=boardIncrease;
-        scaledY *=boardIncrease;
+        canvas.setHeight(height);
+        canvas.setWidth(width);
+        bgCanvas.setHeight(height);
+        bgCanvas.setWidth(width);
+        gridCanvas.setHeight(height);
+        gridCanvas.setWidth(width);
+
+        scalefactorX *= canvasIncrease;
+        scalefactorY *= canvasIncrease;
+        scaledX *= canvasIncrease;
+        scaledY *= canvasIncrease;
+        drawBackground();
         draw();
+        drawGrid();
     }
 
     /**
      * Decreases the canvas size to fit the normal sized stage.
      */
-    public void normalCanvasSize() {
-        if(canvas.getHeight() == 500)
+    void normalCanvasSize() {
+        if(canvas.getHeight() == canvasDefaultHeight)
             return;
 
-        canvas.setHeight(500);
-        canvas.setWidth(800);
-        scalefactorX /= boardIncrease;
-        scalefactorY /= boardIncrease;
-        scaledX /=boardIncrease;
-        scaledY /=boardIncrease;
+        canvas.setHeight(canvasDefaultHeight);
+        canvas.setWidth(canvasDefaultWidth);
+        bgCanvas.setHeight(canvasDefaultHeight);
+        bgCanvas.setWidth(canvasDefaultWidth);
+        gridCanvas.setHeight(canvasDefaultHeight);
+        gridCanvas.setWidth(canvasDefaultWidth);
+        scalefactorX /= canvasIncrease;
+        scalefactorY /= canvasIncrease;
+        scaledX /= canvasIncrease;
+        scaledY /= canvasIncrease;
+        drawBackground();
         draw();
+        drawGrid();
     }
 
     /**
@@ -161,24 +219,24 @@ public class BoardManager {
      * It will not be possible to move up or left inside the board when it reaches the position 0x0.
      * @param keyEvent      the KeyEvent
      */
-    public void moveCanvas(KeyEvent keyEvent) {
+    void moveCanvas(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.S) {
-            scaledY -= (int)((double)scalefactorY / drawScale);
+            scaledY -= (int)(scalefactorY / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.W) {
-            scaledY += (int)((double)scalefactorY / drawScale);
+            scaledY += (int)(scalefactorY / drawScale);
             int maxScale = (int)(((canvas.getHeight() / 2) * drawScale - canvas.getHeight() / 2) / drawScale);
             // to lock the canvas in the position 0x0 or lower
             if (scaledY > maxScale)
                 scaledY = maxScale;
         }
         if(keyEvent.getCode() == KeyCode.D){
-            scaledX -= (int)((double)scalefactorX / drawScale);
+            scaledX -= (int)(scalefactorX / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.A) {
-            scaledX += (int)((double)scalefactorX / drawScale);
+            scaledX += (int)(scalefactorX / drawScale);
             int maxScale = (int)(((canvas.getWidth() / 2) * drawScale - canvas.getWidth() / 2) / drawScale);
             // to lock the canvas in the position 0x0 or lower
             if (scaledX > maxScale)
@@ -186,6 +244,7 @@ public class BoardManager {
         }
 
         draw();
+        drawGrid();
     }
 
     /**
@@ -197,6 +256,7 @@ public class BoardManager {
         drawScale = value;
         gridSize = 0.1 * drawScale;
         draw();
+        drawGrid();
     }
 
     /**
@@ -215,8 +275,6 @@ public class BoardManager {
         scaledY = 0;
         boolean[][] array = fileHandling.readLocalFile("src/model/patterns/halfmax.rle");
         selectPatternLogic(array);
-        //board.defaultStartBoard();
-        //isRunning = true;
     }
 
     /**
@@ -260,9 +318,11 @@ public class BoardManager {
             if(board instanceof DynamicBoard) {
                 ((DynamicBoard) board).setInputInBoard(((DynamicBoard) board).createArrayListFromArray(array));
                 draw();
+                drawGrid();
             } else {
                 ((StaticBoard) board).transferPatternToBoard(array);
                 draw();
+                drawGrid();
             }
         } catch (NullPointerException cancelException) {
         }
@@ -317,7 +377,7 @@ public class BoardManager {
      */
     void setGridColor(ColorPicker colorPicker) {
         gridColor = colorPicker.getValue();
-        draw();
+        drawGrid();
     }
 
     /**
@@ -326,7 +386,7 @@ public class BoardManager {
      */
     void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
-        draw();
+        drawBackground();
     }
 
 
@@ -344,7 +404,7 @@ public class BoardManager {
      */
     void switchOffGrid() {
         gridColor = boardColor;
-        draw();
+        drawGrid();
     }
 
     /**
@@ -355,6 +415,6 @@ public class BoardManager {
      */
     void switchOnGrid(ColorPicker colorPickerGrid) {
         gridColor = colorPickerGrid.getValue();
-        draw();
+        drawGrid();
     }
 }

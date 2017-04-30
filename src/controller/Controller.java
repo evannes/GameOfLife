@@ -30,11 +30,17 @@ import java.util.ResourceBundle;
  * @since   1.0
  */
 public class Controller implements Initializable{
+    private Board board;
+    private BoardManager boardManager;
 
     @FXML
     private Canvas canvas;
-    private Board board;
-    private BoardManager boardManager;
+
+    @FXML
+    private Canvas gridCanvas;
+
+    @FXML
+    private Canvas bgCanvas;
 
     @FXML
     private Slider changeCellSize;
@@ -267,7 +273,7 @@ public class Controller implements Initializable{
 
         board = new DynamicBoard(160, 100);
 
-        boardManager = new BoardManager(canvas, board);
+        boardManager = new BoardManager(canvas, bgCanvas, gridCanvas, board);
 
         boardManager.userDrawCell();
 

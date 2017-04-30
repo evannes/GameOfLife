@@ -158,18 +158,7 @@ public abstract class Board implements Cloneable {
             nextGenerationThreadTask(x2, x3);});
         Future future4 = executor.submit(()-> {
             nextGenerationThreadTask(x3, width);});
-//        try {
-//            executor.shutdown();
-//            executor.awaitTermination(5, TimeUnit.SECONDS);
-//        } catch (InterruptedException ie){
-//            System.err.println("nextGenerationConcurrent was interrupted");
-//        }
-//        finally {
-//            if(!executor.isTerminated()){
-//                System.err.println("Thread was interrupted");
-//            }
-//            executor.shutdownNow();
-//        }
+
         try {
             if(future1.get() == null && future2.get() == null && future3.get() == null && future4.get()== null)
                 switchBoard();
