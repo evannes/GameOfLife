@@ -141,6 +141,7 @@ public abstract class Board implements Cloneable {
      * Creates the next generation of cells to be drawn or removed using Threads.
      */
     public void nextGenerationConcurrent() {
+        long start = System.currentTimeMillis();
         int width = getWidth();
 
         // Making start and end positions for the thread task
@@ -162,6 +163,8 @@ public abstract class Board implements Cloneable {
         try {
             if(future1.get() == null && future2.get() == null && future3.get() == null && future4.get()== null)
                 switchBoard();
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println("Med threads - Counting time (ms): " + elapsed);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -189,46 +192,57 @@ public abstract class Board implements Cloneable {
      * Counts the alive cells surrounding the appointed cell.
      * The width and height parameter has been included to improve performance
      * as opposed to calling the getHeight and getWidth methods.
-     * @param i         the first column index of the array
-     * @param j         the second column index of the array
+     * @param x         the first column index of the array
+     * @param y         the second column index of the array
      * @param width     the width of the board
      * @param height    the height of the board
      * @return      the number of living neighboring cells
      */
-    public int countNeighbor(int i, int j, int width, int height){
+    public int countNeighbor(int x, int y, int width, int height){
         int count = 0;
 
-        //check top
-        if (isActiveCell(i, j-1, width, height))
-            count++;
+        // checks all cells from -1 to +1 around the appointed cell
+        for (int i = x - 1; i < x + 2; i++) {
+            for (int j = y - 1; j < y + 2; j++) {
+                if (i == x && j == y)
+                    continue;
 
-        //check top-left
-        if (isActiveCell(i-1, j-1, width, height))
-            count++;
+                if(isActiveCell(i, j, width, height))
+                    count++;
+            }
+        }
 
-        //check top-right
-        if (isActiveCell(i+1, j-1, width, height))
-            count++;
-
-        //check left
-        if (isActiveCell(i-1, j, width, height))
-            count++;
-
-        //check right
-        if (isActiveCell(i+1, j, width, height))
-            count++;
-
-        //check bottom
-        if (isActiveCell(i, j+1, width, height))
-            count++;
-
-        //check bottom-right
-        if (isActiveCell(i+1, j+1, width, height))
-            count++;
-
-        //check bottom-left
-        if (isActiveCell(i-1, j+1, width, height))
-            count++;
+//        //check top
+//        if (isActiveCell(i, j-1, width, height))
+//            count++;
+//
+//        //check top-left
+//        if (isActiveCell(i-1, j-1, width, height))
+//            count++;
+//
+//        //check top-right
+//        if (isActiveCell(i+1, j-1, width, height))
+//            count++;
+//
+//        //check left
+//        if (isActiveCell(i-1, j, width, height))
+//            count++;
+//
+//        //check right
+//        if (isActiveCell(i+1, j, width, height))
+//            count++;
+//
+//        //check bottom
+//        if (isActiveCell(i, j+1, width, height))
+//            count++;
+//
+//        //check bottom-right
+//        if (isActiveCell(i+1, j+1, width, height))
+//            count++;
+//
+//        //check bottom-left
+//        if (isActiveCell(i-1, j+1, width, height))
+//            count++;
 
         return count;
     }
