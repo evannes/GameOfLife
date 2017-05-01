@@ -17,8 +17,8 @@ import model.*;
 public class Board3D extends Board{
 
     protected List<List<Boolean>> board;
+    protected List<List<Boolean>> clone;
     private int boardSize = 50;
-    public List<List<Boolean>> clone;
 
     /**
      * Constructor that initializes the 3D board and its clone.
@@ -32,7 +32,7 @@ public class Board3D extends Board{
     /**
      * Sets a default starting pattern to the board.
      */
-    public void defaultStartBoard(){
+    private void defaultStartBoard(){
         board.get(0).set(2,true);
         board.get(1).set(2,true);
         board.get(2).set(2,true);
@@ -42,31 +42,30 @@ public class Board3D extends Board{
 
     @Override
     public int getWidth() {
-        return board.size();
+        return boardSize;
     }
 
     @Override
     public int getHeight() {
-        return board.get(0).size();
+        return boardSize;
     }
 
     /**
      * Initializes the lists that the board consists of.
-     * @param width The width of the board
-     * @param height The height of the board
+     * @param x the first column index
+     * @param y the second column index
      * @return the board that has been initialized.
      */
-    private List<List<Boolean>> initStartBoard(int width, int height) {
-        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(width);
+    private List<List<Boolean>> initStartBoard(int x, int y) {
+        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
 
-        for(int i = 0; i < width; i++) {
-            tmp.add(new ArrayList<>(height));
+        for(int i = 0; i < x; i++) {
+            tmp.add(new ArrayList<>(y));
 
-            for(int j = 0; j < height; j++) {
+            for(int j = 0; j < y; j++) {
                 tmp.get(i).add(j, false);
             }
         }
-
         return tmp;
     }
 

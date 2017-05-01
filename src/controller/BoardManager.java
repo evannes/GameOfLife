@@ -74,7 +74,6 @@ public class BoardManager {
 
                     time = System.nanoTime();
                 }
-
             }
         };
 
@@ -304,6 +303,7 @@ public class BoardManager {
         boolean[][] array = fileHandling.readPatternFromDisk();
         selectPatternLogic(array);
     }
+
     /**
      * Lets the user select a rle pattern from URL.
      */
@@ -312,6 +312,10 @@ public class BoardManager {
         selectPatternLogic(array);
     }
 
+    /**
+     * Selects the correct method for setting the pattern into the current board.
+     * @param array the pattern array to be put into the current board
+     */
     private void selectPatternLogic(boolean[][] array) {
         try {
             if(board instanceof DynamicBoard) {

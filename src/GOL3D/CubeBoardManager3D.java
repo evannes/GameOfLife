@@ -18,16 +18,15 @@ import model.FileHandling;
  */
 public class CubeBoardManager3D {
 
-    private AnimationTimer animationTimer;
-    private int speed = 250000000;
     private CubeBoard3D cubeBoard3D;
     private FileHandling fileHandling = new FileHandling();
     private Group group;
-    private Box currentBox;
+    private int speed = 250000000;
     private boolean isRunning = false;
     private long time = System.nanoTime();
     private int boardSize = 30;
     private int cellSize = 50;
+
     private List<List<Box>> boxBoard1;
     private List<List<Box>> boxBoard2;
     private List<List<Box>> boxBoard3;
@@ -40,6 +39,7 @@ public class CubeBoardManager3D {
      * The constructor initializing the animation of Game of Life.
      *
      * @param cubeBoard3D the board
+     * @param group       the group that will contain all the boxes of the cube
      */
 
     public CubeBoardManager3D(CubeBoard3D cubeBoard3D, Group group) {
@@ -48,7 +48,7 @@ public class CubeBoardManager3D {
         initBoxArrays();
         initArrayOfBoxarrays();
         changeBoards();
-        animationTimer = new AnimationTimer() {
+        AnimationTimer animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
                     cubeBoard3D.nextGenerations();
@@ -90,7 +90,7 @@ public class CubeBoardManager3D {
     private void changeBoard(int indexBoard) {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                currentBox = boxArrays[indexBoard].get(i).get(j);
+                Box currentBox = boxArrays[indexBoard].get(i).get(j);
                 if (cubeBoard3D.getBoardArrays()[indexBoard].get(i).get(j)) {
                     setPurpleMaterial(currentBox);
                     if (indexBoard == 5 || indexBoard == 4) {
@@ -124,9 +124,9 @@ public class CubeBoardManager3D {
      * @param incrementZ    <code>true</code> if boxZ is to be incremented
      * @param resetX        <code>true</code> if boxX is to be incremented within the outer for-loop
      * @param resetY        <code>true</code> if boxY is to be incremented within the outer for-loop
-     * @return
+     * @return              returns a list containing the boxes that was created
      */
-    public List<List<Box>> createBoxes(int boxX, int boxY, int boxZ,
+    private List<List<Box>> createBoxes(int boxX, int boxY, int boxZ,
                                        int incrementX, int decrementY, int incrementZ,
                                        boolean resetX, boolean resetY) {
 
@@ -183,7 +183,7 @@ public class CubeBoardManager3D {
     /**
      * Initializes an array that contains all the arrays of boxes.
      */
-    public void initArrayOfBoxarrays(){
+    private void initArrayOfBoxarrays(){
         boxArrays = new ArrayList[6];
         boxArrays[0] = boxBoard1;
         boxArrays[1] = boxBoard2;
@@ -194,7 +194,7 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * Lets the user to select a rle pattern from disk.
+     * Lets the user select a rle pattern from disk.
      */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
@@ -203,7 +203,7 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * Lets the user to select a rle pattern from URL.
+     * Lets the user select a rle pattern from URL.
      */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
@@ -216,7 +216,7 @@ public class CubeBoardManager3D {
      * which changes the color of the box.
      * @param box a box from the board
      */
-    public void setBlueMaterial(Box box) {
+    private void setBlueMaterial(Box box) {
         PhongMaterial blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
         blueMaterial.setSpecularColor(Color.SNOW);
@@ -228,14 +228,18 @@ public class CubeBoardManager3D {
      * which changes the color of the box.
      * @param box a box from the board
      */
-    public void setPurpleMaterial(Box box) {
+    private void setPurpleMaterial(Box box) {
         PhongMaterial purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
         purpleMaterial.setSpecularColor(Color.SKYBLUE);
         box.setMaterial(purpleMaterial);
     }
 
-    public void removeBoxes() {
+    /**
+     * Removes all the boxes the cube consists of from the group,
+     * causing them to disappear from the view.
+     */
+    protected void removeBoxes() {
         group.getChildren().clear();
     }
 
@@ -256,7 +260,7 @@ public class CubeBoardManager3D {
     /**
      * Resumes the game by starting the animation again.
      */
-    public void resumeGame() {
+    protected void resumeGame() {
         isRunning = true;
     }
 
@@ -266,7 +270,7 @@ public class CubeBoardManager3D {
      * @return <code>true</code> if the animation
      * is running.
      */
-    public boolean getIsRunning() {
+    protected boolean getIsRunning() {
         return isRunning;
     }
 
@@ -291,7 +295,7 @@ public class CubeBoardManager3D {
     /**
      * Clears all the boards.
      */
-    public void clearBoards() {
+    protected void clearBoards() {
         isRunning = false;
         cubeBoard3D.clearBoards();
     }

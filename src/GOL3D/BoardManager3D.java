@@ -17,7 +17,6 @@ import model.*;
  */
 public class BoardManager3D{
 
-    private AnimationTimer animationTimer;
     private int speed = 250000000;
     private Board3D board3D;
     private FileHandling fileHandling = new FileHandling();
@@ -41,7 +40,7 @@ public class BoardManager3D{
         this.group = group;
         createBoxes();
         changeBoard();
-        animationTimer = new AnimationTimer() {
+        AnimationTimer animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
                     board3D.nextGenerationConcurrent();
@@ -58,7 +57,7 @@ public class BoardManager3D{
      * Changes the color and size of the boxes in the 3D board,
      * according to the boolean values of the board.
      */
-    public void changeBoard(){
+    protected void changeBoard(){
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -79,7 +78,7 @@ public class BoardManager3D{
     /**
      * Creates the boxes that make up the board, and places them at the given coordinates.
      */
-    public void createBoxes(){
+    private void createBoxes(){
 
         boardBoxes = new ArrayList<List<Box>>();
 
@@ -114,7 +113,7 @@ public class BoardManager3D{
      * which changes the color of the box.
      * @param box the box from the board
      */
-    public void setBlueMaterial(Box box){
+    private void setBlueMaterial(Box box){
         PhongMaterial blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
         blueMaterial.setSpecularColor(Color.SNOW);
@@ -126,7 +125,7 @@ public class BoardManager3D{
      * which changes the color of the box.
      * @param box the box from the board
      */
-    public void setPurpleMaterial(Box box){
+    private void setPurpleMaterial(Box box){
         PhongMaterial purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
         purpleMaterial.setSpecularColor(Color.SKYBLUE);
