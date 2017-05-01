@@ -42,6 +42,12 @@ public class DynamicBoard extends Board {
         clone = getBoard(defaultWidth, defaultHeight);
     }
 
+    /**
+     * Returns a two dimensional boolean arrayList with all values set to false
+     * @param x     the width of the array
+     * @param y     the height of the array
+     * @return      the arrayList
+     */
     private List<List<Boolean>> getBoard(int x, int y) {
         List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
 
@@ -92,7 +98,6 @@ public class DynamicBoard extends Board {
         dynamicBoardArray = clone;
         clone = tmp;
     }
-
 
     @Override
     public void clearBoard() {
@@ -164,6 +169,7 @@ public class DynamicBoard extends Board {
                 setValue(i + xStartIndex, j + yStartIndex, value);
             }
         }
+
     }
 
     /**
