@@ -11,62 +11,62 @@ public class RulesTest3D {
     public void countNeighbor1() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,0,0));
+        assertEquals(2,cubeboard.countNeighbor(1,0,0));
     }
 
     @Test
     public void countNeighbor2() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,0,1));
+        assertEquals(1,cubeboard.countNeighbor(1,1,0));
     }
 
     @Test
     public void countNeighbor3() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,0,2));
+        assertEquals(2,cubeboard.countNeighbor(1,2,0));
     }
 
     @Test
     public void countNeighbor4() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,1,0));
+        assertEquals(3,cubeboard.countNeighbor(1,0,1));
     }
 
     @Test
     public void countNeighbor5() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(0,cubeboard.countNeighbor(1,1,1));
+        assertEquals(2,cubeboard.countNeighbor(1,1,1));
     }
 
     @Test
     public void countNeighbor6() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,1,2));
+        assertEquals(3,cubeboard.countNeighbor(1,2,1));
     }
 
     @Test
     public void countNeighbor7() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,2,0));
+        assertEquals(2,cubeboard.countNeighbor(1,0,2));
     }
 
     @Test
     public void countNeighbor8() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,2,1));
+        assertEquals(1,cubeboard.countNeighbor(1,1,2));
     }
 
     @Test
     public void countNeighbor9() throws Exception {
         CubeBoard3D cubeboard = new CubeBoard3D();
         cubeboard.setTestBoard();
-        assertEquals(1,cubeboard.countNeighbor(1,2,2));
+        assertEquals(2,cubeboard.countNeighbor(1,2,2));
     }
 }

@@ -47,7 +47,8 @@ public class CubeBoard3D {
 
         boardArrays = initArrayOfLists(board1,board2,board3,board4,board5,board6);
         cloneArrays = initArrayOfLists(clone1,clone2,clone3,clone4,clone5,clone6);
-        defaultStartBoard();
+        //defaultStartBoard();
+        setTestBoard();
     }
 
     /**
@@ -83,7 +84,9 @@ public class CubeBoard3D {
      */
     public void setTestBoard(){
         clearBoards();
+        board2.get(1).set(0,true);
         board2.get(1).set(1,true);
+        board2.get(1).set(2,true);
     }
 
     /**
