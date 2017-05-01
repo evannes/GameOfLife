@@ -32,7 +32,7 @@ public class BoardManager3D{
     private int boxZ = 0;
 
     /**
-     * The constructor initializing the animation of Game of Life.
+     * The constructor initializing the animation of Game of Life with the 3D board.
      * @param board3D     the board
      * @param group       the group-node that contains the box-objects in the 3D board
      */
@@ -77,7 +77,7 @@ public class BoardManager3D{
     }
 
     /**
-     * Creates the boxes that make up the board, and places them in 3D space.
+     * Creates the boxes that make up the board, and places them at the given coordinates.
      */
     public void createBoxes(){
 
@@ -112,7 +112,7 @@ public class BoardManager3D{
     /**
      * Creates a blue PhongMaterial and sets it to the box,
      * which changes the color of the box.
-     * @param box a box from the board
+     * @param box the box from the board
      */
     public void setBlueMaterial(Box box){
         PhongMaterial blueMaterial = new PhongMaterial();
@@ -124,7 +124,7 @@ public class BoardManager3D{
     /**
      * Creates a purple PhongMaterial and sets it to the box,
      * which changes the color of the box.
-     * @param box a box from the board
+     * @param box the box from the board
      */
     public void setPurpleMaterial(Box box){
         PhongMaterial purpleMaterial = new PhongMaterial();
@@ -134,11 +134,10 @@ public class BoardManager3D{
     }
 
     /**
-     * Removes all the boxes from the group node, causing the board to disappear.
+     * Removes all the boxes from the group node, causing the board to disappear from the view.
      */
-    public void removeBoxes(){
+    protected void removeBoxes(){
         group.getChildren().clear();
-
     }
 
     /**
@@ -158,7 +157,7 @@ public class BoardManager3D{
     /**
      * Resumes the game by starting the animation again.
      */
-    public void resumeGame(){
+    protected void resumeGame(){
         isRunning = true;
     }
 
@@ -170,7 +169,7 @@ public class BoardManager3D{
     }
 
     /**
-     * Lets the user to select a rle pattern from disk.
+     * Lets the user select a rle pattern from disk.
      */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
@@ -178,7 +177,7 @@ public class BoardManager3D{
         changeBoard();
     }
     /**
-     * Lets the user to select a rle pattern from URL.
+     * Lets the user select a rle pattern from URL.
      */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
@@ -188,8 +187,7 @@ public class BoardManager3D{
 
     /**
      * Returns whether the animation is running or not.
-     * @return      <code>true</code> if the animation
-     *              is running.
+     * @return      <code>true</code> if the animation is running.
      */
     protected boolean getIsRunning(){
         return isRunning;

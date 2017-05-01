@@ -52,8 +52,8 @@ public class CubeBoard3D {
         clone5 = initStartBoard();
         clone6 = initStartBoard();
 
-        boardArrays = initArrayOfLists(boardArrays,board1,board2,board3,board4,board5,board6);
-        cloneArrays = initArrayOfLists(cloneArrays,clone1,clone2,clone3,clone4,clone5,clone6);
+        boardArrays = initArrayOfLists(board1,board2,board3,board4,board5,board6);
+        cloneArrays = initArrayOfLists(clone1,clone2,clone3,clone4,clone5,clone6);
         defaultStartBoard();
     }
 
@@ -86,10 +86,9 @@ public class CubeBoard3D {
         board2.get(4).set(13,true);
     }
 
-    // kun getBoardsize??
     /**
-     * Returns the width of the board.
-     * @return the width of this board
+     * Returns the size of the board.
+     * @return the size of this board
      */
     public int getBoardSize() {
         return boardSize;
@@ -155,6 +154,7 @@ public class CubeBoard3D {
 
     /**
      * Makes the board equal to the clone.
+     * @param indexBoard    the index of the current board in array of boards
      */
     public void switchBoard(int indexBoard) {
         for(int i = 0; i < getBoardSize(); i++) {
@@ -166,23 +166,12 @@ public class CubeBoard3D {
 
     /**
      * The method counting the alive cells surrounding the appointed cell
+     * @param indexBoard index of current board in array of boards
      * @param x     the first column index of the array
      * @param y     the second column index of the array
      * @return      the number of alive neighboring cells
      */
     public int countNeighbor(int indexBoard,int x,int y){
-        /**
-         * // checks all cells from -1 to +1 around the appointed cell
-         for (int i = x - 1; i < x + 2; i++) {
-         for (int j = y - 1; j < y + 2; j++) {
-         if (i == x && j == y)
-         continue;
-
-         if(isActiveCell(i, j, width, height))
-         count++;
-         }
-         }*/
-         // for cubeBoard:
         int count = 0;
          for (int i = x - 1; i < x + 2; i++) {
              for (int j = y - 1; j < y + 2; j++) {
@@ -194,46 +183,11 @@ public class CubeBoard3D {
              }
          }
          return count;
-        /*
-        int count = 0;
-
-        //check top
-        if (isInCurrentBoard(indexBoard,i, j-1))
-            count++;
-
-        //check top-left
-        if (isInCurrentBoard(indexBoard,i-1, j-1))
-            count++;
-
-        //check top-right
-        if (isInCurrentBoard(indexBoard,i+1, j-1))
-            count++;
-
-        //check left
-        if (isInCurrentBoard(indexBoard,i-1, j))
-            count++;
-
-        //check right
-        if (isInCurrentBoard(indexBoard,i+1, j))
-            count++;
-
-        //check bottom
-        if (isInCurrentBoard(indexBoard,i, j+1))
-            count++;
-
-        //check bottom-right
-        if (isInCurrentBoard(indexBoard,i+1, j+1))
-            count++;
-
-        //check bottom-left
-        if (isInCurrentBoard(indexBoard,i-1, j+1))
-            count++;
-
-        return count;*/
     }
 
     /**
      * The method checking if the appointed position is within the board array.
+     * @param indexBoard index of current board in array of boards
      * @param i         the first column index of the array
      * @param j         the second column index of the array
      * @return          <code>false</code> if the position is exceeding the board array
@@ -282,8 +236,8 @@ public class CubeBoard3D {
      * arrays when the cell is at the end of a board, according
      * to which is the current board.
      * @param indexBoard index of current board in array of boards
-     * @param i          the first column index of the array
-     * @param j          the second column index of the array
+     * @param i          the first column index
+     * @param j          the second column index
      * @return       <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoardNeighbors(int indexBoard,int i, int j){
@@ -330,8 +284,8 @@ public class CubeBoard3D {
 
     /**
      * Checks if the neighbor at neighboring boards is alive for board1
-     * @param i  the first column index of the array
-     * @param j  the second column index of the array
+     * @param i  the first column index
+     * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard1Neighbors(int i, int j){
@@ -355,8 +309,8 @@ public class CubeBoard3D {
 
     /**
      * Checks if the neighbor at neighboring boards is alive for board2
-     * @param i  the first column index of the array
-     * @param j  the second column index of the array
+     * @param i  the first column index
+     * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard2Neighbors(int i, int j){
@@ -381,8 +335,8 @@ public class CubeBoard3D {
 
     /**
      * Checks if the neighbor at neighboring boards is alive for board3
-     * @param i  the first column index of the array
-     * @param j  the second column index of the array
+     * @param i  the first column index
+     * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard3Neighbors(int i, int j){
@@ -406,8 +360,8 @@ public class CubeBoard3D {
 
     /**
      * Checks if the neighbor at neighboring boards is alive for board4
-     * @param i  the first column index of the array
-     * @param j  the second column index of the array
+     * @param i  the first column index
+     * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard4Neighbors(int i, int j){
@@ -431,8 +385,8 @@ public class CubeBoard3D {
 
     /**
      * Checks if the neighbor at neighboring boards is alive for board5
-     * @param i  the first column index of the array
-     * @param j  the second column index of the array
+     * @param i  the first column index
+     * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard5Neighbors(int i, int j){
@@ -456,8 +410,8 @@ public class CubeBoard3D {
 
     /**
      * Checks if the neighbor at neighboring boards is alive for board6
-     * @param i  the first column index of the array
-     * @param j  the second column index of the array
+     * @param i  the first column index
+     * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
     public boolean countBoard6Neighbors(int i, int j){
@@ -482,8 +436,8 @@ public class CubeBoard3D {
     /**
      * Checks the value for an index in a board.
      * @param board board to be checked
-     * @param i     first index
-     * @param j     second index
+     * @param i     the first column index
+     * @param j     the second column index
      * @return      the boolean value stored at this index
      */
     public boolean checkValue(List<List<Boolean>> board,int i,int j){
@@ -496,35 +450,38 @@ public class CubeBoard3D {
 
     /**
      * Sets <code>boolean</code> values to the board.
+     * @param indexBoard the index of the current board in array of boards
      * @param x     the first column index
      * @param y     the second column index
      * @param value the <code>boolean</code> value to be set
      */
-    public void setValue(int numBoard,int x, int y, boolean value) {
-        boardArrays[numBoard].get(x).set(y, value);
+    public void setValue(int indexBoard,int x, int y, boolean value) {
+        boardArrays[indexBoard].get(x).set(y, value);
     }
 
     /**
      * Returns the <code>boolean</code> value of the appointed position
+     * @param indexBoard the index of the current board in array of boards
      * @param x the first column index
      * @param y the second column index
      * @return  the <code>boolean</code> value in this index
      */
-    public boolean getValue(int numBoard,int x, int y) {
-        return boardArrays[numBoard].get(x).get(y);
+    public boolean getValue(int indexBoard,int x, int y) {
+        return boardArrays[indexBoard].get(x).get(y);
     }
 
     /**
      * Toggles the <code>boolean</code> value at the appointed index.
+     * @param indexBoard the index of the current board in array of boards
      * @param x the first column index
      * @param y the second column index
      */
-    public void toggleValue(int numBoard, int x, int y) {
-        boardArrays[numBoard].get(x).set(y, !board2.get(x).get(y));
+    public void toggleValue(int indexBoard, int x, int y) {
+        boardArrays[indexBoard].get(x).set(y, !board2.get(x).get(y));
     }
 
     /**
-     * Resets all values of the board to false
+     * Resets all values of the boards to false
      */
     public void clearBoards() {
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(0, i, j, false)));
@@ -554,9 +511,10 @@ public class CubeBoard3D {
 
     /**
      * Places the input array from filehandler into the board.
+     * @param indexBoard the index of the board which will contain the new pattern
      * @param inputArray    the array loaded from file or URL
      */
-    public void setInputInBoard(List<List<Boolean>> inputArray,int numBoard) {
+    public void setInputInBoard(List<List<Boolean>> inputArray,int indexBoard) {
         // check if the input array is too large
         if(inputArray.size() > boardSize || inputArray.get(0).size() > boardSize) {
             Alert sizeErrorAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -575,7 +533,7 @@ public class CubeBoard3D {
             for (int i = 0; i < inputArray.size(); i++) {
                 for (int j = 0; j < inputArray.get(0).size(); j++) {
                     Boolean value = inputArray.get(i).get(j);
-                    setValue(numBoard,i + xStartIndex, j + yStartIndex, value);
+                    setValue(indexBoard,i + xStartIndex, j + yStartIndex, value);
                 }
             }
         }
@@ -584,10 +542,10 @@ public class CubeBoard3D {
     /**
      * Initializes array containing lists.
      */
-    public List<List<Boolean>>[] initArrayOfLists(List<List<Boolean>>[] arrayOfLists,List<List<Boolean>> board1,
+    public List<List<Boolean>>[] initArrayOfLists(List<List<Boolean>> board1,
                                   List<List<Boolean>>board2, List<List<Boolean>> board3, List<List<Boolean>> board4,
                                   List<List<Boolean>>board5, List<List<Boolean>> board6){
-        arrayOfLists = new ArrayList[6];
+        List<List<Boolean>>[] arrayOfLists = new ArrayList[6];
         arrayOfLists[0] = board1;
         arrayOfLists[1] = board2;
         arrayOfLists[2] = board3;

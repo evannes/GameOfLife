@@ -1,10 +1,9 @@
 
 package testing;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import model.Board;
 import model.StaticBoard;
-
 
 /**
  * @author Miina Lervik

@@ -64,19 +64,19 @@ public class CubeBoardManager3D {
     /**
      * Creates all the arrays of boxes.
      */
-    public void initBoxArrays() {
-        boxBoard1 = createBoxes(boxBoard1, 0, -53, 0, 53, 0, 53, true, false);
-        boxBoard2 = createBoxes(boxBoard2, 0, 0, -53, 53, 53, 0, false, true);
-        boxBoard3 = createBoxes(boxBoard3, 0, 1590, 0, 53, 0, 53, true, false);
-        boxBoard4 = createBoxes(boxBoard4, 0, 0, 1590, 53, 53, 0, false, true);
-        boxBoard5 = createBoxes(boxBoard5, 1590, 0, 0, 0, 53, 53, false, true);
-        boxBoard6 = createBoxes(boxBoard6, -53, 0, 0, 0, 53, 53, false, false);
+    private void initBoxArrays() {
+        boxBoard1 = createBoxes(0, -53, 0, 53, 0, 53, true, false);
+        boxBoard2 = createBoxes(0, 0, -53, 53, 53, 0, false, true);
+        boxBoard3 = createBoxes(0, 1590, 0, 53, 0, 53, true, false);
+        boxBoard4 = createBoxes(0, 0, 1590, 53, 53, 0, false, true);
+        boxBoard5 = createBoxes(1590, 0, 0, 0, 53, 53, false, true);
+        boxBoard6 = createBoxes(-53, 0, 0, 0, 53, 53, false, false);
     }
 
     /**
      * Changes all the boards of the cube, is used after each next generation.
      */
-    public void changeBoards() {
+    protected void changeBoards() {
         for (int i = 0; i < 6; i++) {
             changeBoard(i);
         }
@@ -85,26 +85,26 @@ public class CubeBoardManager3D {
     /**
      * Changes a single board according to the values of the corresponding
      * board of boolean arrays.
-     * @param numBoard  index of the board to be changed
+     * @param indexBoard  index of the board to be changed
      */
-    public void changeBoard(int numBoard) {
+    private void changeBoard(int indexBoard) {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                currentBox = boxArrays[numBoard].get(i).get(j);
-                if (cubeBoard3D.getBoardArrays()[numBoard].get(i).get(j)) {
+                currentBox = boxArrays[indexBoard].get(i).get(j);
+                if (cubeBoard3D.getBoardArrays()[indexBoard].get(i).get(j)) {
                     setPurpleMaterial(currentBox);
-                    if (numBoard == 5 || numBoard == 4) {
+                    if (indexBoard == 5 || indexBoard == 4) {
                         currentBox.setWidth(cellSize + 50);
-                    } else if (numBoard == 1 || numBoard == 3) {
+                    } else if (indexBoard == 1 || indexBoard == 3) {
                         currentBox.setDepth(cellSize + 50);
                     } else {
                         currentBox.setHeight(cellSize + 50);
                     }
                 } else {
                     setBlueMaterial(currentBox);
-                    if (numBoard == 5 || numBoard == 4) {
+                    if (indexBoard == 5 || indexBoard == 4) {
                         currentBox.setWidth(cellSize);
-                    } else if (numBoard == 1 || numBoard == 3) {
+                    } else if (indexBoard == 1 || indexBoard == 3) {
                         currentBox.setDepth(cellSize);
                     } else {
                         currentBox.setHeight(cellSize);
@@ -116,7 +116,6 @@ public class CubeBoardManager3D {
 
     /**
      * Creates the boxes that makes up the cube.
-     * @param boardBoxes    the array to be filled with bozes
      * @param boxX          initial translateX-value
      * @param boxY          initial translateY-value
      * @param boxZ          initial translateZ-value
@@ -127,11 +126,11 @@ public class CubeBoardManager3D {
      * @param resetY        <code>true</code> if boxY is to be incremented within the outer for-loop
      * @return
      */
-    public List<List<Box>> createBoxes(List<List<Box>> boardBoxes, int boxX, int boxY, int boxZ,
+    public List<List<Box>> createBoxes(int boxX, int boxY, int boxZ,
                                        int incrementX, int decrementY, int incrementZ,
                                        boolean resetX, boolean resetY) {
 
-        boardBoxes = new ArrayList<List<Box>>();
+        List<List<Box>> boardBoxes = new ArrayList<List<Box>>();
 
         for (int i = 0; i < boardSize; i++) {
             boardBoxes.add(i, new ArrayList<Box>(boardSize));
@@ -199,7 +198,7 @@ public class CubeBoardManager3D {
      */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
-        selectPatternLogic(array);
+        cubeBoard3D.setInputInBoard(cubeBoard3D.createArrayListFromArray(array),1);
         changeBoard(1);
     }
 
@@ -208,17 +207,8 @@ public class CubeBoardManager3D {
      */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
-        selectPatternLogic(array);
+        cubeBoard3D.setInputInBoard(cubeBoard3D.createArrayListFromArray(array),1);
         changeBoard(1);
-    }
-
-    public void selectPatternLogic(boolean[][] array) {
-        try {
-            if (cubeBoard3D instanceof CubeBoard3D) {
-                ((CubeBoard3D) cubeBoard3D).setInputInBoard(((CubeBoard3D) cubeBoard3D).createArrayListFromArray(array),1);
-            }
-        } catch (NullPointerException cancelException) {
-        }
     }
 
     /**

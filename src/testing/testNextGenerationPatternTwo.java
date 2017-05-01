@@ -18,7 +18,7 @@ public class testNextGenerationPatternTwo {
 
 /**
      * Applies a given default pattern to the board being tested.
-     * @param testBoardGrid     the array used to represent the board
+     * //@param testBoardGrid     the array used to represent the board
      */
 
     private void defaultBoard() {

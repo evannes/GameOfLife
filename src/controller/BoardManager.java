@@ -298,14 +298,14 @@ public class BoardManager {
     }
 
     /**
-     * Lets the user to select a rle pattern from disk.
+     * Lets the user select a rle pattern from disk.
      */
     void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
         selectPatternLogic(array);
     }
     /**
-     * Lets the user to select a rle pattern from URL.
+     * Lets the user select a rle pattern from URL.
      */
     void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
