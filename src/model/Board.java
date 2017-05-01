@@ -141,7 +141,6 @@ public abstract class Board implements Cloneable {
      * Creates the next generation of cells to be drawn or removed using Threads.
      */
     public void nextGenerationConcurrent() {
-        long start = System.currentTimeMillis();
         int width = getWidth();
 
         // Making start and end positions for the thread task
@@ -163,8 +162,6 @@ public abstract class Board implements Cloneable {
         try {
             if(future1.get() == null && future2.get() == null && future3.get() == null && future4.get()== null)
                 switchBoard();
-            long elapsed = System.currentTimeMillis() - start;
-            System.out.println("Med threads - Counting time (ms): " + elapsed);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
