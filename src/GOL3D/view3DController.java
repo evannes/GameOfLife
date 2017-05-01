@@ -133,6 +133,12 @@ public class view3DController implements Initializable {
      * Exits the game.
      */
     public void exitGame(ActionEvent event) {
+        if(cubeBoardManager3D.getIsRunning()){
+            cubeBoardManager3D.pauseGame();
+        }
+        if(boardManager3D.getIsRunning()){
+            boardManager3D.pauseGame();
+        }
         ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 
         //boardManager3D.exitGame();
