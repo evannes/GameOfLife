@@ -268,21 +268,18 @@ public class Controller implements Initializable{
      * @see                     Initializable
      */
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-
-
-
         board = new DynamicBoard(160, 100);
-
         boardManager = new BoardManager(canvas, bgCanvas, gridCanvas, board);
-
         boardManager.userDrawCell();
 
         changeSpeed.valueProperty().addListener(
                 (observable, oldValue, value) ->
                 {
                     boardManager.setSpeed((int)((double)value * 10000000));
-                    boardManager.draw();
                 });
+
+        // to get the right speed when starting up the game
+        boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
 
         changeCellSize.valueProperty().addListener(
                 (observable, oldValue, value) ->
@@ -290,7 +287,8 @@ public class Controller implements Initializable{
                     boardManager.scaleBoard((double)value);
                 });
 
-        //boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
+        // to set the right scale when starting up the game
+        boardManager.scaleBoard(changeCellSize.getValue());
 
         gridOnOff.setOnAction(event -> {
             if (gridOnOff.isSelected()) {

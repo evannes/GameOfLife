@@ -24,8 +24,8 @@ import model.StaticBoard;
  */
 public class BoardManager {
     private boolean drawRandomColors;
-    private double drawScale = 1;
-    private double gridSize = 0.1;
+    private double drawScale;
+    private double gridSize;
     private double startingPointX;
     private double startingPointY;
     private int speed;
@@ -80,8 +80,10 @@ public class BoardManager {
         drawTimer.start();
     }
 
+    /**
+     * Draws the grid of the board.
+     */
     void drawGrid() {
-        long start = System.currentTimeMillis();
         GraphicsContext gc = gridCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(gridColor);
@@ -94,16 +96,17 @@ public class BoardManager {
             double cellX = (cellHeight * x) - startingPointX;
             gc.strokeLine(cellX, 0,cellX, canvas.getHeight());
         }
+
         for (int y = 0; y < board.getHeight(); y++) {
             double cellY = (cellWidth * y) - startingPointY;
             gc.strokeLine(0, cellY, canvas.getWidth(), cellY);
 
         }
-
-        long elapsed = System.currentTimeMillis() - start;
-        System.out.println("grid: " + elapsed);
     }
 
+    /**
+     * Draws the background of the board.
+     */
     void drawBackground() {
         GraphicsContext gc = bgCanvas.getGraphicsContext2D();
         gc.setFill(boardColor);
@@ -111,12 +114,9 @@ public class BoardManager {
     }
 
     /**
-     * The method drawing the board with alive cells, background.
-     * and grid. The method will draw the board according to the array applied in the <code>Rules</code> class.
+     * The method drawing the active cells to the board.
      */
     void draw() {
-        long start = System.currentTimeMillis();
-
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
         // find the starting points so the zoom will go towards the middle
@@ -146,8 +146,6 @@ public class BoardManager {
                 gc.fillRect(cellX, cellY, cellWidth, cellHeight);
             }
         }
-        long elapsed = System.currentTimeMillis() - start;
-        System.out.println("draw: " + elapsed);
     }
 
     /**
@@ -352,6 +350,7 @@ public class BoardManager {
      */
     void setSpeed(int value) {
         speed = value;
+        draw();
     }
 
     /**

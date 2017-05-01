@@ -129,7 +129,7 @@
                   </Label>
                </children>
             </HBox>
-            <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15" min="1" minorTickCount="0" rotate="180.0" showTickMarks="true" value="7">
+            <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15" min="1" minorTickCount="0" rotate="180.0" showTickMarks="true" value="9.0">
                <rotationAxis>
                   <Point3D y="1.0" />
                </rotationAxis>
