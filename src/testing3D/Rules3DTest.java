@@ -1,5 +1,3 @@
-package testing3D;
-
 import GOL3D.CubeBoard3D;
 import GOL3D.CubeBoardManager3D;
 import org.junit.jupiter.api.Test;

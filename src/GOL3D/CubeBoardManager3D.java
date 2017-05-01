@@ -25,7 +25,6 @@ public class CubeBoardManager3D {
     private Group group;
     private Box currentBox;
     private boolean isRunning = false;
-    private boolean isClearing = false;
     private long time = System.nanoTime();
     private int boardSize = 30;
     private int cellSize = 50;
@@ -36,8 +35,6 @@ public class CubeBoardManager3D {
     private List<List<Box>> boxBoard5;
     private List<List<Box>> boxBoard6;
     private List<List<Box>>[] boxArrays;
-    private PhongMaterial blueMaterial;
-    private PhongMaterial purpleMaterial;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -230,7 +227,7 @@ public class CubeBoardManager3D {
      * @param box a box from the board
      */
     public void setBlueMaterial(Box box) {
-        blueMaterial = new PhongMaterial();
+        PhongMaterial blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
         blueMaterial.setSpecularColor(Color.SNOW);
         box.setMaterial(blueMaterial);
@@ -242,7 +239,7 @@ public class CubeBoardManager3D {
      * @param box a box from the board
      */
     public void setPurpleMaterial(Box box) {
-        purpleMaterial = new PhongMaterial();
+        PhongMaterial purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
         purpleMaterial.setSpecularColor(Color.SKYBLUE);
         box.setMaterial(purpleMaterial);
@@ -307,6 +304,5 @@ public class CubeBoardManager3D {
     public void clearBoards() {
         isRunning = false;
         cubeBoard3D.clearBoards();
-        isClearing = true;
     }
 }

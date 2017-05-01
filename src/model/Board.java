@@ -191,7 +191,7 @@ public abstract class Board implements Cloneable {
     /**
      * Counts the alive cells surrounding the appointed cell.
      * The width and height parameter has been included to improve performance
-     * as opposed to calling the getHeight and getWidth methods.
+     * as opposed to calling the getHeight and getBoardSize methods.
      * @param x         the first column index of the array
      * @param y         the second column index of the array
      * @param width     the width of the board
@@ -250,7 +250,7 @@ public abstract class Board implements Cloneable {
     /**
      * Checks if the cell is alive and inbounds the board.
      * The width and height parameter has been included to improve performance
-     * as opposed to calling the getHeight and getWidth methods.
+     * as opposed to calling the getHeight and getBoardSize methods.
      * @param i         the first column index of the array
      * @param j         the second column index of the array
      * @param width     the width of the board
