@@ -30,9 +30,6 @@ import java.util.ResourceBundle;
  * @since   1.0
  */
 public class Controller implements Initializable{
-
-    @FXML
-    private Canvas canvas;
     private Board board;
     private BoardManager boardManager;
 

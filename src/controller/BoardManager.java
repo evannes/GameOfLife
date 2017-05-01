@@ -40,11 +40,9 @@ public class BoardManager {
     private FileHandling fileHandling = new FileHandling();
     boolean isRunning = false;
     private long time = System.nanoTime();
-    private double fullBoardWidth;
-    private double fullBoardHeight;
     private int scalefactorX = 80;
     private int scalefactorY = 50;
-    private double boardIncrease = 1.4;
+    private double canvasIncrease = 1.4;
     private int scaledX;
     private int scaledY;
     private boolean gridIsOn = true;
