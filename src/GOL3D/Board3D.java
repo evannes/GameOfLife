@@ -1,7 +1,6 @@
 package GOL3D;
 
 import javafx.scene.control.Alert;
-import model.Rules;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,42 +17,16 @@ import model.*;
 public class Board3D extends Board{
 
     protected List<List<Boolean>> board;
-    private int boardSize = 30;
-    private Rules rules = new Rules();
+    private int boardSize = 50;
     public List<List<Boolean>> clone;
 
-    // er så lik Board/DynamicBoard-klassen at kanskje burde arve??? og kun overskrive
-    // dei få nødvendige metodane, enten arve board eller dynamicBoard
-
-    // får feilmelding ved innlasting av fil hvis man trykker avbryt og det
-    // forrige opplastede mønsteret kjøres på nytt igjen
-    // har ikke exception handling ved innlasting av for store brett, får exceptions
-
     /**
-     * Constructor that initializes the 3D board.
+     * Constructor that initializes the 3D board and its clone.
      */
     public Board3D(){
-        initStartBoard();
-    }
-
-    /**
-     * Initializes the lists that the board consists of.
-     */
-    public void initStartBoard(){
-
-        board = new ArrayList<List<Boolean>>(boardSize);
-
-        for(int i = 0; i < boardSize; i++) {
-            board.add(i, new ArrayList<Boolean>(boardSize));
-        }
-
-        for(int i = 0; i < boardSize; i++){
-            for(int j = 0; j < boardSize; j++){
-                board.get(i).add(j,false);
-            }
-        }
+        board = initStartBoard(boardSize,boardSize);
+        clone = initStartBoard(boardSize, boardSize);
         defaultStartBoard();
-        clone = getBoard(boardSize, boardSize);
     }
 
     /**
@@ -78,48 +51,24 @@ public class Board3D extends Board{
     }
 
     /**
-     * Creates clone of the current board.
+     * Initializes the lists that the board consists of.
+     * @param width The width of the board
+     * @param height The height of the board
+     * @return the board that has been initialized.
      */
-    public void createClone() {
-        clone = new ArrayList<List<Boolean>>(getWidth());
+    private List<List<Boolean>> initStartBoard(int width, int height) {
+        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(width);
 
-        for(int i = 0; i < getWidth(); i++) {
-            clone.add(new ArrayList<>(getHeight()));
+        for(int i = 0; i < width; i++) {
+            tmp.add(new ArrayList<>(height));
 
-            for(int j = 0; j < getHeight(); j++) {
-                clone.get(i).add(j, getValue(i, j));
-            }
-        }
-    }
-
-    // både for initialize clone og vanlig board
-    private List<List<Boolean>> getBoard(int x, int y) {
-        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
-
-        for(int i = 0; i < x; i++) {
-            tmp.add(new ArrayList<>(y));
-
-            for(int j = 0; j < y; j++) {
+            for(int j = 0; j < height; j++) {
                 tmp.get(i).add(j, false);
             }
         }
 
         return tmp;
     }
-    /*
-    @Override
-    public void nextGeneration() {
-        createClone();
-
-        for(int i = 0; i < getWidth(); i++){
-            for(int j = 0; j < getHeight(); j++){
-                int neighbors = countNeighbor(i, j,getWidth(),getHeight());
-                boolean value = getValue(i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
-                setCloneValue(i, j, value );
-            }
-        }
-        switchBoard();
-    }*/
 
     @Override
     public void setCloneValue(int x, int y, boolean value) {
@@ -134,80 +83,6 @@ public class Board3D extends Board{
             }
         }
     }
-
-    /**
-     * Counts the alive cells surrounding the appointed cell
-     * @param i     the first column index of the array
-     * @param j     the second column index of the array
-     * @return      the number of alive neighboring cells
-     */
-    /*
-    public int countNeighbor(int i, int j){
-        int count = 0;
-
-        //check top
-        if (isActiveCell(i, j-1))
-            count++;
-
-        //check top-left
-        if (isActiveCell(i-1, j-1))
-            count++;
-
-        //check top-right
-        if (isActiveCell(i+1, j-1))
-            count++;
-
-        //check left
-        if (isActiveCell(i-1, j))
-            count++;
-
-        //check right
-        if (isActiveCell(i+1, j))
-            count++;
-
-        //check bottom
-        if (isActiveCell(i, j+1))
-            count++;
-
-        //check bottom-right
-        if (isActiveCell(i+1, j+1))
-            count++;
-
-        //check bottom-left
-        if (isActiveCell(i-1, j+1))
-            count++;
-
-        return count;
-    }*/
-
-    /**
-     * Checks if the cell is alive.
-     * @param i         the first column index of the array
-     * @param j         the second column index of the array
-     * @return          <code>true</code> if the cell is alive
-     *                  and not exceeding the board array
-     */
-    /*private boolean isActiveCell(int i, int j) {
-        return inBounds(i, j) && getValue(i,j) == true;
-    }*/
-
-    /**
-     * Checks if the appointed position is within the board array.
-     * @param /i         the first column index of the array
-     * @param /j         the second column index of the array
-     * @return          <code>false</code> if the position is exceeding the board array
-     */
-    /*private boolean inBounds(int i, int j){
-        if(i == -1 || j == -1){
-            return false;
-        }
-
-        if(i >= getWidth() || j >= getHeight()){
-            return false;
-        }
-
-        return true;
-    }*/
 
     @Override
     public void setValue(int x, int y, boolean value) {
@@ -226,7 +101,6 @@ public class Board3D extends Board{
 
     @Override
     public void clearBoard() {
-
         IntStream.range(0, getWidth()).forEach(i -> IntStream.range(0, getHeight()).forEach(j -> setValue(i, j, false)));
     }
 
@@ -289,7 +163,6 @@ public class Board3D extends Board{
             }
         }
     }
-    // var en resize-nextGenerationThreadTask, men skal ikkje resizes
 }
 
 

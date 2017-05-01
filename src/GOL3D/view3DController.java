@@ -109,7 +109,6 @@ public class view3DController implements Initializable {
      * Pauses the game.
      */
     public void pauseGame(){
-        // rotete????
         if(boardExists) {
             if (boardManager3D.getIsRunning()) {
                 boardManager3D.pauseGame();
@@ -170,10 +169,10 @@ public class view3DController implements Initializable {
         boardManager3D = new BoardManager3D(board,group);
         camera.setRotationAxis(new Point3D(10,10,10));
         group.setRotationAxis(new Point3D(750,750,750));
-        camera.setTranslateX(500);
-        camera.setTranslateY(-600);
-        camera.setTranslateZ(-1000);
-        camera.setRotate(-35);
+        camera.setTranslateX(1350);
+        camera.setTranslateY(-1000);
+        camera.setTranslateZ(-2000);
+        camera.setRotate(-32);
         subscene.setCamera(camera);
     }
 
@@ -195,7 +194,6 @@ public class view3DController implements Initializable {
         cubeBoard3D = new CubeBoard3D();
         cubeBoardManager3D = new CubeBoardManager3D(cubeBoard3D,group);
         pauseButton.setText("Resume");
-        // ha ekstra box på hjørnene
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {

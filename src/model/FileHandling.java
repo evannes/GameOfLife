@@ -82,8 +82,6 @@ public class FileHandling {
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("RLE file", "*.rle"));
             selectedFile = fileChooser.showOpenDialog(null);
             if (selectedFile != null) {
-                System.out.println("File selected: " + selectedFile.getName());
-                System.out.println(selectedFile.toPath());
 
                 Path inFile = selectedFile.toPath();
                 BufferedReader reader = Files.newBufferedReader(inFile, charset);

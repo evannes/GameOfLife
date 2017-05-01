@@ -38,8 +38,8 @@ public class DynamicBoard extends Board {
      * Initializes the board with all values set to false.
      */
     private void initStartBoard(){
-        dynamicBoardArray = getBoard(defaultWidth, defaultHeight);
-        clone = getBoard(defaultWidth, defaultHeight);
+        dynamicBoardArray = initStartBoard(defaultWidth, defaultHeight);
+        clone = initStartBoard(defaultWidth, defaultHeight);
     }
 
     /**
@@ -48,7 +48,7 @@ public class DynamicBoard extends Board {
      * @param y     the height of the array
      * @return      the arrayList
      */
-    private List<List<Boolean>> getBoard(int x, int y) {
+    private List<List<Boolean>> initStartBoard(int x, int y) {
         List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
 
         for(int i = 0; i < x; i++) {
@@ -195,7 +195,7 @@ public class DynamicBoard extends Board {
         width = Math.max(width, defaultWidth);
 
         // create new board with new size
-        List<List<Boolean>> newArray = getBoard(width, height);
+        List<List<Boolean>> newArray = initStartBoard(width, height);
 
         // sets value from dynamicBoard to the new array
         for(int i = 0; i < newArray.size() && i < defaultWidth; i++) {
@@ -206,7 +206,7 @@ public class DynamicBoard extends Board {
 
         // switching the arrays
         dynamicBoardArray = newArray;
-        clone = getBoard(width, height);
+        clone = initStartBoard(width, height);
     }
 
     /**
@@ -218,7 +218,7 @@ public class DynamicBoard extends Board {
     @Override
     public DynamicBoard clone() throws CloneNotSupportedException {
         DynamicBoard clonedBoard = (DynamicBoard) super.clone();
-        clonedBoard.dynamicBoardArray = getBoard(getWidth(), getHeight());
+        clonedBoard.dynamicBoardArray = initStartBoard(getWidth(), getHeight());
 
         for (int i = 0; i < getWidth(); i++) {
             for (int j = 0; j < getHeight(); j++) {

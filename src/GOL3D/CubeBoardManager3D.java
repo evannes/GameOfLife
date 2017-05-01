@@ -20,11 +20,9 @@ public class CubeBoardManager3D {
 
     private AnimationTimer animationTimer;
     private int speed = 250000000;
-    private Board3D board3D;
     private CubeBoard3D cubeBoard3D;
     private FileHandling fileHandling = new FileHandling();
     private Group group;
-    private List<List<Box>> boardBoxes;
     private Box currentBox;
     private boolean isRunning = false;
     private boolean isClearing = false;
@@ -59,7 +57,6 @@ public class CubeBoardManager3D {
                     cubeBoard3D.nextGenerations();
                     cubeBoard3D.switchBoards();
                     changeBoards();
-                    cubeBoard3D.printBoard();
                     time = System.nanoTime();
                 }
             }
@@ -71,7 +68,6 @@ public class CubeBoardManager3D {
      * Creates all the arrays of boxes.
      */
     public void initBoxArrays() {
-        // 3D-vector lagrer x,y og z-transforms
         boxBoard1 = createBoxes(boxBoard1, 0, -53, 0, 53, 0, 53, true, false);
         boxBoard2 = createBoxes(boxBoard2, 0, 0, -53, 53, 53, 0, false, true);
         boxBoard3 = createBoxes(boxBoard3, 0, 1590, 0, 53, 0, 53, true, false);
@@ -184,7 +180,6 @@ public class CubeBoardManager3D {
             } else {
                 boxZ = 0;
             }
-
         }
         return boardBoxes;
     }

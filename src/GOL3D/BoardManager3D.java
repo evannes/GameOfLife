@@ -24,15 +24,12 @@ public class BoardManager3D{
     private Group group;
     private List<List<Box>> boardBoxes;
     private boolean isRunning = false;
-    private boolean isClearing = false;
     private long time = System.nanoTime();
-    private int boardSize = 30;
+    private int boardSize = 50;
     private int cellSize = 50;
     private int boxX = 0;
     private int boxY = 0;
     private int boxZ = 0;
-    private PhongMaterial blueMaterial;
-    private PhongMaterial purpleMaterial;
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -47,7 +44,7 @@ public class BoardManager3D{
         animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board3D.nextGenerationConcurrent();//nextGeneration();
+                    board3D.nextGenerationConcurrent();
                     changeBoard();
 
                     time = System.nanoTime();
@@ -68,7 +65,7 @@ public class BoardManager3D{
 
                 Box currentBox = boardBoxes.get(i).get(j);
 
-                if(board3D.board.get(i).get(j) == true) {
+                if(board3D.board.get(i).get(j)) {
                     setPurpleMaterial(currentBox);
                     currentBox.setHeight(cellSize + 50);
                 } else {
@@ -110,7 +107,6 @@ public class BoardManager3D{
             boxX = 0;
             boxZ += 53;
         }
-        board3D.initStartBoard();
     }
 
     /**
@@ -119,7 +115,7 @@ public class BoardManager3D{
      * @param box a box from the board
      */
     public void setBlueMaterial(Box box){
-        blueMaterial = new PhongMaterial();
+        PhongMaterial blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
         blueMaterial.setSpecularColor(Color.SNOW);
         box.setMaterial(blueMaterial);
@@ -131,7 +127,7 @@ public class BoardManager3D{
      * @param box a box from the board
      */
     public void setPurpleMaterial(Box box){
-        purpleMaterial = new PhongMaterial();
+        PhongMaterial purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
         purpleMaterial.setSpecularColor(Color.SKYBLUE);
         box.setMaterial(purpleMaterial);
@@ -178,7 +174,7 @@ public class BoardManager3D{
      */
     public void selectPatternFromDisk() {
         boolean[][] array = fileHandling.readPatternFromDisk();
-        selectPatternLogic(array);
+        board3D.setInputInBoard(board3D.createArrayListFromArray(array));
         changeBoard();
     }
     /**
@@ -186,18 +182,8 @@ public class BoardManager3D{
      */
     public void selectPatternFromURL() {
         boolean[][] array = fileHandling.readPatternFromURL();
-        selectPatternLogic(array);
+        board3D.setInputInBoard(board3D.createArrayListFromArray(array));
         changeBoard();
-    }
-
-    private void selectPatternLogic(boolean[][] array) {
-        try {
-            if(board3D instanceof Board3D){
-                ((Board3D) board3D).setInputInBoard(((Board3D) board3D).createArrayListFromArray(array));
-                changeBoard();
-            }
-        } catch (NullPointerException cancelException) {
-        }
     }
 
     /**
@@ -205,7 +191,7 @@ public class BoardManager3D{
      * @return      <code>true</code> if the animation
      *              is running.
      */
-    public boolean getIsRunning(){
+    protected boolean getIsRunning(){
         return isRunning;
     }
 
@@ -231,6 +217,5 @@ public class BoardManager3D{
     public void clearBoard(){
         isRunning = false;
         board3D.clearBoard();
-        isClearing = true;
     }
 }

@@ -1,6 +1,5 @@
 package controller;
 
-import controller.Controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -40,8 +39,8 @@ public class BoardManager {
     private FileHandling fileHandling = new FileHandling();
     boolean isRunning = false;
     private long time = System.nanoTime();
-    private int scalefactorX = 80;
-    private int scalefactorY = 50;
+    private int scaleFactorX = 80;
+    private int scaleFactorY = 50;
     private double canvasIncrease = 1.4;
     private int scaledX;
     private int scaledY;
@@ -183,8 +182,8 @@ public class BoardManager {
         gridCanvas.setHeight(height);
         gridCanvas.setWidth(width);
 
-        scalefactorX *= canvasIncrease;
-        scalefactorY *= canvasIncrease;
+        scaleFactorX *= canvasIncrease;
+        scaleFactorY *= canvasIncrease;
         scaledX *= canvasIncrease;
         scaledY *= canvasIncrease;
         drawBackground();
@@ -205,8 +204,8 @@ public class BoardManager {
         bgCanvas.setWidth(canvasDefaultWidth);
         gridCanvas.setHeight(canvasDefaultHeight);
         gridCanvas.setWidth(canvasDefaultWidth);
-        scalefactorX /= canvasIncrease;
-        scalefactorY /= canvasIncrease;
+        scaleFactorX /= canvasIncrease;
+        scaleFactorY /= canvasIncrease;
         scaledX /= canvasIncrease;
         scaledY /= canvasIncrease;
         drawBackground();
@@ -221,22 +220,22 @@ public class BoardManager {
      */
     void moveCanvas(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.S) {
-            scaledY -= (int)(scalefactorY / drawScale);
+            scaledY -= (int)(scaleFactorY / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.W) {
-            scaledY += (int)(scalefactorY / drawScale);
+            scaledY += (int)(scaleFactorY / drawScale);
             int maxScale = (int)(((canvas.getHeight() / 2) * drawScale - canvas.getHeight() / 2) / drawScale);
             // to lock the canvas in the position 0x0 or lower
             if (scaledY > maxScale)
                 scaledY = maxScale;
         }
         if(keyEvent.getCode() == KeyCode.D){
-            scaledX -= (int)(scalefactorX / drawScale);
+            scaledX -= (int)(scaleFactorX / drawScale);
         }
 
         if(keyEvent.getCode() == KeyCode.A) {
-            scaledX += (int)(scalefactorX / drawScale);
+            scaledX += (int)(scaleFactorX / drawScale);
             int maxScale = (int)(((canvas.getWidth() / 2) * drawScale - canvas.getWidth() / 2) / drawScale);
             // to lock the canvas in the position 0x0 or lower
             if (scaledX > maxScale)

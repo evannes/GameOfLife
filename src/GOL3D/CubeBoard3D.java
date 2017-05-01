@@ -57,21 +57,6 @@ public class CubeBoard3D {
         defaultStartBoard();
     }
 
-
-    public void printBoard(){
-        //for(int k = 0; k < boardArrays.length; k++) {
-          //  System.out.println("Board number: "+ (k+1));
-            for (int i = 0; i < boardSize; i++) {
-                for (int j = 0; j < boardSize; j++) {
-                    System.out.print(boardArrays[1].get(i).get(j) ? "■" : "□");
-                }
-                System.out.println("");
-            }
-            System.out.println();
-            System.out.println();
-        //}
-    }
-
     /**
      * Initializes the board.
      * @param board board to be initialized
