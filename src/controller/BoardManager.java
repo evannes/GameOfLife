@@ -1,5 +1,6 @@
 package controller;
 
+import controller.Controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -39,11 +40,14 @@ public class BoardManager {
     private FileHandling fileHandling = new FileHandling();
     boolean isRunning = false;
     private long time = System.nanoTime();
-    private double scalefactorX = 80;
-    private double scalefactorY = 50;
-    private double canvasIncrease = 1.4;
-    private double scaledX;
-    private double scaledY;
+    private double fullBoardWidth;
+    private double fullBoardHeight;
+    private int scalefactorX = 80;
+    private int scalefactorY = 50;
+    private double boardIncrease = 1.4;
+    private int scaledX;
+    private int scaledY;
+    private boolean gridIsOn = true;
     private int canvasDefaultHeight;
     private int canvasDefaultWidth;
 
@@ -386,6 +390,10 @@ public class BoardManager {
     void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
         drawBackground();
+        if(!gridIsOn){
+            gridColor = boardColor;
+        }
+        drawBackground();
     }
 
 
@@ -402,6 +410,7 @@ public class BoardManager {
      * grid color the same as the board color.
      */
     void switchOffGrid() {
+        gridIsOn = false;
         gridColor = boardColor;
         drawGrid();
     }
@@ -413,6 +422,7 @@ public class BoardManager {
      *                          to grid color.
      */
     void switchOnGrid(ColorPicker colorPickerGrid) {
+        gridIsOn = true;
         gridColor = colorPickerGrid.getValue();
         drawGrid();
     }

@@ -24,7 +24,7 @@
                      <VBox.margin>
                         <Insets left="40.0" top="15.0" />
                      </VBox.margin></Button>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Rotate" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Rotate:" textFill="WHITE">
                      <VBox.margin>
                         <Insets left="60.0" top="10.0" />
                      </VBox.margin></Label>
@@ -32,18 +32,31 @@
                      <VBox.margin>
                         <Insets left="5.0" />
                      </VBox.margin></Slider>
-                  <Label text="Rotate:" textFill="WHITE">
+                  <Label text="Rotate horizontally:" textFill="WHITE">
                      <VBox.margin>
-                        <Insets left="60.0" top="10.0" />
+                        <Insets left="30.0" top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Slider fx:id="rotateViewVertical" max="360.0" prefWidth="145.0" />
+                  <Slider fx:id="rotateHorizontal" max="360.0" prefWidth="145.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Slider>
+                  <Label text="Rotate vertically:" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets left="30.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Slider fx:id="rotateVertical" max="360.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Slider>
                   <Label text="Set speed:" textFill="WHITE">
                      <VBox.margin>
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15.0" min="1.0" minorTickCount="0" showTickMarks="true" value="7.0">
+                  <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15.0" min="1.0" minorTickCount="0" rotate="180.0" value="7.0">
                      <VBox.margin>
                         <Insets left="5.0" />
                      </VBox.margin>
@@ -79,7 +92,7 @@
                   </MenuButton>
                   <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="80.0" text="Exit">
                      <VBox.margin>
-                        <Insets left="40.0" top="215.0" />
+                        <Insets left="40.0" top="200.0" />
                      </VBox.margin>
                   </Button>
                </children>
