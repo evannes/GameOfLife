@@ -38,7 +38,7 @@ public class testThreadedNextGeneration {
     }
 
     private List<Integer> runThreadedTest(int generations) {
-        boolean[][] array = fileHandling.readLocalFile("src/model/patterns/p160dartgun.rle");
+        boolean[][] array = fileHandling.readLocalFile("test/patterns/p160dartgun.rle");
         board.setInputInBoard(board.createArrayListFromArray(array));
         List<Integer> testList = new ArrayList<>(2);
 

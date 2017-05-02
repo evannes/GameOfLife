@@ -30,7 +30,7 @@ public abstract class Board implements Cloneable {
     int defaultWidth = 160;
     int defaultHeight = 100;
     private Rules rules = new Rules();
-    private ExecutorService executor = Executors.newFixedThreadPool(3);
+    private ExecutorService executor = Executors.newFixedThreadPool(2);
 
     /**
      * Default constructor.
