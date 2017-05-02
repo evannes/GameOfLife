@@ -268,9 +268,6 @@ public class Controller implements Initializable{
      * @see                     Initializable
      */
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-
-
-
         board = new DynamicBoard(160, 100);
         boardManager = new BoardManager(canvas, bgCanvas, gridCanvas, board);
         boardManager.userDrawCell();
