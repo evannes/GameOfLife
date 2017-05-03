@@ -12,11 +12,6 @@ public class testNextGenerationPatternOne {
 
     private Board testStaticBoard = new StaticBoard(4,4);
 
-
-    /**
-     * Applies a given default pattern to the board being tested.
-     */
-
     private void defaultBoard() {
         testStaticBoard.setValue(0,0,true);
         testStaticBoard.setValue(0,3,true);

@@ -7,7 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alexander Kingdon on 21.04.2017.
+ * These unit tests are meant to show that the game will run faster when threaded.
+ * In practice, that is not always the case and the tests will sometimes pass and
+ * sometimes fail. We assume that this is because it takes time to initialize the
+ * thread pool and run tasks on the threads.
+ *
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
 public class testThreadedNextGeneration {
 
