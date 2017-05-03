@@ -26,6 +26,8 @@ public class CubeBoardManager3D {
     private long time = System.nanoTime();
     private int boardSize = 30;
     private int cellSize = 50;
+    private PhongMaterial blueMaterial;
+    private PhongMaterial purpleMaterial;
 
     private List<List<Box>> boxBoard1;
     private List<List<Box>> boxBoard2;
@@ -45,6 +47,7 @@ public class CubeBoardManager3D {
     public CubeBoardManager3D(CubeBoard3D cubeBoard3D, Group group) {
         this.cubeBoard3D = cubeBoard3D;
         this.group = group;
+        createMaterials();
         initBoxArrays();
         initArrayOfBoxarrays();
         changeBoards();
@@ -90,24 +93,23 @@ public class CubeBoardManager3D {
     private void changeBoard(int indexBoard) {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                Box currentBox = boxArrays[indexBoard].get(i).get(j);
                 if (cubeBoard3D.getBoardArrays()[indexBoard].get(i).get(j)) {
-                    setPurpleMaterial(currentBox);
+                    boxArrays[indexBoard].get(i).get(j).setMaterial(purpleMaterial);
                     if (indexBoard == 5 || indexBoard == 4) {
-                        currentBox.setWidth(cellSize + 50);
+                        boxArrays[indexBoard].get(i).get(j).setWidth(cellSize + 50);
                     } else if (indexBoard == 1 || indexBoard == 3) {
-                        currentBox.setDepth(cellSize + 50);
+                        boxArrays[indexBoard].get(i).get(j).setDepth(cellSize + 50);
                     } else {
-                        currentBox.setHeight(cellSize + 50);
+                        boxArrays[indexBoard].get(i).get(j).setHeight(cellSize + 50);
                     }
                 } else {
-                    setBlueMaterial(currentBox);
+                    boxArrays[indexBoard].get(i).get(j).setMaterial(blueMaterial);
                     if (indexBoard == 5 || indexBoard == 4) {
-                        currentBox.setWidth(cellSize);
+                        boxArrays[indexBoard].get(i).get(j).setWidth(cellSize);
                     } else if (indexBoard == 1 || indexBoard == 3) {
-                        currentBox.setDepth(cellSize);
+                        boxArrays[indexBoard].get(i).get(j).setDepth(cellSize);
                     } else {
-                        currentBox.setHeight(cellSize);
+                        boxArrays[indexBoard].get(i).get(j).setHeight(cellSize);
                     }
                 }
             }
@@ -135,16 +137,6 @@ public class CubeBoardManager3D {
         for (int i = 0; i < boardSize; i++) {
             boardBoxes.add(i, new ArrayList<Box>(boardSize));
         }
-
-        /* vurdere å bruke foreach istedenfor for-løkke der det er mulig
-        boardBoxes.forEach(row -> {
-            Box myBox = new Box(cellSize, cellSize, cellSize);
-            row.add(myBox);
-        });
-
-        for (List row: boardBoxes) {
-
-        }*/
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -212,27 +204,16 @@ public class CubeBoardManager3D {
     }
 
     /**
-     * Creates a blue PhongMaterial and sets it to the box,
-     * which changes the color of the box.
-     * @param box a box from the board
+     * Creates a blue and a purple PhongMaterial, which is used for the boxes.
      */
-    private void setBlueMaterial(Box box) {
-        PhongMaterial blueMaterial = new PhongMaterial();
+    private void createMaterials(){
+        blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
         blueMaterial.setSpecularColor(Color.SNOW);
-        box.setMaterial(blueMaterial);
-    }
 
-    /**
-     * Creates a purple PhongMaterial and sets it to the box,
-     * which changes the color of the box.
-     * @param box a box from the board
-     */
-    private void setPurpleMaterial(Box box) {
-        PhongMaterial purpleMaterial = new PhongMaterial();
+        purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
         purpleMaterial.setSpecularColor(Color.SKYBLUE);
-        box.setMaterial(purpleMaterial);
     }
 
     /**

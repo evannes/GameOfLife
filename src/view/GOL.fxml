@@ -48,9 +48,9 @@
                     <MenuItem fx:id="selectRules" mnemonicParsing="false" onAction="#selectRules" text="Change rules" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu mnemonicParsing="false" text="About">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="about" mnemonicParsing="false" onAction="#about" text="About" />
                   </items>
                 </Menu>
               </menus>
