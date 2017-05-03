@@ -41,7 +41,7 @@ public class BoardManager {
     private long time = System.nanoTime();
     private int scaleFactorX = 80;
     private int scaleFactorY = 50;
-    private double canvasIncrease = 1.4;
+    private double canvasIncrease = 1.5;
     private int scaledX;
     private int scaledY;
     private boolean gridIsOn = true;
@@ -50,8 +50,10 @@ public class BoardManager {
 
     /**
      * The constructor initializing the animation of Game of Life.
-     * @param canvas    the canvas to draw the board on
-     * @param board     the board to draw on the canvas
+     * @param canvas         the canvas to draw alive cells to
+     * @param bgCanvas       the canvas to draw the background on
+     * @param gridCanvas     the canvas to draw the grid
+     * @param board          the board to draw on the canvas
      */
     BoardManager(Canvas canvas, Canvas bgCanvas, Canvas gridCanvas, Board board) {
         this.canvas = canvas;
@@ -83,7 +85,7 @@ public class BoardManager {
     /**
      * Draws the grid of the board.
      */
-    void drawGrid() {
+    private void drawGrid() {
         GraphicsContext gc = gridCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(gridColor);
@@ -107,7 +109,7 @@ public class BoardManager {
     /**
      * Draws the background of the board.
      */
-    void drawBackground() {
+    private void drawBackground() {
         GraphicsContext gc = bgCanvas.getGraphicsContext2D();
         gc.setFill(boardColor);
         gc.fillRect(0,0, bgCanvas.getWidth(), bgCanvas.getHeight());
@@ -116,7 +118,7 @@ public class BoardManager {
     /**
      * The method drawing the active cells to the board.
      */
-    void draw() {
+    private void draw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
         // find the starting points so the zoom will go towards the middle
@@ -327,6 +329,7 @@ public class BoardManager {
                 draw();
                 drawGrid();
             }
+            // to avoid errors when pressing cancel
         } catch (NullPointerException cancelException) {
         }
     }

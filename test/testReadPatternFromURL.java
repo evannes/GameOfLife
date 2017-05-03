@@ -125,12 +125,6 @@ public class testReadPatternFromURL {
         }
     }
 
-    /**
-     * This method mimics {@link FileHandling#readPatternFromURL()}.
-     * It is used to get the pattern from an URL and parse it into a usable array for the game board.
-     * @param url   The URL where the .rle pattern is located.
-     * @return      The array being used to draw the game board.
-     */
     private boolean[][] testPatternString(URL url) {
         try {
             URLConnection conn = url.openConnection();

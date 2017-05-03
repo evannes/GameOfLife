@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class Board implements Cloneable {
     int defaultWidth = 160;
     int defaultHeight = 100;
-    protected Rules rules = new Rules();
+    private Rules rules = new Rules();
     private ExecutorService executor = Executors.newFixedThreadPool(4);
 
     /**
@@ -162,27 +162,9 @@ public abstract class Board implements Cloneable {
         try {
             if(future1.get() == null && future2.get() == null && future3.get() == null && future4.get()== null)
                 switchBoard();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Prints the time it takes to run nextGeneration with Threads and without.
-     */
-    public void nextGenerationConcurrentPrintPerformance() {
-        System.out.println("med Threads: ");
-        long start = System.currentTimeMillis();
-        nextGenerationConcurrent();
-        long elapsed = System.currentTimeMillis() - start;
-        System.out.println("Med threads - Counting time (ms): " + elapsed);
-        System.out.println("Uten Threads: ");
-        long start2 = System.currentTimeMillis();
-        nextGeneration();
-        long elapsed2 = System.currentTimeMillis() - start2;
-        System.out.println("Uten Threads - Counting time (ms): " + elapsed2);
     }
 
     /**
@@ -207,7 +189,7 @@ public abstract class Board implements Cloneable {
                 if(isActiveCell(i, j, width, height))
                     count++;
             }
-        }      count++;
+        }
 
         return count;
     }
