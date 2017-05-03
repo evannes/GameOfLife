@@ -40,6 +40,16 @@ public class Board3D extends Board{
         board.get(1).set(0,true);
     }
 
+    /**
+     * Sets a simple board for testing.
+     */
+    public void setTestBoard(){
+        clearBoard();
+        board.get(1).set(0,true);
+        board.get(1).set(1,true);
+        board.get(1).set(2,true);
+    }
+
     @Override
     public int getWidth() {
         return boardSize;

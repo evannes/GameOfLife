@@ -79,7 +79,7 @@ public class CubeBoardManager3D {
     /**
      * Changes all the boards of the cube, is used after each next generation.
      */
-    protected void changeBoards() {
+    void changeBoards() {
         for (int i = 0; i < 6; i++) {
             changeBoard(i);
         }
@@ -220,7 +220,7 @@ public class CubeBoardManager3D {
      * Removes all the boxes the cube consists of from the group,
      * causing them to disappear from the view.
      */
-    protected void removeBoxes() {
+    void removeBoxes() {
         group.getChildren().clear();
     }
 
@@ -241,7 +241,7 @@ public class CubeBoardManager3D {
     /**
      * Resumes the game by starting the animation again.
      */
-    protected void resumeGame() {
+    void resumeGame() {
         isRunning = true;
     }
 
@@ -251,7 +251,7 @@ public class CubeBoardManager3D {
      * @return <code>true</code> if the animation
      * is running.
      */
-    protected boolean getIsRunning() {
+    boolean getIsRunning() {
         return isRunning;
     }
 
@@ -276,7 +276,7 @@ public class CubeBoardManager3D {
     /**
      * Clears all the boards.
      */
-    protected void clearBoards() {
+    void clearBoards() {
         isRunning = false;
         cubeBoard3D.clearBoards();
     }
