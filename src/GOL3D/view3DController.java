@@ -139,8 +139,6 @@ public class view3DController implements Initializable {
             boardManager3D.pauseGame();
         }
         ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-
-        //boardManager3D.exitGame();
     }
 
     /**
@@ -162,7 +160,7 @@ public class view3DController implements Initializable {
     /**
      * Creates a new board, and sets new camera angles accordingly.
      */
-    public void createBoard(){
+    private void createBoard(){
         board = new Board3D();
 
         group.setStyle("-fx-background-color:#000000");
@@ -213,7 +211,7 @@ public class view3DController implements Initializable {
                     group.setRotationAxis(new Point3D(750,750,750));
                     group.setRotate((double)newValue);
                 });
-        // dei roterer ikkje sammen, avbryter kvarandre isteden
+
         rotateHorizontal.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {

@@ -207,39 +207,7 @@ public abstract class Board implements Cloneable {
                 if(isActiveCell(i, j, width, height))
                     count++;
             }
-        }
-
-//        //check top
-//        if (isActiveCell(i, j-1, width, height))
-//            count++;
-//
-//        //check top-left
-//        if (isActiveCell(i-1, j-1, width, height))
-//            count++;
-//
-//        //check top-right
-//        if (isActiveCell(i+1, j-1, width, height))
-//            count++;
-//
-//        //check left
-//        if (isActiveCell(i-1, j, width, height))
-//            count++;
-//
-//        //check right
-//        if (isActiveCell(i+1, j, width, height))
-//            count++;
-//
-//        //check bottom
-//        if (isActiveCell(i, j+1, width, height))
-//            count++;
-//
-//        //check bottom-right
-//        if (isActiveCell(i+1, j+1, width, height))
-//            count++;
-//
-//        //check bottom-left
-//        if (isActiveCell(i-1, j+1, width, height))
-//            count++;
+        }      count++;
 
         return count;
     }
