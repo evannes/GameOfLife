@@ -24,7 +24,7 @@ public class testReadPatternFromDisk {
     @Test
     public void testFirstPattern() {
         Path inFile = Paths.get(
-                "src/testing/patterns/rpentomino.rle").toAbsolutePath();
+                "test/patterns/rpentomino.rle").toAbsolutePath();
         testPatternString(inFile);
         Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "010111100");
@@ -33,7 +33,7 @@ public class testReadPatternFromDisk {
     @Test
     public void testSecondPattern() {
         Path inFile = Paths.get(
-                "src/testing/patterns/prebeehive.rle").toAbsolutePath();
+                "test/patterns/prebeehive.rle").toAbsolutePath();
         testPatternString(inFile);
         Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "111111");
@@ -42,7 +42,7 @@ public class testReadPatternFromDisk {
     @Test
     public void testThirdPattern() {
         Path inFile = Paths.get(
-                "src/testing/patterns/thunderbird.rle").toAbsolutePath();
+                "test/patterns/thunderbird.rle").toAbsolutePath();
         testPatternString(inFile);
         Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "100001011110000");
@@ -51,7 +51,7 @@ public class testReadPatternFromDisk {
     @Test
     public void testFourthPattern() {
         Path inFile = Paths.get(
-                "src/testing/patterns/stairstephexomino.rle").toAbsolutePath();
+                "test/patterns/stairstephexomino.rle").toAbsolutePath();
         testPatternString(inFile);
         Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "100110011001");
@@ -60,7 +60,7 @@ public class testReadPatternFromDisk {
     @Test
     public void testFifthPattern() {
         Path inFile = Paths.get(
-                "src/testing/patterns/aircraftcarrier.rle").toAbsolutePath();
+                "test/patterns/aircraftcarrier.rle").toAbsolutePath();
         testPatternString(inFile);
         Assertions.assertEquals(
                 patterns.getBoundingBoxPattern(gameBoardArray), "110100001011");

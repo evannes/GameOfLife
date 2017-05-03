@@ -81,6 +81,16 @@ public class Controller implements Initializable{
     @FXML
     private Button normalscreen;
 
+    public void about() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText("About navigating on the canvas");
+        alert.setContentText("To move around on the canvas use the keys 'w' for up, 'a' for left, " +
+                "'s' for down and 'd' for right.\nThe 'a' and 'w' key will not move the canvas when the canvas is in full view. ");
+
+        alert.showAndWait();
+    }
+
     /**
      * Increases the stage to maximized size and increases the size of the canvas.
      */

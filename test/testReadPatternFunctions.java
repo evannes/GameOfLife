@@ -1,5 +1,4 @@
 import model.FileHandling;
-import testing.testReadPatternFromURL;
 
 import java.net.URL;
 import java.nio.file.Path;
