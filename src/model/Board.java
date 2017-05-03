@@ -103,7 +103,7 @@ public abstract class Board implements Cloneable {
     /**
      * Creates the next generation of cells to be drawn or removed.
      */
-    //@Deprecated
+    @Deprecated
     public void nextGeneration() {
         int width = getWidth();
         int height = getHeight();

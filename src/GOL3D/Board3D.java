@@ -26,8 +26,7 @@ public class Board3D extends Board{
     public Board3D(){
         board = initStartBoard(boardSize,boardSize);
         clone = initStartBoard(boardSize, boardSize);
-        //defaultStartBoard();
-        setTestBoard();
+        defaultStartBoard();
     }
 
     /**
@@ -49,19 +48,6 @@ public class Board3D extends Board{
         board.get(1).set(0,true);
         board.get(1).set(1,true);
         board.get(1).set(2,true);
-    }
-
-    public void nextGeneration() {
-        int width = getWidth();
-        int height = getHeight();
-        for(int i = 0; i < width; i++){
-            for(int j = 0; j < height; j++){
-                int neighbors = countNeighbor(i, j, width, height);
-                boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
-                setCloneValue(i, j, value );
-            }
-        }
-        switchBoard();
     }
 
     @Override

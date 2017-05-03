@@ -24,7 +24,7 @@ public class BoardManager3D{
     private List<List<Box>> boardBoxes;
     private boolean isRunning = false;
     private long time = System.nanoTime();
-    private int boardSize = 30;
+    private int boardSize = 50;
     private int cellSize = 50;
     private int boxX = 0;
     private int boxY = 0;
@@ -46,7 +46,7 @@ public class BoardManager3D{
         AnimationTimer animationTimer = new AnimationTimer() {
             public void handle(long now) {
                 if (isRunning && (now - time) > getSpeed()) {
-                    board3D.nextGeneration();//Concurrent();
+                    board3D.nextGenerationConcurrent();
                     changeBoard();
 
                     time = System.nanoTime();
