@@ -129,20 +129,25 @@ public class view3DController implements Initializable {
     }
 
     /**
-     * Exits the game.
+     * Exits the 3D game and returns to the original game.
+     * Found on <a href="https://stackoverflow.com/questions/25037724/">Stack Overflow</a>.
+     * Also checks which board is running to stop the correct
+     * game from running in the background.
+     * @param event The event from the button being clicked.
      */
     public void exitGame(ActionEvent event) {
-        if(cubeBoardManager3D.getIsRunning()){
+        if(cubeExists && cubeBoardManager3D.getIsRunning()){
             cubeBoardManager3D.pauseGame();
         }
-        if(boardManager3D.getIsRunning()){
+        if(boardExists && boardManager3D.getIsRunning()){
             boardManager3D.pauseGame();
         }
+
         ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
     }
 
     /**
-     * Initializes 3D board, and removes any current boards.
+     * Initializes the 3D board, and removes any current boards.
      */
     public void initBoard(){
         if(group != null && cubeExists) {
@@ -187,7 +192,6 @@ public class view3DController implements Initializable {
         camera.setTranslateZ(-3000);
         camera.setRotate(325);
         subscene.setCamera(camera);
-        subscene.setFill(Color.BLACK);
 
         cubeBoard3D = new CubeBoard3D();
         cubeBoardManager3D = new CubeBoardManager3D(cubeBoard3D,group);

@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class Board implements Cloneable {
     int defaultWidth = 160;
     int defaultHeight = 100;
-    private Rules rules = new Rules();
+    protected Rules rules = new Rules();
     private ExecutorService executor = Executors.newFixedThreadPool(4);
 
     /**
@@ -103,7 +103,7 @@ public abstract class Board implements Cloneable {
     /**
      * Creates the next generation of cells to be drawn or removed.
      */
-    @Deprecated
+    //@Deprecated
     public void nextGeneration() {
         int width = getWidth();
         int height = getHeight();
