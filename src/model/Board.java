@@ -162,27 +162,9 @@ public abstract class Board implements Cloneable {
         try {
             if(future1.get() == null && future2.get() == null && future3.get() == null && future4.get()== null)
                 switchBoard();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Prints the time it takes to run nextGeneration with Threads and without.
-     */
-    public void nextGenerationConcurrentPrintPerformance() {
-        System.out.println("med Threads: ");
-        long start = System.currentTimeMillis();
-        nextGenerationConcurrent();
-        long elapsed = System.currentTimeMillis() - start;
-        System.out.println("Med threads - Counting time (ms): " + elapsed);
-        System.out.println("Uten Threads: ");
-        long start2 = System.currentTimeMillis();
-        nextGeneration();
-        long elapsed2 = System.currentTimeMillis() - start2;
-        System.out.println("Uten Threads - Counting time (ms): " + elapsed2);
     }
 
     /**
@@ -208,38 +190,6 @@ public abstract class Board implements Cloneable {
                     count++;
             }
         }
-
-//        //check top
-//        if (isActiveCell(i, j-1, width, height))
-//            count++;
-//
-//        //check top-left
-//        if (isActiveCell(i-1, j-1, width, height))
-//            count++;
-//
-//        //check top-right
-//        if (isActiveCell(i+1, j-1, width, height))
-//            count++;
-//
-//        //check left
-//        if (isActiveCell(i-1, j, width, height))
-//            count++;
-//
-//        //check right
-//        if (isActiveCell(i+1, j, width, height))
-//            count++;
-//
-//        //check bottom
-//        if (isActiveCell(i, j+1, width, height))
-//            count++;
-//
-//        //check bottom-right
-//        if (isActiveCell(i+1, j+1, width, height))
-//            count++;
-//
-//        //check bottom-left
-//        if (isActiveCell(i-1, j+1, width, height))
-//            count++;
 
         return count;
     }

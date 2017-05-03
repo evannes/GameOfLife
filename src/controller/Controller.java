@@ -55,15 +55,6 @@ public class Controller implements Initializable{
     private Button pauseButton;
 
     @FXML
-    private MenuItem selectRules;
-
-    @FXML
-    private MenuItem version3DButton;
-
-    @FXML
-    private MenuItem viewStatistics;
-
-    @FXML
     private CheckBox gridOnOff;
 
     @FXML
@@ -81,6 +72,9 @@ public class Controller implements Initializable{
     @FXML
     private Button normalscreen;
 
+    /**
+     * Shows information about moving around on the canvas.
+     */
     public void about() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
@@ -101,7 +95,7 @@ public class Controller implements Initializable{
     }
 
     /**
-     * Decreases the stage to normale size and resize the canvas.
+     * Decreases the stage to normal size and resize the canvas.
      */
     public void normalScreen() {
         boardManager.normalCanvasSize();

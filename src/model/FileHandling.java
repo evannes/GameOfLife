@@ -143,7 +143,7 @@ public class FileHandling {
     }
 
     private boolean[][] getBoardArray(BufferedReader reader) throws IOException {
-        String currentLine = null;
+        String currentLine;
         String patternString = "";
 
         while ((currentLine = reader.readLine()) != null) {
