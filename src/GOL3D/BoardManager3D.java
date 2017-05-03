@@ -29,6 +29,8 @@ public class BoardManager3D{
     private int boxX = 0;
     private int boxY = 0;
     private int boxZ = 0;
+    private PhongMaterial blueMaterial;
+    private PhongMaterial purpleMaterial;
 
     /**
      * The constructor initializing the animation of Game of Life with the 3D board.
@@ -38,6 +40,7 @@ public class BoardManager3D{
     public BoardManager3D(Board3D board3D, Group group) {
         this.board3D = board3D;
         this.group = group;
+        createMaterials();
         createBoxes();
         changeBoard();
         AnimationTimer animationTimer = new AnimationTimer() {
@@ -62,14 +65,12 @@ public class BoardManager3D{
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
 
-                Box currentBox = boardBoxes.get(i).get(j);
-
                 if(board3D.board.get(i).get(j)) {
-                    setPurpleMaterial(currentBox);
-                    currentBox.setHeight(cellSize + 50);
+                    boardBoxes.get(i).get(j).setMaterial(purpleMaterial);
+                    boardBoxes.get(i).get(j).setHeight(cellSize + 50);
                 } else {
-                    setBlueMaterial(currentBox);
-                    currentBox.setHeight(cellSize);
+                    boardBoxes.get(i).get(j).setMaterial(blueMaterial);
+                    boardBoxes.get(i).get(j).setHeight(cellSize);
                 }
             }
         }
@@ -91,12 +92,6 @@ public class BoardManager3D{
                 Box box = new Box(cellSize,cellSize,cellSize);
                 boardBoxes.get(i).add(j,box);
 
-                if(j%2==0){
-                    setBlueMaterial(box);
-                } else {
-                    setPurpleMaterial(box);
-                }
-
                 box.setTranslateX(boxX);
                 box.setTranslateY(boxY);
                 box.setTranslateZ(boxZ);
@@ -109,27 +104,16 @@ public class BoardManager3D{
     }
 
     /**
-     * Creates a blue PhongMaterial and sets it to the box,
-     * which changes the color of the box.
-     * @param box the box from the board
+     * Creates a blue and a purple PhongMaterial, which is used to color the boxes.
      */
-    private void setBlueMaterial(Box box){
-        PhongMaterial blueMaterial = new PhongMaterial();
+    private void createMaterials(){
+        blueMaterial = new PhongMaterial();
         blueMaterial.setDiffuseColor(Color.SKYBLUE);
         blueMaterial.setSpecularColor(Color.SNOW);
-        box.setMaterial(blueMaterial);
-    }
 
-    /**
-     * Creates a purple PhongMaterial and sets it to the box,
-     * which changes the color of the box.
-     * @param box the box from the board
-     */
-    private void setPurpleMaterial(Box box){
-        PhongMaterial purpleMaterial = new PhongMaterial();
+        purpleMaterial = new PhongMaterial();
         purpleMaterial.setDiffuseColor(Color.MEDIUMSLATEBLUE);
         purpleMaterial.setSpecularColor(Color.SKYBLUE);
-        box.setMaterial(purpleMaterial);
     }
 
     /**

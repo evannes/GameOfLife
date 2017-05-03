@@ -48,7 +48,6 @@ public class CubeBoard3D {
         boardArrays = initArrayOfLists(board1,board2,board3,board4,board5,board6);
         cloneArrays = initArrayOfLists(clone1,clone2,clone3,clone4,clone5,clone6);
         defaultStartBoard();
-        //setTestBoard();
     }
 
     /**
@@ -523,7 +522,6 @@ public class CubeBoard3D {
             sizeErrorAlert.setHeaderText("The pattern is too large for the board");
             sizeErrorAlert.showAndWait();
         } else {
-            //clear previous pattern
             clearBoards();
 
             //find the corner to start placing the pattern
