@@ -73,12 +73,6 @@ public class testReadPatternFromDisk {
         Assertions.assertEquals("java.nio.file.NoSuchFileException", errorString);
     }
 
-    /**
-     * This method mimics {@link FileHandling#readPatternFromDisk()}.
-     * It is used to get the pattern from a local file and parse it into a usable array for the game board.
-     * @param inFile      The .rle file on the disk.
-     * @return          The array being used to draw the game board.
-     */
     private boolean[][] testPatternString(Path inFile) {
         try {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);

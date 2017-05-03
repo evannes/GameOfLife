@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alexander Kingdon on 21.04.2017.
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
 public class testThreadedNextGeneration {
 

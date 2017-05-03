@@ -11,12 +11,6 @@ import org.junit.jupiter.api.Test;
 public class testNextGenerationPatternTwo {
     private StaticBoard testStaticBoard = new StaticBoard(4,4);
 
-
-/**
-     * Applies a given default pattern to the board being tested.
-     * //@param testBoardGrid     the array used to represent the board
-     */
-
     private void defaultBoard() {
         testStaticBoard.setValue(0,0,true);
         testStaticBoard.setValue(1,0,true);
