@@ -59,7 +59,7 @@ public class BoardManager3D {
      * Changes the color and size of the boxes in the 3D board,
      * according to the boolean values of the board.
      */
-    protected void changeBoard(){
+    void changeBoard(){
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -118,7 +118,7 @@ public class BoardManager3D {
     /**
      * Removes all the boxes from the group node, causing the board to disappear from the view.
      */
-    protected void removeBoxes(){
+    void removeBoxes(){
         group.getChildren().clear();
     }
 
@@ -139,7 +139,7 @@ public class BoardManager3D {
     /**
      * Resumes the game by starting the animation again.
      */
-    protected void resumeGame(){
+    void resumeGame(){
         isRunning = true;
     }
 
@@ -171,7 +171,7 @@ public class BoardManager3D {
      * Returns whether the animation is running or not.
      * @return      <code>true</code> if the animation is running.
      */
-    protected boolean getIsRunning(){
+    boolean getIsRunning(){
         return isRunning;
     }
 

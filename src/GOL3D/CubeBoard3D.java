@@ -115,7 +115,7 @@ public class CubeBoard3D {
     /**
      * Runs through the nextGeneration-method for all the arrays of the cube.
      */
-    protected void nextGenerations(){
+    void nextGenerations(){
         for(int i = 0; i < 6; i++){
             nextGeneration(i);
         }
@@ -151,7 +151,7 @@ public class CubeBoard3D {
     /**
      * Makes all the boards equal to their clone.
      */
-    protected void switchBoards(){
+    void switchBoards(){
         for(int i = 0; i < cloneArrays.length; i++){
             switchBoard(i);
         }
@@ -483,7 +483,7 @@ public class CubeBoard3D {
     /**
      * Resets all values of the boards to false
      */
-    protected void clearBoards() {
+    void clearBoards() {
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(0, i, j, false)));
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(1, i, j, false)));
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(2, i, j, false)));
@@ -565,7 +565,7 @@ public class CubeBoard3D {
      * Returns the array containing all the arrays with boolean values of the cube.
      * @return the array of arrays
      */
-    protected List<List<Boolean>>[] getBoardArrays(){
+    List<List<Boolean>>[] getBoardArrays(){
         return boardArrays;
     }
 }
