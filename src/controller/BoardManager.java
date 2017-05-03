@@ -50,12 +50,6 @@ public class BoardManager {
 
     /**
      * The constructor initializing the animation of Game of Life.
-     * @param canvas    the canvas to draw the board on
-     * @param board     the board to draw on the canvas
-     */
-
-    /**
-     * The constructor initializing the animation of Game of Life.
      * @param canvas         the canvas to draw alive cells to
      * @param bgCanvas       the canvas to draw the background on
      * @param gridCanvas     the canvas to draw the grid
