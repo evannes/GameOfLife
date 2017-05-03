@@ -81,7 +81,6 @@ public class Controller implements Initializable{
         alert.setHeaderText("About navigating on the canvas");
         alert.setContentText("To move around on the canvas use the keys 'w' for up, 'a' for left, " +
                 "'s' for down and 'd' for right.\nThe 'a' and 'w' key will not move the canvas when the canvas is in full view. ");
-
         alert.showAndWait();
     }
 
@@ -158,7 +157,7 @@ public class Controller implements Initializable{
     /**
      * Pauses the game.
      */
-    public void pauseGame(){
+    public void pauseGame() {
         if(boardManager.getIsRunning()) {
             boardManager.pauseGame();
             pauseButton.setText("Resume");
@@ -184,14 +183,12 @@ public class Controller implements Initializable{
                 pauseGame();
             }
             Stage ruleWindowStage = new Stage();
-            ruleWindowStage.initModality(Modality.WINDOW_MODAL);
-            ruleWindowStage.initOwner(pauseButton.getScene().getWindow());
-
             FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("../view/ruleWindow.fxml"));
             BorderPane ruleWindowBorderPane = ruleWindowLoader.load();
-
             Scene ruleWindowScene = new Scene(ruleWindowBorderPane, 600, 400);
 
+            ruleWindowStage.initModality(Modality.WINDOW_MODAL);
+            ruleWindowStage.initOwner(pauseButton.getScene().getWindow());
             ruleWindowStage.setScene(ruleWindowScene);
             ruleWindowStage.setTitle("Rule selection");
             ruleWindowStage.getIcons().add(new Image("icons/gol_icon.png"));
@@ -208,10 +205,8 @@ public class Controller implements Initializable{
     public void start3DGame(){
         try {
             Stage window3DGame = new Stage();
-
             FXMLLoader gol3DLoader = new FXMLLoader(getClass().getResource("../GOL3D/view3D.fxml"));
             GridPane gridPane = gol3DLoader.load();
-
             Scene gol3DScene = new Scene(gridPane, 1200, 650);
 
             window3DGame.setScene(gol3DScene);
@@ -236,20 +231,15 @@ public class Controller implements Initializable{
 
             try {
                 DynamicBoard clonedBoard = (DynamicBoard) board.clone();
-
                 Stage statisticsWindowStage = new Stage();
-                statisticsWindowStage.initModality(Modality.WINDOW_MODAL);
-                statisticsWindowStage.initOwner(pauseButton.getScene().getWindow());
-
                 FXMLLoader statisticsWindowLoader = new FXMLLoader(getClass().getResource("../view/statisticsWindow.fxml"));
-
                 BorderPane statisticsWindowBorderPane = statisticsWindowLoader.load();
-
                 StatisticsController swController = statisticsWindowLoader.getController();
-                swController.setClonedBoard(clonedBoard);
-
                 Scene statisticsWindowScene = new Scene(statisticsWindowBorderPane, 1200, 600);
 
+                statisticsWindowStage.initModality(Modality.WINDOW_MODAL);
+                statisticsWindowStage.initOwner(pauseButton.getScene().getWindow());
+                swController.setClonedBoard(clonedBoard);
                 statisticsWindowStage.setScene(statisticsWindowScene);
                 statisticsWindowStage.setTitle("View game statistics");
                 statisticsWindowStage.getIcons().add(new Image("icons/gol_icon.png"));

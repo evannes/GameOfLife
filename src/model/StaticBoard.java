@@ -30,8 +30,6 @@ public class StaticBoard extends Board {
         clone = new boolean[defaultWidth][defaultHeight];
     }
 
-
-
     @Override
     public void setValue(int x, int y, boolean value) {
         staticBoardArray[x][y] = value;
@@ -59,9 +57,9 @@ public class StaticBoard extends Board {
 
     @Override
     public void switchBoard() {
-        for(int i = 0; i < getWidth(); i++) {
-            for(int j = 0; j < getHeight(); j++) {
-                setValue(i, j, clone[i][j]);
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                setValue(x, y, clone[x][y]);
             }
         }
     }
@@ -73,9 +71,9 @@ public class StaticBoard extends Board {
 
     @Override
     public void clearBoard() {
-        for(int i = 0; i < getWidth(); i++) {
-            for(int j = 0; j < getHeight(); j++) {
-                staticBoardArray[i][j] = false;
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                staticBoardArray[x][y] = false;
             }
         }
     }
@@ -83,9 +81,10 @@ public class StaticBoard extends Board {
     @Override
     public String toString(){
         String boardStringOutput = "";
-        for(int i = 0; i < staticBoardArray.length; i++) {
-            for(int j = 0; j < staticBoardArray[0].length; j++) {
-                if (staticBoardArray[i][j]) {
+
+        for (int x = 0; x < staticBoardArray.length; x++) {
+            for (int y = 0; y < staticBoardArray[0].length; y++) {
+                if (staticBoardArray[x][y]) {
                     boardStringOutput += "1";
                     } else {
                     boardStringOutput += "0";
@@ -103,16 +102,17 @@ public class StaticBoard extends Board {
      */
     public void transferPatternToBoard(boolean[][] array) {
         // show alert if pattern is too big
-        if(array.length > staticBoardArray.length || array[0].length > staticBoardArray[0].length){
+        if (array.length > staticBoardArray.length || array[0].length > staticBoardArray[0].length) {
             Alert transferErrorAlert = new Alert(Alert.AlertType.INFORMATION);
             transferErrorAlert.setTitle("Error transfering pattern to board");
             transferErrorAlert.setHeaderText("The pattern you chose was too big for the board");
             transferErrorAlert.showAndWait();
         } else {
             System.out.println("transfering pattern");
-            for(int i = 0; i < array.length; i++) {
-                for(int j = 0; j < array[0].length; j++) {
-                    staticBoardArray[i][j] = array[i][j];
+
+            for (int x = 0; x < array.length; x++) {
+                for (int y = 0; y < array[0].length; y++) {
+                    staticBoardArray[x][y] = array[x][y];
                 }
             }
         }

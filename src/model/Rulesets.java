@@ -13,7 +13,6 @@ import javafx.scene.control.ListView;
  * @since   1.0
  */
 public class Rulesets {
-
     private ListView ruleList;
     private String ruleIdentifier;
 
@@ -29,6 +28,7 @@ public class Rulesets {
     public String getRuleDescription() {
         ruleIdentifier = (String) ruleList.getSelectionModel().getSelectedItem();
         String ruleDescription;
+
         switch (ruleIdentifier) {
             case "Replicator":
                 ruleDescription = "B1357/S1357 \n- A cell is born when it has one, three, five or seven neighbors." +

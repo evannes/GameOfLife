@@ -46,6 +46,7 @@ public class FileHandling {
     public boolean[][] readLocalFile(String fileLocation) {
         Path file = Paths.get(
                 fileLocation).toAbsolutePath();
+
         try {
             BufferedReader reader = Files.newBufferedReader(file, charset);
             String currentLine = null;
@@ -62,6 +63,7 @@ public class FileHandling {
         } catch (IOException ioe) {
             showErrorMessage("There was an error getting the pattern file", ioe);
         }
+
         if (file != null) {
             return boardArray;
         }
@@ -81,8 +83,8 @@ public class FileHandling {
             fileChooser.setTitle("Open RLE file from disk");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("RLE file", "*.rle"));
             selectedFile = fileChooser.showOpenDialog(null);
-            if (selectedFile != null) {
 
+            if (selectedFile != null) {
                 Path inFile = selectedFile.toPath();
                 BufferedReader reader = Files.newBufferedReader(inFile, charset);
                 boardArray = getBoardArray(reader);
@@ -97,7 +99,6 @@ public class FileHandling {
         if (selectedFile != null) {
             return boardArray;
         }
-
         return null;
     }
 
@@ -165,12 +166,12 @@ public class FileHandling {
         String regex = "^[\\$ob0-9]+[!]*$";
         Pattern pattern = Pattern.compile(regex);
         StringBuilder cellPositionCode = new StringBuilder();
-
-
         Scanner scan = new Scanner(fileContent);
+
         while(scan.hasNext()){
             String content = scan.nextLine();
             Matcher match = pattern.matcher(content);
+
             if(match.find()){
                 cellPositionCode.append(match.group());
             }
@@ -188,15 +189,15 @@ public class FileHandling {
         Pattern pattern = Pattern.compile(regex);
         Matcher match = pattern.matcher(input);
         StringBuffer result = new StringBuffer();
-        while (match.find())
-        {
+
+        while (match.find()) {
             // keeps the charachter we want to expand
             String tmp = "";
+
             // in group 1 we find the number which we use to expand the character in group 2
             for (int i = 0; i < Integer.parseInt(match.group(1)); i++) {
                 tmp += match.group(2);
             }
-
             match.appendReplacement(result, Matcher.quoteReplacement(tmp));
         }
         match.appendTail(result);
@@ -213,6 +214,7 @@ public class FileHandling {
     public String getMatchGroup(String input, String regex, int group) {
         Pattern pattern = Pattern.compile(regex);
         Matcher match = pattern.matcher(input);
+
         match.find();
         return match.group(group);
     }
@@ -229,6 +231,7 @@ public class FileHandling {
         int xIndex = 0;
         int yIndex = 0;
         char[] charArray = input.toCharArray();
+
         for(char charOutput : charArray) {
             if (charOutput == '$') {
                 xIndex = 0;

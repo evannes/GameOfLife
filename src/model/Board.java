@@ -107,11 +107,12 @@ public abstract class Board implements Cloneable {
     public void nextGeneration() {
         int width = getWidth();
         int height = getHeight();
-        for(int i = 0; i < width; i++){
-            for(int j = 0; j < height; j++){
-                int neighbors = countNeighbor(i, j, width, height);
-                boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
-                setCloneValue(i, j, value );
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int neighbors = countNeighbor(x, y, width, height);
+                boolean value = getValue(x, y) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                setCloneValue(x, y, value );
             }
         }
         switchBoard();
@@ -128,11 +129,11 @@ public abstract class Board implements Cloneable {
          int width = getWidth();
          int height = getHeight();
 
-         for(int i = start; i < end; i++){
-             for(int j = 0; j < height; j++){
-                 int neighbors = countNeighbor(i, j, width, height);
-                 boolean value = getValue(i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
-                 setCloneValue(i, j, value );
+         for (int x = start; x < end; x++) {
+             for (int y = 0; y < height; y++) {
+                 int neighbors = countNeighbor(x, y, width, height);
+                 boolean value = getValue(x, y) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                 setCloneValue(x, y, value );
              }
          }
      }
@@ -141,14 +142,12 @@ public abstract class Board implements Cloneable {
      * Creates the next generation of cells to be drawn or removed using Threads.
      */
     public void nextGenerationConcurrent() {
-        int width = getWidth();
-
         // Making start and end positions for the thread task
         // This will divide the for-loop in 4 pieces
+        int width = getWidth();
         int x1 = width/4;
         int x2 = width/8;
         int x3 = width/12;
-
 
         Future future1 = executor.submit(()-> {
             nextGenerationThreadTask(0, x1);});
@@ -186,11 +185,10 @@ public abstract class Board implements Cloneable {
                 if (i == x && j == y)
                     continue;
 
-                if(isActiveCell(i, j, width, height))
+                if (isActiveCell(i, j, width, height))
                     count++;
             }
         }
-
         return count;
     }
 
@@ -198,19 +196,19 @@ public abstract class Board implements Cloneable {
      * Checks if the cell is alive and inbounds the board.
      * The width and height parameter has been included to improve performance
      * as opposed to calling the getHeight and getBoardSize methods.
-     * @param i         the first column index of the array
-     * @param j         the second column index of the array
+     * @param x         the first column index of the array
+     * @param y         the second column index of the array
      * @param width     the width of the board
      * @param height    the height of the board
      * @return          <code>true</code> if the cell is alive
      *                  and not exceeding the board array
      */
-    private boolean isActiveCell(int i, int j, int width, int height) {
-        if(i < 0 || j < 0 || i >= width || j >= height){
+    private boolean isActiveCell(int x, int y, int width, int height) {
+
+        if (x < 0 || y < 0 || x >= width || y >= height) {
             return false;
         }
-
-        return getValue(i,j);
+        return getValue(x, y);
     }
 
     /**
