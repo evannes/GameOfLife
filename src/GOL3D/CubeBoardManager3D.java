@@ -2,13 +2,22 @@ package GOL3D;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import javafx.stage.FileChooser;
 import model.FileHandling;
 
 /**
@@ -36,6 +45,9 @@ public class CubeBoardManager3D {
     private List<List<Box>> boxBoard5;
     private List<List<Box>> boxBoard6;
     private List<List<Box>>[] boxArrays;
+
+    private boolean[][] fileArray;
+    private Charset charset = Charset.forName("US-ASCII");
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -189,18 +201,71 @@ public class CubeBoardManager3D {
      * Lets the user select a rle pattern from disk.
      */
     public void selectPatternFromDisk() {
-        boolean[][] array = fileHandling.readPatternFromDisk();
-        cubeBoard3D.setInputInBoard(cubeBoard3D.createArrayListFromArray(array),1);
-        changeBoard(1);
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = null;
+
+        try {
+            fileChooser.setTitle("Open RLE file from disk");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("RLE file", "*.rle"));
+            selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                Path inFile = selectedFile.toPath();
+                BufferedReader reader = Files.newBufferedReader(inFile, charset);
+                fileArray = fileHandling.getPatternFromFile(reader);
+            } else {
+                throw new FileNotFoundException("Cancel was pressed - File");
+            }
+
+        } catch (IOException ioe) {
+            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+        }
+
+        if (selectedFile != null) {
+            cubeBoard3D.setInputInBoard(cubeBoard3D.createArrayListFromArray(fileArray),1);
+            changeBoard(1);
+        }
     }
 
     /**
      * Lets the user select a rle pattern from URL.
      */
     public void selectPatternFromURL() {
-        boolean[][] array = fileHandling.readPatternFromURL();
-        cubeBoard3D.setInputInBoard(cubeBoard3D.createArrayListFromArray(array),1);
-        changeBoard(1);
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Enter URL");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Enter the URL below:");
+        String enteredURL = "";
+
+        try {
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                enteredURL = result.get();
+                if (enteredURL.endsWith(".rle")) {
+                    URL url = new URL(enteredURL);
+                    URLConnection conn = url.openConnection();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    fileArray = fileHandling.getPatternFromFile(reader);
+
+                } else {
+                    throw new Exception("You tried to use a different file format. \n" +
+                            "Only .rle files are allowed.");
+                }
+            } else {
+                throw new NullPointerException("Cancel was pressed");
+            }
+        } catch (IOException ioe) {
+            fileHandling.showErrorMessage("There was an error getting the file", ioe);
+        } catch (NullPointerException npe) {
+            dialog.close();
+        } catch (Exception e) {
+            fileHandling.showErrorMessage("Only .rle files can be submitted", e);
+        }
+
+        if (!enteredURL.isEmpty()) {
+            cubeBoard3D.setInputInBoard(cubeBoard3D.createArrayListFromArray(fileArray),1);
+            changeBoard(1);
+        }
     }
 
     /**

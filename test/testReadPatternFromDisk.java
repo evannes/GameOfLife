@@ -20,6 +20,7 @@ public class testReadPatternFromDisk {
     private Charset charset = Charset.forName("US-ASCII");
     private testReadPatternFunctions patterns = new testReadPatternFunctions();
     private String errorString;
+    private FileHandling fileHandling = new FileHandling();
 
     @Test
     public void testFirstPattern() {
@@ -76,14 +77,7 @@ public class testReadPatternFromDisk {
     private boolean[][] testPatternString(Path inFile) {
         try {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
-
-            String currentLine = null;
-            String patternString = "";
-
-            while ((currentLine = reader.readLine()) != null) {
-                patternString += currentLine + "\n";
-            }
-            gameBoardArray = patterns.parsePattern(patternString);
+            gameBoardArray = fileHandling.getPatternFromFile(reader);
         } catch (IOException ioe) {
             errorString = ioe.getClass().getName();
         }

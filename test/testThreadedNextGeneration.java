@@ -1,8 +1,15 @@
+import controller.BoardManager;
 import model.DynamicBoard;
 import model.FileHandling;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +27,7 @@ public class testThreadedNextGeneration {
 
     private DynamicBoard board = new DynamicBoard(160, 100);
     private FileHandling fileHandling = new FileHandling();
+    private Charset charset = Charset.forName("US-ASCII");
 
 
     @Test
@@ -45,10 +53,19 @@ public class testThreadedNextGeneration {
     }
 
     private List<Integer> runThreadedTest(int generations) {
-        boolean[][] array = fileHandling.readLocalFile("test/patterns/p160dartgun.rle");
+        boolean[][] array = null;
+        Path inFile = Paths.get(
+                "test/patterns/p160dartgun.rle").toAbsolutePath();
+
+        try {
+            BufferedReader reader = Files.newBufferedReader(inFile, charset);
+            array = fileHandling.getPatternFromFile(reader);
+        } catch (IOException ioe) {
+            //errorString = ioe.getClass().getName();
+        }
+
         board.setInputInBoard(board.createArrayListFromArray(array));
         List<Integer> testList = new ArrayList<>(2);
-
         testList.add(nextGenerationConcurrentPrintPerformance(generations));
         board.setInputInBoard(board.createArrayListFromArray(array));
         testList.add(nextGenerationPrintPerformance(generations));

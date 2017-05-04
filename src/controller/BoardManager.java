@@ -4,13 +4,24 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import model.Board;
 import model.DynamicBoard;
 import model.FileHandling;
 import model.StaticBoard;
+
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 
 /**
  * The BoardManager binds the logic from the model classes together with the view.
@@ -47,6 +58,8 @@ public class BoardManager {
     private boolean gridIsOn = true;
     private int canvasDefaultHeight;
     private int canvasDefaultWidth;
+    private boolean[][] fileArray;
+    private Charset charset = Charset.forName("US-ASCII");
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -275,8 +288,95 @@ public class BoardManager {
         clearBoard();
         scaledX = 0;
         scaledY = 0;
-        boolean[][] array = fileHandling.readLocalFile("src/model/patterns/halfmax.rle");
-        selectPatternLogic(array);
+        selectLocalPattern("src/model/patterns/halfmax.rle");
+    }
+
+    /**
+     * Reads a local file.
+     * @param fileLocation  the <code>String</code> containing the path to the rle-file
+     */
+    void selectLocalPattern(String fileLocation) {
+        Path inFile = Paths.get(
+                fileLocation).toAbsolutePath();
+        try {
+            BufferedReader reader = Files.newBufferedReader(inFile, charset);
+            fileArray = fileHandling.getPatternFromFile(reader);
+        } catch (IOException ioe) {
+            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+        }
+
+        if (inFile != null) {
+            selectPatternLogic(fileArray);
+        }
+    }
+
+    /**
+     * Lets the user select a pattern from disk of an rle file.
+     */
+    void selectPatternFromDisk() {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = null;
+
+        try {
+            fileChooser.setTitle("Open RLE file from disk");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("RLE file", "*.rle"));
+            selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                Path inFile = selectedFile.toPath();
+                BufferedReader reader = Files.newBufferedReader(inFile, charset);
+                fileArray = fileHandling.getPatternFromFile(reader);
+            } else {
+                throw new FileNotFoundException("Cancel was pressed - File");
+            }
+
+        } catch (IOException ioe) {
+            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+        }
+
+        if (selectedFile != null) {
+            selectPatternLogic(fileArray);
+        }
+    }
+
+    /**
+     * Let the user select a pattern from an URL link to a rle file.
+     */
+    void selectPatternFromURL() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Enter URL");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Enter the URL below:");
+        String enteredURL = "";
+
+        try {
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                enteredURL = result.get();
+                if (enteredURL.endsWith(".rle")) {
+                    URL url = new URL(enteredURL);
+                    URLConnection conn = url.openConnection();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    fileArray = fileHandling.getPatternFromFile(reader);
+
+                } else {
+                    throw new Exception("You tried to use a different file format. \n" +
+                            "Only .rle files are allowed.");
+                }
+            } else {
+                throw new NullPointerException("Cancel was pressed");
+            }
+        } catch (IOException ioe) {
+            fileHandling.showErrorMessage("There was an error getting the file", ioe);
+        } catch (NullPointerException npe) {
+            dialog.close();
+        } catch (Exception e) {
+            fileHandling.showErrorMessage("Only .rle files can be submitted", e);
+        }
+
+        if (!enteredURL.isEmpty()) {
+            selectPatternLogic(fileArray);
+        }
     }
 
     /**
@@ -298,22 +398,6 @@ public class BoardManager {
      */
     void exitGame(){
         System.exit(0);
-    }
-
-    /**
-     * Lets the user select a rle pattern from disk.
-     */
-    void selectPatternFromDisk() {
-        boolean[][] array = fileHandling.readPatternFromDisk();
-        selectPatternLogic(array);
-    }
-
-    /**
-     * Lets the user select a rle pattern from URL.
-     */
-    void selectPatternFromURL() {
-        boolean[][] array = fileHandling.readPatternFromURL();
-        selectPatternLogic(array);
     }
 
     /**
