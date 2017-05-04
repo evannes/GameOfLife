@@ -1,4 +1,3 @@
-import controller.BoardManager;
 import model.DynamicBoard;
 import model.FileHandling;
 import org.junit.jupiter.api.Assertions;
@@ -25,9 +24,9 @@ import java.util.List;
  */
 public class testThreadedNextGeneration {
 
-    private DynamicBoard board = new DynamicBoard(160, 100);
-    private FileHandling fileHandling = new FileHandling();
-    private Charset charset = Charset.forName("US-ASCII");
+    private final DynamicBoard board = new DynamicBoard(160, 100);
+    private final FileHandling fileHandling = new FileHandling();
+    private final Charset charset = Charset.forName("US-ASCII");
 
 
     @Test
@@ -61,7 +60,7 @@ public class testThreadedNextGeneration {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
             array = fileHandling.getPatternFromFile(reader);
         } catch (IOException ioe) {
-            //errorString = ioe.getClass().getName();
+            System.out.println("Error: " + ioe);
         }
 
         board.setInputInBoard(board.createArrayListFromArray(array));

@@ -13,7 +13,7 @@ import javafx.scene.control.ListView;
  * @since   1.0
  */
 public class Rulesets {
-    private ListView ruleList;
+    private final ListView ruleList;
     private String ruleIdentifier;
 
     public Rulesets(ListView ruleList) {

@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -108,9 +107,8 @@ public class StatisticsController implements Initializable {
     /**
      * Used to tell {@link StatisticsGIF} to begin creating an animated gif based on data from
      * {@link StatisticsLogic}.
-     * @throws Exception    Any exception thrown by {@link lieng.GIFWriter}
      */
-    public void createRandomGIF() throws Exception {
+    public void createRandomGIF() {
         getGIFStatistics();
         statisticsService = new StatisticsService(
                 statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
@@ -121,9 +119,7 @@ public class StatisticsController implements Initializable {
         stopGifButton.setVisible(true);
         statisticsService.restart();
 
-        statisticsService.setOnSucceeded(event -> {
-            stopGifButton.setVisible(false);
-        });
+        statisticsService.setOnSucceeded(event -> stopGifButton.setVisible(false));
     }
 
     /**

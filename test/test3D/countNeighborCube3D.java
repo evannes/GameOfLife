@@ -1,14 +1,13 @@
-import GOL3D.Board3D;
 import GOL3D.CubeBoard3D;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Elise Haram Vannes on 03.05.2017.
+ * @author Elise Vannes
  */
 public class countNeighborCube3D {
-    private CubeBoard3D cubeBoard = new CubeBoard3D();
+    private final CubeBoard3D cubeBoard = new CubeBoard3D();
 
     @Test
     void countNeighbor1() throws Exception {

@@ -15,17 +15,17 @@ import java.util.stream.IntStream;
  */
 public class CubeBoard3D {
 
-    private List<List<Boolean>> board1;
-    private List<List<Boolean>> board2;
-    private List<List<Boolean>> board3;
-    private List<List<Boolean>> board4;
-    private List<List<Boolean>> board5;
-    private List<List<Boolean>> board6;
-    private List<List<Boolean>>[] boardArrays;
-    private List<List<Boolean>>[] cloneArrays;
+    private final List<List<Boolean>> board1;
+    private final List<List<Boolean>> board2;
+    private final List<List<Boolean>> board3;
+    private final List<List<Boolean>> board4;
+    private final List<List<Boolean>> board5;
+    private final List<List<Boolean>> board6;
+    private final List<List<Boolean>>[] boardArrays;
+    private final List<List<Boolean>>[] cloneArrays;
 
-    private int boardSize = 30;
-    private Rules rules = new Rules();
+    private final int boardSize = 30;
+    private final Rules rules = new Rules();
 
     /**
      * Constructor that initializes all arrays for the cubes boolean values.
@@ -55,7 +55,7 @@ public class CubeBoard3D {
      * @return returns the initialized board
      */
     private List<List<Boolean>> initStartBoard(){
-        List<List<Boolean>> board = new ArrayList<List<Boolean>>(boardSize);
+        List<List<Boolean>> board = new ArrayList<>(boardSize);
 
         for(int i = 0; i < boardSize; i++) {
             board.add(new ArrayList<>(boardSize));
@@ -101,7 +101,7 @@ public class CubeBoard3D {
      * @param indexBoard    index of current board in array of boards
      */
     private void createClone(int indexBoard) {
-        cloneArrays[indexBoard] = new ArrayList<List<Boolean>>(getBoardSize());
+        cloneArrays[indexBoard] = new ArrayList<>(getBoardSize());
 
         for(int i = 0; i < getBoardSize(); i++) {
             cloneArrays[indexBoard].add(new ArrayList<>(getBoardSize()));
@@ -125,13 +125,13 @@ public class CubeBoard3D {
      * Creates the next generation of cells to be drawn or removed.
      * @param indexBoard    index of current board in array of boards
      */
-    public void nextGeneration(int indexBoard) {
+    private void nextGeneration(int indexBoard) {
         createClone(indexBoard);
 
         for(int i = 0; i < getBoardSize(); i++){
             for(int j = 0; j < getBoardSize(); j++){
                 int neighbors = countNeighbor(indexBoard,i, j);
-                boolean value = getValue(indexBoard,i, j) ? rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
+                boolean value = getValue(indexBoard,i, j) ? Rules.shouldStayAlive(neighbors) : rules.shouldSpawnActiveCell(neighbors);
                 setCloneValue(indexBoard,i, j, value );
             }
         }
@@ -144,7 +144,7 @@ public class CubeBoard3D {
      * @param y the second column index
      * @param value the value to be set
      */
-    public void setCloneValue(int indexBoard, int x, int y, boolean value) {
+    private void setCloneValue(int indexBoard, int x, int y, boolean value) {
         cloneArrays[indexBoard].get(x).set(y, value);
     }
 
@@ -161,7 +161,7 @@ public class CubeBoard3D {
      * Makes the board equal to the clone.
      * @param indexBoard    index of current board in array of boards
      */
-    public void switchBoard(int indexBoard) {
+    private void switchBoard(int indexBoard) {
         for(int i = 0; i < getBoardSize(); i++) {
             for(int j = 0; j < getBoardSize(); j++) {
                 setValue(indexBoard,i, j, cloneArrays[indexBoard].get(i).get(j));
@@ -211,11 +211,7 @@ public class CubeBoard3D {
             return false;
         }
         else if(inBounds(i) && inBounds(j)){
-            if(boardArrays[indexBoard].get(i).get(j)){
-                return true;
-            } else {
-                return false;
-            }
+            return boardArrays[indexBoard].get(i).get(j);
         }
         else{
             return countBoardNeighbors(indexBoard,i,j);
@@ -228,11 +224,7 @@ public class CubeBoard3D {
      * @return <code>true</code> if the cell exists in the cube
      */
     private boolean inBounds(int cell){
-        if(cell == -1 || cell >= boardSize){
-            return false;
-        } else {
-            return true;
-        }
+        return !(cell == -1 || cell >= boardSize);
     }
 
     /**
@@ -271,23 +263,20 @@ public class CubeBoard3D {
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
-    private boolean countBoard1Neighbors(int i, int j){
+    private boolean countBoard1Neighbors(int i, int j) {
         if (i == -1 && inBounds(j)) {
-            return checkValue(board2,j,0);
+            return checkValue(board2, j, 0);
         }
 
         if (inBounds(i) && j == -1) {
-            return checkValue(board6,0,i);
+            return checkValue(board6, 0, i);
         }
 
         if (i >= boardSize && inBounds(j)) {
-            return checkValue(board4,j,0);
+            return checkValue(board4, j, 0);
         }
 
-        if (inBounds(i) && j >= boardSize) {
-            return checkValue(board5,0,i);
-        }
-        return false;
+        return inBounds(i) && j >= boardSize && checkValue(board5, 0, i);
     }
 
     /**
@@ -296,24 +285,21 @@ public class CubeBoard3D {
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
-    private boolean countBoard2Neighbors(int i, int j){
+    private boolean countBoard2Neighbors(int i, int j) {
 
         if (i == -1 && inBounds(j)) {
-            return checkValue(board6,j,0);
+            return checkValue(board6, j, 0);
         }
 
         if (inBounds(i) && j == -1) {
-            return checkValue(board1,0,i);
+            return checkValue(board1, 0, i);
         }
 
         if (i >= boardSize && inBounds(j)) {
-            return checkValue(board5,j,0);
+            return checkValue(board5, j, 0);
         }
 
-        if (inBounds(i) && j >= boardSize) {
-            return checkValue(board3,0,i);
-        }
-        return false;
+        return inBounds(i) && j >= boardSize && checkValue(board3, 0, i);
     }
 
     /**
@@ -322,23 +308,20 @@ public class CubeBoard3D {
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
-    private boolean countBoard3Neighbors(int i, int j){
+    private boolean countBoard3Neighbors(int i, int j) {
         if (i == -1 && inBounds(j)) {
-            return checkValue(board2, j,boardSize-1);
+            return checkValue(board2, j, boardSize - 1);
         }
 
         if (inBounds(i) && j == -1) {
-            return checkValue(board6,i,boardSize-1);
+            return checkValue(board6, i, boardSize - 1);
         }
 
         if (i >= boardSize && inBounds(j)) {
-            return checkValue(board4,j,boardSize-1);
+            return checkValue(board4, j, boardSize - 1);
         }
 
-        if (inBounds(i) && j >= boardSize) {
-            return checkValue(board5,i,boardSize-1);
-        }
-        return false;
+        return inBounds(i) && j >= boardSize && checkValue(board5, i, boardSize - 1);
     }
 
     /**
@@ -347,23 +330,20 @@ public class CubeBoard3D {
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
-    private boolean countBoard4Neighbors(int i, int j){
+    private boolean countBoard4Neighbors(int i, int j) {
         if (i == -1 && inBounds(j)) {
-            return checkValue(board6,boardSize-1,j);
+            return checkValue(board6, boardSize - 1, j);
         }
 
         if (inBounds(i) && j == -1) {
-            return checkValue(board1,boardSize-1,i);
+            return checkValue(board1, boardSize - 1, i);
         }
 
         if (i >= boardSize && inBounds(j)) {
-            return checkValue(board5,boardSize-1,j);
+            return checkValue(board5, boardSize - 1, j);
         }
 
-        if (inBounds(i) && j >= boardSize) {
-            return checkValue(board3,boardSize-1,i);
-        }
-        return false;
+        return inBounds(i) && j >= boardSize && checkValue(board3, boardSize - 1, i);
     }
 
     /**
@@ -372,23 +352,20 @@ public class CubeBoard3D {
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
-    private boolean countBoard5Neighbors(int i, int j){
+    private boolean countBoard5Neighbors(int i, int j) {
         if (i == -1 && inBounds(j)) {
-            return checkValue(board2,boardSize-1,j);
+            return checkValue(board2, boardSize - 1, j);
         }
 
         if (inBounds(i) && j == -1) {
-            return checkValue(board1,i,boardSize-1);
+            return checkValue(board1, i, boardSize - 1);
         }
 
         if (i >= boardSize && inBounds(j)) {
-            return checkValue(board4,boardSize-1,j);
+            return checkValue(board4, boardSize - 1, j);
         }
 
-        if (inBounds(i) && j >= boardSize) {
-            return checkValue(board3,i,boardSize-1);
-        }
-        return false;
+        return inBounds(i) && j >= boardSize && checkValue(board3, i, boardSize - 1);
     }
 
     /**
@@ -397,23 +374,20 @@ public class CubeBoard3D {
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
      */
-    private boolean countBoard6Neighbors(int i, int j){
+    private boolean countBoard6Neighbors(int i, int j) {
         if (i == -1 && inBounds(j)) {
-            return checkValue(board1,j,0);
+            return checkValue(board1, j, 0);
         }
 
         if (inBounds(i) && j == -1) {
-            return checkValue(board2,0,i);
+            return checkValue(board2, 0, i);
         }
 
         if (i >= boardSize && inBounds(j)) {
-            return checkValue(board3,j,0);
+            return checkValue(board3, j, 0);
         }
 
-        if (inBounds(i) && j >= boardSize) {
-            return checkValue(board4,0,i);
-        }
-        return false;
+        return inBounds(i) && j >= boardSize && checkValue(board4, 0, i);
     }
 
     /**
@@ -434,7 +408,7 @@ public class CubeBoard3D {
      * @param y     the second column index
      * @param value the <code>boolean</code> value to be set
      */
-    public void setValue(int indexBoard,int x, int y, boolean value) {
+    private void setValue(int indexBoard, int x, int y, boolean value) {
         boardArrays[indexBoard].get(x).set(y, value);
     }
 
@@ -445,7 +419,7 @@ public class CubeBoard3D {
      * @param y the second column index
      * @return  the <code>boolean</code> value in this index
      */
-    public boolean getValue(int indexBoard,int x, int y) {
+    private boolean getValue(int indexBoard, int x, int y) {
         return boardArrays[indexBoard].get(x).get(y);
     }
 

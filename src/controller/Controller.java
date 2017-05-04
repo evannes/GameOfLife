@@ -1,8 +1,9 @@
 package controller;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.*;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -268,18 +269,14 @@ public class Controller implements Initializable{
 
         changeSpeed.valueProperty().addListener(
                 (observable, oldValue, value) ->
-                {
-                    boardManager.setSpeed((int)((double)value * 10000000));
-                });
+                        boardManager.setSpeed((int)((double)value * 10000000)));
 
         // to get the right speed when starting up the game
         boardManager.setSpeed((int)(changeSpeed.getValue() * 10000000));
 
         changeCellSize.valueProperty().addListener(
                 (observable, oldValue, value) ->
-                {
-                    boardManager.scaleBoard((double)value);
-                });
+                        boardManager.scaleBoard((double)value));
 
         // to set the right scale when starting up the game
         boardManager.scaleBoard(changeCellSize.getValue());
@@ -296,9 +293,7 @@ public class Controller implements Initializable{
         colorPickerGrid.setValue(boardManager.gridColor);
         colorPickerBoard.setValue(boardManager.boardColor);
 
-        colorPickerCell.setOnAction(event -> {
-            boardManager.setCellColor(colorPickerCell);
-        });
+        colorPickerCell.setOnAction(event -> boardManager.setCellColor(colorPickerCell));
 
         colorPickerGrid.setOnAction(event -> {
             boardManager.setGridColor(colorPickerGrid);
@@ -307,9 +302,7 @@ public class Controller implements Initializable{
             }
         });
 
-        colorPickerBoard.setOnAction(event -> {
-            boardManager.setBoardColor(colorPickerBoard);
-        });
+        colorPickerBoard.setOnAction(event -> boardManager.setBoardColor(colorPickerBoard));
     }
 
 }

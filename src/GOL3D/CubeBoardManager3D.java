@@ -2,10 +2,13 @@ package GOL3D;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.stage.FileChooser;
+import model.FileHandling;
 
 import java.io.*;
 import java.net.URL;
@@ -17,24 +20,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.stage.FileChooser;
-import model.FileHandling;
-
 /**
  * The CubeBoardManager3D creates a cube from Box-objects,
  * for running the Game of Life on.
  * Created by Elise Haram Vannes on 05.04.2017.
  */
-public class CubeBoardManager3D {
+class CubeBoardManager3D {
 
-    private CubeBoard3D cubeBoard3D;
-    private FileHandling fileHandling = new FileHandling();
-    private Group group;
+    private final CubeBoard3D cubeBoard3D;
+    private final FileHandling fileHandling = new FileHandling();
+    private final Group group;
     private int speed = 250000000;
     private boolean isRunning = false;
     private long time = System.nanoTime();
-    private int boardSize = 30;
-    private int cellSize = 50;
+    private final int boardSize = 30;
+    private final int cellSize = 50;
     private PhongMaterial blueMaterial;
     private PhongMaterial purpleMaterial;
 
@@ -47,7 +47,7 @@ public class CubeBoardManager3D {
     private List<List<Box>>[] boxArrays;
 
     private boolean[][] fileArray;
-    private Charset charset = Charset.forName("US-ASCII");
+    private final Charset charset = Charset.forName("US-ASCII");
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -144,10 +144,10 @@ public class CubeBoardManager3D {
                                        int incrementX, int decrementY, int incrementZ,
                                        boolean resetX, boolean resetY) {
 
-        List<List<Box>> boardBoxes = new ArrayList<List<Box>>();
+        List<List<Box>> boardBoxes = new ArrayList<>();
 
         for (int i = 0; i < boardSize; i++) {
-            boardBoxes.add(i, new ArrayList<Box>(boardSize));
+            boardBoxes.add(i, new ArrayList<>(boardSize));
         }
 
         for (int i = 0; i < boardSize; i++) {
@@ -218,7 +218,7 @@ public class CubeBoardManager3D {
             }
 
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+            showErrorMessage("There was an error getting the pattern file", ioe);
         }
 
         if (selectedFile != null) {
@@ -255,11 +255,11 @@ public class CubeBoardManager3D {
                 throw new NullPointerException("Cancel was pressed");
             }
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the file", ioe);
+            showErrorMessage("There was an error getting the file", ioe);
         } catch (NullPointerException npe) {
             dialog.close();
         } catch (Exception e) {
-            fileHandling.showErrorMessage("Only .rle files can be submitted", e);
+            showErrorMessage("Only .rle files can be submitted", e);
         }
 
         if (!enteredURL.isEmpty()) {
@@ -325,7 +325,7 @@ public class CubeBoardManager3D {
      *
      * @param value the value used to set the speed of the animation
      */
-    protected void setSpeed(int value) {
+    void setSpeed(int value) {
         speed = value;
     }
 
@@ -334,7 +334,7 @@ public class CubeBoardManager3D {
      *
      * @return the speed of the animation
      */
-    protected int getSpeed() {
+    private int getSpeed() {
         return speed;
     }
 
@@ -344,5 +344,34 @@ public class CubeBoardManager3D {
     void clearBoards() {
         isRunning = false;
         cubeBoard3D.clearBoards();
+    }
+
+    /**
+     * Generates the error message box.
+     * @param HeaderText    The text to be shown depending on the type of error produced.
+     * @param ioe           The type of exception being handled.
+     */
+    private void showErrorMessage(String HeaderText, Exception ioe) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(HeaderText);
+
+        if (ioe.toString().contains("UnknownHostException")) {
+            alert.setContentText("The URL entered was not valid (UnknownHostException).");
+        } else if (ioe.toString().contains("MalformedURLException")) {
+            alert.setContentText("The URL entered was not valid (MalformedURLException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("Cancel")) {
+            return;
+        } else if (ioe.toString().contains("FileNotFoundException")) {
+            alert.setContentText("The file could not be found (FileNotFoundException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("NoSuchFileException")) {
+            alert.setContentText("The file could not be found (NoSuchFileException).");
+            alert.showAndWait();
+        } else {
+            alert.setContentText("Error: " + ioe);
+            alert.showAndWait();
+        }
     }
 }

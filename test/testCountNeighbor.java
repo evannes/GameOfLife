@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  */
 
 public class testCountNeighbor {
-    private Board testStaticBoard = new StaticBoard(3,3);
+    private final Board testStaticBoard = new StaticBoard(3,3);
 
     @Test
     public void testCountNeighborTop() {

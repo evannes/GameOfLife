@@ -2,10 +2,13 @@ package GOL3D;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.stage.FileChooser;
+import model.FileHandling;
 
 import java.io.*;
 import java.net.URL;
@@ -17,31 +20,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.stage.FileChooser;
-import model.*;
-
 /**
  * The BoardManager3D creates a 3D board of Box-objects, for running the Game of Life on.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
-public class BoardManager3D{
+class BoardManager3D{
 
     private int speed;
-    private Board3D board3D;
-    private FileHandling fileHandling = new FileHandling();
-    private Group group;
+    private final Board3D board3D;
+    private final FileHandling fileHandling = new FileHandling();
+    private final Group group;
     private List<List<Box>> boardBoxes;
     private boolean isRunning = false;
     private long time = System.nanoTime();
-    private int boardSize = 50;
-    private int cellSize = 50;
+    private final int boardSize = 50;
+    private final int cellSize = 50;
     private int boxX = 0;
-    private int boxY = 0;
     private int boxZ = 0;
     private PhongMaterial blueMaterial;
     private PhongMaterial purpleMaterial;
     private boolean[][] fileArray;
-    private Charset charset = Charset.forName("US-ASCII");
+    private final Charset charset = Charset.forName("US-ASCII");
 
     /**
      * The constructor initializing the animation of Game of Life with the 3D board.
@@ -92,10 +91,10 @@ public class BoardManager3D{
      */
     private void createBoxes(){
 
-        boardBoxes = new ArrayList<List<Box>>();
+        boardBoxes = new ArrayList<>();
 
         for(int i = 0; i < boardSize; i++) {
-            boardBoxes.add(i, new ArrayList<Box>(boardSize));
+            boardBoxes.add(i, new ArrayList<>(boardSize));
         }
 
         for(int i = 0; i < boardSize; i++){
@@ -104,6 +103,7 @@ public class BoardManager3D{
                 boardBoxes.get(i).add(j,box);
 
                 box.setTranslateX(boxX);
+                int boxY = 0;
                 box.setTranslateY(boxY);
                 box.setTranslateZ(boxZ);
                 group.getChildren().add(box);
@@ -183,7 +183,7 @@ public class BoardManager3D{
             }
 
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+            showErrorMessage("There was an error getting the pattern file", ioe);
         }
 
         if (selectedFile != null) {
@@ -220,11 +220,11 @@ public class BoardManager3D{
                 throw new NullPointerException("Cancel was pressed");
             }
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the file", ioe);
+            showErrorMessage("There was an error getting the file", ioe);
         } catch (NullPointerException npe) {
             dialog.close();
         } catch (Exception e) {
-            fileHandling.showErrorMessage("Only .rle files can be submitted", e);
+            showErrorMessage("Only .rle files can be submitted", e);
         }
 
         if (!enteredURL.isEmpty()) {
@@ -245,7 +245,7 @@ public class BoardManager3D{
      * Sets the speed of the animation.
      * @param value     the value used to set the speed of the animation
      */
-    protected void setSpeed(int value) {
+    void setSpeed(int value) {
         speed = value;
     }
 
@@ -253,7 +253,7 @@ public class BoardManager3D{
      * Returns the speed of the animation.
      * @return  the speed of the animation
      */
-    protected int getSpeed(){
+    private int getSpeed(){
         return speed;
     }
 
@@ -263,5 +263,34 @@ public class BoardManager3D{
     public void clearBoard(){
         isRunning = false;
         board3D.clearBoard();
+    }
+
+    /**
+     * Generates the error message box.
+     * @param HeaderText    The text to be shown depending on the type of error produced.
+     * @param ioe           The type of exception being handled.
+     */
+    private void showErrorMessage(String HeaderText, Exception ioe) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(HeaderText);
+
+        if (ioe.toString().contains("UnknownHostException")) {
+            alert.setContentText("The URL entered was not valid (UnknownHostException).");
+        } else if (ioe.toString().contains("MalformedURLException")) {
+            alert.setContentText("The URL entered was not valid (MalformedURLException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("Cancel")) {
+            return;
+        } else if (ioe.toString().contains("FileNotFoundException")) {
+            alert.setContentText("The file could not be found (FileNotFoundException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("NoSuchFileException")) {
+            alert.setContentText("The file could not be found (NoSuchFileException).");
+            alert.showAndWait();
+        } else {
+            alert.setContentText("Error: " + ioe);
+            alert.showAndWait();
+        }
     }
 }

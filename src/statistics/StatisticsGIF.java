@@ -4,8 +4,7 @@ import javafx.concurrent.Task;
 import lieng.GIFWriter;
 import model.DynamicBoard;
 
-
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -25,15 +24,15 @@ import java.util.Random;
  */
 public class StatisticsGIF extends Task<Void> {
 
-    private Color cellColor = new Color(32, 178, 170);
-    private Color boardColor = Color.WHITE;
+    private final Color cellColor = new Color(32, 178, 170);
+    private final Color boardColor = Color.WHITE;
 
-    private int width;
-    private int height;
-    private int iterations;
+    private final int width;
+    private final int height;
+    private final int iterations;
 
-    private DynamicBoard gifBoard;
-    private List<Integer> generationsOver98;
+    private final DynamicBoard gifBoard;
+    private final List<Integer> generationsOver98;
 
     /**
      * Sets the parameters neccessary for the class to run its methods.

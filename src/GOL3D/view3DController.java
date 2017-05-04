@@ -10,12 +10,8 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -49,10 +45,8 @@ public class view3DController implements Initializable {
     @FXML
     private Slider changeSpeed;
 
-    private Board3D board;
     private BoardManager3D boardManager3D;
     private CubeBoardManager3D cubeBoardManager3D;
-    private CubeBoard3D cubeBoard3D;
     private Group group;
     private Camera camera;
     private boolean cubeExists = false;
@@ -167,7 +161,7 @@ public class view3DController implements Initializable {
      * Creates a new board, and sets new camera angles accordingly.
      */
     private void createBoard(){
-        board = new Board3D();
+        Board3D board = new Board3D();
         cubeExists = false;
         boardExists = true;
 
@@ -198,7 +192,7 @@ public class view3DController implements Initializable {
         camera.setRotate(325);
         subscene.setCamera(camera);
 
-        cubeBoard3D = new CubeBoard3D();
+        CubeBoard3D cubeBoard3D = new CubeBoard3D();
         cubeBoardManager3D = new CubeBoardManager3D(cubeBoard3D,group);
         pauseButton.setText("Resume");
 

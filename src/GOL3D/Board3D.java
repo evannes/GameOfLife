@@ -1,12 +1,11 @@
 package GOL3D;
 
 import javafx.scene.control.Alert;
+import model.Board;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import model.*;
 
 /**
  * This class creates the board of boolean values to keep track of Game of Life
@@ -16,9 +15,9 @@ import model.*;
 
 public class Board3D extends Board{
 
-    protected List<List<Boolean>> board;
-    protected List<List<Boolean>> clone;
-    private int boardSize = 50;
+    final List<List<Boolean>> board;
+    private final List<List<Boolean>> clone;
+    private final int boardSize = 50;
 
     /**
      * Constructor that initializes the 3D board and its clone.
@@ -67,7 +66,7 @@ public class Board3D extends Board{
      * @return the board that has been initialized.
      */
     private List<List<Boolean>> initStartBoard(int x, int y) {
-        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
+        List<List<Boolean>> tmp = new ArrayList<>(x);
 
         for(int i = 0; i < x; i++) {
             tmp.add(new ArrayList<>(y));
@@ -133,7 +132,7 @@ public class Board3D extends Board{
      * @param array     the two-dimensional array to be converted
      * @return          a two-dimensional ArrayList with the same content as the input array
      */
-    public List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
+    List<List<Boolean>> createArrayListFromArray(boolean[][] array) {
         List<List<Boolean>> listArray = new ArrayList<>();
         for(int i = 0; i < array.length; i++){
             listArray.add(new ArrayList<>());
@@ -149,7 +148,7 @@ public class Board3D extends Board{
      * Places the input array from filehandler into the board.
      * @param inputArray    the array loaded from file or URL
      */
-    public void setInputInBoard(List<List<Boolean>> inputArray) {
+    void setInputInBoard(List<List<Boolean>> inputArray) {
         if(inputArray.size() > boardSize || inputArray.get(0).size() > boardSize) {
             Alert sizeErrorAlert = new Alert(Alert.AlertType.INFORMATION);
             sizeErrorAlert.setTitle("Error with size of pattern");

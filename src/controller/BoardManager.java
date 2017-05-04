@@ -3,6 +3,7 @@ package controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
@@ -43,23 +44,23 @@ public class BoardManager {
     Color cellColor = Color.LIGHTSEAGREEN;
     Color gridColor = Color.GRAY;
     Color boardColor = Color.WHITE;
-    private Canvas canvas;
-    private Canvas bgCanvas;
-    private Canvas gridCanvas;
-    private Board board;
-    private FileHandling fileHandling = new FileHandling();
+    private final Canvas canvas;
+    private final Canvas bgCanvas;
+    private final Canvas gridCanvas;
+    private final Board board;
+    private final FileHandling fileHandling = new FileHandling();
     boolean isRunning = false;
     private long time = System.nanoTime();
     private int scaleFactorX = 80;
     private int scaleFactorY = 50;
-    private double canvasIncrease = 1.5;
+    private final double canvasIncrease = 1.5;
     private int scaledX;
     private int scaledY;
     private boolean gridIsOn = true;
-    private int canvasDefaultHeight;
-    private int canvasDefaultWidth;
+    private final int canvasDefaultHeight;
+    private final int canvasDefaultWidth;
     private boolean[][] fileArray;
-    private Charset charset = Charset.forName("US-ASCII");
+    private final Charset charset = Charset.forName("US-ASCII");
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -288,21 +289,20 @@ public class BoardManager {
         clearBoard();
         scaledX = 0;
         scaledY = 0;
-        selectLocalPattern("src/model/patterns/halfmax.rle");
+        selectLocalPattern();
     }
 
     /**
      * Reads a local file.
-     * @param fileLocation  the <code>String</code> containing the path to the rle-file
      */
-    void selectLocalPattern(String fileLocation) {
+    private void selectLocalPattern() {
         Path inFile = Paths.get(
-                fileLocation).toAbsolutePath();
+                "src/model/patterns/halfmax.rle").toAbsolutePath();
         try {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
             fileArray = fileHandling.getPatternFromFile(reader);
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+            showErrorMessage("There was an error getting the pattern file", ioe);
         }
 
         if (inFile != null) {
@@ -331,7 +331,7 @@ public class BoardManager {
             }
 
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+            showErrorMessage("There was an error getting the pattern file", ioe);
         }
 
         if (selectedFile != null) {
@@ -367,11 +367,11 @@ public class BoardManager {
                 throw new NullPointerException("Cancel was pressed");
             }
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the file", ioe);
+            showErrorMessage("There was an error getting the file", ioe);
         } catch (NullPointerException npe) {
             dialog.close();
         } catch (Exception e) {
-            fileHandling.showErrorMessage("Only .rle files can be submitted", e);
+            showErrorMessage("Only .rle files can be submitted", e);
         }
 
         if (!enteredURL.isEmpty()) {
@@ -415,7 +415,8 @@ public class BoardManager {
                 draw();
                 drawGrid();
             }
-            // to avoid errors when pressing cancel
+            // This is added to avoid errors when pressing cancel.
+            // It is intended to be empty, as nothing should happen.
         } catch (NullPointerException cancelException) {
         }
     }
@@ -516,5 +517,34 @@ public class BoardManager {
         gridIsOn = true;
         gridColor = colorPickerGrid.getValue();
         drawGrid();
+    }
+
+    /**
+     * Generates the error message box.
+     * @param HeaderText    The text to be shown depending on the type of error produced.
+     * @param ioe           The type of exception being handled.
+     */
+    private void showErrorMessage(String HeaderText, Exception ioe) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(HeaderText);
+
+        if (ioe.toString().contains("UnknownHostException")) {
+            alert.setContentText("The URL entered was not valid (UnknownHostException).");
+        } else if (ioe.toString().contains("MalformedURLException")) {
+            alert.setContentText("The URL entered was not valid (MalformedURLException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("Cancel")) {
+            return;
+        } else if (ioe.toString().contains("FileNotFoundException")) {
+            alert.setContentText("The file could not be found (FileNotFoundException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("NoSuchFileException")) {
+            alert.setContentText("The file could not be found (NoSuchFileException).");
+            alert.showAndWait();
+        } else {
+            alert.setContentText("Error: " + ioe);
+            alert.showAndWait();
+        }
     }
 }
