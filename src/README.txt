@@ -1,9 +1,8 @@
+====== Informasjon om prosjektet ======
+
 1) Prosjektet bruker det eksterne bibliotektet lieng.GIFWriter. Bibliotektet 'GIFLib.jar' ligger i mappen 'lib'.
 
-2) Main-metoden ligger i filen 'Main.java' i mappen 'model'.
-
-3) Flere metoder i programkjernen er satt til public. Dette var nødvendig for å få enhetstestingen til å virke,
-ellers ville de blitt satt til private eller package-private.
+2) Main-metoden ligger i filen 'Main.java' i mappen 'GOL/model'.
 
 
 ====== Utførte oppgaver ======

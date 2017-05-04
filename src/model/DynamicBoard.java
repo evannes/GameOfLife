@@ -12,7 +12,9 @@ import java.util.stream.IntStream;
  * The dynamic board will automatically resize itself when a pattern
  * larger than the default size of 160x100 cells is loaded. Our group decided
  * not to implement a dynamically expanding board when the current pattern
- * outgrew the current size, as we couldn't find a suitable maximum size.
+ * outgrew the current size. This because our board is drawn to the canvas
+ * in a way which fills it completely. If the board array expands while running
+ * it would have to readjust to the canvas and it would be hard to look at for the user.
  *
  * @author  Miina Lervik
  * @author  Elise Vannes

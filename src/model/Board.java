@@ -14,13 +14,12 @@ import java.util.concurrent.Future;
  * have been implemented so that they work both with the static board
  * using two dimensional <code>boolean</code> arrays, and the dynamic board
  * using two dimensional boolean <code>ArrayList</code> arrays.
+ * </p>
  * <p>
- * The base representation of the board is a size of 160x100 cells,
- * and each cell has a 1 pixel border around it. The border thus acts
- * as a grid surrounding the cells. It was eventually decided to
- * implement a function for the user to remove the grid
- * (setting its color equal to the board color), as the representation
- * doesn't look particularly good when a large dynamic board is drawn.
+ * The size of the board array should be in accordance with the height and
+ * width of the canvases as this will fit nicely and create perfectly square cells.
+ * We chose 160 width and 100 height as our default measures.
+ * </p>
  *
  * @author  Miina Lervik
  * @author  Elise Vannes
