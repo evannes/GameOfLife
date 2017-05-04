@@ -24,8 +24,9 @@ import model.*;
  * The BoardManager3D creates a 3D board of Box-objects, for running the Game of Life on.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
-public class BoardManager3D {
-    private int speed = 250000000;
+public class BoardManager3D{
+
+    private int speed;
     private Board3D board3D;
     private FileHandling fileHandling = new FileHandling();
     private Group group;
