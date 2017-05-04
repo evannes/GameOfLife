@@ -28,6 +28,10 @@ import java.util.Optional;
  * The BoardManager binds the logic from the model classes together with the view.
  * It contains all the methods related to the canvas,
  * including the <code>draw</code> method that draws the cells to the game board.
+ * The cells, the grid and the background as all drawn to separate canvases to improve performance.
+ * It was eventually decided to implement a function for the user to remove the grid
+ * (setting its color equal to the board color), as the representation
+ * doesn't look particularly good when a large dynamic board is drawn.
  *
  * @author  Miina Lervik
  * @author  Elise Vannes
