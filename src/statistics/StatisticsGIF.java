@@ -5,7 +5,9 @@ import lieng.GIFWriter;
 import model.DynamicBoard;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 

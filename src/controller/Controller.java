@@ -184,7 +184,7 @@ public class Controller implements Initializable{
                 pauseGame();
             }
             Stage ruleWindowStage = new Stage();
-            FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("../view/ruleWindow.fxml"));
+            FXMLLoader ruleWindowLoader = new FXMLLoader(getClass().getResource("/ruleWindow.fxml"));
             BorderPane ruleWindowBorderPane = ruleWindowLoader.load();
             Scene ruleWindowScene = new Scene(ruleWindowBorderPane, 600, 400);
 
@@ -206,7 +206,7 @@ public class Controller implements Initializable{
     public void start3DGame(){
         try {
             Stage window3DGame = new Stage();
-            FXMLLoader gol3DLoader = new FXMLLoader(getClass().getResource("../GOL3D/view3D.fxml"));
+            FXMLLoader gol3DLoader = new FXMLLoader(getClass().getResource("/GOL3D/view3D.fxml"));
             GridPane gridPane = gol3DLoader.load();
             Scene gol3DScene = new Scene(gridPane, 1200, 650);
 
@@ -233,7 +233,7 @@ public class Controller implements Initializable{
             try {
                 DynamicBoard clonedBoard = (DynamicBoard) board.clone();
                 Stage statisticsWindowStage = new Stage();
-                FXMLLoader statisticsWindowLoader = new FXMLLoader(getClass().getResource("../view/statisticsWindow.fxml"));
+                FXMLLoader statisticsWindowLoader = new FXMLLoader(getClass().getResource("/statisticsWindow.fxml"));
                 BorderPane statisticsWindowBorderPane = statisticsWindowLoader.load();
                 StatisticsController swController = statisticsWindowLoader.getController();
                 Scene statisticsWindowScene = new Scene(statisticsWindowBorderPane, 1200, 600);

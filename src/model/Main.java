@@ -20,7 +20,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../view/GOL.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/GOL.fxml"));
         primaryStage.setTitle("Game of Life");
         primaryStage.getIcons().add(new Image("icons/gol_icon.png"));
         primaryStage.setScene(new Scene(root));

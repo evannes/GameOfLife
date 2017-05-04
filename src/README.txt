@@ -1,8 +1,10 @@
 ====== Informasjon om prosjektet ======
 
-1) Prosjektet bruker det eksterne bibliotektet lieng.GIFWriter. Bibliotektet 'GIFLib.jar' ligger i mappen 'lib'.
+1) Filen 'halfmax.rle' må ligge i samme mappe som .jar-filen for at default board skal virke.
 
-2) Main-metoden ligger i filen 'Main.java' i mappen 'GOL/model'.
+2) Prosjektet bruker det eksterne bibliotektet lieng.GIFWriter. Bibliotektet 'GIFLib.jar' ligger i mappen 'lib'.
+
+3) Main-metoden ligger i filen 'Main.java' i mappen 'GOL/model'.
 
 
 ====== Utførte oppgaver ======

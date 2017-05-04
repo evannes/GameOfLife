@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/test3D" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/view" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/model/patterns" type="java-resource" />
     </content>
     <orderEntry type="jdk" jdkName="1.8 (1)" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -304,7 +304,7 @@ public class BoardManager {
      */
     private void selectLocalPattern() {
         Path inFile = Paths.get(
-                "src/model/patterns/halfmax.rle").toAbsolutePath();
+                "halfmax.rle").toAbsolutePath();
         try {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
             fileArray = fileHandling.getPatternFromFile(reader);
