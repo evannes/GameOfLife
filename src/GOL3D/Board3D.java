@@ -25,7 +25,17 @@ public class Board3D extends Board{
     public Board3D(){
         board = initStartBoard(boardSize,boardSize);
         clone = initStartBoard(boardSize, boardSize);
-        defaultStartBoard();
+        clearBoard();
+        setValue(0,0,true);
+        setValue(1,0,true);
+        setValue(2,0,false);
+        setValue(0,1,true);
+        setValue(1,1,true);
+        setValue(2,1,true);
+        setValue(0,2,false);
+        setValue(1,2,false);
+        setValue(2,2,false);
+        //defaultStartBoard();
     }
 
     /**
@@ -37,16 +47,6 @@ public class Board3D extends Board{
         board.get(2).set(2,true);
         board.get(2).set(1,true);
         board.get(1).set(0,true);
-    }
-
-    /**
-     * Sets a simple board used for testing.
-     */
-    public void setTestBoard(){
-        clearBoard();
-        board.get(1).set(0,true);
-        board.get(1).set(1,true);
-        board.get(1).set(2,true);
     }
 
     @Override

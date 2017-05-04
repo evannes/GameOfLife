@@ -79,16 +79,6 @@ public class CubeBoard3D {
     }
 
     /**
-     * Sets a simple board used for testing.
-     */
-    public void setTestBoard(){
-        clearBoards();
-        board2.get(1).set(0,true);
-        board2.get(1).set(1,true);
-        board2.get(1).set(2,true);
-    }
-
-    /**
      * Returns the size of the board.
      * @return the size of this board
      */
@@ -408,7 +398,7 @@ public class CubeBoard3D {
      * @param y     the second column index
      * @param value the <code>boolean</code> value to be set
      */
-    private void setValue(int indexBoard, int x, int y, boolean value) {
+    public void setValue(int indexBoard, int x, int y, boolean value) {
         boardArrays[indexBoard].get(x).set(y, value);
     }
 
