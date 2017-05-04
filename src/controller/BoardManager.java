@@ -180,8 +180,11 @@ public class BoardManager {
             int arrayX = (int)Math.floor(coordinateX/cellWidth);
             int arrayY = (int)Math.floor(coordinateY/cellHeight);
 
-            board.toggleValue(arrayX, arrayY);
-            draw();
+            // check if we are inside the board
+            if (arrayX > -1 && arrayY > -1 && arrayX < board.getWidth() && arrayY < board.getHeight()) {
+                board.toggleValue(arrayX, arrayY);
+                draw();
+            }
         });
     }
 
