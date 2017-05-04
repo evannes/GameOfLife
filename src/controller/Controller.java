@@ -302,7 +302,12 @@ public class Controller implements Initializable{
             }
         });
 
-        colorPickerBoard.setOnAction(event -> boardManager.setBoardColor(colorPickerBoard));
+        colorPickerBoard.setOnAction(event -> {
+            boardManager.setBoardColor(colorPickerBoard);
+            if (gridOnOff.isSelected()) {
+                boardManager.setGridColor(colorPickerBoard);
+            }
+        });
     }
 
 }
