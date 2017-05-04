@@ -82,7 +82,7 @@ public class CubeBoard3D {
      * Returns the size of the board.
      * @return the size of this board
      */
-    private int getBoardSize() {
+    public int getBoardSize() {
         return boardSize;
     }
 
