@@ -479,10 +479,10 @@ public class BoardManager {
      */
     void setBoardColor(ColorPicker colorPicker) {
         boardColor = colorPicker.getValue();
-        drawBackground();
 
         if (!gridIsOn) {
             gridColor = boardColor;
+            drawGrid();
         }
         drawBackground();
     }
