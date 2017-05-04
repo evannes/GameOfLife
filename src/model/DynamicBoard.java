@@ -134,11 +134,9 @@ public class DynamicBoard extends Board {
                 Boolean b = array[i][j];
                 listArray.get(i).add(b);
             }
-
         }
         return listArray;
     }
-
 
     /**
      * Places the input array from filehandler into the board.

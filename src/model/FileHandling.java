@@ -80,7 +80,7 @@ public class FileHandling {
         StringBuffer result = new StringBuffer();
 
         while (match.find()) {
-            // keeps the charachter we want to expand
+            // keeps the character we want to expand
             String tmp = "";
 
             // in group 1 we find the number which we use to expand the character in group 2
@@ -136,7 +136,4 @@ public class FileHandling {
         }
         return result;
     }
-
-
-
 }

@@ -105,23 +105,25 @@ class CubeBoardManager3D {
     private void changeBoard(int indexBoard) {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
+                Box currentBox = boxArrays[indexBoard].get(i).get(j);
+
                 if (cubeBoard3D.getBoardArrays()[indexBoard].get(i).get(j)) {
-                    boxArrays[indexBoard].get(i).get(j).setMaterial(purpleMaterial);
+                    currentBox.setMaterial(purpleMaterial);
                     if (indexBoard == 5 || indexBoard == 4) {
-                        boxArrays[indexBoard].get(i).get(j).setWidth(cellSize + 50);
+                        currentBox.setWidth(cellSize + 50);
                     } else if (indexBoard == 1 || indexBoard == 3) {
-                        boxArrays[indexBoard].get(i).get(j).setDepth(cellSize + 50);
+                        currentBox.setDepth(cellSize + 50);
                     } else {
-                        boxArrays[indexBoard].get(i).get(j).setHeight(cellSize + 50);
+                        currentBox.setHeight(cellSize + 50);
                     }
                 } else {
-                    boxArrays[indexBoard].get(i).get(j).setMaterial(blueMaterial);
+                    currentBox.setMaterial(blueMaterial);
                     if (indexBoard == 5 || indexBoard == 4) {
-                        boxArrays[indexBoard].get(i).get(j).setWidth(cellSize);
+                        currentBox.setWidth(cellSize);
                     } else if (indexBoard == 1 || indexBoard == 3) {
-                        boxArrays[indexBoard].get(i).get(j).setDepth(cellSize);
+                        currentBox.setDepth(cellSize);
                     } else {
-                        boxArrays[indexBoard].get(i).get(j).setHeight(cellSize);
+                        currentBox.setHeight(cellSize);
                     }
                 }
             }
@@ -148,9 +150,6 @@ class CubeBoardManager3D {
 
         for (int i = 0; i < boardSize; i++) {
             boardBoxes.add(i, new ArrayList<>(boardSize));
-        }
-
-        for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 Box box = new Box(cellSize, cellSize, cellSize);
                 boardBoxes.get(i).add(box);

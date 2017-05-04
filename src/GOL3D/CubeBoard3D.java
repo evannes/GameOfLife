@@ -29,6 +29,12 @@ public class CubeBoard3D {
 
     /**
      * Constructor that initializes all arrays for the cubes boolean values.
+     * The cubes boards are stored in Lists, but it does not dynamically
+     * expand if a too large pattern is loaded. I chose not to do that because
+     * the camera angles would also have to change when inserting a larger board,
+     * which would be impractical to do automatically. It would also be
+     * impractical to dynamically expand the cube, which must have
+     * specific values to function properly.
      */
     public CubeBoard3D(){
         board1 = initStartBoard();

@@ -9,7 +9,10 @@ import java.util.stream.IntStream;
 
 /**
  * This class creates the board of boolean values to keep track of Game of Life
- * and the logic associated with it.
+ * and the logic associated with it. The board uses Lists to store the values,
+ * but it does not dynamically expand. I chose not to do that because the
+ * camera angles would also have to change when inserting a larger board,
+ * which would be impractical to do automatically.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
 
@@ -25,23 +28,7 @@ public class Board3D extends Board{
     public Board3D(){
         board = initStartBoard(boardSize,boardSize);
         clone = initStartBoard(boardSize, boardSize);
-        clearBoard();
-        setValue(0,0,true);
-        setValue(1,0,true);
-        setValue(2,0,false);
-        setValue(0,1,true);
-        setValue(1,1,true);
-        setValue(2,1,true);
-        setValue(0,2,false);
-        setValue(1,2,false);
-        setValue(2,2,false);
-        //defaultStartBoard();
-    }
 
-    /**
-     * Sets a default starting pattern to the board.
-     */
-    private void defaultStartBoard(){
         board.get(0).set(2,true);
         board.get(1).set(2,true);
         board.get(2).set(2,true);

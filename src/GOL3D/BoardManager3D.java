@@ -74,13 +74,13 @@ class BoardManager3D{
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-
+                Box currentBox = boardBoxes.get(i).get(j);
                 if(board3D.board.get(i).get(j)) {
-                    boardBoxes.get(i).get(j).setMaterial(purpleMaterial);
-                    boardBoxes.get(i).get(j).setHeight(cellSize + 50);
+                    currentBox.setMaterial(purpleMaterial);
+                    currentBox.setHeight(cellSize + 50);
                 } else {
-                    boardBoxes.get(i).get(j).setMaterial(blueMaterial);
-                    boardBoxes.get(i).get(j).setHeight(cellSize);
+                    currentBox.setMaterial(blueMaterial);
+                    currentBox.setHeight(cellSize);
                 }
             }
         }
@@ -93,11 +93,8 @@ class BoardManager3D{
 
         boardBoxes = new ArrayList<>();
 
-        for(int i = 0; i < boardSize; i++) {
-            boardBoxes.add(i, new ArrayList<>(boardSize));
-        }
-
         for(int i = 0; i < boardSize; i++){
+            boardBoxes.add(i, new ArrayList<>(boardSize));
             for(int j = 0; j < boardSize; j++){
                 Box box = new Box(cellSize,cellSize,cellSize);
                 boardBoxes.get(i).add(j,box);
