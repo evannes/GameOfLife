@@ -10,9 +10,14 @@ import java.util.stream.IntStream;
 /**
  * This class creates the board of boolean values to keep track of Game of Life
  * and the logic associated with it. The board uses Lists to store the values,
- * but it does not dynamically expand. I chose not to do that because the
+ * but it does not dynamically expand. The reason for not doing so is because the
  * camera angles would also have to change when inserting a larger board,
  * which would be impractical to do automatically.
+ * The Board3D class inherits from the abstract Board class used in the
+ * original Game of Life-implementation. It inherits from that class
+ * because, though it is in 3D, it's flat and has a lot in common with
+ * the original. Since the Board3D-class deals with the boolean boards,
+ * there wasn't much that needed to be changed in this class.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
 

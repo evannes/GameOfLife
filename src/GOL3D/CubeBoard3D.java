@@ -11,6 +11,17 @@ import java.util.stream.IntStream;
 /**
  * This class creates the boards of boolean values for the cube,
  * to keep track of Game of Life and the logic associated with it.
+ * The cubes boolean boards are stored in Lists, but the cube
+ * does not dynamically expand if a too large pattern is loaded.
+ * The reason for not doing so is because the camera angles would
+ * also have to change when inserting a larger board,
+ * which would be impractical to do automatically. It would also be
+ * impractical to dynamically expand the cube, which must have
+ * specific values to function properly.
+ * This class has not inherited the abstract Board-class like
+ * the Board3D-class has, because it has less in common with
+ * the original implementation of Game of Life, but it also
+ * has methods that are like those in Board- and DynamicBoard-classes.
  * Created by Elise Haram Vannes on 28.03.2017.
  */
 public class CubeBoard3D {
@@ -29,12 +40,6 @@ public class CubeBoard3D {
 
     /**
      * Constructor that initializes all arrays for the cubes boolean values.
-     * The cubes boards are stored in Lists, but it does not dynamically
-     * expand if a too large pattern is loaded. I chose not to do that because
-     * the camera angles would also have to change when inserting a larger board,
-     * which would be impractical to do automatically. It would also be
-     * impractical to dynamically expand the cube, which must have
-     * specific values to function properly.
      */
     public CubeBoard3D(){
         board1 = initStartBoard();
@@ -53,11 +58,17 @@ public class CubeBoard3D {
 
         boardArrays = initArrayOfLists(board1,board2,board3,board4,board5,board6);
         cloneArrays = initArrayOfLists(clone1,clone2,clone3,clone4,clone5,clone6);
-        defaultStartBoard();
+
+        board2.get(3).set(15,true);
+        board2.get(4).set(15,true);
+        board2.get(5).set(15,true);
+        board2.get(5).set(14,true);
+        board2.get(4).set(13,true);
     }
 
     /**
-     * Initializes the board.
+     * Initializes the board by creating the 2D ArrayList
+     * with false boolean values.
      * @return returns the initialized board
      */
     private List<List<Boolean>> initStartBoard(){
@@ -74,21 +85,11 @@ public class CubeBoard3D {
     }
 
     /**
-     * Creates an initial pattern to be shown on the cube.
-     */
-    private void defaultStartBoard(){
-        board2.get(3).set(15,true);
-        board2.get(4).set(15,true);
-        board2.get(5).set(15,true);
-        board2.get(5).set(14,true);
-        board2.get(4).set(13,true);
-    }
-
-    /**
-     * Returns the size of the board.
+     * Returns the size of the boards, which is the
+     * same for both width and height.
      * @return the size of this board
      */
-    public int getBoardSize() {
+    private int getBoardSize() {
         return boardSize;
     }
 
@@ -187,13 +188,16 @@ public class CubeBoard3D {
     }
 
     /**
-     * The method checking if the appointed position is within the board array.
+     * The method checking if the appointed position is within the board array,
+     * and if the appointed positions cell is alive.
      * @param indexBoard index of current board in array of boards
      * @param i         the first column index of the array
      * @param j         the second column index of the array
-     * @return          <code>false</code> if the position is exceeding the board array
+     * @return          <code>true</code> if the position contains an alive cell
      */
     private boolean isInCurrentBoard(int indexBoard, int i, int j){
+        // the next four if-statements checks if the cell is outside
+        //  of the cube, which it only is at each corner of the cube
         if(i == -1 && j == -1){
             return false;
         }
@@ -206,10 +210,15 @@ public class CubeBoard3D {
         else if(i >= boardSize && j == -1){
             return false;
         }
+        // checks if the cell is inside the current board and
+        // returns true if that cell is alive
         else if(inBounds(i) && inBounds(j)){
             return boardArrays[indexBoard].get(i).get(j);
         }
         else{
+            // checks if the cell is at a neighboring board,
+            // and returns the status of the cell with
+            // different methods for each board.
             return countBoardNeighbors(indexBoard,i,j);
         }
     }
@@ -226,7 +235,12 @@ public class CubeBoard3D {
     /**
      * Chooses the method for counting neighbors at neighboring
      * boards when the cell is at the end of a board, according
-     * to which board is the current board.
+     * to which board is the current board. They each need a
+     * different method because they will need to know the
+     * specific neighboring board at each side of each board,
+     * and where in this board the neighboring cell is according
+     * to their indexes.
+     *
      * The switch-statement will not reach the default option,
      * since it always gets a valid index for the current board.
      * @param indexBoard index of current board in array of boards
@@ -254,7 +268,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks if the neighbor at neighboring boards is alive for board1
+     * Checks if the neighbor at neighboring boards is alive for board1.
      * @param i  the first column index
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
@@ -276,7 +290,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks if the neighbor at neighboring boards is alive for board2
+     * Checks if the neighbor at neighboring boards is alive for board2.
      * @param i  the first column index
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
@@ -299,7 +313,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks if the neighbor at neighboring boards is alive for board3
+     * Checks if the neighbor at neighboring boards is alive for board3.
      * @param i  the first column index
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
@@ -321,7 +335,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks if the neighbor at neighboring boards is alive for board4
+     * Checks if the neighbor at neighboring boards is alive for board4.
      * @param i  the first column index
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
@@ -343,7 +357,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks if the neighbor at neighboring boards is alive for board5
+     * Checks if the neighbor at neighboring boards is alive for board5.
      * @param i  the first column index
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
@@ -365,7 +379,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks if the neighbor at neighboring boards is alive for board6
+     * Checks if the neighbor at neighboring boards is alive for board6.
      * @param i  the first column index
      * @param j  the second column index
      * @return   <code>true</code> if the neighboring cell is alive
@@ -387,7 +401,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks the value for an index in a board.
+     * Checks the value for an index inside a board.
      * @param board board to be checked
      * @param i     the first column index
      * @param j     the second column index
@@ -430,9 +444,9 @@ public class CubeBoard3D {
     }
 
     /**
-     * Resets all values of the boards to false
+     * Resets all values of all boards of the cube to false
      */
-    public void clearBoards() {
+    void clearBoards() {
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(0, i, j, false)));
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(1, i, j, false)));
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(2, i, j, false)));

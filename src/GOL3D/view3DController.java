@@ -31,7 +31,7 @@ public class view3DController implements Initializable {
     GridPane gridPane;
 
     @FXML
-    Slider rotateView;
+    Slider rotateDiagonally;
 
     @FXML
     Slider rotateHorizontal;
@@ -158,7 +158,7 @@ public class view3DController implements Initializable {
     }
 
     /**
-     * Creates a new board, and sets new camera angles accordingly.
+     * Creates a new 3D board, and sets new camera angles accordingly.
      */
     private void createBoard(){
         Board3D board = new Board3D();
@@ -166,16 +166,17 @@ public class view3DController implements Initializable {
         boardExists = true;
 
         group.setStyle("-fx-background-color:#000000");
-        boardManager3D = new BoardManager3D(board,group);
-        camera.setRotationAxis(new Point3D(10,10,10));
         group.setRotationAxis(new Point3D(750,750,750));
+
+        boardManager3D = new BoardManager3D(board,group);
+        boardManager3D.setSpeed(speed);
+
+        camera.setRotationAxis(new Point3D(10,10,10));
         camera.setTranslateX(1350);
         camera.setTranslateY(-1000);
         camera.setTranslateZ(-2000);
         camera.setRotate(-32);
         subscene.setCamera(camera);
-
-        boardManager3D.setSpeed(speed);
     }
 
     /**
@@ -186,17 +187,16 @@ public class view3DController implements Initializable {
         boardExists = false;
         cubeExists = true;
 
+        CubeBoard3D cubeBoard3D = new CubeBoard3D();
+        cubeBoardManager3D = new CubeBoardManager3D(cubeBoard3D,group);
+        cubeBoardManager3D.setSpeed(speed);
+        pauseButton.setText("Resume");
+
         camera.setTranslateX(1300);
         camera.setTranslateY(-800);
         camera.setTranslateZ(-3000);
         camera.setRotate(325);
         subscene.setCamera(camera);
-
-        CubeBoard3D cubeBoard3D = new CubeBoard3D();
-        cubeBoardManager3D = new CubeBoardManager3D(cubeBoard3D,group);
-        pauseButton.setText("Resume");
-
-        cubeBoardManager3D.setSpeed(speed);
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -212,13 +212,15 @@ public class view3DController implements Initializable {
         subscene.setFill(Color.BLACK);
         subscene.setRoot(group);
 
-        rotateView.valueProperty().addListener(
+        // rotates the group containing Box objects diagonally
+        rotateDiagonally.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {
                     group.setRotationAxis(new Point3D(750,750,750));
                     group.setRotate((double)newValue);
                 });
 
+        // rotates the group containing Box objects horizontally
         rotateHorizontal.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {
@@ -226,6 +228,7 @@ public class view3DController implements Initializable {
                     group.setRotate((double)newValue);
                 });
 
+        // rotates the group containing Box objects vertically
         rotateVertical.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                 {

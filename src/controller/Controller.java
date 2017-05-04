@@ -216,7 +216,6 @@ public class Controller implements Initializable{
             window3DGame.showAndWait();
             pauseGame();
         } catch(IOException e){
-            // Alert-boks som forklarer at det mangler en fil?
             System.out.println("IOException: " + e.getMessage());
         }
     }

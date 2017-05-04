@@ -21,7 +21,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The BoardManager3D creates a 3D board of Box-objects, for running the Game of Life on.
+ * The BoardManager3D creates a 3D board of Box-objects,
+ * for running the Game of Life on. It handles the changes
+ * in the board of boxes. It also handles the interaction
+ * between the board in the view and the logic in other classes.
  * Created by Elise Haram Vannes on 03.04.2017.
  */
 class BoardManager3D{

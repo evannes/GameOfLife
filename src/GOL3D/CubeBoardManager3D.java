@@ -22,7 +22,8 @@ import java.util.Optional;
 
 /**
  * The CubeBoardManager3D creates a cube from Box-objects,
- * for running the Game of Life on.
+ * for running the Game of Life on. It also handles the interaction
+ * between the cube in the view and the logic in other classes.
  * Created by Elise Haram Vannes on 05.04.2017.
  */
 class CubeBoardManager3D {
@@ -50,7 +51,8 @@ class CubeBoardManager3D {
     private final Charset charset = Charset.forName("US-ASCII");
 
     /**
-     * The constructor initializing the animation of Game of Life.
+     * The constructor initializing the animation of Game of Life,
+     * and calls on the necessary methods for initializing the cube itself.
      *
      * @param cubeBoard3D the board
      * @param group       the group that will contain all the boxes of the cube
@@ -77,7 +79,8 @@ class CubeBoardManager3D {
     }
 
     /**
-     * Creates all the arrays of boxes.
+     * Creates all the arrays of boxes with the specific start coordinates
+     * for each separate board of the cube.
      */
     private void initBoxArrays() {
         boxBoard1 = createBoxes(0, -53, 0, 53, 0, 53, true, false);
@@ -131,7 +134,9 @@ class CubeBoardManager3D {
     }
 
     /**
-     * Creates the boxes that makes up the cube.
+     * Creates the boxes that makes up the cube. The increment- and reset-values
+     * are used for determining which directions in the 3D space the board is to be placed.
+     * The boards are placed according to the x, y and z-coordinates.
      * @param boxX          initial translateX-value
      * @param boxY          initial translateY-value
      * @param boxZ          initial translateZ-value
@@ -268,7 +273,8 @@ class CubeBoardManager3D {
     }
 
     /**
-     * Creates a blue and a purple PhongMaterial, which is used for the boxes.
+     * Creates a blue and a purple PhongMaterial, which is used for
+     * coloring the boxes.
      */
     private void createMaterials(){
         blueMaterial = new PhongMaterial();
@@ -281,8 +287,8 @@ class CubeBoardManager3D {
     }
 
     /**
-     * Removes all the boxes the cube consists of from the group,
-     * causing them to disappear from the view.
+     * Removes all the boxes the cube consists of from the group
+     * node they were in, causing them to disappear from the view.
      */
     void removeBoxes() {
         group.getChildren().clear();
@@ -338,7 +344,7 @@ class CubeBoardManager3D {
     }
 
     /**
-     * Clears all the boards.
+     * Clears all the boards of the cube.
      */
     void clearBoards() {
         isRunning = false;
