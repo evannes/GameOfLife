@@ -7,6 +7,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.stage.FileChooser;
+import model.FileHandling;
 
 import java.io.*;
 import java.net.URL;
@@ -18,24 +20,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.stage.FileChooser;
-import model.FileHandling;
-
 /**
  * The CubeBoardManager3D creates a cube from Box-objects,
  * for running the Game of Life on.
  * Created by Elise Haram Vannes on 05.04.2017.
  */
-public class CubeBoardManager3D {
+class CubeBoardManager3D {
 
-    private CubeBoard3D cubeBoard3D;
-    private FileHandling fileHandling = new FileHandling();
-    private Group group;
+    private final CubeBoard3D cubeBoard3D;
+    private final FileHandling fileHandling = new FileHandling();
+    private final Group group;
     private int speed = 250000000;
     private boolean isRunning = false;
     private long time = System.nanoTime();
-    private int boardSize = 30;
-    private int cellSize = 50;
+    private final int boardSize = 30;
+    private final int cellSize = 50;
     private PhongMaterial blueMaterial;
     private PhongMaterial purpleMaterial;
 
@@ -48,7 +47,7 @@ public class CubeBoardManager3D {
     private List<List<Box>>[] boxArrays;
 
     private boolean[][] fileArray;
-    private Charset charset = Charset.forName("US-ASCII");
+    private final Charset charset = Charset.forName("US-ASCII");
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -145,10 +144,10 @@ public class CubeBoardManager3D {
                                        int incrementX, int decrementY, int incrementZ,
                                        boolean resetX, boolean resetY) {
 
-        List<List<Box>> boardBoxes = new ArrayList<List<Box>>();
+        List<List<Box>> boardBoxes = new ArrayList<>();
 
         for (int i = 0; i < boardSize; i++) {
-            boardBoxes.add(i, new ArrayList<Box>(boardSize));
+            boardBoxes.add(i, new ArrayList<>(boardSize));
         }
 
         for (int i = 0; i < boardSize; i++) {
@@ -326,7 +325,7 @@ public class CubeBoardManager3D {
      *
      * @param value the value used to set the speed of the animation
      */
-    protected void setSpeed(int value) {
+    void setSpeed(int value) {
         speed = value;
     }
 
@@ -335,7 +334,7 @@ public class CubeBoardManager3D {
      *
      * @return the speed of the animation
      */
-    protected int getSpeed() {
+    private int getSpeed() {
         return speed;
     }
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class testNextGenerationPatternOne {
 
-    private Board testStaticBoard = new StaticBoard(4,4);
+    private final Board testStaticBoard = new StaticBoard(4,4);
 
     private void defaultBoard() {
         testStaticBoard.setValue(0,0,true);

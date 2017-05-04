@@ -3,13 +3,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Created by Alex on 05.04.2017.
+ * @author Miina Lervik
+ * @author Elise Vannes
+ * @author Alexander Kingdon
  */
 public class testCloning {
 
-    private DynamicBoard dynamicBoard = new DynamicBoard(4,4);
+    private final DynamicBoard dynamicBoard = new DynamicBoard(4,4);
 
-    public void defaultStartBoard(){
+    private void defaultStartBoard(){
         dynamicBoard.setValue(0, 2, true);
         dynamicBoard.setValue(1, 2, true);
         dynamicBoard.setValue(2, 2, true);

@@ -15,8 +15,8 @@ import java.net.URLConnection;
  */
 public class testReadPatternFromURL {
     private boolean[][] gameBoardArray;
-    private testReadPatternFunctions patterns = new testReadPatternFunctions();
-    private FileHandling fileHandling = new FileHandling();
+    private final testReadPatternFunctions patterns = new testReadPatternFunctions();
+    private final FileHandling fileHandling = new FileHandling();
 
     @Test
     public void testFirstPattern() {
@@ -126,7 +126,7 @@ public class testReadPatternFromURL {
         }
     }
 
-    private boolean[][] testPatternString(URL url) {
+    private void testPatternString(URL url) {
         try {
             URLConnection conn = url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -134,7 +134,6 @@ public class testReadPatternFromURL {
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe);
         }
-        return gameBoardArray;
     }
 
 }

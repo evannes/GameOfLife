@@ -1,24 +1,9 @@
-import model.FileHandling;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 /**
  * @author Miina Lervik
  * @author Elise Vannes
  * @author Alexander Kingdon
  */
 class testReadPatternFunctions {
-
-    private String boardStringOutput = "";
-    private FileHandling fileHandling = new FileHandling();
-    private boolean[][] fileArray;
-    private Charset charset = Charset.forName("US-ASCII");
 
     String getBoundingBoxPattern(boolean[][] gameBoardArray) {
         if(gameBoardArray.length == 0) return "";

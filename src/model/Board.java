@@ -1,7 +1,9 @@
 package model;
 
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Board is the abstract base class for game boards.
@@ -29,20 +31,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class Board implements Cloneable {
     int defaultWidth;
     int defaultHeight;
-    private Rules rules = new Rules();
-    private ExecutorService executor = Executors.newFixedThreadPool(4);
+    private final Rules rules = new Rules();
+    private final ExecutorService executor = Executors.newFixedThreadPool(4);
 
     /**
      * Default constructor.
      */
-    public Board(){}
+    protected Board(){}
 
     /**
      * The constructor sets the default width and default height of the board.
      * @param width     the default width of the board
      * @param height    the default height of the board
      */
-    public Board(int width, int height){
+    Board(int width, int height){
         this.defaultWidth = width;
         this.defaultHeight = height;
     }
@@ -85,7 +87,7 @@ public abstract class Board implements Cloneable {
     /**
      * Makes the board equal to the clone.
      */
-    public abstract void switchBoard();
+    protected abstract void switchBoard();
 
     /**
      * Sets values to the clone at the appointed index.
@@ -93,7 +95,7 @@ public abstract class Board implements Cloneable {
      * @param y the second column index
      * @param value the value to be set
      */
-    public abstract void setCloneValue(int x, int y, boolean value);
+    protected abstract void setCloneValue(int x, int y, boolean value);
 
     /**
      * Sets all values of the board to false.
@@ -149,14 +151,10 @@ public abstract class Board implements Cloneable {
         int x2 = width/8;
         int x3 = width/12;
 
-        Future future1 = executor.submit(()-> {
-            nextGenerationThreadTask(0, x1);});
-        Future future2 = executor.submit(()-> {
-            nextGenerationThreadTask(x1, x2);});
-        Future future3 = executor.submit(()-> {
-            nextGenerationThreadTask(x2, x3);});
-        Future future4 = executor.submit(()-> {
-            nextGenerationThreadTask(x3, width);});
+        Future future1 = executor.submit(()-> nextGenerationThreadTask(0, x1));
+        Future future2 = executor.submit(()-> nextGenerationThreadTask(x1, x2));
+        Future future3 = executor.submit(()-> nextGenerationThreadTask(x2, x3));
+        Future future4 = executor.submit(()-> nextGenerationThreadTask(x3, width));
 
         try {
             if(future1.get() == null && future2.get() == null && future3.get() == null && future4.get()== null)
@@ -205,10 +203,7 @@ public abstract class Board implements Cloneable {
      */
     private boolean isActiveCell(int x, int y, int width, int height) {
 
-        if (x < 0 || y < 0 || x >= width || y >= height) {
-            return false;
-        }
-        return getValue(x, y);
+        return !(x < 0 || y < 0 || x >= width || y >= height) && getValue(x, y);
     }
 
     /**

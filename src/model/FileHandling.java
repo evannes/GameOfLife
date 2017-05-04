@@ -1,23 +1,11 @@
 package model;
 
 
-
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextInputDialog;
-import javafx.stage.FileChooser;
-
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The FileHandling class contains all functions related to

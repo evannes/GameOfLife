@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  */
 
 public class testNextGenerationPatternTwo {
-    private StaticBoard testStaticBoard = new StaticBoard(4,4);
+    private final StaticBoard testStaticBoard = new StaticBoard(4,4);
 
     private void defaultBoard() {
         testStaticBoard.setValue(0,0,true);

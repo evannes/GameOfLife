@@ -16,8 +16,8 @@ import javafx.scene.control.Alert;
  */
 @Deprecated
 public class StaticBoard extends Board {
-    private boolean[][] staticBoardArray;
-    private boolean[][] clone;
+    private final boolean[][] staticBoardArray;
+    private final boolean[][] clone;
 
     /**
      * Constructs and initiates the board.
@@ -82,15 +82,15 @@ public class StaticBoard extends Board {
     public String toString(){
         String boardStringOutput = "";
 
-        for (int x = 0; x < staticBoardArray.length; x++) {
+        for (boolean[] aStaticBoardArray : staticBoardArray) {
             for (int y = 0; y < staticBoardArray[0].length; y++) {
-                if (staticBoardArray[x][y]) {
+                if (aStaticBoardArray[y]) {
                     boardStringOutput += "1";
-                    } else {
+                } else {
                     boardStringOutput += "0";
-                    }
                 }
             }
+        }
         return boardStringOutput;
     }
 
@@ -111,9 +111,7 @@ public class StaticBoard extends Board {
             System.out.println("transfering pattern");
 
             for (int x = 0; x < array.length; x++) {
-                for (int y = 0; y < array[0].length; y++) {
-                    staticBoardArray[x][y] = array[x][y];
-                }
+                System.arraycopy(array[x], 0, staticBoardArray[x], 0, array[0].length);
             }
         }
     }

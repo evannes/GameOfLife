@@ -49,7 +49,7 @@ public class DynamicBoard extends Board {
      * @return      the arrayList
      */
     private List<List<Boolean>> initStartBoard(int x, int y) {
-        List<List<Boolean>> tmp = new ArrayList<List<Boolean>>(x);
+        List<List<Boolean>> tmp = new ArrayList<>(x);
 
         for(int i = 0; i < x; i++) {
             tmp.add(new ArrayList<>(y));

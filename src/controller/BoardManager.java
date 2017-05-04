@@ -44,23 +44,23 @@ public class BoardManager {
     Color cellColor = Color.LIGHTSEAGREEN;
     Color gridColor = Color.GRAY;
     Color boardColor = Color.WHITE;
-    private Canvas canvas;
-    private Canvas bgCanvas;
-    private Canvas gridCanvas;
-    private Board board;
-    private FileHandling fileHandling = new FileHandling();
+    private final Canvas canvas;
+    private final Canvas bgCanvas;
+    private final Canvas gridCanvas;
+    private final Board board;
+    private final FileHandling fileHandling = new FileHandling();
     boolean isRunning = false;
     private long time = System.nanoTime();
     private int scaleFactorX = 80;
     private int scaleFactorY = 50;
-    private double canvasIncrease = 1.5;
+    private final double canvasIncrease = 1.5;
     private int scaledX;
     private int scaledY;
     private boolean gridIsOn = true;
-    private int canvasDefaultHeight;
-    private int canvasDefaultWidth;
+    private final int canvasDefaultHeight;
+    private final int canvasDefaultWidth;
     private boolean[][] fileArray;
-    private Charset charset = Charset.forName("US-ASCII");
+    private final Charset charset = Charset.forName("US-ASCII");
 
     /**
      * The constructor initializing the animation of Game of Life.
@@ -289,16 +289,15 @@ public class BoardManager {
         clearBoard();
         scaledX = 0;
         scaledY = 0;
-        selectLocalPattern("src/model/patterns/halfmax.rle");
+        selectLocalPattern();
     }
 
     /**
      * Reads a local file.
-     * @param fileLocation  the <code>String</code> containing the path to the rle-file
      */
-    void selectLocalPattern(String fileLocation) {
+    private void selectLocalPattern() {
         Path inFile = Paths.get(
-                fileLocation).toAbsolutePath();
+                "src/model/patterns/halfmax.rle").toAbsolutePath();
         try {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
             fileArray = fileHandling.getPatternFromFile(reader);
@@ -416,7 +415,8 @@ public class BoardManager {
                 draw();
                 drawGrid();
             }
-            // to avoid errors when pressing cancel
+            // This is added to avoid errors when pressing cancel.
+            // It is intended to be empty, as nothing should happen.
         } catch (NullPointerException cancelException) {
         }
     }

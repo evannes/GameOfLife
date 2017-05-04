@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class StatisticsService extends Service<Void> {
 
-    private int iterations;
-    private DynamicBoard gifBoard;
-    private List<Integer> generationsOver98;
+    private final int iterations;
+    private final DynamicBoard gifBoard;
+    private final List<Integer> generationsOver98;
 
     /**
      * Sets parameters to be passed to {@link StatisticsGIF}.

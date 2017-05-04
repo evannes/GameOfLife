@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Elise Haram Vannes on 01.05.2017.
+ * @author Elise Vannes
  */
 public class countNeighborTest3D {
 
-    private Board3D board = new Board3D();
+    private final Board3D board = new Board3D();
 
     @Test
     void countNeighbor1() throws Exception {

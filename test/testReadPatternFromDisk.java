@@ -17,10 +17,10 @@ import java.nio.file.Paths;
 public class testReadPatternFromDisk {
 
     private boolean[][] gameBoardArray;
-    private Charset charset = Charset.forName("US-ASCII");
-    private testReadPatternFunctions patterns = new testReadPatternFunctions();
+    private final Charset charset = Charset.forName("US-ASCII");
+    private final testReadPatternFunctions patterns = new testReadPatternFunctions();
     private String errorString;
-    private FileHandling fileHandling = new FileHandling();
+    private final FileHandling fileHandling = new FileHandling();
 
     @Test
     public void testFirstPattern() {
@@ -74,14 +74,13 @@ public class testReadPatternFromDisk {
         Assertions.assertEquals("java.nio.file.NoSuchFileException", errorString);
     }
 
-    private boolean[][] testPatternString(Path inFile) {
+    private void testPatternString(Path inFile) {
         try {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
             gameBoardArray = fileHandling.getPatternFromFile(reader);
         } catch (IOException ioe) {
             errorString = ioe.getClass().getName();
         }
-        return gameBoardArray;
     }
 
 
