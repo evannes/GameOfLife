@@ -3,7 +3,6 @@ package statistics;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import model.DynamicBoard;
-import statistics.StatisticsGIF;
 
 import java.util.List;
 

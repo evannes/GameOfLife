@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -113,12 +114,16 @@ public class StatisticsController implements Initializable {
         getGIFStatistics();
         statisticsService = new StatisticsService(
                 statisticsLogic.getGifBoard(), statisticsLogic.getSimilaritiesOver98(), iterations);
-        statisticsService.restart();
         statisticsProgressBar.setVisible(true);
         statisticsProgressLabel.setVisible(true);
         statisticsProgressBar.progressProperty().bind(statisticsService.progressProperty());
         statisticsProgressLabel.textProperty().bind(statisticsService.messageProperty());
         stopGifButton.setVisible(true);
+        statisticsService.restart();
+
+        statisticsService.setOnSucceeded(event -> {
+            stopGifButton.setVisible(false);
+        });
     }
 
     /**
