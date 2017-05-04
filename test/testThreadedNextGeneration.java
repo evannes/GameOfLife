@@ -61,7 +61,7 @@ public class testThreadedNextGeneration {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
             array = fileHandling.getPatternFromFile(reader);
         } catch (IOException ioe) {
-            //errorString = ioe.getClass().getName();
+            System.out.println("Error: " + ioe);
         }
 
         board.setInputInBoard(board.createArrayListFromArray(array));

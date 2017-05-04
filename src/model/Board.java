@@ -27,8 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 public abstract class Board implements Cloneable {
-    int defaultWidth = 160;
-    int defaultHeight = 100;
+    int defaultWidth;
+    int defaultHeight;
     private Rules rules = new Rules();
     private ExecutorService executor = Executors.newFixedThreadPool(4);
 

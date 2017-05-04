@@ -3,6 +3,7 @@ package controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
@@ -302,7 +303,7 @@ public class BoardManager {
             BufferedReader reader = Files.newBufferedReader(inFile, charset);
             fileArray = fileHandling.getPatternFromFile(reader);
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+            showErrorMessage("There was an error getting the pattern file", ioe);
         }
 
         if (inFile != null) {
@@ -331,7 +332,7 @@ public class BoardManager {
             }
 
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the pattern file", ioe);
+            showErrorMessage("There was an error getting the pattern file", ioe);
         }
 
         if (selectedFile != null) {
@@ -367,11 +368,11 @@ public class BoardManager {
                 throw new NullPointerException("Cancel was pressed");
             }
         } catch (IOException ioe) {
-            fileHandling.showErrorMessage("There was an error getting the file", ioe);
+            showErrorMessage("There was an error getting the file", ioe);
         } catch (NullPointerException npe) {
             dialog.close();
         } catch (Exception e) {
-            fileHandling.showErrorMessage("Only .rle files can be submitted", e);
+            showErrorMessage("Only .rle files can be submitted", e);
         }
 
         if (!enteredURL.isEmpty()) {
@@ -516,5 +517,34 @@ public class BoardManager {
         gridIsOn = true;
         gridColor = colorPickerGrid.getValue();
         drawGrid();
+    }
+
+    /**
+     * Generates the error message box.
+     * @param HeaderText    The text to be shown depending on the type of error produced.
+     * @param ioe           The type of exception being handled.
+     */
+    private void showErrorMessage(String HeaderText, Exception ioe) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(HeaderText);
+
+        if (ioe.toString().contains("UnknownHostException")) {
+            alert.setContentText("The URL entered was not valid (UnknownHostException).");
+        } else if (ioe.toString().contains("MalformedURLException")) {
+            alert.setContentText("The URL entered was not valid (MalformedURLException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("Cancel")) {
+            return;
+        } else if (ioe.toString().contains("FileNotFoundException")) {
+            alert.setContentText("The file could not be found (FileNotFoundException).");
+            alert.showAndWait();
+        } else if (ioe.toString().contains("NoSuchFileException")) {
+            alert.setContentText("The file could not be found (NoSuchFileException).");
+            alert.showAndWait();
+        } else {
+            alert.setContentText("Error: " + ioe);
+            alert.showAndWait();
+        }
     }
 }

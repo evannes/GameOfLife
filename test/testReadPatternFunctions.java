@@ -62,13 +62,4 @@ class testReadPatternFunctions {
         return boundingBox;
     }
 
-//    boolean[][] parsePattern(String fileLocation) {
-//        String code = fileHandling.getCode(patternString);
-//        int x = Integer.parseInt(fileHandling.getMatchGroup(patternString, "x = (\\d+)", 1));
-//        int y = Integer.parseInt(fileHandling.getMatchGroup(patternString, "y = (\\d+)", 1));
-//        String expandedCode = fileHandling.expand(code);
-//
-//        return fileHandling.createArray(expandedCode, x, y);
-//
-//    }
 }

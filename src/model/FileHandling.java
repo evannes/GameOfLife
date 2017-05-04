@@ -42,7 +42,7 @@ public class FileHandling {
      * @param reader    the BufferedReader containing the file data
      * @return          a two dimensional boolean array with the pattern
      *                  matching the specifications of the file
-     * @throws IOException      the IOException
+     * @throws IOException      the IOException if the BufferedReader cannot read the file
      */
     public boolean[][] getPatternFromFile(BufferedReader reader) throws IOException {
         String currentLine;
@@ -149,33 +149,6 @@ public class FileHandling {
         return result;
     }
 
-    /**
-     * Generates the error message box.
-     * @param HeaderText    The text to be shown depending on the type of error produced.
-     * @param ioe           The type of exception being handled.
-     */
-    public void showErrorMessage(String HeaderText, Exception ioe) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(HeaderText);
 
-        if (ioe.toString().contains("UnknownHostException")) {
-            alert.setContentText("The URL entered was not valid (UnknownHostException).");
-        } else if (ioe.toString().contains("MalformedURLException")) {
-            alert.setContentText("The URL entered was not valid (MalformedURLException).");
-            alert.showAndWait();
-        } else if (ioe.toString().contains("Cancel")) {
-            return;
-        } else if (ioe.toString().contains("FileNotFoundException")) {
-            alert.setContentText("The file could not be found (FileNotFoundException).");
-            alert.showAndWait();
-        } else if (ioe.toString().contains("NoSuchFileException")) {
-            alert.setContentText("The file could not be found (NoSuchFileException).");
-            alert.showAndWait();
-        } else {
-            alert.setContentText("Error: " + ioe);
-            alert.showAndWait();
-        }
-    }
 
 }
