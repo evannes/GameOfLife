@@ -57,6 +57,7 @@ public class view3DController implements Initializable {
     private Camera camera;
     private boolean cubeExists = false;
     private boolean boardExists = false;
+    private int speed;
 
     /**
      * Lets the user to select a pattern from disk
@@ -167,6 +168,8 @@ public class view3DController implements Initializable {
      */
     private void createBoard(){
         board = new Board3D();
+        cubeExists = false;
+        boardExists = true;
 
         group.setStyle("-fx-background-color:#000000");
         boardManager3D = new BoardManager3D(board,group);
@@ -177,12 +180,14 @@ public class view3DController implements Initializable {
         camera.setTranslateZ(-2000);
         camera.setRotate(-32);
         subscene.setCamera(camera);
+
+        boardManager3D.setSpeed(speed);
     }
 
     /**
      * Creates a new cube board, and sets new camera angles accordingly.
      */
-    public void initCube(){
+    public void createCube(){
         boardManager3D.removeBoxes();
         boardExists = false;
         cubeExists = true;
@@ -196,6 +201,8 @@ public class view3DController implements Initializable {
         cubeBoard3D = new CubeBoard3D();
         cubeBoardManager3D = new CubeBoardManager3D(cubeBoard3D,group);
         pauseButton.setText("Resume");
+
+        cubeBoardManager3D.setSpeed(speed);
     }
 
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -203,7 +210,9 @@ public class view3DController implements Initializable {
         camera = new PerspectiveCamera();
 
         createBoard();
-        boardExists = true;
+
+        speed = ((int) ((double) 9 * 10000000));
+        boardManager3D.setSpeed(speed);
 
         subscene.setCamera(camera);
         subscene.setFill(Color.BLACK);
@@ -234,11 +243,13 @@ public class view3DController implements Initializable {
                 (observable, oldValue, value) ->
                 {
                     if(boardExists) {
-                        boardManager3D.setSpeed((int) ((double) value * 10000000));
+                        speed = ((int) ((double) value * 10000000));
+                        boardManager3D.setSpeed(speed);
                         boardManager3D.changeBoard();
                     }
                     if(cubeExists){
-                        cubeBoardManager3D.setSpeed((int) ((double) value * 10000000));
+                        speed = ((int) ((double) value * 10000000));
+                        cubeBoardManager3D.setSpeed(speed);
                         cubeBoardManager3D.changeBoards();
                     }
                 });

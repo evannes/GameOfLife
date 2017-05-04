@@ -7,6 +7,8 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -23,10 +25,17 @@
                   <Button mnemonicParsing="false" onAction="#start" prefWidth="80.0" text="Start">
                      <VBox.margin>
                         <Insets left="40.0" top="15.0" />
-                     </VBox.margin></Button>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Rotate:" textFill="WHITE">
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="icons/play.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Rotate diagonally:" textFill="WHITE">
                      <VBox.margin>
-                        <Insets left="60.0" top="10.0" />
+                        <Insets left="30.0" top="10.0" />
                      </VBox.margin></Label>
                   <Slider fx:id="rotateView" max="360.0" prefWidth="145.0">
                      <VBox.margin>
@@ -56,7 +65,7 @@
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15.0" min="1.0" minorTickCount="0" rotate="180.0" value="7.0">
+                  <Slider fx:id="changeSpeed" majorTickUnit="1.0" max="15.0" min="1.0" minorTickCount="0" rotate="180.0" value="9.0">
                      <VBox.margin>
                         <Insets left="5.0" />
                      </VBox.margin>
@@ -65,6 +74,13 @@
                      <VBox.margin>
                         <Insets left="40.0" top="15.0" />
                      </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="icons/pause.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#clearBoard" prefWidth="80.0" text="Clear board">
                      <VBox.margin>
@@ -76,7 +92,7 @@
                         <Insets left="40.0" top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#initCube" prefWidth="80.0" text="New Cube">
+                  <Button mnemonicParsing="false" onAction="#createCube" prefWidth="80.0" text="New Cube">
                      <VBox.margin>
                         <Insets left="40.0" top="15.0" />
                      </VBox.margin>
@@ -94,6 +110,13 @@
                      <VBox.margin>
                         <Insets left="40.0" top="200.0" />
                      </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="icons/exit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
             </VBox>

@@ -41,7 +41,7 @@ public class Board3D extends Board{
     }
 
     /**
-     * Sets a simple board for testing.
+     * Sets a simple board used for testing.
      */
     public void setTestBoard(){
         clearBoard();

@@ -79,7 +79,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Sets a simple board for testing.
+     * Sets a simple board used for testing.
      */
     public void setTestBoard(){
         clearBoards();
@@ -170,7 +170,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * The method counting the alive cells surrounding the appointed cell
+     * The method counting the alive cells surrounding the appointed cell.
      * @param indexBoard index of current board in array of boards
      * @param x     the first column index of the array
      * @param y     the second column index of the array
@@ -223,7 +223,7 @@ public class CubeBoard3D {
     }
 
     /**
-     * Checks if the cell exists in the cube
+     * Checks if the cell exists in the cube.
      * @param cell  cell in cube
      * @return <code>true</code> if the cell exists in the cube
      */
@@ -237,15 +237,16 @@ public class CubeBoard3D {
 
     /**
      * Chooses the method for counting neighbors at neighboring
-     * arrays when the cell is at the end of a board, according
-     * to which is the current board.
+     * boards when the cell is at the end of a board, according
+     * to which board is the current board.
+     * The switch-statement will not reach the default option,
+     * since it always gets a valid index for the current board.
      * @param indexBoard index of current board in array of boards
      * @param i          the first column index
      * @param j          the second column index
      * @return       <code>true</code> if the neighboring cell is alive
      */
     private boolean countBoardNeighbors(int indexBoard,int i, int j){
-        // TODO: switch on enum
         switch(indexBoard){
             case 0:
                 return countBoard1Neighbors(i,j);
@@ -263,28 +264,6 @@ public class CubeBoard3D {
                 return false;
         }
     }
-    /* Med enum?
-    public boolean countBoardNeighbors(int indexBoard,int i, int j){
-    public enum CurrentBoard{0,1,2,3,4,5};
-    ????  kordan bruke det
-        // TODO: switch on enum
-        switch(indexBoard){
-            case 0:
-                return countBoard1Neighbors(i,j);
-            case 1:
-                return countBoard2Neighbors(i,j);
-            case 2:
-                return countBoard3Neighbors(i,j);
-            case 3:
-                return countBoard4Neighbors(i,j);
-            case 4:
-                return countBoard5Neighbors(i,j);
-            case 5:
-                return countBoard6Neighbors(i,j);
-            default:
-                return false;
-        }
-    }*/
 
     /**
      * Checks if the neighbor at neighboring boards is alive for board1
@@ -483,7 +462,7 @@ public class CubeBoard3D {
     /**
      * Resets all values of the boards to false
      */
-    void clearBoards() {
+    public void clearBoards() {
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(0, i, j, false)));
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(1, i, j, false)));
         IntStream.range(0, getBoardSize()).forEach(i -> IntStream.range(0, getBoardSize()).forEach(j -> setValue(2, i, j, false)));
