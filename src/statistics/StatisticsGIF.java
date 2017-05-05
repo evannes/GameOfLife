@@ -19,6 +19,12 @@ import java.util.Random;
  * unresponsive during gif creation and also lets the user cancel the process
  * by clicking on a stop button while the gif is being created.
  *
+ * The GIF creation uses the concept of video textures to jump back and forth
+ * between similar generations. It uses a <code>Random</code> object to generate
+ * a value between 0 and 1 for each generations, and if the value is greater than 0.5,
+ * the next gif frame will be one that was previously found to be similar.
+ * Otherwise the next gif frame is the result of running nextGeneration.
+ *
  * @author  Alexander Kingdon
  * @since   1.0
  */
