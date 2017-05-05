@@ -53,6 +53,12 @@ class CubeBoardManager3D {
     /**
      * The constructor initializing the animation of Game of Life,
      * and calls on the necessary methods for initializing the cube itself.
+     * The cube is made up of six different boards. When a pattern moves
+     * from one board to the next, the cube moves a little bit. This is
+     * because the live cells gets changed their width, height or depth,
+     * and this interferes with the placement of the cube. It has been
+     * chosen to still do it so, because having the live cells larger than
+     * the dead cells makes the cube more visually interesting.
      *
      * @param cubeBoard3D the board
      * @param group       the group that will contain all the boxes of the cube
