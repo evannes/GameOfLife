@@ -98,7 +98,7 @@ class CubeBoardManager3D {
     }
 
     /**
-     * Changes all the boards of the cube, is used after each next generation.
+     * Changes all the boards of the cube, this is used after each next generation.
      */
     void changeBoards() {
         for (int i = 0; i < 6; i++) {
