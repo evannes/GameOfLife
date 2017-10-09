@@ -18,6 +18,6 @@ Disse filene ligger allerede i egen mappe kalt 'jar'. Når man genererer .gif-fi
 * Javadoc ligger i mappen 'GOL/src/doc'.
 
 ## Medlemmer
-Miina Lervik
-Alexander Kingdon
+Miina Lervik,
+Alexander Kingdon,
 Elise Haram Vannes
