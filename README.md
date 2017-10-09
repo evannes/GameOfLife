@@ -1,4 +1,4 @@
-# TestProsjekt
+# Game of Life
 
 ## ====== Praktisk informasjon om prosjektet ======
 
