@@ -1,22 +1,22 @@
-#Overskrift
+# Overskrift
 
-##====== Praktisk informasjon om prosjektet ======
+## ====== Praktisk informasjon om prosjektet ======
 
-*1) Filen 'halfmax.rle' må ligge i samme mappe som .jar-filen for at standardbrettet skal dukke opp når man trykker på 'Default pattern'.
+* 1) Filen 'halfmax.rle' må ligge i samme mappe som .jar-filen for at standardbrettet skal dukke opp når man trykker på 'Default pattern'.
 Disse filene ligger allerede i egen mappe kalt 'jar'. Når man genererer .gif-filer dukker disse opp i samme mappe som .jar-filen.
 
-*2) Prosjektet bruker det eksterne bibliotektet lieng.GIFWriter. Bibliotektet 'GIFLib.jar' ligger i mappen 'GOL/src/lib'.
+* 2) Prosjektet bruker det eksterne bibliotektet lieng.GIFWriter. Bibliotektet 'GIFLib.jar' ligger i mappen 'GOL/src/lib'.
 
-*3) Main-metoden ligger i filen 'Main.java' i mappen 'GOL/src/model'.
+* 3) Main-metoden ligger i filen 'Main.java' i mappen 'GOL/src/model'.
 
-*4) Android-oppgaven ligger som en egen mappe kalt 'Android'
+* 4) Android-oppgaven ligger som en egen mappe kalt 'Android'
+ 
+* 5) Eksempler på genererte .gif-filer ligger i mappen 'GIF_eksempler'.
 
-*5) Eksempler på genererte .gif-filer ligger i mappen 'GIF_eksempler'.
-
-*6) Javadoc ligger i mappen 'GOL/src/doc'.
+* 6) Javadoc ligger i mappen 'GOL/src/doc'.
 
 
-##====== Utførte oppgaver ======
+## ====== Utførte oppgaver ======
 
 Oppgavesett 1 til og med 7 er utført. Kjernen til programmet er i oppgavene 1 til og med 5 og de to siste
 oppgavesettene implementerer dynamisk brett og samtidig (threaded) utførelse av nextGeneration-metoden.
