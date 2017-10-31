@@ -4,6 +4,9 @@
 
 I dette prosjektet har vi laget en versjon av **Conway's Game of Life**. Vi har laget en implementasjon av dette, samt utvidelser utover hovedoppgaven. Våre utvidelser har bestått av statistikk, skriving til GIF ved bruk av tilfeldighetsvariabel, alternative regler for spillet, og en 3D-versjon. Det er mulighet til å flytte på brettet ved at brukeren kan bruke knappene 'w', 'a', 's' og 'd' på tastaturet til å bevege seg rundt. Det er også implementert mulighet til å laste inn en fil som har et Game of Life-mønster, som da kan vises i spillet, og brukt thread pool i utføringen av programmet. Vår implementasjon lar brukeren tegne en og en celle på brettet eller fjerne eksisterende celler ved å trykke på brettet.
 
+Eksempel på GIF som kan bli produsert av programmet:
+![main screen](https://raw.githubusercontent.com/evannes/GameOfLife/master/GOL.gif)
+
 ## Praktisk informasjon om prosjektet
 
 * Filen 'halfmax.rle' må ligge i samme mappe som .jar-filen for at standardbrettet skal dukke opp når man trykker på 'Default pattern'.
