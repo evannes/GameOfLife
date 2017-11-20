@@ -24,3 +24,6 @@ Disse filene ligger allerede i egen mappe kalt 'jar'. Når man genererer .gif-fi
 Miina Lervik,
 Alexander Kingdon,
 Elise Haram Vannes
+
+![main screen](https://raw.githubusercontent.com/evannes/GameOfLife/master/23135065_10159543788335494_1387536731_o.png)
+![main screen](https://raw.githubusercontent.com/evannes/GameOfLife/master/23131454_10159543952920494_337491932_o.png)
